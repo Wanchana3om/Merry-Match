@@ -1,12 +1,11 @@
 function Homepage() {
   return (
-    <div className="font-Poppins z-10">
-      <div className="w-full h-[758px] bg-[#160404] relative flex justify-center items-center ">
+    <div className="font-Poppins">
+      <div className="w-full h-[758px] bg-[#160404] relative flex justify-center items-center">
         <img
           src="/header/nice-to-meet-you.png"
           className="w-[357px] h-[500px] absolute left-40 bottom-0"
         />
-
         <div className="flex flex-col justify-center items-center gap-10">
           <h1 className="text-white text-6xl text-center">
             Make the <br />
@@ -23,7 +22,6 @@ function Homepage() {
             Start matching!
           </button>
         </div>
-
         <img src="/header/image.png" className="absolute right-40 -top-10" />
         <img
           src="/header/Ellipse 2.png"
@@ -46,7 +44,10 @@ function Homepage() {
       </div>
       <div className="part-2-container flex w-full h-[533px] bg-[#160404]">
         <div className="text-container-outer flex flex-col justify-center items-center w-1/2 h-full pl-40">
-          <h1 className="text-[#DF89C6] pb-10 text-4xl font-bold">
+          <h1
+            id="why-merry"
+            className="text-[#DF89C6] pb-10 text-[46px] font-bold"
+          >
             Why Merry Match
           </h1>
           <div className="text-container-inner flex flex-col gap-5">
@@ -66,12 +67,12 @@ function Homepage() {
             </p>
           </div>
         </div>
-        <div className="picture container flex flex-col justify-center items-center w-1/2 h-full">
+        <div className="picture-container flex flex-col justify-center items-center w-1/2 h-full">
           <img className="h-[348px] w-[546px]" src="/fast-and-easy.png" />
         </div>
       </div>
       <div className="box-border">
-        <div className="w-full h-[622px] mx-auto my-0  bg-[#160404]">
+        <div className="w-full h-[622px] mx-auto my-0 pt-10 bg-[#160404]">
           <div className="text-center">
             <h1
               id="how-to"

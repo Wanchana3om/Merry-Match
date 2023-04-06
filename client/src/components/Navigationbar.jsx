@@ -5,7 +5,7 @@ function Navigationbar() {
     element.scrollIntoView({ behavior: "smooth" });
   };
   return (
-    <div className="z-20">
+    <div className="relative z-30">
       <div className="w-11/12 flex flex-row justify-between items-center h-auto py-5 bg-white mx-6">
         <nav className="pl-32">
           <a href="#" className="text-black font-semibold text-4xl">
@@ -17,7 +17,7 @@ function Navigationbar() {
         </nav>
         <nav>
           <ul className="flex flex-row mx-3">
-            <li className="m-3 text-base font-bold">
+            <li className="m-3 text-base font-bold hover:text-[#191C77]">
               <a
                 href="#why-merry"
                 onClick={(e) => handleOnClick(e, "why-merry")}
@@ -25,7 +25,7 @@ function Navigationbar() {
                 Why Merry Match?
               </a>
             </li>
-            <li className="m-3 text-base font-bold">
+            <li className="m-3 text-base font-bold hover:text-[#191C77]">
               <a href="#how-to" onClick={(e) => handleOnClick(e, "how-to")}>
                 How to Merry
               </a>
