@@ -5,7 +5,7 @@ function Navigationbar() {
     element.scrollIntoView({ behavior: "smooth" });
   };
   return (
-    <>
+    <div className="z-20">
       <div className="w-11/12 flex flex-row justify-between items-center h-auto py-5 bg-white mx-6">
         <nav className="pl-32">
           <a href="#" className="text-black font-semibold text-4xl">
@@ -36,7 +36,7 @@ function Navigationbar() {
           </ul>
         </nav>
       </div>
-    </>
+    </div>
   );
 }
 

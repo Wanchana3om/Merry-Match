@@ -1,7 +1,7 @@
 function Homepage() {
   return (
-    <div className="font-Poppins">
-      <div className="w-full h-[758px] bg-[#160404] relative flex justify-center items-center">
+    <div className="font-Poppins z-10">
+      <div className="w-full h-[758px] bg-[#160404] relative flex justify-center items-center ">
         <img
           src="/header/nice-to-meet-you.png"
           className="w-[357px] h-[500px] absolute left-40 bottom-0"
@@ -24,7 +24,7 @@ function Homepage() {
           </button>
         </div>
 
-        <img src="/header/image.png" className="absolute right-40 -top-20" />
+        <img src="/header/image.png" className="absolute right-40 -top-10" />
         <img
           src="/header/Ellipse 2.png"
           className="absolute right-20 top-[430px]"
