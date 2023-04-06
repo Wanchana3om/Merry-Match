@@ -1,16 +1,10 @@
-import image_1 from "../../public/header/image-1.png";
-import image from "../../public/header/image.png";
-import ellipse from "../../public/header/Ellipse 2.png";
-import smile from "../../public/header/smile.png";
-import ellipse_2 from "../../public/header/Ellipse 4.png";
-import vector_1 from "../../public/header/Vector (1).png";
-import vector from "../../public/header/Vector.png";
+
 
 function Homepage() {
   return (
     <>
-      <body className="w-full h-screen bg-[#160404] relative flex justify-center items-center">
-        <img src={image_1} className="absolute left-40 bottom-0" />
+      <body className="w-full h-[758px] bg-[#160404] relative flex justify-center items-center">
+        <img src="/header/image-1.png" className="absolute left-40 bottom-0" />
 
         <div className="flex flex-col justify-center items-center gap-10">
           <h1 className="text-white text-6xl text-center">
@@ -29,14 +23,16 @@ function Homepage() {
           </button>
         </div>
 
-        <img src={image} className="absolute right-40 -top-20" />
-        <img src={ellipse} className="absolute right-20 top-[430px]" />
-        <img src={ellipse} className="absolute -left-3 top-24" />
-        <img src={smile} className="absolute right-32 top-[460px]" />
-        <img src={ellipse_2} className="absolute right-52 bottom-36" />
-        <img src={ellipse_2} className="absolute left-32 top-20" />
-        <img src={vector_1} className="absolute right-[600px] top-36" />
-        <img src={vector} className="absolute left-[170px] top-[273px]" />
+        <img src="/header/image.png" className="absolute right-40 -top-20" />
+        <img src="/header/Ellipse 2.png" className="absolute right-20 top-[430px]" />
+        <img src="/header/Ellipse 2.png" className="absolute -left-3 top-24" />
+        <img src="/header/smile.png" className="absolute right-32 top-[460px]" />
+        <img src="/header/Ellipse 4.png" className="absolute right-52 bottom-36" />
+        <img src="/header/Ellipse 4.png" className="absolute left-32 top-20" />
+        <img src="/header/Vector (1).png" className="absolute right-[600px] top-36" />
+        <img src="/header/Vector.png" className="absolute left-[170px] top-[273px]" />
+
+    
       </body>
       <div className="part-2-container flex w-full h-[533px] bg-[#160404]">
         <div className="text-container-outer flex flex-col justify-center items-center w-1/2 h-full pl-40">
@@ -61,8 +57,96 @@ function Homepage() {
         <div className="picture container flex flex-col justify-center items-center w-1/2 h-full">
           <img
             className="h-[348px] w-[546px]"
-            src="../src/assets/fast-and-easy.png"
+            src="/fast-and-easy.png"
           />
+        </div>
+      </div>
+
+      <div className="box-border">
+        <div className="w-full h-[622px] mx-auto my-0  bg-[#160404]">
+          <div className="text-center">
+            <h1 className="text-[#DF89C6] text-[46px] font-extrabold bg-rgba-pink pb-[48px] leading-[125%]">
+              How to Merry
+            </h1>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 mx-[11%]">
+            <div className="bg-[#2A0B21] flex flex-col items-center  rounded-[40px] w-[262px] h-[348px] p-[32px]">
+              <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
+                <img
+                  src="/emotion1.svg"
+                  alt="emotion"
+                  className="w-[50px]"
+                />
+              </div>
+              <div>
+                <p className="text-white text-2xl font-bold mb-2 text-center">
+                  Upload your cool picture
+                </p>
+              </div>
+              <div>
+                <p className="text-[#C8CCDB] text-base text-center">
+                  Lorem ipsum is a placeholder text
+                </p>
+              </div>
+            </div>
+            <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px]">
+              <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
+                <img
+                  src="/emotion2.svg"
+                  alt="emotion"
+                  className="w-[50px]"
+                />
+              </div>
+              <div>
+                <p className=" text-white text-2xl font-bold mb-2 text-center">
+                  Explore and find the one you like
+                </p>
+              </div>
+              <div>
+                <p className="text-[#C8CCDB] text-base text-center">
+                  Lorem ipsum is a placeholder text
+                </p>
+              </div>
+            </div>
+            <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px]">
+              <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
+                <img
+                  src="/emotion3.svg"
+                  alt="emotion"
+                  className="w-[50px]"
+                />
+              </div>
+              <div>
+                <p className=" text-white text-2xl font-bold mb-2 text-center">
+                  Click ‘Merry’ for get to know!
+                </p>
+              </div>
+              <div>
+                <p className="text-[#C8CCDB] text-base text-center">
+                  Lorem ipsum is a placeholder text
+                </p>
+              </div>
+            </div>
+            <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px]">
+              <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
+                <img
+                  src="/emotion4.svg"
+                  alt="emotion"
+                  className="w-[50px]"
+                />
+              </div>
+              <div>
+                <p className=" text-white text-2xl font-bold mb-2 text-center">
+                  Start chating and relationship
+                </p>
+              </div>
+              <div>
+                <p className="text-[#C8CCDB] text-base text-center">
+                  Lorem ipsum is a placeholder text
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
