@@ -1,8 +1,11 @@
 function Homepage() {
   return (
-    <>
-      <body className="w-full h-[758px] bg-[#160404] relative flex justify-center items-center">
-        <img src="/header/image-1.png" className="absolute left-40 bottom-0" />
+    <div className="font-Poppins">
+      <div className="w-full h-[758px] bg-[#160404] relative flex justify-center items-center">
+        <img
+          src="/header/nice-to-meet-you.png"
+          className="w-[357px] h-[500px] absolute left-40 bottom-0"
+        />
 
         <div className="flex flex-col justify-center items-center gap-10">
           <h1 className="text-white text-6xl text-center">
@@ -40,27 +43,23 @@ function Homepage() {
           src="/header/Vector (1).png"
           className="absolute right-[600px] top-36"
         />
-        <img
-          src="/header/Vector.png"
-          className="absolute left-[170px] top-[273px]"
-        />
-      </body>
+      </div>
       <div className="part-2-container flex w-full h-[533px] bg-[#160404]">
         <div className="text-container-outer flex flex-col justify-center items-center w-1/2 h-full pl-40">
-          <h1 id="why-merry" className="text-[#DF89C6] pb-10 font-bold">
+          <h1 className="text-[#DF89C6] pb-10 text-4xl font-bold">
             Why Merry Match
           </h1>
           <div className="text-container-inner flex flex-col gap-5">
-            <p className="text-white text-sm text-left px-4 font-sans">
+            <p className="text-white text-left px-4">
               Merry Match is a new generation of online dating website for
               everyone.
             </p>
-            <p className="text-white text-sm text-left px-4 font-sans ">
+            <p className="text-white text-left px-4 ">
               Whether you’re committed to dating, meeting new people, expanding
               your social network, meeting locals while traveling, or even just
               making a small chat with strangers.
             </p>
-            <p className="text-white text-sm text-left px-4 font-sans ">
+            <p className="text-white text-left px-4 ">
               This site allows you to make your own dating profile, discover new
               people, save favorite profiles, and let them know that you’re
               interested.
@@ -71,16 +70,18 @@ function Homepage() {
           <img className="h-[348px] w-[546px]" src="/fast-and-easy.png" />
         </div>
       </div>
-
       <div className="box-border">
         <div className="w-full h-[622px] mx-auto my-0  bg-[#160404]">
           <div className="text-center">
-            <h1 id="how-to" className="text-[#DF89C6] text-[46px] font-extrabold bg-rgba-pink pb-[48px] leading-[125%]">
+            <h1
+              id="how-to"
+              className="text-[#DF89C6] text-[46px] font-extrabold bg-rgba-pink pb-[48px] leading-[125%]"
+            >
               How to Merry
             </h1>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 mx-[11%]">
-            <div className="bg-[#2A0B21] flex flex-col items-center  rounded-[40px] w-[262px] h-[348px] p-[32px]">
+            <div className="bg-[#2A0B21] flex flex-col items-center  rounded-[40px] w-[262px] h-[348px] p-[32px] transform transition duration-300 hover:scale-110">
               <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
                 <img src="/emotion1.svg" alt="emotion" className="w-[50px]" />
               </div>
@@ -95,7 +96,7 @@ function Homepage() {
                 </p>
               </div>
             </div>
-            <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px]">
+            <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px] transform transition duration-300 hover:scale-110">
               <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
                 <img src="/emotion2.svg" alt="emotion" className="w-[50px]" />
               </div>
@@ -110,7 +111,7 @@ function Homepage() {
                 </p>
               </div>
             </div>
-            <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px]">
+            <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px] transform transition duration-300 hover:scale-110">
               <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
                 <img src="/emotion3.svg" alt="emotion" className="w-[50px]" />
               </div>
@@ -125,7 +126,7 @@ function Homepage() {
                 </p>
               </div>
             </div>
-            <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px]">
+            <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px] transform transition duration-300 hover:scale-110">
               <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
                 <img src="/emotion4.svg" alt="emotion" className="w-[50px]" />
               </div>
@@ -143,7 +144,19 @@ function Homepage() {
           </div>
         </div>
       </div>
-    </>
+      <div className="w-full h-[570px] flex flex-col items-center justify-center mx-auto my-0  bg-[#160404] ">
+        <div className="bg-match bg-cover w-[80%] h-[369px] mx-auto rounded-[32px] flex flex-col items-center justify-center">
+          <div className="w-[588px]">
+            <h1 className="text-white text-[46px] font-bold mb-2 text-center">
+              Let’s start finding and matching someone new
+            </h1>
+          </div>
+          <button className="bg-[#FFE1EA] font-bold px-[24px] py-[12px] text-base text-center rounded-[99px] mt-[40px] hover:bg-[#FFB1C8] text-[#95002B]">
+            Start Matching!
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
