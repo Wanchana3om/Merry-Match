@@ -1,5 +1,3 @@
-
-
 function Homepage() {
   return (
     <>
@@ -24,19 +22,34 @@ function Homepage() {
         </div>
 
         <img src="/header/image.png" className="absolute right-40 -top-20" />
-        <img src="/header/Ellipse 2.png" className="absolute right-20 top-[430px]" />
+        <img
+          src="/header/Ellipse 2.png"
+          className="absolute right-20 top-[430px]"
+        />
         <img src="/header/Ellipse 2.png" className="absolute -left-3 top-24" />
-        <img src="/header/smile.png" className="absolute right-32 top-[460px]" />
-        <img src="/header/Ellipse 4.png" className="absolute right-52 bottom-36" />
+        <img
+          src="/header/smile.png"
+          className="absolute right-32 top-[460px]"
+        />
+        <img
+          src="/header/Ellipse 4.png"
+          className="absolute right-52 bottom-36"
+        />
         <img src="/header/Ellipse 4.png" className="absolute left-32 top-20" />
-        <img src="/header/Vector (1).png" className="absolute right-[600px] top-36" />
-        <img src="/header/Vector.png" className="absolute left-[170px] top-[273px]" />
-
-    
+        <img
+          src="/header/Vector (1).png"
+          className="absolute right-[600px] top-36"
+        />
+        <img
+          src="/header/Vector.png"
+          className="absolute left-[170px] top-[273px]"
+        />
       </body>
       <div className="part-2-container flex w-full h-[533px] bg-[#160404]">
         <div className="text-container-outer flex flex-col justify-center items-center w-1/2 h-full pl-40">
-          <h1 className="text-[#DF89C6] pb-10 font-bold">Why Merry Match</h1>
+          <h1 id="why-merry" className="text-[#DF89C6] pb-10 font-bold">
+            Why Merry Match
+          </h1>
           <div className="text-container-inner flex flex-col gap-5">
             <p className="text-white text-sm text-left px-4 font-sans">
               Merry Match is a new generation of online dating website for
@@ -55,28 +68,21 @@ function Homepage() {
           </div>
         </div>
         <div className="picture container flex flex-col justify-center items-center w-1/2 h-full">
-          <img
-            className="h-[348px] w-[546px]"
-            src="/fast-and-easy.png"
-          />
+          <img className="h-[348px] w-[546px]" src="/fast-and-easy.png" />
         </div>
       </div>
 
       <div className="box-border">
         <div className="w-full h-[622px] mx-auto my-0  bg-[#160404]">
           <div className="text-center">
-            <h1 className="text-[#DF89C6] text-[46px] font-extrabold bg-rgba-pink pb-[48px] leading-[125%]">
+            <h1 id="how-to" className="text-[#DF89C6] text-[46px] font-extrabold bg-rgba-pink pb-[48px] leading-[125%]">
               How to Merry
             </h1>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 mx-[11%]">
             <div className="bg-[#2A0B21] flex flex-col items-center  rounded-[40px] w-[262px] h-[348px] p-[32px]">
               <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
-                <img
-                  src="/emotion1.svg"
-                  alt="emotion"
-                  className="w-[50px]"
-                />
+                <img src="/emotion1.svg" alt="emotion" className="w-[50px]" />
               </div>
               <div>
                 <p className="text-white text-2xl font-bold mb-2 text-center">
@@ -91,11 +97,7 @@ function Homepage() {
             </div>
             <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px]">
               <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
-                <img
-                  src="/emotion2.svg"
-                  alt="emotion"
-                  className="w-[50px]"
-                />
+                <img src="/emotion2.svg" alt="emotion" className="w-[50px]" />
               </div>
               <div>
                 <p className=" text-white text-2xl font-bold mb-2 text-center">
@@ -110,11 +112,7 @@ function Homepage() {
             </div>
             <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px]">
               <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
-                <img
-                  src="/emotion3.svg"
-                  alt="emotion"
-                  className="w-[50px]"
-                />
+                <img src="/emotion3.svg" alt="emotion" className="w-[50px]" />
               </div>
               <div>
                 <p className=" text-white text-2xl font-bold mb-2 text-center">
@@ -129,11 +127,7 @@ function Homepage() {
             </div>
             <div className="bg-[#2A0B21] flex flex-col items-center  text-white rounded-[40px] w-[262px] h-[348px] p-[32px]">
               <div className="bg-[#411032] w-[120px] h-[120px] rounded-full flex items-center justify-center mb-[42px]">
-                <img
-                  src="/emotion4.svg"
-                  alt="emotion"
-                  className="w-[50px]"
-                />
+                <img src="/emotion4.svg" alt="emotion" className="w-[50px]" />
               </div>
               <div>
                 <p className=" text-white text-2xl font-bold mb-2 text-center">
