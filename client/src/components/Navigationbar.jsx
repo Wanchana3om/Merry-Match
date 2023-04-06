@@ -30,7 +30,7 @@ function Navigationbar() {
                 How to Merry
               </a>
             </li>
-            <button class="bg-red-500 hover:bg-red-600 text-white font-bold mx-5 px-6 rounded-full">
+            <button className="bg-red-500 hover:bg-red-600 text-white font-bold mx-5 px-6 rounded-full">
               Login
             </button>
           </ul>
