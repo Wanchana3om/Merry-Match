@@ -35,11 +35,17 @@ function Registerpage() {
             Join us and start <br /> matching
           </h2>
         </div>
-        <div className="tabs-container rounded-2xl tabs-container flex gap-4 w-1/2 h-full justify-items-center items-center">
+        <div
+          className={`tabs-container rounded-2xl tabs-container flex w-1/2 h-full justify-items-center items-center ${
+            currentFormPage === 2 ? "gap-6" : "gap-4"
+          }`}
+        >
           <div
             className={`border-4 border-[#E4E6ED] px-[16px] ${
               currentFormPage === 1 ? "w-auto" : "w-[80px]"
-            } h-[80px] rounded-[16px] flex justify-evenly items-center`}
+            } h-[80px] rounded-[16px] flex justify-evenly items-center transition duration-300  transform ${
+              currentFormPage === 1 ? "scale-110" : ""
+            } ${currentFormPage !== 1 ? "scale-100" : ""}`}
           >
             <div
               className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row justify-center items-center font-bold text-[24px] ${
@@ -58,12 +64,14 @@ function Registerpage() {
             </div>
           </div>
           <div
-            className={`border-4 border-[#E4E6ED] h-[80px] rounded-[16px] flex flex-row justify-center items-center ${
-              currentFormPage === 2 ? "w-auto px-3" : "w-[80px]"
-            }`}
+            className={`border-4 border-[#E4E6ED] px-[16px] ${
+              currentFormPage === 2 ? "w-auto " : "w-[80px]"
+            } h-[80px] rounded-[16px] flex justify-evenly items-center transition duration-300  transform ${
+              currentFormPage === 2 ? "scale-110" : ""
+            } ${currentFormPage !== 2 ? "scale-100" : ""}`}
           >
             <div
-              className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row justify-center items-center text-[#9AA1B9] font-bold text-[24px] ${
+              className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row justify-center items-center font-bold text-[24px] ${
                 currentFormPage === 2 ? "text-[#A62D82]" : "text-[#9AA1B9]"
               }`}
             >
@@ -81,7 +89,9 @@ function Registerpage() {
           <div
             className={`border-4 border-[#E4E6ED] w-[80px] h-[80px] rounded-[16px] flex flex-row justify-center items-center ${
               currentFormPage === 3 ? "w-auto px-3" : "w-[80px]"
-            }`}
+            } transition duration-300  transform ${
+              currentFormPage === 3 ? "scale-110" : ""
+            } ${currentFormPage !== 3 ? "scale-100" : ""}`}
           >
             <div
               className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row items-center  justify-center text-[#9AA1B9] font-bold text-[24px] ${

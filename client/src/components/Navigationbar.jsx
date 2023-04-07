@@ -6,7 +6,7 @@ function Navigationbar() {
   };
   return (
     <div className="relative z-30 w-full shadow-md">
-      <div className="w-[77%] flex flex-row justify-between items-center  py-5 bg-white mx-auto ">
+      <div className="w-[77%]  flex flex-row justify-between items-center py-5 bg-white mx-auto ">
         <nav className="">
           <a href="#" className="text-black font-semibold text-4xl">
             Merry
@@ -15,8 +15,8 @@ function Navigationbar() {
             Match
           </a>
         </nav>
-        <nav>
-          <ul className="flex flex-row mx-3">
+        <nav className="">
+          <ul className="flex flex-row items-center">
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77]">
               <a
                 href="#why-merry"
@@ -30,7 +30,7 @@ function Navigationbar() {
                 How to Merry
               </a>
             </li>
-            <button className="bg-red-500 hover:bg-red-600 text-white font-bold mx-5 px-6 rounded-full">
+            <button className="bg-red-500 hover:bg-red-600 text-white font-bold mx-5 px-6 py-2 rounded-full h-[66] ">
               Login
             </button>
           </ul>
