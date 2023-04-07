@@ -1,6 +1,8 @@
+import { useState } from "react";
 import Navigationbar from "../components/Navigationbar";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
+<<<<<<< HEAD
 import { useState } from "react";
 
 function Registerpage() {
@@ -19,6 +21,12 @@ function Registerpage() {
       return null;
     }
   };
+=======
+import RegisterForm3 from "../components/RegisterForm3";
+
+function Registerpage() {
+  let [pageNumber, setPageNumber] = useState(1);
+>>>>>>> 3ea1685 (feat(register): add register form 2 and 3)
 
   return (
     <div>
@@ -27,7 +35,7 @@ function Registerpage() {
         <div className="bg-[#FAF1ED] absolute h-[100px] w-[100px] rounded-full top-[85px] left-[-19px]" />
         <div className="bg-[#7B4429] absolute h-[8px] w-[8px] rounded-full top-[210px] left-[81px]" />
         <div className="bg-[#FAF1ED] absolute h-[8px] w-[8px] rounded-full top-[605px] right-[1px]" />
-        <div className="text-container flex flex-col w-1/2 h-1/3 pt-6">
+        <div className="text-container flex flex-col w-1/2 h-1/3 pt-6 mt-[29px]">
           <h1 className="text-[#7B4429]">REGISTER</h1>
           <h2 className="text-[#A62D82] text-[46px] font-extrabold">
             Join us and start <br /> matching
@@ -99,6 +107,7 @@ function Registerpage() {
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       {currentFormPage === 1 && <RegisterForm1 />}
       {currentFormPage === 2 && <RegisterForm2 />}
       {/* {currentFormPage === 3 && <RegisterForm3 />} */}
@@ -129,6 +138,37 @@ function Registerpage() {
             </div>
           </nav>
         </div>
+=======
+      {/* <RegisterForm1 /> */}
+      <RegisterForm2 />
+      {/* <RegisterForm3 /> */}
+      <div class=" flex flex-col ">
+        <footer className="relative z-30 w-full border-t-2 ">
+          <div className="w-[77%] flex flex-row justify-between items-center h-auto py-5 bg-white mx-auto ">
+            <nav className="">
+              <a href="#" className=" font-[400] text-base text-[#646D89]">
+                1/3
+              </a>
+            </nav>
+            <nav>
+              <div className="flex flex-row mx-3">
+                <div className="m-3 text-base font-bold hover:text-[#191C77]">
+                  <img src="/Vector.png" alt="" />
+                  <a
+                    href="#"
+                    class="text-[#C8CCDB] font-semibold mr-[17px] font-weight: bold; hover:text-[#191C77]"
+                  >
+                    Back
+                  </a>
+                </div>
+                <button class="bg-red-500 hover:bg-red-600 text-white font-bold  px-6 rounded-full">
+                  Next step
+                </button>
+              </div>
+            </nav>
+          </div>
+        </footer>
+>>>>>>> 3ea1685 (feat(register): add register form 2 and 3)
       </div>
     </div>
   );
