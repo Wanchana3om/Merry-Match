@@ -30,11 +30,7 @@ function Navigationbar() {
                 How to Merry
               </a>
             </li>
-<<<<<<< HEAD
             <button className="bg-red-500 hover:bg-red-600 text-white font-bold mx-5 px-6 rounded-full">
-=======
-            <button class="bg-red-500 hover:bg-red-600 text-white font-bold  px-6 rounded-full">
->>>>>>> feature/gus/change-form-register
               Login
             </button>
           </ul>

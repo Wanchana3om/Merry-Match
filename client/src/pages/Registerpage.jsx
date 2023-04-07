@@ -2,8 +2,6 @@ import { useState } from "react";
 import Navigationbar from "../components/Navigationbar";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
-<<<<<<< HEAD
-import { useState } from "react";
 
 function Registerpage() {
   const [currentFormPage, setCurrentFormPage] = useState(1);
@@ -21,13 +19,6 @@ function Registerpage() {
       return null;
     }
   };
-=======
-import RegisterForm3 from "../components/RegisterForm3";
-import Drag from "../components/DraggableItem";
-
-function Registerpage() {
-  let [pageNumber, setPageNumber] = useState(1);
->>>>>>> 3ea1685 (feat(register): add register form 2 and 3)
 
   return (
     <div>
@@ -108,7 +99,6 @@ function Registerpage() {
           </div>
         </div>
       </div>
-<<<<<<< HEAD
       {currentFormPage === 1 && <RegisterForm1 />}
       {currentFormPage === 2 && <RegisterForm2 />}
       {/* {currentFormPage === 3 && <RegisterForm3 />} */}
@@ -134,42 +124,11 @@ function Registerpage() {
                 className="bg-red-500 hover:bg-red-600 text-white font-bold  px-6 rounded-full"
                 onClick={handleNextStep}
               >
-                {currentFormPage === 3 ? 'Confirm' : 'Next step'}
+                {currentFormPage === 3 ? "Confirm" : "Next step"}
               </button>
             </div>
           </nav>
         </div>
-=======
-      {/* <RegisterForm1 /> */}
-      <RegisterForm2 />
-      {/* <RegisterForm3 /> */}
-      <div class=" flex flex-col ">
-        <footer className="relative z-30 w-full border-t-2 ">
-          <div className="w-[77%] flex flex-row justify-between items-center h-auto py-5 bg-white mx-auto ">
-            <nav className="">
-              <a href="#" className=" font-[400] text-base text-[#646D89]">
-                1/3
-              </a>
-            </nav>
-            <nav>
-              <div className="flex flex-row mx-3">
-                <div className="m-3 text-base font-bold hover:text-[#191C77]">
-                  <img src="/Vector.png" alt="" />
-                  <a
-                    href="#"
-                    class="text-[#C8CCDB] font-semibold mr-[17px] font-weight: bold; hover:text-[#191C77]"
-                  >
-                    Back
-                  </a>
-                </div>
-                <button class="bg-red-500 hover:bg-red-600 text-white font-bold  px-6 rounded-full">
-                  Next step
-                </button>
-              </div>
-            </nav>
-          </div>
-        </footer>
->>>>>>> 3ea1685 (feat(register): add register form 2 and 3)
       </div>
       {/* <DraggableList /> */}
     </div>
