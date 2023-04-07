@@ -101,7 +101,7 @@ function Registerpage() {
       </div>
       {currentFormPage === 1 && <RegisterForm1 />}
       {currentFormPage === 2 && <RegisterForm2 />}
-      {/* {currentFormPage === 3 && <RegisterForm3 />} */}
+      {currentFormPage === 3 && <RegisterForm3 />}
       <div className="relative z-30 w-full border-t-2">
         <div className="w-[77%] flex flex-row justify-between items-center h-auto py-5 bg-white mx-auto ">
           <nav className="">
