@@ -2,7 +2,7 @@ import { useState } from "react";
 import Navigationbar from "../components/Navigationbar";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
-import { useState } from "react";
+import RegisterForm3 from "../components/RegisterForm3";
 
 function Registerpage() {
   const [currentFormPage, setCurrentFormPage] = useState(1);
@@ -100,9 +100,8 @@ function Registerpage() {
           </div>
         </div>
       </div>
-      {currentFormPage === 1 && <RegisterForm1 />}
-      {currentFormPage === 2 && <RegisterForm2 />}
-      {/* {currentFormPage === 3 && <RegisterForm3 />} */}
+      {currentFormPage === 1 && <RegisterForm3 />}
+      
       <div className="relative z-30 w-full border-t-2">
         <div className="w-[77%] flex flex-row justify-between items-center h-auto py-5 bg-white mx-auto ">
           <nav className="">
