@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Navigationbar from "../components/Navigationbar";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
@@ -27,7 +28,7 @@ function Registerpage() {
         <div className="bg-[#FAF1ED] absolute h-[100px] w-[100px] rounded-full top-[85px] left-[-19px]" />
         <div className="bg-[#7B4429] absolute h-[8px] w-[8px] rounded-full top-[210px] left-[81px]" />
         <div className="bg-[#FAF1ED] absolute h-[8px] w-[8px] rounded-full top-[605px] right-[1px]" />
-        <div className="text-container flex flex-col w-1/2 h-1/3 pt-6">
+        <div className="text-container flex flex-col w-1/2 h-1/3 pt-6 mt-[29px]">
           <h1 className="text-[#7B4429]">REGISTER</h1>
           <h2 className="text-[#A62D82] text-[46px] font-extrabold">
             Join us and start <br /> matching
