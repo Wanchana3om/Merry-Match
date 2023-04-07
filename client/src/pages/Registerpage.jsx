@@ -23,6 +23,7 @@ function Registerpage() {
   };
 =======
 import RegisterForm3 from "../components/RegisterForm3";
+import Drag from "../components/DraggableItem";
 
 function Registerpage() {
   let [pageNumber, setPageNumber] = useState(1);
@@ -170,6 +171,7 @@ function Registerpage() {
         </footer>
 >>>>>>> 3ea1685 (feat(register): add register form 2 and 3)
       </div>
+      {/* <DraggableList /> */}
     </div>
   );
 }

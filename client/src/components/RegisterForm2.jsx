@@ -1,21 +1,22 @@
 import { useState } from "react";
 
 function RegisterForm2() {
-  //   const [hobbyLists, setHobbyLists] = useState([]);
-  //   const [info, setInfo] = useState("");
-
-  //   const addHobbyLists = (event) => {
-  //     event.preventDefault();
-  //     const newHobbyLists = [...hobbyLists];
-  //     newHobbyLists.push(info);
-  //     setHobbyLists(newHobbyLists);
-  //   };
+  const [hobbies, setHobbies] = useState([]);
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      setHobbyLists((prevHobbie) => [...prevHobbie, event.target.value]);
-      event.target.value = "";
+      const newHobby = event.target.value;
+      if (newHobby && hobbies.length < 10 && !hobbies.includes(newHobby)) {
+        setHobbies((prevHobbies) => [...prevHobbies, newHobby]);
+        event.target.value = "";
+      }
     }
+  };
+
+  const handleDelete = (hobbyToDelete) => {
+    setHobbies((prevHobbies) =>
+      prevHobbies.filter((hobby) => hobby !== hobbyToDelete)
+    );
   };
 
   return (
@@ -86,12 +87,19 @@ function RegisterForm2() {
           <input
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[920px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
             type="text"
-            // onChange={(e) => {
-            //   setInfo(e.target.value);
-            // }}
-            onKeyPress={handleKeyPress}
+            id="hobbies"
+            onKeyDown={handleKeyPress}
+            placeholder={hobbies.slice(-1)}
           />
         </label>
+        <ul>
+          {hobbies.map((hobby, index) => (
+            <li key={index}>
+              {hobby}
+              <button onClick={() => handleDelete(hobby)}>Delete</button>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
