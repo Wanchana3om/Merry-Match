@@ -1,7 +1,7 @@
 function RegisterForm1() {
   return (
-    <div className="form-container px-[255px] mb-24 py-8">
-      <h1 className="text-2xl text-[#A62D82] font-[700] mb-[24px]">
+    <div className="bg-[#FCFCFE] form-container px-[255px] py-8 h-[500px]">
+      <h1 className="text-2xl text-[#A62D82] font-[700]  ">
         Basic Information
       </h1>
       <div className="info-container grid grid-cols-2 grid-rows-4 gap-5">

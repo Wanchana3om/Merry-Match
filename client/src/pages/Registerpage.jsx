@@ -1,7 +1,8 @@
+import { useState } from "react";
 import Navigationbar from "../components/Navigationbar";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
-import { useState } from "react";
+import RegisterForm3 from "../components/RegisterForm3";
 
 function Registerpage() {
   const [currentFormPage, setCurrentFormPage] = useState(1);
@@ -19,6 +20,7 @@ function Registerpage() {
       return null;
     }
   };
+  let [pageNumber, setPageNumber] = useState(1);
 
   return (
     <div>
@@ -27,17 +29,23 @@ function Registerpage() {
         <div className="bg-[#FAF1ED] absolute h-[100px] w-[100px] rounded-full top-[85px] left-[-19px]" />
         <div className="bg-[#7B4429] absolute h-[8px] w-[8px] rounded-full top-[210px] left-[81px]" />
         <div className="bg-[#FAF1ED] absolute h-[8px] w-[8px] rounded-full top-[605px] right-[1px]" />
-        <div className="text-container flex flex-col w-1/2 h-1/3 pt-6">
+        <div className="text-container flex flex-col w-1/2 h-1/3 pt-6 mt-[29px]">
           <h1 className="text-[#7B4429]">REGISTER</h1>
           <h2 className="text-[#A62D82] text-[46px] font-extrabold">
             Join us and start <br /> matching
           </h2>
         </div>
-        <div className="tabs-container rounded-2xl tabs-container flex gap-4 w-1/2 h-full justify-items-center items-center">
+        <div
+          className={`tabs-container rounded-2xl tabs-container flex w-1/2 h-full justify-items-center items-center ${
+            currentFormPage === 2 ? "gap-6" : "gap-4"
+          }`}
+        >
           <div
             className={`border-4 border-[#E4E6ED] px-[16px] ${
               currentFormPage === 1 ? "w-auto" : "w-[80px]"
-            } h-[80px] rounded-[16px] flex justify-evenly items-center`}
+            } h-[80px] rounded-[16px] flex justify-evenly items-center transition duration-300  transform ${
+              currentFormPage === 1 ? "scale-110" : ""
+            } ${currentFormPage !== 1 ? "scale-100" : ""}`}
           >
             <div
               className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row justify-center items-center font-bold text-[24px] ${
@@ -56,12 +64,14 @@ function Registerpage() {
             </div>
           </div>
           <div
-            className={`border-4 border-[#E4E6ED] h-[80px] rounded-[16px] flex flex-row justify-center items-center ${
-              currentFormPage === 2 ? "w-auto px-3" : "w-[80px]"
-            }`}
+            className={`border-4 border-[#E4E6ED] px-[16px] ${
+              currentFormPage === 2 ? "w-auto " : "w-[80px]"
+            } h-[80px] rounded-[16px] flex justify-evenly items-center transition duration-300  transform ${
+              currentFormPage === 2 ? "scale-110" : ""
+            } ${currentFormPage !== 2 ? "scale-100" : ""}`}
           >
             <div
-              className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row justify-center items-center text-[#9AA1B9] font-bold text-[24px] ${
+              className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row justify-center items-center font-bold text-[24px] ${
                 currentFormPage === 2 ? "text-[#A62D82]" : "text-[#9AA1B9]"
               }`}
             >
@@ -79,7 +89,9 @@ function Registerpage() {
           <div
             className={`border-4 border-[#E4E6ED] w-[80px] h-[80px] rounded-[16px] flex flex-row justify-center items-center ${
               currentFormPage === 3 ? "w-auto px-3" : "w-[80px]"
-            }`}
+            } transition duration-300  transform ${
+              currentFormPage === 3 ? "scale-110" : ""
+            } ${currentFormPage !== 3 ? "scale-100" : ""}`}
           >
             <div
               className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row items-center  justify-center text-[#9AA1B9] font-bold text-[24px] ${
@@ -101,7 +113,7 @@ function Registerpage() {
       </div>
       {currentFormPage === 1 && <RegisterForm1 />}
       {currentFormPage === 2 && <RegisterForm2 />}
-      {/* {currentFormPage === 3 && <RegisterForm3 />} */}
+      {currentFormPage === 3 && <RegisterForm3 />}
       <div className="relative z-30 w-full border-t-2">
         <div className="w-[77%] flex flex-row justify-between items-center h-auto py-5 bg-white mx-auto ">
           <nav className="">
@@ -124,12 +136,13 @@ function Registerpage() {
                 className="bg-red-500 hover:bg-red-600 text-white font-bold  px-6 rounded-full"
                 onClick={handleNextStep}
               >
-                {currentFormPage === 3 ? 'Confirm' : 'Next step'}
+                {currentFormPage === 3 ? "Confirm" : "Next step"}
               </button>
             </div>
           </nav>
         </div>
       </div>
+      {/* <DraggableList /> */}
     </div>
   );
 }
