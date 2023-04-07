@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navigationbar from "../components/Navigationbar";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
+import RegisterForm3 from "../components/RegisterForm3";
 
 function Registerpage() {
   const [currentFormPage, setCurrentFormPage] = useState(1);
@@ -19,6 +20,7 @@ function Registerpage() {
       return null;
     }
   };
+  let [pageNumber, setPageNumber] = useState(1);
 
   return (
     <div>
