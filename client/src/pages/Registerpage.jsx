@@ -3,6 +3,7 @@ import Navigationbar from "../components/Navigationbar";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
 import RegisterForm3 from "../components/RegisterForm3";
+import Drag from "../components/DraggableItem";
 
 function Registerpage() {
   let [pageNumber, setPageNumber] = useState(1);
@@ -76,6 +77,7 @@ function Registerpage() {
           </div>
         </footer>
       </div>
+      {/* <DraggableList /> */}
     </div>
   );
 }

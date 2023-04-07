@@ -1,13 +1,15 @@
-import "./App.css";
+// import "./App.css";
 import Homepage from "./pages/Homepage";
 import Navigationbar from "./components/Navigationbar";
 import Footer from "./components/Footer";
 import Registerpage from "./pages/Registerpage";
+import DraggableList from "./components/DraggableItem";
 
 function App() {
   return (
     <>
       <Registerpage />
+      <DraggableList />
       {/* <Navigationbar />
       <Homepage />
       <Footer /> */}
