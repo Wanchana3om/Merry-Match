@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 function RegisterForm2() {
+<<<<<<< HEAD
   const [hobbies, setHobbies] = useState([]);
 
   const handleKeyPress = (event) => {
@@ -21,6 +22,40 @@ function RegisterForm2() {
 
   return (
     <div className="form-container px-[255px] mb-24 py-8 h-[500px]">
+=======
+  const [hobbyLists, setHobbyLists] = useState([]);
+  const [info, setInfo] = useState("");
+  const maxHobbies = 10;
+
+  const addHobbyLists = () => {
+    if (info.trim() !== "") {
+      if (hobbyLists.length >= maxHobbies) {
+        alert(`You can only add up to ${maxHobbies} hobbies.`);
+        return;
+      }
+      const newHobbyLists = [...hobbyLists];
+      newHobbyLists.push(info.trim());
+      setHobbyLists(newHobbyLists);
+      setInfo("");
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addHobbyLists();
+    }
+  };
+
+  const deleteHobby = (index) => {
+    const newHobbyLists = [...hobbyLists];
+    newHobbyLists.splice(index, 1);
+    setHobbyLists(newHobbyLists);
+  };
+
+  return (
+        <div className="form-container px-[255px] mb-24 py-8 h-[500px] bg-[#FCFCFE]">
+>>>>>>> 0c8e90ac51dd7cf17127567ba15574cfa2c6e3b9
       <h1 className="text-2xl text-[#A62D82] font-[700] mb-[24px] mt-[20px]">
         Identities and Interests
       </h1>
@@ -81,6 +116,7 @@ function RegisterForm2() {
           </select>
         </div>
       </div>
+<<<<<<< HEAD
       <div className="mt-[30px]">
         <h1>Hobbies / Interests (Maximum 10)</h1>
         <label htmlFor="hobbie">
@@ -101,8 +137,57 @@ function RegisterForm2() {
           ))}
         </ul>
       </div>
+=======
+    <div className="flex flex-col  mt-[50px]">
+      <div className="relative flex flex-col items-start">
+        <h1>Hobbies / Interests (Maximum 10)</h1>
+        <input
+          className="border-[1px] font-normal border-[#D6D9E4] rounded-lg w-[920px] h-[48px] py-[12px] pr-[12px] pl-[12px] mb-4"
+          type="text"
+          value={info}
+          onChange={(e) => {
+            setInfo(e.target.value);
+          }}
+          onKeyPress={handleKeyPress}
+        />
+        {hobbyLists.length > 0 && (
+          <div className=" border-[1px] border-none rounded-lg p-[8px] text-[#9AA1B9] text-sm">
+            <ul className="flex flex-wrap">
+              {hobbyLists.slice(0, maxHobbies).map((hobby, index) => (
+                <li
+                  key={index}
+                  className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[8px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
+                >
+                  {hobby}
+                  <button
+                    className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
+                    onClick={() => deleteHobby(index)}
+                  >
+                    ✕
+                  </button>
+                </li>
+              ))}
+            </ul>
+            {hobbyLists.length > maxHobbies && (
+              <p className="text-red-500 mt-2">
+                You have reached the maximum number of hobbies you can add.
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+>>>>>>> 0c8e90ac51dd7cf17127567ba15574cfa2c6e3b9
     </div>
   );
 }
 
 export default RegisterForm2;
+<<<<<<< HEAD
+=======
+
+
+
+
+
+>>>>>>> 0c8e90ac51dd7cf17127567ba15574cfa2c6e3b9

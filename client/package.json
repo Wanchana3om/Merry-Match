@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@types/react-beautiful-dnd": "^13.1.4",
+<<<<<<< HEAD
     "install": "^0.13.0",
     "npm": "^9.6.4",
+=======
+>>>>>>> 0c8e90ac51dd7cf17127567ba15574cfa2c6e3b9
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0"
