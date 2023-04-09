@@ -32,7 +32,7 @@ function RegisterForm2() {
   };
 
   return (
-    <div className="bg-[#FCFCFE] form-container px-[255px]  py-8 h-[500px]">
+    <div className="bg-[#FCFCFE] form-container px-[255px] w-[1440px] mx-auto py-8 h-[500px]">
       <h1 className="text-2xl text-[#A62D82] font-[700]  mt-[20px]">
         Identities and Interests
       </h1>
@@ -67,7 +67,7 @@ function RegisterForm2() {
           <h1>Racial preferences</h1>
           <select
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-            name="City"
+            name="Racial preferences"
           >
             <option value="Black">Black</option>
             <option value="European">European</option>
@@ -82,7 +82,7 @@ function RegisterForm2() {
           <h1>Meeting interests</h1>
           <select
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-            name="City"
+            name="Meeting interests"
           >
             <option value="Partners">Partners</option>
             <option value="Long-term commitment">Long-term commitment</option>
@@ -108,7 +108,7 @@ function RegisterForm2() {
           {hobbyLists.length > 0 && (
             <div className=" border-[1px] border-none rounded-lg p-[8px] text-[#9AA1B9] text-sm">
               <ul className="flex flex-wrap">
-                {hobbyLists.slice(0, maxHobbies).map((hobby, index) => (
+                {hobbyLists.map((hobby, index) => (
                   <li
                     key={index}
                     className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[8px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
@@ -123,11 +123,6 @@ function RegisterForm2() {
                   </li>
                 ))}
               </ul>
-              {hobbyLists.length > maxHobbies && (
-                <p className="text-red-500 mt-2">
-                  You have reached the maximum number of hobbies you can add.
-                </p>
-              )}
             </div>
           )}
         </div>

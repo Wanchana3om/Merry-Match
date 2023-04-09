@@ -51,7 +51,8 @@ function RegisterForm3() {
   };
 
   return (
-    <div className="bg-[#FCFCFE] form-container px-[255px]  py-8 h-[500px]">
+
+    <div className="bg-[#FCFCFE] form-container px-[255px] w-[1440px] mx-auto py-8 h-[500px]">
       <h1 className="text-2xl text-[#A62D82] font-[700] mb-1">
         Profile pictures
       </h1>
@@ -74,11 +75,11 @@ function RegisterForm3() {
                 backgroundSize: "contain",
                 backgroundPosition: "center",
               }}
-            >
+              >
               {image !== null && (
                 <button
-                  className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
-                  onClick={(event) => deleteImage(event, index)}
+                className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
+                onClick={(event) => deleteImage(event, index)}
                 >
                   ✕
                 </button>
