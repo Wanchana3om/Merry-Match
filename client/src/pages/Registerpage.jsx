@@ -6,13 +6,73 @@ import RegisterForm3 from "../components/RegisterForm3";
 
 function Registerpage() {
   const [currentFormPage, setCurrentFormPage] = useState(1);
+
+  // const [formData, setFormdata] = useState([]);
+
+  const [name, setName] = useState("");
+  const [birthDate, setBirthDate] = useState("2022-01-01");
+  const [location, setLocation] = useState("Australia");
+  const [city, setCity] = useState("Sydney");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+  const [sexualIdentity, setSexualIdentity] = useState("Female");
+  const [sexualPreference, setSexualPreference] = useState("Male");
+  const [racialPreference, setRacialPreference] = useState("Black");
+  const [meetingInterest, setMeetingInterest] = useState("Partners");
+  const [hobbyLists, setHobbyLists] = useState([]);
+  const [info, setInfo] = useState("");
+
+  const [images, setImages] = useState([null, null, null, null, null]);
+
+  // const [hobby, setCity] = useState("");
+
   const handleNextStep = () => {
     if (currentFormPage === 3) {
-      return null;
+      let nullCount = 0;
+      for (let i = 0; i < images.length; i++) {
+        if (images[i] === null) {
+          nullCount = nullCount + 1;
+        }
+      }
+      if (nullCount >= 4) {
+        alert("Please upload at least two photos");
+      } else {
+        let newFormData = {
+          name: name,
+          birthDate: birthDate,
+          location: location,
+          city: city,
+          username: username,
+          password: password,
+          confirmPassword: confirmPassword,
+          email: email,
+          sexualIdentity: sexualIdentity,
+          sexualPreference: sexualPreference,
+          racialPreference: racialPreference,
+          meetingInterest: meetingInterest,
+          images: images,
+        };
+        console.log(newFormData);
+        alert("Data submitted");
+      }
+    }
+    // setFormdata(...newFormData);
+    else if (!username) {
+      alert("Please enter username");
+    } else if (!email) {
+      alert("Please provide an email address");
+    } else if (!password) {
+      alert("Please enter password");
+    } else if (password !== confirmPassword) {
+      alert("Passwords do not match");
     } else {
       setCurrentFormPage(currentFormPage + 1);
     }
   };
+
   const handleBack = () => {
     if (currentFormPage === 1) {
       return null;
@@ -112,9 +172,45 @@ function Registerpage() {
             </div>
           </div>
         </div>
-        {currentFormPage === 1 && <RegisterForm1 />}
-        {currentFormPage === 2 && <RegisterForm2 />}
-        {currentFormPage === 3 && <RegisterForm3 />}
+        {currentFormPage === 1 && (
+          <RegisterForm1
+            name={name}
+            setName={setName}
+            birthDate={birthDate}
+            setBirthDate={setBirthDate}
+            location={location}
+            setLocation={setLocation}
+            city={city}
+            setCity={setCity}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+            confirmPassword={confirmPassword}
+            setConfirmPassword={setConfirmPassword}
+            email={email}
+            setEmail={setEmail}
+          />
+        )}
+        {currentFormPage === 2 && (
+          <RegisterForm2
+            sexualIdentity={sexualIdentity}
+            setSexualIdentity={setSexualIdentity}
+            sexualPreference={sexualPreference}
+            setSexualPreferences={setSexualPreference}
+            racialPreference={racialPreference}
+            setRacialPreference={setRacialPreference}
+            meetingInterest={meetingInterest}
+            setMeetingInterest={setMeetingInterest}
+            hobbyLists={hobbyLists}
+            setHobbyLists={setHobbyLists}
+            info={info}
+            setInfo={setInfo}
+          />
+        )}
+        {currentFormPage === 3 && (
+          <RegisterForm3 images={images} setImages={setImages} />
+        )}
         <div className="relative z-30 w-full border-t-2">
           <div className="w-[77%] flex flex-row justify-between items-center h-auto py-5 bg-white mx-auto ">
             <nav className="">

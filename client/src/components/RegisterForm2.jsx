@@ -1,20 +1,20 @@
 import { useState } from "react";
 
-function RegisterForm2() {
-  const [hobbyLists, setHobbyLists] = useState([]);
-  const [info, setInfo] = useState("");
+function RegisterForm2(props) {
+  // const [hobbyLists, setHobbyLists] = useState([]);
+  // const [info, setInfo] = useState("");
   const maxHobbies = 10;
 
   const addHobbyLists = () => {
-    if (info.trim() !== "") {
-      if (hobbyLists.length >= maxHobbies) {
+    if (props.info.trim() !== "") {
+      if (props.hobbyLists.length >= maxHobbies) {
         alert(`You can only add up to ${maxHobbies} hobbies.`);
         return;
       }
-      const newHobbyLists = [...hobbyLists];
-      newHobbyLists.push(info.trim());
-      setHobbyLists(newHobbyLists);
-      setInfo("");
+      const newHobbyLists = [...props.hobbyLists];
+      newHobbyLists.push(props.info.trim());
+      props.setHobbyLists(newHobbyLists);
+      props.setInfo("");
     }
   };
 
@@ -26,9 +26,9 @@ function RegisterForm2() {
   };
 
   const deleteHobby = (index) => {
-    const newHobbyLists = [...hobbyLists];
+    const newHobbyLists = [...props.hobbyLists];
     newHobbyLists.splice(index, 1);
-    setHobbyLists(newHobbyLists);
+    props.setHobbyLists(newHobbyLists);
   };
 
   return (
@@ -42,12 +42,12 @@ function RegisterForm2() {
           <select
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="Sexual identities"
+            value={props.sexualIdentity}
+            onChange={(e) => props.setSexualIdentity(e.target.value)}
           >
             <option value="Female">Female</option>
-            <option value="Female">Non-binary</option>
-            <option selected="selected" value="Male">
-              Male
-            </option>
+            <option value="Non-binary">Non-binary</option>
+            <option value="Male">Male</option>
           </select>
         </div>
         <div>
@@ -55,9 +55,11 @@ function RegisterForm2() {
           <select
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="Sexual preferences"
+            value={props.sexualPreference}
+            onChange={(e) => props.setSexualPreference(e.target.value)}
           >
             <option value="Female">Male</option>
-            <option value="Female">Non-binary</option>
+            <option value="Non-binary">Non-binary</option>
             <option selected="selected" value="Female ">
               Female
             </option>
@@ -68,6 +70,8 @@ function RegisterForm2() {
           <select
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="Racial preferences"
+            value={props.racialPreference}
+            onChange={(e) => props.setRacialPreference(e.target.value)}
           >
             <option value="Black">Black</option>
             <option value="European">European</option>
@@ -83,11 +87,13 @@ function RegisterForm2() {
           <select
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="Meeting interests"
+            value={props.meetingInterest}
+            onChange={(e) => props.setMeetingInterest(e.target.value)}
           >
             <option value="Partners">Partners</option>
             <option value="Long-term commitment">Long-term commitment</option>
-            <option value="Long-term commitment">Short-term commitment</option>
-            <option selected="selected" value="Bangkok">
+            <option value="Short-term commitment">Short-term commitment</option>
+            <option selected="selected" value="Friends">
               Friends
             </option>
           </select>
@@ -99,16 +105,16 @@ function RegisterForm2() {
           <input
             className="border-[1px] font-normal border-[#D6D9E4] rounded-lg w-[996px] h-[48px] py-[12px] pr-[12px] pl-[12px] mb-4"
             type="text"
-            value={info}
+            value={props.info}
             onChange={(e) => {
-              setInfo(e.target.value);
+              props.setInfo(e.target.value);
             }}
             onKeyPress={handleKeyPress}
           />
-          {hobbyLists.length > 0 && (
+          {props.hobbyLists.length > 0 && (
             <div className=" border-[1px] border-none rounded-lg p-[8px] text-[#9AA1B9] text-sm">
               <ul className="flex flex-wrap">
-                {hobbyLists.map((hobby, index) => (
+                {props.hobbyLists.map((hobby, index) => (
                   <li
                     key={index}
                     className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[8px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
