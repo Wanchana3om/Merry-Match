@@ -1,19 +1,19 @@
 // import "./App.css";
 import Homepage from "./pages/Homepage";
-import Navigationbar from "./components/Navigationbar";
-import Footer from "./components/Footer";
 import Loginpage from "./pages/Loginpage";
 import Registerpage from "./pages/Registerpage";
+import { BrowserRouter as Router , Routes , Route } from "react-router-dom"
 
 function App() {
   return (
-    <>
-      <Registerpage />
-      {/* <Navigationbar />
-      <Homepage />
-      <Footer /> */}
-    </>
+   <Router>
+    <Routes>
+      <Route path="/" element={<Homepage />}/>
+      <Route path="/login" element={<Loginpage />}/>
+      <Route path="/register" element={<Registerpage />}/>
+    </Routes>
+   </Router>
   );
 }
 
-// export default App;
+export default App;

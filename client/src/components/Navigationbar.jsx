@@ -1,9 +1,17 @@
+import { Link, useHistory } from "react-router-dom";
+
 function Navigationbar() {
-  const handleOnClick = (e, id) => {
+
+  const history = useHistory()
+
+  const handleOnClick = (e, id, path) => {
     e.preventDefault();
     const element = document.getElementById(id);
     element.scrollIntoView({ behavior: "smooth" });
+    history.push(path);
+    
   };
+
   return (
     <div className="relative z-30 w-full shadow-md">
       <div className="w-[77%]  flex flex-row justify-between items-center py-5 bg-white mx-auto ">
@@ -19,20 +27,20 @@ function Navigationbar() {
           <ul className="flex flex-row items-center">
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77]">
               <a
-                href="#why-merry"
+                href="http://localhost:5173/"
                 onClick={(e) => handleOnClick(e, "why-merry")}
               >
                 Why Merry Match?
               </a>
             </li>
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77]">
-              <a href="#how-to" onClick={(e) => handleOnClick(e, "how-to")}>
+              <Link to="/" href="http://localhost:5173/" onClick={(e) => handleOnClick(e, "how-to", "/")}>
                 How to Merry
-              </a>
+              </Link>
             </li>
-            <button className="bg-red-500 hover:bg-red-600 text-white font-bold mx-5 px-6 py-2 rounded-full h-[66] ">
+            <Link to="/login"><button className="bg-red-500 hover:bg-red-600 text-white font-bold mx-5 px-6 py-2 rounded-full h-[66] ">
               Login
-            </button>
+            </button></Link>
           </ul>
         </nav>
       </div>

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Loginpage() {
   return (
     <>
@@ -40,9 +42,9 @@ function Loginpage() {
               <span className="text-base font-normal">
                 Don't Have an account?
               </span>
-              <button className="text-base font-bold text-red-500 mx-3">
+              <Link to="/register"><button className="text-base font-bold text-red-500 mx-3">
                 Register
-              </button>
+              </button></Link>
             </div>
           </div>
         </div>
