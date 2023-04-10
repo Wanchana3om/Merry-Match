@@ -1,6 +1,6 @@
 function RegisterForm1() {
   return (
-    <div className="bg-[#FCFCFE] form-container px-[255px] py-8 h-[500px]">
+    <div className="bg-[#FCFCFE] form-container px-[255px] py-8 h-[500px] w-[1440px] mx-auto">
       <h1 className="text-2xl text-[#A62D82] font-[700]  ">
         Basic Information
       </h1>

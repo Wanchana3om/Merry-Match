@@ -1,6 +1,8 @@
 function Homepage() {
   return (
-    <div className="font-Poppins">
+    <div className="bg-[#160404]">
+    <div className="font-Poppins w-[1440px] mx-auto bg-[#160404]">
+       <div className="font-Poppins w-[1440px] ">
       <div className="w-full h-[758px] bg-[#160404] relative flex justify-center items-center">
         <img
           src="/header/nice-to-meet-you.png"
@@ -158,6 +160,8 @@ function Homepage() {
         </div>
       </div>
     </div>
+    </div>
+   </div>
   );
 }
 

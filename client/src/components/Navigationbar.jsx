@@ -7,7 +7,7 @@ function Navigationbar() {
   return (
     <div className="relative z-30 w-full shadow-md">
       <div className="w-[77%]  flex flex-row justify-between items-center py-5 bg-white mx-auto ">
-        <nav className="">
+        <nav>
           <a href="#" className="text-black font-semibold text-4xl">
             Merry
           </a>
@@ -15,7 +15,7 @@ function Navigationbar() {
             Match
           </a>
         </nav>
-        <nav className="">
+        <nav>
           <ul className="flex flex-row items-center">
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77]">
               <a
