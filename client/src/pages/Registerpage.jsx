@@ -20,7 +20,26 @@ function Registerpage() {
       setCurrentFormPage(currentFormPage - 1);
     }
   };
-  let [pageNumber, setPageNumber] = useState(1);
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createProduct();
+  };
+
+  const createProduct = async () => {
+    try {
+      const newProductData = {
+        name: nameInput,
+        price: priceInput,
+        image: imgInput,
+        description: descrInput,
+      };
+      await axios.post("http://localhost:4001/products", newProductData);
+      navigate("/");
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <div>
