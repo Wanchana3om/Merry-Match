@@ -1,14 +1,13 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Navigationbar() {
 
-  const history = useHistory()
+  
 
   const handleOnClick = (e, id, path) => {
     e.preventDefault();
     const element = document.getElementById(id);
     element.scrollIntoView({ behavior: "smooth" });
-    history.push(path);
     
   };
 
