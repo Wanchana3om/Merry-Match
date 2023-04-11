@@ -62,7 +62,7 @@ function RegisterForm3(props) {
           <>
             <div
               key={index}
-              className="w-[167px] h-[167px] bg-[#F1F2F6] rounded-2xl cursor-pointer relative z-0"
+              className="w-[167px] h-[167px] bg-[#F1F2F6] rounded-2xl cursor-pointer relative z-0 "
               onClick={() => handleImageClick(index)}
               onDrop={(event) => handleImageDrop(event, index)}
               onDragOver={(event) => handleDragOver(event)}
@@ -76,7 +76,7 @@ function RegisterForm3(props) {
               }}
             >
               {image === null && (
-                <div className="flex flex-col text-center justify-center items-center h-full">
+                <div className="flex flex-col text-center justify-center items-center h-full transform hover:scale-[1.2] active:scale-[0.8]">
                   <div>
                     <h1 className="text-[#7D2262] text-[30px]">+</h1>
                     <p className="text-[#7D2262] ">Upload photo</p>

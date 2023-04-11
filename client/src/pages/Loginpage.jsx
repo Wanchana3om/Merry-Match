@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import Navigationbar from "../components/Navigationbar";
 
 function Loginpage() {
   return (
     <>
+    <Navigationbar />
       <div className="w-11/12 flex flex-row justify-between items-center h-auto py-5 bg-white mx-6 font-Poppins">
         <img
           src="/login/handsomedev.png"
@@ -42,7 +44,7 @@ function Loginpage() {
               <span className="text-base font-normal">
                 Don't Have an account?
               </span>
-              <Link to="/register"><button className="text-base font-bold text-red-500 mx-3">
+              <Link to="/register"><button className="text-base font-bold text-red-500 mx-3 border-b-2 border-transparent hover:border-[#A62D82] hover:text-[#A62D82] mx-3">
                 Register
               </button></Link>
             </div>
