@@ -35,7 +35,7 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.port(`http://localhost:4000/users`, data);
+      await axios.post(`http://localhost:3000/register`, data);
       setIsLoading(false);
       navigate("/login");
     } catch (error) {
@@ -100,5 +100,5 @@ const useData = () => {
   };
 };
 
-export default useRegisters;
+export default useData;
 
