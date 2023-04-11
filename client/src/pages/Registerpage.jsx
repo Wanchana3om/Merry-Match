@@ -6,9 +6,8 @@ import RegisterForm3 from "../components/RegisterForm3";
 import useData from "../hook/useData";
 
 function Registerpage() {
-  
   const { createRegister } = useData();
-  
+
   const [currentFormPage, setCurrentFormPage] = useState(1);
   // const [formData, setFormdata] = useState([]);
   const [name, setName] = useState("");
@@ -19,18 +18,18 @@ function Registerpage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
-  
+
   const [sexualIdentity, setSexualIdentity] = useState("Female");
   const [sexualPreference, setSexualPreference] = useState("Male");
   const [racialPreference, setRacialPreference] = useState("Black");
   const [meetingInterest, setMeetingInterest] = useState("Partners");
   const [hobbyLists, setHobbyLists] = useState([]);
   const [info, setInfo] = useState("");
-  
+
   const [images, setImages] = useState([null, null, null, null, null]);
-  
+
   // const [hobby, setCity] = useState("");
-  
+
   const handleNextStep = () => {
     if (currentFormPage === 3) {
       let nullCount = 0;
@@ -74,35 +73,34 @@ function Registerpage() {
       setCurrentFormPage(currentFormPage + 1);
     }
   };
-  
+
   const handleBack = () => {
     if (currentFormPage === 1) {
       return null;
     } else {
       setCurrentFormPage(currentFormPage - 1);
     }
-  };  
+  };
 
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      createRegister({
-        name,
-        birthDate,
-        location,
-        city,
-        username,
-        location,
-        password,
-        email,
-        sexualIdentity,
-        sexualPreference,
-        racialPreference,
-        meetingInterest,
-        hobbyLists,
-        images,
-      });
-    };
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createRegister({
+      name,
+      birthDate,
+      location,
+      city,
+      username,
+      location,
+      password,
+      email,
+      sexualIdentity,
+      sexualPreference,
+      racialPreference,
+      meetingInterest,
+      hobbyLists,
+      images,
+    });
+  };
 
   return (
     <div>
@@ -194,48 +192,49 @@ function Registerpage() {
             </div>
           </div>
         </div>
-        <form  onSubmit={handleSubmit}>
 
-        {currentFormPage === 1 && (
-          <RegisterForm1
-          name={name}
-          setName={setName}
-          birthDate={birthDate}
-          setBirthDate={setBirthDate}
-          location={location}
-          setLocation={setLocation}
-          city={city}
-          setCity={setCity}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          confirmPassword={confirmPassword}
-          setConfirmPassword={setConfirmPassword}
-          email={email}
-          setEmail={setEmail}
-          />
+        <form onSubmit={handleSubmit}>
+          {currentFormPage === 1 && (
+            <RegisterForm1
+              name={name}
+              setName={setName}
+              birthDate={birthDate}
+              setBirthDate={setBirthDate}
+              location={location}
+              setLocation={setLocation}
+              city={city}
+              setCity={setCity}
+              username={username}
+              setUsername={setUsername}
+              password={password}
+              setPassword={setPassword}
+              confirmPassword={confirmPassword}
+              setConfirmPassword={setConfirmPassword}
+              email={email}
+              setEmail={setEmail}
+            />
           )}
-        {currentFormPage === 2 && (
-          <RegisterForm2
-          sexualIdentity={sexualIdentity}
-          setSexualIdentity={setSexualIdentity}
-          sexualPreference={sexualPreference}
-          setSexualPreferences={setSexualPreference}
-          racialPreference={racialPreference}
-          setRacialPreference={setRacialPreference}
-          meetingInterest={meetingInterest}
-          setMeetingInterest={setMeetingInterest}
-          hobbyLists={hobbyLists}
-          setHobbyLists={setHobbyLists}
-          info={info}
-          setInfo={setInfo}
-          />
+          {currentFormPage === 2 && (
+            <RegisterForm2
+              sexualIdentity={sexualIdentity}
+              setSexualIdentity={setSexualIdentity}
+              sexualPreference={sexualPreference}
+              setSexualPreferences={setSexualPreference}
+              racialPreference={racialPreference}
+              setRacialPreference={setRacialPreference}
+              meetingInterest={meetingInterest}
+              setMeetingInterest={setMeetingInterest}
+              hobbyLists={hobbyLists}
+              setHobbyLists={setHobbyLists}
+              info={info}
+              setInfo={setInfo}
+            />
           )}
-        {currentFormPage === 3 && (
-          <RegisterForm3 images={images} setImages={setImages} />
+          {currentFormPage === 3 && (
+            <RegisterForm3 images={images} setImages={setImages} />
           )}
-          </form>
+        </form>
+
         <div className="relative z-30 w-full border-t-2">
           <div className="w-[77%] flex flex-row justify-between items-center h-auto py-5 bg-white mx-auto ">
             <nav className="">
@@ -249,14 +248,15 @@ function Registerpage() {
                   <button
                     onClick={handleBack}
                     className="text-[#C8CCDB] font-semibold mr-[17px] font-weight: bold; hover:text-[#191C77]"
-                    >
+                  >
                     Back
                   </button>
                 </div>
                 <button
                   className="bg-red-500 hover:bg-red-600 text-white font-bold  px-6 rounded-full"
-                  onClick={handleNextStep} type="submit"
-                  >
+                  onClick={handleNextStep}
+                  type="submit"
+                >
                   {currentFormPage === 3 ? "Confirm" : "Next step"}
                 </button>
               </div>

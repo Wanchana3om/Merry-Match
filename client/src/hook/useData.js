@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const useData = () => {
   const navigate = useNavigate();
-//   const [data, setData] = useState([]);
-//   const [user, setUser] = useState(null);
+  //   const [data, setData] = useState([]);
+  //   const [user, setUser] = useState(null);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
@@ -30,7 +30,6 @@ const useData = () => {
   //   }
   // };
 
-
   const createRegister = async (data) => {
     try {
       setIsError(false);
@@ -44,50 +43,47 @@ const useData = () => {
     }
   };
 
-  
-//   const deleteUser = async (userId) => {
-//     try {
-//       setIsError(false);
-//       setIsLoading(true);
-//       await axios.delete(`http://localhost:4000/users/${userId}`);
-//       const newUsers = posts.filter((A) => {
-//         return A._id !== userId;
-//       });
-//       setPosts(newUsers);
-//       setIsLoading(false);
-//     } catch (error) {
-//       setIsError(true);
-//       setIsLoading(false);
-//     }
-//   };
+  //   const deleteUser = async (userId) => {
+  //     try {
+  //       setIsError(false);
+  //       setIsLoading(true);
+  //       await axios.delete(`http://localhost:4000/users/${userId}`);
+  //       const newUsers = posts.filter((A) => {
+  //         return A._id !== userId;
+  //       });
+  //       setPosts(newUsers);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       setIsError(true);
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-//   const getUserById = async (userId) => {
-//     try {
-//       setIsError(false);
-//       setIsLoading(true);
-//       const result = await axios.get(`http://localhost:4000/users/${userId}`);
-//       setUser(result.data.data);
-//       setIsLoading(false);
-//     } catch (error) {
-//       setIsError(true);
-//       setIsLoading(false);
-//     }
-//   };
+  //   const getUserById = async (userId) => {
+  //     try {
+  //       setIsError(false);
+  //       setIsLoading(true);
+  //       const result = await axios.get(`http://localhost:4000/users/${userId}`);
+  //       setUser(result.data.data);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       setIsError(true);
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-//   const updateUserById = async (userId, data) => {
-//     try {
-//       setIsError(false);
-//       setIsLoading(true);
-//       await axios.put(`http://localhost:4000/users/${userId}`, data);
-//       setIsLoading(false);
-//       navigate("/");
-//     } catch (error) {
-//       setIsError(true);
-//       setIsLoading(false);
-//     }
-//   };
-
-
+  //   const updateUserById = async (userId, data) => {
+  //     try {
+  //       setIsError(false);
+  //       setIsLoading(true);
+  //       await axios.put(`http://localhost:4000/users/${userId}`, data);
+  //       setIsLoading(false);
+  //       navigate("/");
+  //     } catch (error) {
+  //       setIsError(true);
+  //       setIsLoading(false);
+  //     }
+  //   };
 
   return {
     createRegister,
@@ -101,4 +97,3 @@ const useData = () => {
 };
 
 export default useData;
-
