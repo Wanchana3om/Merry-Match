@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-function RegisterForm3() {
-  const [images, setImages] = useState([null, null, null, null, null]);
+function RegisterForm3(props) {
+  // const [images, setImages] = useState([null, null, null, null, null]);
 
   const handleImageClick = (index) => {
     const input = document.createElement("input");
@@ -11,7 +11,7 @@ function RegisterForm3() {
       const file = event.target.files[0];
       const reader = new FileReader();
       reader.onload = () => {
-        setImages((prevImages) => {
+        props.setImages((prevImages) => {
           const newImages = [...prevImages];
           newImages[index] = reader.result;
           return newImages;
@@ -26,7 +26,7 @@ function RegisterForm3() {
     event.preventDefault();
     const droppedIndex = event.dataTransfer.getData("text");
     if (droppedIndex === "") return;
-    setImages((prevImages) => {
+    props.setImages((prevImages) => {
       const newImages = [...prevImages];
       const temp = newImages[index];
       newImages[index] = newImages[droppedIndex];
@@ -45,13 +45,12 @@ function RegisterForm3() {
 
   const deleteImage = (event, index) => {
     event.stopPropagation();
-    const newImages = [...images];
+    const newImages = [...props.images];
     newImages[index] = null;
-    setImages(newImages);
+    props.setImages(newImages);
   };
 
   return (
-
     <div className="bg-[#FCFCFE] form-container px-[255px] w-[1440px] mx-auto py-8 h-[500px]">
       <h1 className="text-2xl text-[#A62D82] font-[700] mb-1">
         Profile pictures
@@ -59,7 +58,7 @@ function RegisterForm3() {
       <h2 className="mb-5">Upload at least 2 photos</h2>
 
       <div className="grid grid-cols-5 grid-rows-1 gap-2">
-        {images.map((image, index) => (
+        {props.images.map((image, index) => (
           <>
             <div
               key={index}
@@ -75,20 +74,20 @@ function RegisterForm3() {
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
-              >
-                {image === null && (
-                  <div className="flex flex-col text-center justify-center items-center h-full">
-                    <div>
-                      <h1 className="text-[#7D2262] text-[30px]">+</h1>
-                      <p className="text-[#7D2262] ">Upload photo</p>
-                    </div>
+            >
+              {image === null && (
+                <div className="flex flex-col text-center justify-center items-center h-full">
+                  <div>
+                    <h1 className="text-[#7D2262] text-[30px]">+</h1>
+                    <p className="text-[#7D2262] ">Upload photo</p>
                   </div>
-  )}
-               
+                </div>
+              )}
+
               {image !== null && (
                 <button
-                className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
-                onClick={(event) => deleteImage(event, index)}
+                  className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
+                  onClick={(event) => deleteImage(event, index)}
                 >
                   ✕
                 </button>
