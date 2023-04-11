@@ -1,11 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 function Navigationbar() {
+  const navigate = useNavigate();
 
   const handleOnClick = (e, id) => {
     e.preventDefault();
     const element = document.getElementById(id);
+    if(element){
     element.scrollIntoView({ behavior: "smooth" });
+  }
+    navigate('/');
   };
 
   return (
