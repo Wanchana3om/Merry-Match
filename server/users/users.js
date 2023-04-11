@@ -1,33 +1,53 @@
 import { Router } from "express";
-import { supabase } from "../app";
+import { supabase } from "../app.js";
 import { v4 as uuidv4 } from "uuid";
 
-const usersRouter = express.Router();
+const usersRouter = Router();
+
+usersRouter.get("/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  const { data, error } = await supabase
+    .from("users")
+    .select("*, pictures(pic_url)")
+    .match({ user_id: userId });
+
+  if (error) {
+    console.log(error);
+    return res.status(500).send("Server error");
+  }
+
+  return res.json(data);
+});
 
 usersRouter.put("/:userId", async (req, res) => {
   const userId = req.params.userId;
   const {
     name,
-    gender,
-    email,
+    birthDate,
     location,
     city,
+    email,
+    sexual_identity,
     sexual_preference,
-    nation,
+    racial_preference,
     meeting_interest,
     about_me,
+    hobby,
+    images,
   } = req.body;
 
   const { data, error } = await supabase
     .from("users")
     .update({
       name: name,
-      gender: gender,
-      email: email,
+      birthDate: birthDate,
       location: location,
       city: city,
+      email: email,
+      sexual_identity: sexual_identity,
       sexual_preference: sexual_preference,
-      nation: nation,
+      racial_preference: racial_preference,
       meeting_interest: meeting_interest,
       about_me: about_me,
     })
@@ -35,8 +55,7 @@ usersRouter.put("/:userId", async (req, res) => {
 
   if (error) {
     console.log(error);
-    res.status(500).send("Server error");
-    return;
+    return res.status(500).send("Server error");
   }
   const files = req.files;
   const fileCount = Math.min(files.length, 5);
@@ -49,8 +68,7 @@ usersRouter.put("/:userId", async (req, res) => {
       .upload(fileName, file.data);
     if (fileError) {
       console.log(fileError);
-      res.status(500).send("Server error");
-      return;
+      return res.status(500).send("Server error");
     }
     const { data: insertData, error: insertError } = await supabase
       .from("pictures")
@@ -58,11 +76,10 @@ usersRouter.put("/:userId", async (req, res) => {
       .eq("user_id", userId);
     if (insertError) {
       console.log(insertError);
-      res.status(500).send("Server error");
-      return;
+      return res.status(500).send("Server error");
     }
   }
-  res.json({ message: "User profile updated successfully" });
+  return res.json({ message: "User profile updated successfully" });
 });
 
 export default usersRouter;

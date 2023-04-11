@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { supabase } from "../app";
+import { supabase } from "../app.js";
 import { v4 as uuidv4 } from "uuid";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const authRouter = Router();
 
@@ -9,62 +11,92 @@ authRouter.post("/register", async (req, res) => {
     username,
     password,
     name,
-    gender,
-    email,
+    birthDate,
     location,
     city,
+    email,
+    sexual_identity,
     sexual_preference,
-    nation,
+    racial_preference,
     meeting_interest,
-    about_me,
+    hobby,
+    images,
   } = req.body;
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(password, salt);
   const { user, error } = await supabase.auth.signUp({
-    username: username,
-    password: password,
+    email: email,
+    password: hashPassword,
   });
   if (error) {
     res.status(400).send(error.message);
   } else {
-    const { data, error } = await supabase.from("users").insert([
-      {
-        username: username,
-        name: name,
-        gender: gender,
-        email: email,
-        location: location,
-        city: city,
-        sexual_preference: sexual_preference,
-        nation: nation,
-        meeting_interest: meeting_interest,
-        about_me: about_me,
-        created_at: new Date().toISOString(),
-        last_logged_in: new Date().toISOString(),
-      },
-    ]);
+    const { data, error } = await supabase
+      .from("users")
+      .insert([
+        {
+          username: username,
+          password: hashPassword,
+          name: name,
+          birthDate: birthDate,
+          location: location,
+          city: city,
+          email: email,
+          sexual_identity: sexual_identity,
+          sexual_preference: sexual_preference,
+          racial_preference: racial_preference,
+          meeting_interest: meeting_interest,
+          created_at: new Date().toISOString(),
+          last_logged_in: new Date().toISOString(),
+        },
+      ])
+      .select("user_id");
+    if (error) {
+      return res.status(500).send(error.message);
+    } else {
+      const userId = data[0].user_id;
+      const hobbyList = req.body.hobby?.slice(0, 10) || [];
+      if (hobbyList.length > 0) {
+        const { data: hobbyData, error: hobbyError } = await supabase
+          .from("hobbies_interests")
+          .insert(
+            hobbyList.map((hobby) => {
+              return {
+                user_id: userId,
+                hob_list: hobby,
+              };
+            })
+          );
+
+        if (hobbyError) {
+          return res.status(500).send(hobbyError.message);
+        }
+      }
+    }
+    const userId = data[0].user_id;
     if (error) {
       res.status(500).send(error.message);
     } else {
-      const files = req.files;
-      const fileCount = Math.min(files.length, 5);
-      for (let i = 0; i < fileCount; i++) {
-        const file = files[i];
-        const fileName = uuidv4() + "_" + file.name;
-        const { data: fileData, error: fileError } = await supabase.storage
-          .from("userPictures")
-          .upload(fileName, file.data);
-        if (fileError) {
-          res.status(500).send(fileError.message);
-          return;
+      const files = images?.slice(0, 5) || [];
+      if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const fileName = uuidv4() + "_" + file.name;
+          const { data: fileData, error: fileError } = await supabase.storage
+            .from("userPictures")
+            .upload(fileName, file.data);
+          if (fileError) {
+            return res.status(500).send(fileError.message);
+          }
+        }
+        const { data: insertData, error: insertError } = await supabase
+          .from("pictures")
+          .insert([{ user_id: userId, pic_url: fileData.key }]);
+        if (insertError) {
+          return res.status(500).send(insertError.message);
         }
       }
-      const { data: insertData, error: insertError } = await supabase
-        .from("pictures")
-        .insert([{ user_id: user.id, pic_url: fileData.key }]);
-      if (insertError) {
-        res.status(500).send(insertError.message);
-        return;
-      }
-      res.json({ message: "New User has been registed successfully" });
+      return res.json({ message: "New User has been registed successfully" });
     }
   }
 });
@@ -87,8 +119,16 @@ authRouter.post("/login", async (req, res) => {
       console.log(error);
       res.status(500).send("Server error");
     } else {
-      const token = user?.asscess_token || null;
-      res.json({ token });
+      const token = jwt.sign(
+        {
+          user_id: data.user_id,
+          username: data.username,
+          name: data.name,
+        },
+        process.env.SECRET_KEY,
+        { expiresIn: "1h" }
+      );
+      return res.json({ token });
     }
   }
 });
