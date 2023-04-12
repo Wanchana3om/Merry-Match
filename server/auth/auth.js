@@ -103,33 +103,50 @@ authRouter.post("/register", async (req, res) => {
 
 authRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  const { user, error } = await supabase.auth.singIn({
-    username: username,
-    password: password,
-  });
-  if (error) {
-    res.status(401).send(error.message);
-  } else {
-    const { data, error } = await supabase
-      .from("users")
-      .update({ last_logged_in: new Date().toISOString() })
-      .eq("user_id", user?.id);
 
-    if (error) {
-      console.log(error);
-      res.status(500).send("Server error");
-    } else {
-      const token = jwt.sign(
-        {
-          user_id: data.user_id,
-          username: data.username,
-          name: data.name,
-        },
-        process.env.SECRET_KEY,
-        { expiresIn: "1h" }
-      );
-      return res.json({ token });
-    }
+  const { data: userdata, error } = await supabase
+    .from("users")
+    .select("user_id, username, name, password")
+    .eq("username", username);
+
+  if (error || !userdata || userdata.length === 0) {
+    res.status(401).send("Invalid credentials");
+    return;
+  }
+
+  const storedPassword = userdata[0].password;
+
+  if (!storedPassword) {
+    res.status(401).send("Invalid credentials");
+    return;
+  }
+
+  const isValidPassword = await bcrypt.compare(password, storedPassword);
+
+  if (!isValidPassword) {
+    res.status(401).send("Invalid password");
+    return;
+  }
+
+  const { data, error: updateError } = await supabase
+    .from("users")
+    .update({ last_logged_in: new Date().toISOString() })
+    .eq("user_id", userdata[0].user_id);
+
+  if (updateError) {
+    console.log(updateError);
+    res.status(500).send("Server error");
+  } else {
+    const token = jwt.sign(
+      {
+        user_id: userdata[0].user_id,
+        username: userdata[0].username,
+        name: userdata[0].name,
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: "1h" }
+    );
+    return res.json({ token });
   }
 });
 
