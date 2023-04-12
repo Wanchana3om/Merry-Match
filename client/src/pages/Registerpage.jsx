@@ -3,7 +3,7 @@ import Navigationbar from "../components/Navigationbar";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
 import RegisterForm3 from "../components/RegisterForm3";
-import useData from "../hook/useData";
+import useData from "../hook/useData.js";
 
 function Registerpage() {
   const { createRegister } = useData();
@@ -12,8 +12,8 @@ function Registerpage() {
   // const [formData, setFormdata] = useState([]);
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("2022-01-01");
-  const [location, setLocation] = useState("Australia");
-  const [city, setCity] = useState("Sydney");
+  const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,7 +27,6 @@ function Registerpage() {
   const [info, setInfo] = useState("");
 
   const [images, setImages] = useState([null, null, null, null, null]);
-
   // const [hobby, setCity] = useState("");
 
   const handleNextStep = () => {
