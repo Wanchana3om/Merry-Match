@@ -58,9 +58,9 @@ function RegisterForm2(props) {
             value={props.sexualPreference}
             onChange={(e) => props.setSexualPreference(e.target.value)}
           >
-            <option value="Female">Male</option>
+            <option value="Male">Male</option>
             <option value="Non-binary">Non-binary</option>
-            <option selected="selected" value="Female ">
+            <option value="Female ">
               Female
             </option>
           </select>
@@ -74,10 +74,11 @@ function RegisterForm2(props) {
             onChange={(e) => props.setRacialPreference(e.target.value)}
           >
             <option value="Black">Black</option>
+            <option value="White">White</option>
             <option value="European">European</option>
             <option value="Caucasian">Caucasian</option>
             <option value="African">African</option>
-            <option selected="selected" value="Asian">
+            <option value="Asian">
               Asian
             </option>
           </select>
@@ -93,7 +94,7 @@ function RegisterForm2(props) {
             <option value="Partners">Partners</option>
             <option value="Long-term commitment">Long-term commitment</option>
             <option value="Short-term commitment">Short-term commitment</option>
-            <option selected="selected" value="Friends">
+            <option value="Friends">
               Friends
             </option>
           </select>

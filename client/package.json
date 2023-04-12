@@ -11,6 +11,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.15.0",
     "@types/react-beautiful-dnd": "^13.1.4",
+    "city-timezones": "^1.2.1",
     "install": "^0.13.0",
     "npm": "^9.6.4",
     "react": "^18.2.0",

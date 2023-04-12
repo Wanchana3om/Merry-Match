@@ -1,4 +1,11 @@
+import ct from "city-timezones"
+
 function RegisterForm1(props) {
+
+  const countryList = ct.cityMapping
+  const uniqueCountries = Array.from(new Set(countryList.map(country => country.country)));
+  const uniquecities = Array.from(new Set(countryList.map(city => city.province))).filter((city) => city !== null)
+
   return (
     <div className="bg-[#FCFCFE] form-container px-[255px] py-8 h-[500px] w-[1440px] mx-auto">
       <h1 className="text-2xl text-[#A62D82] font-[700]  ">
@@ -38,12 +45,21 @@ function RegisterForm1(props) {
             value={props.location}
             onChange={(e) => props.setLocation(e.target.value)}
           >
-            <option value="australia">Australia</option>
-            <option value="canada">Canada</option>
-            <option value="usa">USA</option>
-            <option value="thailand ">Thailand</option>
+            <option value="">Select your country</option>
+            {uniqueCountries
+              .sort((a, b) => {
+                return (
+                  a > b ? 1 : -1
+                )
+              })
+              .map((country, index) => (
+                <option value={country} key={index}>
+                  {country}
+                </option>
+              ))}
           </select>
         </div>
+
         <div>
           <h1>City</h1>
           <select
@@ -52,10 +68,26 @@ function RegisterForm1(props) {
             value={props.city}
             onChange={(e) => props.setCity(e.target.value)}
           >
-            <option value="Sydney">Sydney</option>
-            <option value="Ottawa">Ottawa</option>
-            <option value="new york">New York</option>
-            <option value="Bangkok ">Bangkok</option>
+            <option value="">Select your city</option>
+            {uniquecities
+              .filter((city) => {
+                const filterCountries = countryList.filter((country) => {
+                  return country.province === city
+                })
+                return filterCountries.some(filterCountry => filterCountry.country === props.location)
+              })
+              .sort((a, b) => {
+                return (
+                  a > b ? 1 : -1
+                )
+              })
+              .map((city, index) => {
+                return (
+                  <option value={city} key={index}>
+                    {city}
+                  </option>
+                )
+              })}
           </select>
         </div>
 
