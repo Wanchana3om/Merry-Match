@@ -30,18 +30,20 @@
 //   }
 // };
 
-// const createRegister = async (data) => {
-//   try {
-//     setIsError(false);
-//     setIsLoading(true);
-//     await axios.post(`http://localhost:3000/auth/register`, data);
-//     setIsLoading(false);
-//     navigate("/login");
-//   } catch (error) {
-//     setIsError(true);
-//     setIsLoading(false);
-//   }
-// };
+const createRegister = async (data) => {
+  try {
+    setIsError(false);
+    setIsLoading(true);
+    await axios.post(`http://localhost:3000/auth/register`, data, {
+      header: { "content-Type": "multipart/form-data" },
+    });
+    setIsLoading(false);
+    navigate("/login");
+  } catch (error) {
+    setIsError(true);
+    setIsLoading(false);
+  }
+};
 
 //   const deleteUser = async (userId) => {
 //     try {
