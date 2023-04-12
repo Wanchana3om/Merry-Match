@@ -28,5 +28,3 @@ export const supabaseUpload = async (files) => {
   }
   return fileUrl;
 };
-
-export { supabaseUpload };

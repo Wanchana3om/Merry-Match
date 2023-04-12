@@ -60,28 +60,28 @@ authRouter.post("/register", avatarUpload, async (req, res) => {
         },
       ])
       .select("user_id");
-    if (error) {
-      return res.status(500).send(error.message);
-    } else {
-      const userId = data[0].user_id;
-      const hobbyList = req.body.hobby?.slice(0, 10) || [];
-      if (hobbyList.length > 0) {
-        const { data: hobbyData, error: hobbyError } = await supabase
-          .from("hobbies_interests")
-          .insert(
-            hobbyList.map((hobby) => {
-              return {
-                user_id: userId,
-                hob_list: hobby,
-              };
-            })
-          );
+    // if (error) {
+    //   return res.status(500).send(error.message);
+    // } else {
+    //   const userId = data[0].user_id;
+    //   const hobbyList = req.body.hobby?.slice(0, 10) || [];
+    //   if (hobbyList.length > 0) {
+    //     const { data: hobbyData, error: hobbyError } = await supabase
+    //       .from("hobbies_interests")
+    //       .insert(
+    //         hobbyList.map((hobby) => {
+    //           return {
+    //             user_id: userId,
+    //             hob_list: hobby,
+    //           };
+    //         })
+    //       );
 
-        if (hobbyError) {
-          return res.status(500).send(hobbyError.message);
-        }
-      }
-    }
+    //     if (hobbyError) {
+    //       return res.status(500).send(hobbyError.message);
+    //     }
+    //   }
+    // }
     const cloudUpload = await supabaseUpload(req.files);
     if (validImages.length === 0) {
       return res.status(400).send("No images provided");

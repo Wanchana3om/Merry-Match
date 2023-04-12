@@ -7,7 +7,7 @@ import useData from "../hook/useData";
 // import { avatars } from "../components/RegisterForm3";
 
 function Registerpage() {
-  const { createRegister } = useAuth();
+  const { createRegister } = useData();
 
   const [currentFormPage, setCurrentFormPage] = useState(1);
   // const [formData, setFormdata] = useState([]);
