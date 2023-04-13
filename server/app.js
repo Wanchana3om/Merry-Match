@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import express from "express";
 import authRouter from "./auth/auth.js";
 import usersRouter from "./users/users.js";
-import fileUploadMiddleware from "./middlewares/fileUploadMiddleware.js";
+// import fileUploadMiddleware from "./middlewares/fileUploadMiddleware.js";
 
 dotenv.config();
 

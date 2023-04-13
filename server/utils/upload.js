@@ -8,7 +8,7 @@ export const supabaseUpload = async (files) => {
     const fileBuffer = await fs.readFile(file.path);
     const { data, error } = await supabase.storage
       .from("pictures")
-      .upload(file.name, fileBuffer, {
+      .upload(fileBuffer, file.name, {
         cacheControl: "3600",
         upsert: false,
         contentType: file.type,
@@ -16,13 +16,14 @@ export const supabaseUpload = async (files) => {
 
     if (error) {
       console.error(error);
-      return;
+      return res.status(500).json({ error: "Failed to upload file." });
     }
 
     fileUrl.push({
-      url: data.Key,
-      publicId: data.Key,
+      url: data.url,
+      publicId: data.key,
     });
+    // fileUrl.push(data.Key);
 
     await fs.unlink(file.path);
   }

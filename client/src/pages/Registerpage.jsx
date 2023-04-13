@@ -53,7 +53,7 @@ function Registerpage() {
         newFormData.append("sexual_preference", sexualPreference);
         newFormData.append("racial_preference", racialPreference);
         newFormData.append("meeting_interest", meetingInterest);
-        newFormData.append("hobby", hobbyLists);
+        hobbyLists.map((hobby) => newFormData.append("hobby", hobby));
 
         for (let avatarKey in avatars) {
           newFormData.append("avatar", avatars[avatarKey]);
@@ -61,7 +61,7 @@ function Registerpage() {
 
         await createRegister(newFormData);
         console.log(avatars);
-        console.log(newFormData)
+        console.log(newFormData);
         alert("Data submitted");
       }
     }
@@ -236,7 +236,12 @@ function Registerpage() {
           />
         )}
         {currentFormPage === 3 && (
-          <RegisterForm3 images={images} setImages={setImages} avatars={avatars} setAvatars={setAvatars} />
+          <RegisterForm3
+            images={images}
+            setImages={setImages}
+            avatars={avatars}
+            setAvatars={setAvatars}
+          />
         )}
         {/* </form> */}
 

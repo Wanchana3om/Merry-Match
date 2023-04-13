@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { supabase } from "../app.js";
-import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import multer from "multer";
@@ -14,8 +13,9 @@ const multerUpload = multer({
 });
 const avatarUpload = multerUpload.fields([{ name: "avatar", maxCount: 5 }]);
 
+//register
 authRouter.post("/register", avatarUpload, async (req, res) => {
-  console.log(req.files.avatars);
+  console.log(supabaseUpload(req.files));
   console.log("connect to back-end");
   const {
     username,
@@ -60,41 +60,44 @@ authRouter.post("/register", avatarUpload, async (req, res) => {
         },
       ])
       .select("user_id");
-    // if (error) {
-    //   return res.status(500).send(error.message);
-    // } else {
-    //   const userId = data[0].user_id;
-    //   const hobbyList = req.body.hobby?.slice(0, 10) || [];
-    //   if (hobbyList.length > 0) {
-    //     const { data: hobbyData, error: hobbyError } = await supabase
-    //       .from("hobbies_interests")
-    //       .insert(
-    //         hobbyList.map((hobby) => {
-    //           return {
-    //             user_id: userId,
-    //             hob_list: hobby,
-    //           };
-    //         })
-    //       );
+    if (error) {
+      return res.status(500).send(error.message);
+    } else {
+      const userId = data[0].user_id;
+      const hobbyList = req.body.hobby?.slice(0, 10) || [];
+      if (hobbyList.length > 0) {
+        const { data: hobbyData, error: hobbyError } = await supabase
+          .from("hobbies_interests")
+          .insert(
+            hobbyList.map((hobby) => {
+              return {
+                user_id: userId,
+                hob_list: hobby,
+              };
+            })
+          );
 
-    //     if (hobbyError) {
-    //       return res.status(500).send(hobbyError.message);
-    //     }
-    //   }
-    // }
+        if (hobbyError) {
+          return res.status(500).send(hobbyError.message);
+        }
+      }
+    }
+
     const cloudUpload = await supabaseUpload(req.files);
-    if (validImages.length === 0) {
+
+    if (cloudUpload.length === 0) {
       return res.status(400).send("No images provided");
     }
-    const userId = data[0].user_id;
-    const pictureData = validImages.map((image) => ({
-      user_id: userId,
-      pic_url: image.url,
-    }));
 
+    const userId = data[0].user_id;
     const { data: insertData, error: insertError } = await supabase
       .from("pictures")
-      .insert(pictureData);
+      .insert(
+        cloudUpload.map((image) => ({
+          user_id: userId,
+          pic_url: image.url,
+        }))
+      );
     if (insertError) {
       return res.status(500).send(insertError.message);
     }
@@ -102,6 +105,8 @@ authRouter.post("/register", avatarUpload, async (req, res) => {
   return res.json({ message: "New User has been registed successfully" });
 });
 
+
+// login
 authRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
