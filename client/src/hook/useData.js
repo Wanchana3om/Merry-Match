@@ -44,7 +44,25 @@ const useData = () => {
       setIsLoading(false);
     }
   };
+  
 
+  const createUser = async (data) => {
+    try {
+      setIsError(false);
+      setIsLoading(true);
+      await axios.post(`http://localhost:3000/auth/login`, data, {
+        header: { "content-Type": "multipart/form-data" },
+      });
+      setIsLoading(false);
+      navigate("/");
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+    }
+  };
+
+
+  
   //   const deleteUser = async (userId) => {
   //     try {
   //       setIsError(false);
@@ -89,6 +107,7 @@ const useData = () => {
 
   return {
     createRegister,
+    createUser,
     isError,
     isLoading,
     // user,

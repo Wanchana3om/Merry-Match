@@ -3,11 +3,12 @@ import Navigationbar from "../components/Navigationbar";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
 import RegisterForm3 from "../components/RegisterForm3";
-import useData from "../hook/useData";
+// import useData from "../hook/useData";
+import { useAuth } from "../contexts/authentication";
 // import { avatars } from "../components/RegisterForm3";
 
 function Registerpage() {
-  const { createRegister } = useData();
+  const { register } = useAuth();
 
   const [currentFormPage, setCurrentFormPage] = useState(1);
   // const [formData, setFormdata] = useState([]);
@@ -54,12 +55,13 @@ function Registerpage() {
         newFormData.append("racial_preference", racialPreference);
         newFormData.append("meeting_interest", meetingInterest);
         hobbyLists.map((hobby) => newFormData.append("hobby", hobby));
+        console.log(newFormData);
 
         for (let avatarKey in avatars) {
           newFormData.append("avatar", avatars[avatarKey]);
         }
 
-        await createRegister(newFormData);
+        await register(newFormData);
         console.log(avatars);
         console.log(newFormData);
         alert("Data submitted");
@@ -90,20 +92,20 @@ function Registerpage() {
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   createRegister({
-  //     name,
-  //     birthDate,
-  //     location,
-  //     city,
-  //     username,
-  //     location,
-  //     password,
-  //     email,
-  //     sexualIdentity,
-  //     sexualPreference,
-  //     racialPreference,
-  //     meetingInterest,
-  //     hobbyLists,
-  //     images,
+      // name,
+      // birthDate,
+      // location,
+      // city,
+      // username,
+      // location,
+      // password,
+      // email,
+      // sexualIdentity,
+      // sexualPreference,
+      // racialPreference,
+      // meetingInterest,
+      // hobbyLists,
+      // images,
   //   });
   // };
 

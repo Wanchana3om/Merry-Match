@@ -1,20 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom/";
 import Navigationbar from "../components/Navigationbar";
-// import { useAuth } from "../../contexts/authentication.jsx";
+import { useAuth } from "../contexts/authentication";
 import { useState } from "react";
+// import useData from "../hook/useData";
+
 
 function Loginpage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  // const { login } = useAuth();
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   login({
-  //     username,
-  //     password,
-  //   });
-  // };
+
+
+  const { login } = useAuth();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    login({
+      username,
+      password,
+    });
+  };
+
   return (
     <>
       <Navigationbar />
@@ -29,7 +34,7 @@ function Loginpage() {
           <h1 className="text-5xl font-extrabold text-[#A62D82] mb-5 leading-tight">
             Welcome back to <br /> Merry Match
           </h1>
-          {/* <form onSubmit={handleSubmit}> */}
+          <form onSubmit={handleSubmit}>
           <div>
             <label className="block text-gray-600 text-base font-normal mt-3">
               Username or Email
@@ -40,10 +45,10 @@ function Loginpage() {
               name="username"
               placeholder="Enter Username or Email"
               required
-              // onChange={(event) => {
-              //   setUsername(event.target.value);
-              // }}
-              // value={username}
+              onChange={(event) => {
+                setUsername(event.target.value);
+              }}
+              value={username}
             />
             <label className="block text-gray-600 text-base font-normal mt-8">
               Password
@@ -54,10 +59,10 @@ function Loginpage() {
               name="password"
               placeholder="Enter password"
               required
-              // onChange={(event) => {
-              //   setPassword(event.target.value);
-              // }}
-              // value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
+              value={password}
             />
             <button
               type="submit"
@@ -76,7 +81,7 @@ function Loginpage() {
               </Link>
             </div>
           </div>
-          {/* </form> */}
+          </form>
         </div>
       </div>
     </>

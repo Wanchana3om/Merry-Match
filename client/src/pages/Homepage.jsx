@@ -1,7 +1,7 @@
 import Navigationbar from "../components/Navigationbar";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../contexts/authentication";
+// import { useAuth } from "../../contexts/authentication";
 
 // const { logout } = useAuth();
 
