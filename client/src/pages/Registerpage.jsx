@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Navigationbar from "../components/Navigationbar";
+import NavigationbarNonUser from "../components/NavigationbarNonUser";
 import RegisterForm1 from "../components/RegisterForm1";
 import RegisterForm2 from "../components/RegisterForm2";
 import RegisterForm3 from "../components/RegisterForm3";
@@ -7,7 +7,7 @@ import RegisterForm3 from "../components/RegisterForm3";
 import { useAuth } from "../contexts/authentication";
 // import { avatars } from "../components/RegisterForm3";
 
-function Registerpage() {
+function RegisterPage() {
   const { register } = useAuth();
 
   const [currentFormPage, setCurrentFormPage] = useState(1);
@@ -111,7 +111,7 @@ function Registerpage() {
 
   return (
     <div>
-      <Navigationbar />
+      <NavigationbarNonUser />
       <div className="bg-[#FCFCFE]">
         <div className="font-Poppins relative  h-fit px-[255px] py-12 bg-[#FCFCFE] flex items-center w-[1440px] mx-auto">
           <div className="bg-[#FAF1ED] absolute h-[100px] w-[100px] rounded-full top-[85px] left-[-19px]" />
@@ -281,7 +281,7 @@ function Registerpage() {
   );
 }
 
-export default Registerpage;
+export default RegisterPage;
 
 // import { useState } from "react";
 // import Navigationbar from "../components/Navigationbar";
@@ -290,7 +290,7 @@ export default Registerpage;
 // import RegisterForm3 from "../components/RegisterForm3";
 // import useData from "../hook/useData";
 
-// function Registerpage() {
+// function RegisterPage() {
 //   const { createRegister } = useData();
 
 //   const [currentFormPage, setCurrentFormPage] = useState(1);
@@ -554,4 +554,4 @@ export default Registerpage;
 //   );
 // }
 
-// export default Registerpage;
+// export default RegisterPage;

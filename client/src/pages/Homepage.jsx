@@ -1,14 +1,14 @@
-import Navigationbar from "../components/Navigationbar";
+import NavigationbarNonUser from "../components/NavigationbarNonUser";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-// import { useAuth } from "../../contexts/authentication";
+import NavigationbarUser from "../components/NavigationbarUser";
 
-// const { logout } = useAuth();
 
 function Homepage() {
   return (
     <>
-      <Navigationbar />
+      <NavigationbarNonUser />
+      <NavigationbarUser />
       <div className="bg-[#160404]">
         <div className="font-Poppins w-[1440px] mx-auto bg-[#160404]">
           <div className="font-Poppins w-[1440px] ">

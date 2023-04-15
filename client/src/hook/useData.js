@@ -30,7 +30,7 @@ const useData = () => {
   //   }
   // };
 
-  const createRegister = async (data) => {
+  const register = async (data) => {
     try {
       setIsError(false);
       setIsLoading(true);
@@ -46,7 +46,7 @@ const useData = () => {
   };
   
 
-  const createUser = async (data) => {
+  const login = async (data) => {
     try {
       setIsError(false);
       setIsLoading(true);
@@ -106,8 +106,8 @@ const useData = () => {
   //   };
 
   return {
-    createRegister,
-    createUser,
+    register,
+    login,
     isError,
     isLoading,
     // user,

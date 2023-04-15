@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom/";
-import Navigationbar from "../components/Navigationbar";
+import NavigationbarNonUser from "../components/NavigationbarNonUser";
 import { useAuth } from "../contexts/authentication";
 import { useState } from "react";
 // import useData from "../hook/useData";
 
 
-function Loginpage() {
+function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,7 +22,7 @@ function Loginpage() {
 
   return (
     <>
-      <Navigationbar />
+      <NavigationbarNonUser />
       <div className="w-11/12 flex flex-row justify-between items-center h-auto py-5 bg-white mx-6 font-Poppins">
         <img
           src="/login/handsomedev.png"
@@ -87,4 +87,4 @@ function Loginpage() {
     </>
   );
 }
-export default Loginpage;
+export default LoginPage;

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 
-function Navigationbar() {
+function NavigationbarNonUser() {
   const navigate = useNavigate();
 
   const handleOnClick = (e, id) => {
@@ -47,4 +47,4 @@ function Navigationbar() {
   );
 }
 
-export default Navigationbar;
+export default NavigationbarNonUser;

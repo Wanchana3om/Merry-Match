@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
 
-function Navigationbar1() {
-  const navigate = useNavigate();
+function NavigationbarUser() {
+  // const navigate = useNavigate();
 
   const { logout } = useAuth();
 
@@ -35,4 +35,4 @@ function Navigationbar1() {
   );
 }
 
-export default Navigationbar1;
+export default NavigationbarUser;

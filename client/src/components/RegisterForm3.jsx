@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 function RegisterForm3(props) {
-  // const [images, setImages] = useState([null, null, null, null, null]);
-  // const [avatars, setAvatars] = useState({});
+  const [images, setImages] = useState([null, null, null, null, null]);
+  const [avatars, setAvatars] = useState({});
   const handleImageClick = (index) => {
     const input = document.createElement("input");
     input.type = "file";
