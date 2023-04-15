@@ -19,14 +19,14 @@ function NavigationbarUser() {
           </Link>
         </nav>
         <nav>
-          <Link to="/login">
+          <Link to="/">
             <button
               className="bg-blue-500 hover:bg-red-600 text-white font-bold mx-5 px-6 py-2 rounded-full h-[66]"
               onClick={() => {
                 logout();
               }}
             >
-              Loout
+              Log Out
             </button>
           </Link>
         </nav>
