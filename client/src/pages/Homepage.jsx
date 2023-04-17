@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/authentication";
 
 function Homepage() {
   const { isAuthenticated, state } = useAuth();
-
+  
   return (
     <>
       {isAuthenticated ? <NavigationbarUser /> : <NavigationbarNonUser />}
