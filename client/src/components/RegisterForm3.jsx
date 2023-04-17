@@ -1,18 +1,15 @@
 import { useState } from "react";
+import { uploadCloudinary } from "./uploadCloudinary";
 
 function RegisterForm3(props) {
-  const [images, setImages] = useState([null, null, null, null, null]);
-  const [avatars, setAvatars] = useState({});
+  // const [images, setImages] = useState([null, null, null, null, null]);
+
   const handleImageClick = (index) => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
     input.onchange = (event) => {
-      //gus
-      const uniqueId = Date.now();
       const file = event.target.files[0];
-      props.setAvatars({ ...props.avatars, [uniqueId]: file });
-
       const reader = new FileReader();
       reader.onload = () => {
         props.setImages((prevImages) => {
@@ -50,8 +47,8 @@ function RegisterForm3(props) {
   const deleteImage = (event, index) => {
     // gus
     event.preventDefault();
-    delete props.avatars[Object.keys(props.avatars)[index]];
-    props.setAvatars({ ...props.avatars });
+    delete props.imageUrls[Object.keys(props.imageUrls)[index]];
+    props.setImageUrls({ ...props.imageUrls });
 
     event.stopPropagation();
     const newImages = [...props.images];

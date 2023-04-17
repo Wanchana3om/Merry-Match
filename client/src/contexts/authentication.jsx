@@ -26,6 +26,7 @@ function AuthProvider(props) {
     } catch (error) {
       return Promise.reject(error);
     }
+    navigate("/");
   };
 
   const register = async (data) => {

@@ -2,20 +2,13 @@ import { Router } from "express";
 import { supabase } from "../app.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import multer from "multer";
-import { supabaseUpload } from "../utils/upload.js";
+// import multer from "multer";
+import { cloudinaryUpload } from "../utils/upload.js";
+import path from "path";
 
 const authRouter = Router();
 
-const multerUpload = multer({
-  dest: "uploads/",
-  limits: { fileSize: 10000000 },
-});
-const avatarUpload = multerUpload.fields([{ name: "avatar", maxCount: 5 }]);
-
-//register
-authRouter.post("/register", avatarUpload, async (req, res) => {
-  console.log(supabaseUpload(req.files));
+authRouter.post("/register", async (req, res) => {
   console.log("connect to back-end");
   const {
     username,
@@ -30,6 +23,7 @@ authRouter.post("/register", avatarUpload, async (req, res) => {
     racial_preference,
     meeting_interest,
     hobby,
+    image,
   } = req.body;
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
@@ -83,20 +77,16 @@ authRouter.post("/register", avatarUpload, async (req, res) => {
       }
     }
 
-    const cloudUpload = await supabaseUpload(req.files);
-
-    if (cloudUpload.length === 0) {
-      return res.status(400).send("No images provided");
-    }
-
     const userId = data[0].user_id;
     const { data: insertData, error: insertError } = await supabase
       .from("pictures")
       .insert(
-        cloudUpload.map((image) => ({
-          user_id: userId,
-          pic_url: image.url,
-        }))
+        image.map((url) => {
+          return {
+            user_id: userId,
+            pic_url: url.url,
+          };
+        })
       );
     if (insertError) {
       return res.status(500).send(insertError.message);
@@ -104,7 +94,6 @@ authRouter.post("/register", avatarUpload, async (req, res) => {
   }
   return res.json({ message: "New User has been registed successfully" });
 });
-
 
 // login
 authRouter.post("/login", async (req, res) => {
