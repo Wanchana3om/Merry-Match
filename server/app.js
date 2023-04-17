@@ -4,6 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import express from "express";
 import authRouter from "./auth/auth.js";
 import usersRouter from "./users/users.js";
+import cloudinary from "cloudinary";
 // import fileUploadMiddleware from "./middlewares/fileUploadMiddleware.js";
 
 dotenv.config();
@@ -14,6 +15,14 @@ export const supabase = createClient(
 );
 
 async function init() {
+
+  cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+    secure: true,
+  });
+
   const app = express();
   const port = 3000;
 

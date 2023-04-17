@@ -5,7 +5,7 @@ import RegisterForm2 from "../components/RegisterForm2";
 import RegisterForm3 from "../components/RegisterForm3";
 // import useData from "../hook/useData";
 import { useAuth } from "../contexts/authentication";
-// import { avatars } from "../components/RegisterForm3";
+import { uploadCloudinary } from "../components/uploadCloudinary";
 
 function RegisterPage() {
   const { register } = useAuth();
@@ -21,15 +21,17 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const [sexualIdentity, setSexualIdentity] = useState("Female");
-  const [sexualPreference, setSexualPreference] = useState("Male");
-  const [racialPreference, setRacialPreference] = useState("Black");
+  const [sexualIdentity, setSexualIdentity] = useState("Male");
+  const [sexualPreference, setSexualPreference] = useState("Female");
+  const [racialPreference, setRacialPreference] = useState("Asia");
   const [meetingInterest, setMeetingInterest] = useState("Partners");
   const [hobbyLists, setHobbyLists] = useState([]);
   const [info, setInfo] = useState("");
 
   const [images, setImages] = useState([null, null, null, null, null]);
-  const [avatars, setAvatars] = useState({});
+
+  //imageuploader
+  // const [imageUrls, setImageUrls] = useState([]);
 
   const handleNextStep = async () => {
     if (currentFormPage === 3) {
@@ -42,28 +44,30 @@ function RegisterPage() {
       if (nullCount >= 4) {
         alert("Please upload at least two photos");
       } else {
-        let newFormData = new FormData();
-        newFormData.append("username", username);
-        newFormData.append("password", password);
-        newFormData.append("name", name);
-        newFormData.append("birthDate", birthDate);
-        newFormData.append("location", location);
-        newFormData.append("city", city);
-        newFormData.append("email", email);
-        newFormData.append("sexual_identity", sexualIdentity);
-        newFormData.append("sexual_preference", sexualPreference);
-        newFormData.append("racial_preference", racialPreference);
-        newFormData.append("meeting_interest", meetingInterest);
-        hobbyLists.map((hobby) => newFormData.append("hobby", hobby));
-        console.log(newFormData);
-
-        for (let avatarKey in avatars) {
-          newFormData.append("avatar", avatars[avatarKey]);
+        let imageUrls = [];
+        const noNullImages = images.filter((image) => image !== null);
+        for (let i = 0; i < noNullImages.length; i++) {
+          const data = await uploadCloudinary(noNullImages[i])
+          imageUrls.push(data)
         }
+        let newFormData = {
+          username: username,
+          password: password,
+          name: name,
+          birthDate: birthDate,
+          location: location,
+          city: city,
+          email: email,
+          sexual_identity: sexualIdentity,
+          sexual_preference: sexualPreference,
+          racial_preference: racialPreference,
+          meeting_interest: meetingInterest,
+          hobby: hobbyLists,
+          image: imageUrls,
+        };
 
         await register(newFormData);
-        console.log(avatars);
-        console.log(newFormData);
+        console.log(imageUrls);
         alert("Data submitted");
       }
     }
@@ -92,20 +96,20 @@ function RegisterPage() {
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   createRegister({
-      // name,
-      // birthDate,
-      // location,
-      // city,
-      // username,
-      // location,
-      // password,
-      // email,
-      // sexualIdentity,
-      // sexualPreference,
-      // racialPreference,
-      // meetingInterest,
-      // hobbyLists,
-      // images,
+  // name,
+  // birthDate,
+  // location,
+  // city,
+  // username,
+  // location,
+  // password,
+  // email,
+  // sexualIdentity,
+  // sexualPreference,
+  // racialPreference,
+  // meetingInterest,
+  // hobbyLists,
+  // images,
   //   });
   // };
 
@@ -241,8 +245,6 @@ function RegisterPage() {
           <RegisterForm3
             images={images}
             setImages={setImages}
-            avatars={avatars}
-            setAvatars={setAvatars}
           />
         )}
         {/* </form> */}

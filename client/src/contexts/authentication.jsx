@@ -24,18 +24,18 @@ function AuthProvider(props) {
     navigate("/");
   };
 
-
   const register = async (data) => {
     try {
-      const result = await axios.post(`http://localhost:3000/auth/register`, data, {
-        header: { "content-Type": "multipart/form-data" },
-      });
-      return result
+      const result = await axios.post(
+        `http://localhost:3000/auth/register`,
+        data,
+      );
+      return result;
     } catch (error) {
-      alert ("Please check again")
+      alert("Please check again");
     }
+    navigate("/");
   };
-
 
   const logout = () => {
     localStorage.removeItem("token");

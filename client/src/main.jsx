@@ -8,9 +8,9 @@ import { AuthProvider } from "./contexts/authentication";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Router>
-    <AuthProvider>
-    <App/>
-    </AuthProvider> 
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </Router>
   </React.StrictMode>
 );
