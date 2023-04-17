@@ -25,6 +25,14 @@ function RegisterPage() {
   const [info, setInfo] = useState("");
   const [images, setImages] = useState([null, null, null, null, null]);
 
+  const time = new Date()
+  const year = time.getFullYear()
+  const month = time.getMonth()
+  const day = time.getDate()
+  const userBirthDate = birthDate
+  const [userBirthDateYear, userBirthDateMonth, userBirthDateDay] = userBirthDate.split("-").map(Number)
+  const ageInYears = year - userBirthDateYear - (month < userBirthDateMonth || (month === userBirthDateMonth && day < userBirthDateDay) ? 1 : 0)
+
   const handleNextStep = async () => {
     if (currentFormPage === 3) {
       let nullCount = 0;
@@ -70,9 +78,12 @@ function RegisterPage() {
       alert("Please enter password");
     } else if (password !== confirmPassword) {
       alert("Passwords do not match");
+    } else if (ageInYears < 18) {
+      alert("เด็กน้อย")
     } else {
       setCurrentFormPage(currentFormPage + 1);
     }
+
   };
 
   const handleBack = () => {
@@ -98,21 +109,17 @@ function RegisterPage() {
             </h2>
           </div>
           <div
-            className={`tabs-container rounded-2xl tabs-container flex w-1/2 h-full justify-items-center items-center ${
-              currentFormPage === 2 ? "gap-6" : "gap-4"
-            }`}
+            className={`tabs-container rounded-2xl tabs-container flex w-1/2 h-full justify-items-center items-center ${currentFormPage === 2 ? "gap-6" : "gap-4"
+              }`}
           >
             <div
-              className={`border-4 border-[#E4E6ED] px-[16px] ${
-                currentFormPage === 1 ? "w-auto" : "w-[80px]"
-              } h-[80px] rounded-[16px] flex justify-evenly items-center transition duration-300  transform ${
-                currentFormPage === 1 ? "scale-110" : ""
-              } ${currentFormPage !== 1 ? "scale-100" : ""}`}
+              className={`border-4 border-[#E4E6ED] px-[16px] ${currentFormPage === 1 ? "w-auto" : "w-[80px]"
+                } h-[80px] rounded-[16px] flex justify-evenly items-center transition duration-300  transform ${currentFormPage === 1 ? "scale-110" : ""
+                } ${currentFormPage !== 1 ? "scale-100" : ""}`}
             >
               <div
-                className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row justify-center items-center font-bold text-[24px] ${
-                  currentFormPage === 1 ? "text-[#A62D82]" : "text-[#9AA1B9]"
-                }`}
+                className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row justify-center items-center font-bold text-[24px] ${currentFormPage === 1 ? "text-[#A62D82]" : "text-[#9AA1B9]"
+                  }`}
               >
                 1
               </div>
@@ -126,16 +133,13 @@ function RegisterPage() {
               </div>
             </div>
             <div
-              className={`border-4 border-[#E4E6ED] px-[16px] ${
-                currentFormPage === 2 ? "w-auto " : "w-[80px]"
-              } h-[80px] rounded-[16px] flex justify-evenly items-center transition duration-300  transform ${
-                currentFormPage === 2 ? "scale-110" : ""
-              } ${currentFormPage !== 2 ? "scale-100" : ""}`}
+              className={`border-4 border-[#E4E6ED] px-[16px] ${currentFormPage === 2 ? "w-auto " : "w-[80px]"
+                } h-[80px] rounded-[16px] flex justify-evenly items-center transition duration-300  transform ${currentFormPage === 2 ? "scale-110" : ""
+                } ${currentFormPage !== 2 ? "scale-100" : ""}`}
             >
               <div
-                className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row justify-center items-center font-bold text-[24px] ${
-                  currentFormPage === 2 ? "text-[#A62D82]" : "text-[#9AA1B9]"
-                }`}
+                className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row justify-center items-center font-bold text-[24px] ${currentFormPage === 2 ? "text-[#A62D82]" : "text-[#9AA1B9]"
+                  }`}
               >
                 2
               </div>
@@ -149,16 +153,13 @@ function RegisterPage() {
               </div>
             </div>
             <div
-              className={`border-4 border-[#E4E6ED] w-[80px] h-[80px] rounded-[16px] flex flex-row justify-center items-center ${
-                currentFormPage === 3 ? "w-auto px-3" : "w-[80px]"
-              } transition duration-300  transform ${
-                currentFormPage === 3 ? "scale-110" : ""
-              } ${currentFormPage !== 3 ? "scale-100" : ""}`}
+              className={`border-4 border-[#E4E6ED] w-[80px] h-[80px] rounded-[16px] flex flex-row justify-center items-center ${currentFormPage === 3 ? "w-auto px-3" : "w-[80px]"
+                } transition duration-300  transform ${currentFormPage === 3 ? "scale-110" : ""
+                } ${currentFormPage !== 3 ? "scale-100" : ""}`}
             >
               <div
-                className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row items-center  justify-center text-[#9AA1B9] font-bold text-[24px] ${
-                  currentFormPage === 3 ? "text-[#A62D82]" : "text-[#9AA1B9]"
-                }`}
+                className={`w-[48px] h-[48px] rounded-[16px] bg-[#F1F2F6] flex flex-row items-center  justify-center text-[#9AA1B9] font-bold text-[24px] ${currentFormPage === 3 ? "text-[#A62D82]" : "text-[#9AA1B9]"
+                  }`}
               >
                 3
               </div>

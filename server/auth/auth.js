@@ -2,9 +2,7 @@ import { Router } from "express";
 import { supabase } from "../app.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-// import multer from "multer";
-import { cloudinaryUpload } from "../utils/upload.js";
-import path from "path";
+
 
 const authRouter = Router();
 
