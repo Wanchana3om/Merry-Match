@@ -8,19 +8,28 @@ function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isError, setIsError] = useState("false");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const { login } = useAuth();
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsError(false);
+    setIsSubmitted(true);
     login({
       username,
       password,
+    }).catch((error) => {
+      if (error.response && error.response.status === 401) {
+        setIsError(true);
+      }
     });
   };
 
   return (
     <>
       <NavigationbarNonUser />
-      <div className="w-11/12 flex flex-row justify-between items-center h-auto py-5 bg-white mx-6 font-Nunito">
+      <div className="w-11/12 flex flex-row justify-between items-center h-auto py-5 bg-white mx-6 font-nunito">
         <img
           src="/login/handsomedev.png"
           alt="man"
@@ -61,6 +70,13 @@ function LoginPage() {
                 }}
                 value={password}
               />
+              <div
+                className={`error-message-container h-5 text-red-600 pt-2 ${
+                  isError && isSubmitted ? "opacity-100" : "opacity-0"
+                } pointer-events-none`}
+              >
+                Invalid username/password
+              </div>
               <button
                 type="submit"
                 className="block h-12 bg-red-500 hover:bg-red-600 text-white text-base font-bold px-56 rounded-full my-10"

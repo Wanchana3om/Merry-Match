@@ -15,27 +15,33 @@ function AuthProvider(props) {
   const navigate = useNavigate();
 
   const login = async (data) => {
-    const result = await axios.post("http://localhost:3000/auth/login", data);
-    const token = result.data.token;
-    localStorage.setItem("token", token);
-    const userDataFromToken = jwtDecode(token);
-    console.log(userDataFromToken);
-    setState({ ...state, user: userDataFromToken });
-    navigate("/");
-  };
-
-
-  const register = async (data) => {
     try {
-      const result = await axios.post(`http://localhost:3000/auth/register`, data, {
-        header: { "content-Type": "multipart/form-data" },
-      });
-      return result
+      const result = await axios.post("http://localhost:3000/auth/login", data);
+      const token = result.data.token;
+      localStorage.setItem("token", token);
+      const userDataFromToken = jwtDecode(token);
+      console.log(userDataFromToken);
+      setState({ ...state, user: userDataFromToken });
+      navigate("/");
     } catch (error) {
-      alert ("Please check again")
+      return Promise.reject(error);
     }
   };
 
+  const register = async (data) => {
+    try {
+      const result = await axios.post(
+        `http://localhost:3000/auth/register`,
+        data,
+        {
+          header: { "content-Type": "multipart/form-data" },
+        }
+      );
+      return result;
+    } catch (error) {
+      alert("Please check again");
+    }
+  };
 
   const logout = () => {
     localStorage.removeItem("token");
