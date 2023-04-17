@@ -33,10 +33,7 @@ function AuthProvider(props) {
     try {
       const result = await axios.post(
         `http://localhost:3000/auth/register`,
-        data,
-        {
-          header: { "content-Type": "multipart/form-data" },
-        }
+        data
       );
       return result;
     } catch (error) {

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { uploadCloudinary } from "./uploadCloudinary";
 
 function RegisterForm3(props) {
   // const [images, setImages] = useState([null, null, null, null, null]);
