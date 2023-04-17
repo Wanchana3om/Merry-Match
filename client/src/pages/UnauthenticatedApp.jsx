@@ -13,7 +13,6 @@ function UnauthenticatedApp() {
     </Routes>
     </div>
   );
-  
 }
 
 export default UnauthenticatedApp;

@@ -60,9 +60,7 @@ function RegisterForm2(props) {
           >
             <option value="Male">Male</option>
             <option value="Non-binary">Non-binary</option>
-            <option value="Female ">
-              Female
-            </option>
+            <option value="Female ">Female</option>
           </select>
         </div>
         <div>
@@ -78,9 +76,7 @@ function RegisterForm2(props) {
             <option value="European">European</option>
             <option value="Caucasian">Caucasian</option>
             <option value="African">African</option>
-            <option value="Asian">
-              Asian
-            </option>
+            <option value="Asian">Asian</option>
           </select>
         </div>
         <div>
@@ -94,31 +90,20 @@ function RegisterForm2(props) {
             <option value="Partners">Partners</option>
             <option value="Long-term commitment">Long-term commitment</option>
             <option value="Short-term commitment">Short-term commitment</option>
-            <option value="Friends">
-              Friends
-            </option>
+            <option value="Friends">Friends</option>
           </select>
         </div>
       </div>
       <div className="flex flex-col  mt-[50px]">
-        <div className="relative flex flex-col items-start">
-          <h1>Hobbies / Interests (Maximum 10)</h1>
-          <input
-            className="border-[1px] font-normal border-[#D6D9E4] rounded-lg w-[996px] h-[48px] py-[12px] pr-[12px] pl-[12px] mb-4"
-            type="text"
-            value={props.info}
-            onChange={(e) => {
-              props.setInfo(e.target.value);
-            }}
-            onKeyPress={handleKeyPress}
-          />
+        <h1>Hobbies / Interests (Maximum 10)</h1>
+        <div className="relative flex flex-row items-start justify-center m-[1px] border-[#D6D9E4] border-t-[1px] border-r-[1px] border-b-[1px] border-l-[1px] rounded-lg h-[50px] bg-white ">
           {props.hobbyLists.length > 0 && (
-            <div className=" border-[1px] border-none rounded-lg p-[8px] text-[#9AA1B9] text-sm">
-              <ul className="flex flex-wrap">
+            <div className=" border-[1px] border-none rounded-lg h-[full] p-[8px] text-[#9AA1B9] text-sm ">
+              <ul className="flex flex-row">
                 {props.hobbyLists.map((hobby, index) => (
                   <li
                     key={index}
-                    className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[8px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
+                    className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
                   >
                     {hobby}
                     <button
@@ -132,6 +117,15 @@ function RegisterForm2(props) {
               </ul>
             </div>
           )}
+          <input
+            className="border-[1px] font-normal border-none rounded-lg w-full h-full py-[12px] pr-[12px] pl-[12px] mb-4 focus:outline-none"
+            type="text"
+            value={props.info}
+            onChange={(e) => {
+              props.setInfo(e.target.value);
+            }}
+            onKeyPress={handleKeyPress}
+          />
         </div>
       </div>
     </div>
