@@ -1,5 +1,5 @@
 import NavigationbarUser from "../components/NavigationbarUser";
-
+import ProfilePopup from "../components/ProfilePopup";
 function MatchingPage() {
   return (
     <>
@@ -47,7 +47,10 @@ function MatchingPage() {
           </div>
         </div>
 
-        <div className="bg-slate-500 col-span-3"></div>
+        <div className="bg-gray-300 col-span-3">
+          <ProfilePopup />
+
+        </div>
 
         <div className=" flex flex-col items-center ">
           <div className="basis-2/3 flex flex-col gap-10 border-b border-solid border-gray-400 ">
