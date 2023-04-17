@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import location from "../../public/icon/location.png"
-import action_button_love from "../../public/merrylist/action_button_love.png"
-import left_arrow from "../../public/merrylist/left_arrow.png"
-import right_arrow from "../../public/merrylist/right_arrow.png"
-import action_button from "../../public/merrylist/action_button.png"
+import location from "/icon/location.png"
+import action_button_love from "/merrylist/action_button_love.png"
+import left_arrow from "/merrylist/left_arrow.png"
+import right_arrow from "/merrylist/right_arrow.png"
+import action_button from "/merrylist/action_button.png"
 
 function ProfilePopup() {
     const [showProfile, setShowProfile] = useState(false)
