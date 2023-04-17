@@ -1,11 +1,10 @@
-
 import NavigationbarUser from "../components/NavigationbarUser";
 
 function MatchingPage() {
   return (
     <>
       <NavigationbarUser />
-      <div className="font-Poppins  grid grid-cols-5 mx-auto w-[1440px] h-[936px]">
+      <div className="font-Nunito grid grid-cols-5 mx-auto w-[1440px] h-[936px]">
         <div className="grid grid-rows-4 ">
           <div className="border-b border-solid border-gray-400 ">
             <div className="flex flex-col justify-center items-center p-6 gap-1 bg-[#F6F7FC] border-[1px] border-[#A62D82] rounded-2xl mt-[26px] ">
@@ -22,12 +21,24 @@ function MatchingPage() {
           <div className="pt-10 row-span-3">
             <h1 className="font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row gap-3 py-6">
-              <img src="" alt="" className=" w-[100px] h-[100px] border-[1px] border-[#A62D82] rounded-2xl"/>
-              <img src="" alt="" className=" w-[100px] h-[100px] border-[1px] border-[#A62D82] rounded-2xl"/>
+              <img
+                src=""
+                alt=""
+                className=" w-[100px] h-[100px] border-[1px] border-[#A62D82] rounded-2xl"
+              />
+              <img
+                src=""
+                alt=""
+                className=" w-[100px] h-[100px] border-[1px] border-[#A62D82] rounded-2xl"
+              />
             </div>
             <h1 className="font-bold text-lg">Chat with Merry Match</h1>
             <div className="flex flex-row justify-evenly py-6">
-              <img src="" alt="" className="w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"/>
+              <img
+                src=""
+                alt=""
+                className="w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
+              />
               <div>
                 <p className="font-bold">Ygritte</p>
                 <p>You know nothing Jon Snow</p>
@@ -67,7 +78,9 @@ function MatchingPage() {
               </form>
             </div>
             <div className="flex flex-col gap-6">
-              <label for="age-range" className="text-[#191C77] font-bold">Age Range</label>
+              <label for="age-range" className="text-[#191C77] font-bold">
+                Age Range
+              </label>
               <input
                 type="range"
                 id="age-range"
@@ -77,9 +90,15 @@ function MatchingPage() {
                 className="block w-full h-1 mt-1 bg-gray-300 rounded-md appearance-none focus:outline-none "
               />
               <div className="flex justify-evenly items-center">
-                <input type="number" className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"/>
+                <input
+                  type="number"
+                  className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
+                />
                 <p> - </p>
-                <input type="number" className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"/>
+                <input
+                  type="number"
+                  className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
+                />
               </div>
             </div>
           </div>

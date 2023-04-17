@@ -3,7 +3,6 @@ import Footer from "../components/Footer";
 import Navigationbar from "../components/Navigationbar";
 
 function OwnerProfile(props) {
-
   const maxHobbies = 10;
 
   const addHobbyLists = () => {
@@ -34,8 +33,8 @@ function OwnerProfile(props) {
 
   return (
     <>
-    <Navigationbar />
-      <div className="flex flex-col font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
+      <Navigationbar />
+      <div className="flex flex-col font-Nunito h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
         <div className="flex flex-row justify-between items-center w-full ">
           <div>
             <h2 className="text-[#7B4429] text-sm">Profile</h2>
@@ -202,7 +201,7 @@ function OwnerProfile(props) {
               onKeyPress={handleKeyPress}
             />
             {/* props.hobbyLists.length  */}
-            {props.hobbyLists  > 0 && (
+            {props.hobbyLists > 0 && (
               <div className=" border-[1px] border-none rounded-lg p-[8px] text-[#9AA1B9] text-sm">
                 <ul className="flex flex-wrap">
                   {props.hobbyLists.map((hobby, index) => (
@@ -241,7 +240,7 @@ function OwnerProfile(props) {
             Profile pictures
           </h1>
           <h2 className="mb-5">Upload at least 2 photos</h2>
-{/* 
+          {/* 
           <div className="grid grid-cols-5 grid-rows-1 gap-2">
             {props.images.map((image, index) => (
               <>

@@ -92,28 +92,28 @@ function RegisterPage() {
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   createRegister({
-      // name,
-      // birthDate,
-      // location,
-      // city,
-      // username,
-      // location,
-      // password,
-      // email,
-      // sexualIdentity,
-      // sexualPreference,
-      // racialPreference,
-      // meetingInterest,
-      // hobbyLists,
-      // images,
+  // name,
+  // birthDate,
+  // location,
+  // city,
+  // username,
+  // location,
+  // password,
+  // email,
+  // sexualIdentity,
+  // sexualPreference,
+  // racialPreference,
+  // meetingInterest,
+  // hobbyLists,
+  // images,
   //   });
   // };
 
   return (
     <div>
       <NavigationbarNonUser />
-      <div className="bg-[#FCFCFE]">
-        <div className="font-Poppins relative  h-fit px-[255px] py-12 bg-[#FCFCFE] flex items-center w-[1440px] mx-auto">
+      <div className="bg-[#FCFCFE] font-nunito">
+        <div className=" relative  h-fit px-[255px] py-12 bg-[#FCFCFE] flex items-center w-[1440px] mx-auto">
           <div className="bg-[#FAF1ED] absolute h-[100px] w-[100px] rounded-full top-[85px] left-[-19px]" />
           <div className="bg-[#7B4429] absolute h-[8px] w-[8px] rounded-full top-[210px] left-[81px]" />
           <div className="bg-[#FAF1ED] absolute h-[8px] w-[8px] rounded-full top-[605px] right-[1px]" />

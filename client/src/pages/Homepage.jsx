@@ -4,28 +4,26 @@ import NavigationbarUser from "../components/NavigationbarUser";
 import NavigationbarNonUser from "../components/NavigationbarNonUser";
 import { useAuth } from "../contexts/authentication";
 
-
 function Homepage() {
-
-  const { isAuthenticated,state } = useAuth();
+  const { isAuthenticated, state } = useAuth();
 
   return (
     <>
-    {isAuthenticated ? <NavigationbarUser /> : <NavigationbarNonUser />}
+      {isAuthenticated ? <NavigationbarUser /> : <NavigationbarNonUser />}
       <div className="bg-[#160404]">
-        <div className="font-Poppins w-[1440px] mx-auto bg-[#160404]">
-          <div className="font-Poppins w-[1440px] ">
+        <div className="font-nunito w-[1440px] mx-auto bg-[#160404]">
+          <div className=" w-[1440px] ">
             <div className="w-full h-[758px] bg-[#160404] relative flex justify-center items-center">
               <img
                 src="/header/nice-to-meet-you.png"
                 className="w-[357px] h-[500px] absolute left-40 bottom-0"
               />
               <div className="flex flex-col justify-center items-center gap-10">
-                <h1 className="text-white text-6xl text-center">
+                <h1 className="text-white text-6xl text-center font-nunito font-bold">
                   Make the <br />
-                  first ‘Merry’ 
+                  first ‘Merry’
                 </h1>
-                <h2 className="text-white text-center">
+                <h2 className="text-white text-center font-semibold text-xl ">
                   If you feel lonely, let’s start meeting
                   <br />
                   new people in your area!
@@ -71,7 +69,7 @@ function Homepage() {
               <div className="text-container-outer flex flex-col justify-center items-center w-1/2 h-full pl-40">
                 <h1
                   id="why-merry"
-                  className="text-[#DF89C6] pb-10 text-[46px] font-bold"
+                  className="text-[#DF89C6] pb-10 text-[46px] font-extrabold"
                 >
                   Why Merry Match
                 </h1>
@@ -189,7 +187,7 @@ function Homepage() {
             <div className="w-full h-[570px] flex flex-col items-center justify-center mx-auto my-0  bg-[#160404] ">
               <div className="bg-match bg-cover w-[80%] h-[369px] mx-auto rounded-[32px] flex flex-col items-center justify-center">
                 <div className="w-[588px]">
-                  <h1 className="text-white text-[46px] font-bold mb-2 text-center">
+                  <h1 className="text-white text-[46px] font-extrabold mb-2 text-center">
                     Let’s start finding and matching someone new
                   </h1>
                 </div>
