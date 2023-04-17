@@ -20,7 +20,7 @@ function NavigationbarUser() {
         <nav>
           <ul className="flex flex-row items-center">
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77]">
-              <Link to="/match">
+              <Link to="/matching">
                Start Matching!
               </Link>
             </li>

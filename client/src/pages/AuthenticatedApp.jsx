@@ -7,7 +7,7 @@ function AuthenticatedApp() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/match" element={<MatchingPage />} />
+        <Route path="/matching" element={<MatchingPage />} />
       </Routes>
     </div>
   );
