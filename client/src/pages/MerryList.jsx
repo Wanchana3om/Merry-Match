@@ -5,7 +5,7 @@ function MerryList() {
   return (
     <>
       <Navigationbar />
-      <div className="flex flex-col gap-28 font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
+      <div className="flex flex-col gap-28 font-Nunito h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
         <div className="flex flex-row justify-between items-center w-full ">
           <div>
             <h2 className="text-[#7B4429] text-sm">Merry list</h2>

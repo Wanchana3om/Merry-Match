@@ -4,10 +4,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        Poppins: ["Poppins", "sans-serif"],
+        nunito: ["Nunito", "sans-serif"],
       },
       backgroundImage: {
-        match: "url('./public/CTA container.png')",
+        match: "url('./CTA container.png')",
       },
     },
     plugins: [],
