@@ -1,11 +1,11 @@
 import { useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const useData = () => {
   const navigate = useNavigate();
-  //   const [data, setData] = useState([]);
-  //   const [user, setUser] = useState(null);
+  const [data, setData] = useState([]);
+  const [user, setUser] = useState(null);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
@@ -30,11 +30,13 @@ const useData = () => {
   //   }
   // };
 
-  const createRegister = async (data) => {
+  const register = async (data) => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.post(`http://localhost:3000/register`, data);
+      await axios.post(`http://localhost:3000/auth/register`, data, {
+        header: { "content-Type": "multipart/form-data" },
+      });
       setIsLoading(false);
       navigate("/login");
     } catch (error) {
@@ -42,7 +44,25 @@ const useData = () => {
       setIsLoading(false);
     }
   };
+  
 
+  const login = async (data) => {
+    try {
+      setIsError(false);
+      setIsLoading(true);
+      await axios.post(`http://localhost:3000/auth/login`, data, {
+        header: { "content-Type": "multipart/form-data" },
+      });
+      setIsLoading(false);
+      navigate("/");
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+    }
+  };
+
+
+  
   //   const deleteUser = async (userId) => {
   //     try {
   //       setIsError(false);
@@ -86,7 +106,8 @@ const useData = () => {
   //   };
 
   return {
-    createRegister,
+    register,
+    login,
     isError,
     isLoading,
     // user,

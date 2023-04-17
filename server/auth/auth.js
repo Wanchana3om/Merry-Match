@@ -1,12 +1,22 @@
 import { Router } from "express";
 import { supabase } from "../app.js";
-import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import multer from "multer";
+import { supabaseUpload } from "../utils/upload.js";
 
 const authRouter = Router();
 
-authRouter.post("/register", async (req, res) => {
+const multerUpload = multer({
+  dest: "uploads/",
+  limits: { fileSize: 10000000 },
+});
+const avatarUpload = multerUpload.fields([{ name: "avatar", maxCount: 5 }]);
+
+//register
+authRouter.post("/register", avatarUpload, async (req, res) => {
+  console.log(supabaseUpload(req.files));
+  console.log("connect to back-end");
   const {
     username,
     password,
@@ -20,7 +30,6 @@ authRouter.post("/register", async (req, res) => {
     racial_preference,
     meeting_interest,
     hobby,
-    images,
   } = req.body;
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
@@ -73,63 +82,77 @@ authRouter.post("/register", async (req, res) => {
         }
       }
     }
+
+    const cloudUpload = await supabaseUpload(req.files);
+
+    if (cloudUpload.length === 0) {
+      return res.status(400).send("No images provided");
+    }
+
     const userId = data[0].user_id;
-    if (error) {
-      res.status(500).send(error.message);
-    } else {
-      const files = images?.slice(0, 5) || [];
-      if (files.length > 0) {
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          const fileName = uuidv4() + "_" + file.name;
-          const { data: fileData, error: fileError } = await supabase.storage
-            .from("userPictures")
-            .upload(fileName, file.data);
-          if (fileError) {
-            return res.status(500).send(fileError.message);
-          }
-        }
-        const { data: insertData, error: insertError } = await supabase
-          .from("pictures")
-          .insert([{ user_id: userId, pic_url: fileData.key }]);
-        if (insertError) {
-          return res.status(500).send(insertError.message);
-        }
-      }
-      return res.json({ message: "New User has been registed successfully" });
+    const { data: insertData, error: insertError } = await supabase
+      .from("pictures")
+      .insert(
+        cloudUpload.map((image) => ({
+          user_id: userId,
+          pic_url: image.url,
+        }))
+      );
+    if (insertError) {
+      return res.status(500).send(insertError.message);
     }
   }
+  return res.json({ message: "New User has been registed successfully" });
 });
 
+
+// login
 authRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  const { user, error } = await supabase.auth.singIn({
-    username: username,
-    password: password,
-  });
-  if (error) {
-    res.status(401).send(error.message);
-  } else {
-    const { data, error } = await supabase
-      .from("users")
-      .update({ last_logged_in: new Date().toISOString() })
-      .eq("user_id", user?.id);
 
-    if (error) {
-      console.log(error);
-      res.status(500).send("Server error");
-    } else {
-      const token = jwt.sign(
-        {
-          user_id: data.user_id,
-          username: data.username,
-          name: data.name,
-        },
-        process.env.SECRET_KEY,
-        { expiresIn: "1h" }
-      );
-      return res.json({ token });
-    }
+  const { data: userdata, error } = await supabase
+    .from("users")
+    .select("user_id, username, name, password")
+    .eq("username", username);
+
+  if (error || !userdata || userdata.length === 0) {
+    res.status(401).send("Invalid credentials");
+    return;
+  }
+
+  const storedPassword = userdata[0].password;
+
+  if (!storedPassword) {
+    res.status(401).send("Invalid credentials");
+    return;
+  }
+
+  const isValidPassword = await bcrypt.compare(password, storedPassword);
+
+  if (!isValidPassword) {
+    res.status(401).send("Invalid password");
+    return;
+  }
+
+  const { data, error: updateError } = await supabase
+    .from("users")
+    .update({ last_logged_in: new Date().toISOString() })
+    .eq("user_id", userdata[0].user_id);
+
+  if (updateError) {
+    console.log(updateError);
+    res.status(500).send("Server error");
+  } else {
+    const token = jwt.sign(
+      {
+        user_id: userdata[0].user_id,
+        username: userdata[0].username,
+        name: userdata[0].name,
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: "1h" }
+    );
+    return res.json({ token });
   }
 });
 

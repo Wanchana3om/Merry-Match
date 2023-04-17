@@ -1,14 +1,18 @@
 import { useState } from "react";
 
 function RegisterForm3(props) {
-  // const [images, setImages] = useState([null, null, null, null, null]);
-
+  const [images, setImages] = useState([null, null, null, null, null]);
+  const [avatars, setAvatars] = useState({});
   const handleImageClick = (index) => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
     input.onchange = (event) => {
+      //gus
+      const uniqueId = Date.now();
       const file = event.target.files[0];
+      props.setAvatars({ ...props.avatars, [uniqueId]: file });
+
       const reader = new FileReader();
       reader.onload = () => {
         props.setImages((prevImages) => {
@@ -44,6 +48,11 @@ function RegisterForm3(props) {
   };
 
   const deleteImage = (event, index) => {
+    // gus
+    event.preventDefault();
+    delete props.avatars[Object.keys(props.avatars)[index]];
+    props.setAvatars({ ...props.avatars });
+
     event.stopPropagation();
     const newImages = [...props.images];
     newImages[index] = null;

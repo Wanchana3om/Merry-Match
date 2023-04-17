@@ -1,16 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 
-
-function Navigationbar() {
+function NavigationbarNonUser() {
   const navigate = useNavigate();
 
   const handleOnClick = (e, id) => {
     e.preventDefault();
     const element = document.getElementById(id);
-    if(element){
-    element.scrollIntoView({ behavior: "smooth" });
-  }
-    navigate('/');
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+    navigate("/");
   };
 
   return (
@@ -38,7 +37,7 @@ function Navigationbar() {
             </li>
             <Link to="/login">
               <button className="bg-red-500 hover:bg-red-600 text-white font-bold mx-5 px-6 py-2 rounded-full h-[66] ">
-                Login
+                Log In
               </button>
             </Link>
           </ul>
@@ -48,4 +47,4 @@ function Navigationbar() {
   );
 }
 
-export default Navigationbar;
+export default NavigationbarNonUser;

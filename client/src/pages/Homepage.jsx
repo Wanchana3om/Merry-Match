@@ -1,11 +1,17 @@
-import Navigationbar from "../components/Navigationbar";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import NavigationbarUser from "../components/NavigationbarUser";
+import NavigationbarNonUser from "../components/NavigationbarNonUser";
+import { useAuth } from "../contexts/authentication";
+
 
 function Homepage() {
+
+  const { isAuthenticated,state } = useAuth();
+
   return (
     <>
-      <Navigationbar />
+    {isAuthenticated ? <NavigationbarUser /> : <NavigationbarNonUser />}
       <div className="bg-[#160404]">
         <div className="font-Poppins w-[1440px] mx-auto bg-[#160404]">
           <div className="font-Poppins w-[1440px] ">
@@ -17,7 +23,7 @@ function Homepage() {
               <div className="flex flex-col justify-center items-center gap-10">
                 <h1 className="text-white text-6xl text-center">
                   Make the <br />
-                  first ‘Merry’
+                  first ‘Merry’ 
                 </h1>
                 <h2 className="text-white text-center">
                   If you feel lonely, let’s start meeting
