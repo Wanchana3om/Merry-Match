@@ -33,7 +33,7 @@ function NavigationbarUser() {
 
             <div className="pr-[12px]">
               <img
-                src=".nav-bar/bell.svg"
+                src="/nav-bar/bell.svg"
                 alt="Profile"
                 className="w-[48px] h-[48px] rounded-full cursor-pointer"
               />
@@ -49,7 +49,7 @@ function NavigationbarUser() {
               </div>
 
               {showMenu && (
-                <div className="absolute z-50 w-[204px] mt-2 bg-white rounded-[12px] shadow-lg flex flex-col p-[8px]">
+                <div className="font-nunito absolute z-50 w-[204px] mt-2 bg-white rounded-[12px] shadow-lg flex flex-col p-[8px]">
                   <img src="/nav-bar/premium cta.svg" alt="icon" />
                   <div className="flex items-center p-[8px]  hover:bg-gray-100 hover:cursor-pointer hover:rounded-[12px]">
                     <img
@@ -58,7 +58,7 @@ function NavigationbarUser() {
                       alt=""
                     />
                     <a
-                      href="#"
+                      href="/ownerprofile"
                       className="block px-4 py-2 text-sm text-gray-700 "
                     >
                       Profile
@@ -71,7 +71,7 @@ function NavigationbarUser() {
                       alt="icon"
                     />
                     <a
-                      href="#"
+                      href="/merrylist"
                       className="block px-4 py-2 text-sm text-gray-700 "
                     >
                       Merry list

@@ -1,10 +1,10 @@
 import Footer from "../components/Footer";
-import Navigationbar from "../components/Navigationbar";
+import NavigationbarUser from "../components/NavigationbarUser";
 
 function MerryList() {
   return (
     <>
-      <Navigationbar />
+      <NavigationbarUser />
       <div className="flex flex-col gap-28 font-Nunito h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
         <div className="flex flex-row justify-between items-center w-full ">
           <div>

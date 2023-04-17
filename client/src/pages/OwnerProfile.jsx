@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Footer from "../components/Footer";
-import Navigationbar from "../components/Navigationbar";
+import NavigationbarUser from "../components/NavigationbarUser";
 
 function OwnerProfile(props) {
   const maxHobbies = 10;
@@ -33,7 +33,7 @@ function OwnerProfile(props) {
 
   return (
     <>
-      <Navigationbar />
+      <NavigationbarUser  />
       <div className="flex flex-col font-Nunito h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
         <div className="flex flex-row justify-between items-center w-full ">
           <div>
