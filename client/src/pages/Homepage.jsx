@@ -30,7 +30,7 @@ function Homepage() {
                   <br />
                   Dont’t forget to get Merry with us
                 </h2>
-                <Link to="/login">
+                <Link to={!isAuthenticated ? "/login" : "/matching"}>
                   <button className="bg-[#c70039] shadow-[2px_2px_12px_0_rgba(64, 50, 133, 0.16)] rounded-[99px] text-[#ffffff] h-[48px] w-[163px] mt-[5%] font-[700] hover:bg-[#FF1659]">
                     Start matching!
                   </button>
@@ -191,7 +191,7 @@ function Homepage() {
                     Let’s start finding and matching someone new
                   </h1>
                 </div>
-                <Link to="/login">
+                <Link to={!isAuthenticated ? "/login" : "/matching"}>
                   <button className="bg-[#FFE1EA] font-bold px-[24px] py-[12px] text-base text-center rounded-[99px] mt-[40px] hover:bg-[#FFB1C8] text-[#95002B]">
                     Start Matching!
                   </button>
