@@ -33,7 +33,7 @@ function LoginPage() {
         <div className="w-[1150px] mx-auto flex flex-row justify-between items-center h-auto py-5 bg-white ">
 
         <img
-          src="/login/handsomedev.png"
+          src="/login/image (3).svg"
           alt="man"
           className="relative w-[450px] h-[677px]  mt-[80px]"
         />
