@@ -1,289 +1,271 @@
-import { useState } from "react";
-import Footer from "../components/Footer";
 import NavigationbarUser from "../components/NavigationbarUser";
+import ProfilePopup from "../components/ProfilePopup";
+import React, { useState, useMemo, useRef } from "react";
+import TinderCard from "react-tinder-card";
 
-function OwnerProfile(props) {
-  const maxHobbies = 10;
+const db = [
+  {
+    name: "Richard Hendricks",
+    url: "./img/richard.jpg",
+  },
+  {
+    name: "Erlich Bachman",
+    url: "./img/erlich.jpg",
+  },
+  {
+    name: "Monica Hall",
+    url: "./public/emmy.jpg",
+  },
+  {
+    name: "Jared Dunn",
+    url: "./public/jbareham.jpg",
+  },
+  {
+    name: "Dinesh Chugtai",
+    url: "./public/dragon.jpg",
+  },
+];
 
-  const addHobbyLists = () => {
-    if (props.info.trim() !== "") {
-      if (props.hobbyLists.length >= maxHobbies) {
-        alert(`You can only add up to ${maxHobbies} hobbies.`);
-        return;
-      }
-      const newHobbyLists = [...props.hobbyLists];
-      newHobbyLists.push(props.info.trim());
-      props.setHobbyLists(newHobbyLists);
-      props.setInfo("");
+function MatchingPage() {
+  const [ageRange, setAgeRange] = useState(18);
+
+  const [currentIndex, setCurrentIndex] = useState(db.length - 1);
+  const [lastDirection, setLastDirection] = useState();
+
+  const currentIndexRef = useRef(currentIndex);
+
+  const childRefs = useMemo(
+    () =>
+      Array(db.length)
+        .fill(0)
+        .map((i) => React.createRef()),
+    []
+  );
+
+  const updateCurrentIndex = (val) => {
+    setCurrentIndex(val);
+    currentIndexRef.current = val;
+  };
+
+  const canGoBack = currentIndex < db.length - 1;
+
+  const canSwipe = currentIndex >= 0;
+
+  const swiped = (direction, nameToDelete, index) => {
+    setLastDirection(direction);
+    updateCurrentIndex(index - 1);
+  };
+
+  const outOfFrame = (name, idx) => {
+    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
+  };
+
+  const swipe = async (dir) => {
+    if (canSwipe && currentIndex < db.length) {
+      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
     }
   };
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      addHobbyLists();
-    }
+  // increase current index and show card
+  const goBack = async () => {
+    if (!canGoBack) return;
+    const newIndex = currentIndex + 1;
+    updateCurrentIndex(newIndex);
+    await childRefs[newIndex].current.restoreCard();
   };
 
-  const deleteHobby = (index) => {
-    const newHobbyLists = [...props.hobbyLists];
-    newHobbyLists.splice(index, 1);
-    props.setHobbyLists(newHobbyLists);
-  };
+  function handleAgeRangeChange(event) {
+    setAgeRange(event.target.value);
+  }
 
   return (
     <>
-      <NavigationbarUser  />
-      <div className="flex flex-col font-nunito h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
-        <div className="flex flex-row justify-between items-center w-full ">
-          <div>
-            <h2 className="text-[#7B4429] text-sm">Profile</h2>
-            <h1 className="text-[#A62D82] text-[46px] font-extrabold">
-              Let’s make profile <br />
-              to let others know you
-            </h1>
-          </div>
-          <div className="flex gap-2">
-            <button className="text-[#95002B] bg-[#FFE1EA] py-3 px-6 rounded-[99px] hover:bg-[#FFB1C8]">
-              Preview Profile
-            </button>
-            <button className="text-[#FFFFFF] bg-[#C70039] py-3 px-6 rounded-[99px] hover:bg-[#FF1659]">
-              Update Profile
-            </button>
-          </div>
-        </div>
-        <h1 className="text-2xl text-[#A62D82] font-[700]  mt-20 mb-5">
-          Basic Information
-        </h1>
-        <div className="info-container grid grid-cols-2 grid-rows-4 gap-5">
-          <div>
-            <h1>Name</h1>
-            <label htmlFor="Name">
-              <input
-                className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                type="text"
-                name="Name"
-                placeholder="Jon Snow"
-              />
-            </label>
-          </div>
-          <div>
-            <h1>Date of birth</h1>
-            <label htmlFor="Date">
-              <input
-                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                type="date"
-                name="Date"
-              />
-            </label>
-          </div>
-          <div>
-            <h1>Location</h1>
-            <select
-              className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-              name="country"
-            >
-              <option value="australia">Australia</option>
-              <option value="canada">Canada</option>
-              <option value="usa">USA</option>
-              <option value="thailand ">Thailand</option>
-            </select>
-          </div>
-          <div>
-            <h1>City</h1>
-            <select
-              className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-              name="City"
-            >
-              <option value="Sydney">Sydney</option>
-              <option value="Ottawa">Ottawa</option>
-              <option value="new york">New York</option>
-              <option value="Bangkok ">Bangkok</option>
-            </select>
-          </div>
-
-          <div>
-            <h1>Username</h1>
-            <label htmlFor="Username">
-              <input
-                className=" border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                type="text"
-                name="Username"
-                placeholder="At least 6 characters"
-              />
-            </label>
-          </div>
-
-          <div>
-            <h1>Email</h1>
-            <label htmlFor="Email">
-              <input
-                className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                type="email"
-                name="email"
-                placeholder="Jon Snow"
-              />
-            </label>
-          </div>
-        </div>
-
-        {/* section 2 */}
-        <h1 className="text-2xl text-[#A62D82] font-[700]  mb-5">
-          Identities and Interests
-        </h1>
-        <div className="info-container grid grid-cols-2 grid-rows-2 gap-5">
-          <div>
-            <h1>Sexual identities </h1>
-            <select
-              className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-              name="Sexual identities"
-            >
-              <option value="Female">Female</option>
-              <option value="Non-binary">Non-binary</option>
-              <option value="Male">Male</option>
-            </select>
-          </div>
-          <div>
-            <h1>Sexual preferences</h1>
-            <select
-              className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-              name="Sexual preferences"
-            >
-              <option value="Female">Male</option>
-              <option value="Non-binary">Non-binary</option>
-              <option selected="selected" value="Female ">
-                Female
-              </option>
-            </select>
-          </div>
-          <div>
-            <h1>Racial preferences</h1>
-            <select
-              className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-              name="Racial preferences"
-            >
-              <option value="Black">Black</option>
-              <option value="European">European</option>
-              <option value="Caucasian">Caucasian</option>
-              <option value="African">African</option>
-              <option selected="selected" value="Asian">
-                Asian
-              </option>
-            </select>
-          </div>
-          <div>
-            <h1>Meeting interests</h1>
-            <select
-              className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-              name="Meeting interests"
-            >
-              <option value="Partners">Partners</option>
-              <option value="Long-term commitment">Long-term commitment</option>
-              <option value="Short-term commitment">
-                Short-term commitment
-              </option>
-              <option selected="selected" value="Friends">
-                Friends
-              </option>
-            </select>
-          </div>
-        </div>
-        <div className="flex flex-col  mt-[50px]">
-          <div className="relative flex flex-col items-start">
-            <h1>Hobbies / Interests (Maximum 10)</h1>
-            <input
-              className="border-[1px] font-normal border-[#D6D9E4] rounded-lg w-[931px] h-[48px] py-[12px] pr-[12px] pl-[12px] mb-4"
-              type="text"
-              value={props.info}
-              onChange={(e) => {
-                props.setInfo(e.target.value);
-              }}
-              onKeyPress={handleKeyPress}
-            />
-            {/* props.hobbyLists.length  */}
-            {props.hobbyLists > 0 && (
-              <div className=" border-[1px] border-none rounded-lg p-[8px] text-[#9AA1B9] text-sm">
-                <ul className="flex flex-wrap">
-                  {props.hobbyLists.map((hobby, index) => (
-                    <li
-                      key={index}
-                      className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[8px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
-                    >
-                      {hobby}
-                      <button
-                        className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
-                        onClick={() => deleteHobby(index)}
-                      >
-                        ✕
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+      <NavigationbarUser />
+      <div className="font-Nunito mx-auto w-[1440px] h-[936px] flex flex-row">
+        <div className="w-[316px]">
+          <div className="w-[316px] border-b-[1px] border-gray-400">
+            <div className="w-[282px] mx-auto py-[36px]">
+              <div className="flex flex-col justify-center items-center p-6 gap-1 bg-[#F6F7FC] border-[1px] border-[#A62D82] rounded-2xl">
+                <img src="/matching/vector (5).svg" alt="search heart" />
+                <h1 className="text-[#95002B] font-bold text-xl">
+                  Discover New Match
+                </h1>
+                <p className="text-[#646D89] text-center text-sm">
+                  Start find and Merry to get know <br /> and connect with new
+                  friend!
+                </p>
               </div>
-            )}
+            </div>
           </div>
-          <div>
-            <h1>About me (Maximum 150 characters)</h1>
-            <label htmlFor="About me">
-              <input
-                className="border-[1px] border-[#D6D9E4] rounded-lg w-[931px] h-[120px] py-[12px] pr-[16px] pl-[12px] "
-                type="text"
-                name="About me"
+          <div className="w-[282px] mx-auto py-[36px]">
+            <h1 className="font-bold text-lg">Merry Match!</h1>
+            <div className="flex flex-row gap-3 py-6">
+              <img
+                src=""
+                alt=""
+                className=" w-[100px] h-[100px] border-[1px] rounded-2xl"
               />
-            </label>
+              <img
+                src=""
+                alt=""
+                className=" w-[100px] h-[100px] border-[1px] rounded-2xl"
+              />
+            </div>
+          </div>
+          <div className="w-[282px] mx-auto pt-[12px]">
+            <h1 className="font-bold text-lg">Chat with Merry Match</h1>
+            <div className="flex flex-row justify-evenly py-6">
+              <img
+                src=""
+                alt=""
+                className="w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
+              />
+              <div>
+                <p className="font-[400] text-[#2A2E3F] text-[16px]">Ygritte</p>
+                <p className="font-[500] text-[#646D89] text-[14px]">
+                  You know nothing Jon Snow
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* section 3 */}
-        <div className="bg-[#FCFCFE] form-container w-[1440px] py-8 h-[500px]">
-          <h1 className="text-2xl text-[#A62D82] font-[700] mb-1">
-            Profile pictures
-          </h1>
-          <h2 className="mb-5">Upload at least 2 photos</h2>
-          {/* 
-          <div className="grid grid-cols-5 grid-rows-1 gap-2">
-            {props.images.map((image, index) => (
-              <>
+            
+        <div className="bg-gray-300 col-span-3 w-[904px]">
+          <div className="relative w-[620px] h-[620px] rounded-[32px]">
+            {db.map((character, index) => (
+              <TinderCard
+                ref={childRefs[index]}
+                className="absolute top-0 left-32 w-full h-full rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
+                key={character.name}
+                onSwipe={(dir) => swiped(dir, character.name, index)}
+                onCardLeftScreen={() => outOfFrame(character.name, index)}
+              >
                 <div
-                  key={index}
-                  className="w-[167px] h-[167px] bg-[#F1F2F6] rounded-2xl cursor-pointer relative z-0 "
-                  onClick={() => handleImageClick(index)}
-                  onDrop={(event) => handleImageDrop(event, index)}
-                  onDragOver={(event) => handleDragOver(event)}
-                  draggable={image !== null}
-                  onDragStart={(event) => handleDragStart(event, index)}
-                  style={{
-                    backgroundImage: `url(${image})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
+                  style={{ backgroundImage: "url(" + character.url + ")" }}
+                  className="card h-full w-full flex items-end px-4 py-3 text-white rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
                 >
-                  {image === null && (
-                    <div className="flex flex-col text-center justify-center items-center h-full transform hover:scale-[1.2] active:scale-[0.8]">
-                      <div>
-                        <h1 className="text-[#7D2262] text-[30px]">+</h1>
-                        <p className="text-[#7D2262] ">Upload photo</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {image !== null && (
-                    <button
-                      className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
-                      onClick={(event) => deleteImage(event, index)}
-                    >
-                      ✕
-                    </button>
-                  )}
+                  <h3>{character.name}</h3>
                 </div>
-              </>
+              </TinderCard>
             ))}
-          </div> */}
+          </div>
+          <div className=" flex justify-center gap-2">
+            <img
+              src="/public/icon/crossbutton.png"
+              className="transform hover:scale-110 transition duration-300  active:scale-90 "
+              onClick={() => swipe("left")}
+            />
+
+            <img
+              src="/public/icon/heartbutton.png"
+              className="transform hover:scale-110 transition duration-300 active:scale-90"
+              onClick={() => swipe("right")}
+            />
+          </div>
+        </div>
+
+      <div className="   w-[220px] flex flex-row justify-center ">
+        <div className=" flex flex-col items-center  w-[188px] mx-auto>">
+          <div className="flex flex-col gap-10 mb-[170px]">
+            <div className="mt-6 flex flex-col gap-5">
+              <h1 className="text-[#191C77] font-bold">Search by Keywords</h1>
+              <input
+                placeholder="   Search..."
+                type="text"
+                className="py-3 border-[1px] border-[#CCD0D7] rounded-lg"
+              />
+            </div>
+            <div class="flex flex-col gap-3 ">
+              <h1 class="text-[#191C77] font-bold">Sex you interest</h1>
+              <div class="flex">
+                <input
+                  type="checkbox"
+                  id="sex1"
+                  name="sex1"
+                  value="Default"
+                  class="w-[24px] h-[24px] rounded-lg"
+                />
+                <label for="sex1" class="ml-[12px] text-[#646D89]">
+                  Default
+                </label>
+              </div>
+              <div class="flex mt-[16px]">
+                <input
+                  type="checkbox"
+                  id="sex2"
+                  name="sex2"
+                  value="Female"
+                  class="w-[24px] h-[24px] rounded-lg"
+                />
+                <label for="sex2" class="ml-[12px] text-[#646D89]">
+                  Female
+                </label>
+              </div>
+              <div class="flex mt-[16px]">
+                <input
+                  type="checkbox"
+                  id="sex3"
+                  name="sex3"
+                  value="Non-binary people"
+                  class="w-[24px] h-[24px] rounded-lg"
+                />
+                <label for="sex3" class="ml-[12px] text-[#646D89]">
+                  Non-binary people
+                </label>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-6">
+              <label for="age-range" className="text-[#191C77] font-bold">
+                Age Range
+              </label>
+              <input
+                type="range"
+                id="age-range"
+                name="age-range"
+                min="18"
+                max="100"
+                value={ageRange}
+                className="block w-full h-1 mt-1 bg-gray-300 rounded-md appearance-none focus:outline-none"
+                onInput={handleAgeRangeChange}
+              />
+              <div className="flex justify-evenly items-center">
+                <input
+                  type="number"
+                  id="min-age"
+                  name="min-age"
+                  value={ageRange}
+                  className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
+                />
+                <p> - </p>
+                <input
+                  type="number"
+                  id="max-age"
+                  name="max-age"
+                  value="100"
+                  className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="w-[220px] flex justify-center items-center border-t-[1px] border-gray-400">
+            <div className="flex justify-center items-center w-[188px]  pt-6 ">
+              <h1 className="py-3 px-6 text-[#C70039] hover:underline hover:text-[#FF1659] hover:cursor-pointer">
+                Clear
+              </h1>
+              <button className="py-3 px-6 bg-[#C70039] rounded-[99px] text-white hover:bg-[#FF1659]">
+                Search
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <Footer />
+      </div>
     </>
   );
 }
-export default OwnerProfile;
+
+export default MatchingPage;
