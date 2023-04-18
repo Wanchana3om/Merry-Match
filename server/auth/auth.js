@@ -23,6 +23,7 @@ authRouter.post("/register", async (req, res) => {
     hobby,
     image,
   } = req.body;
+  console.log(req.body);
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
   const { user, error } = await supabase.auth.signUp({

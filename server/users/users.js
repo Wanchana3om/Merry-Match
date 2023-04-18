@@ -7,18 +7,18 @@ const usersRouter = Router();
 // read profile
 usersRouter.get("/:userId", async (req, res) => {
   try {
-  const userId = req.params.userId;
-  const { data, error } = await supabase
-    .from("users")
-    .select(
-      `user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)`
-    )
-    .match({ user_id: userId });
-  if (error) {
-    console.log(error);
-    return res.status(500).send("Server error");
-  }
-  return res.json(data);
+    const userId = req.params.userId;
+    const { data, error } = await supabase
+      .from("users")
+      .select(
+        `user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)`
+      )
+      .match({ user_id: userId });
+    if (error) {
+      console.log(error);
+      return res.status(500).send("Server error");
+    }
+    return res.json(data);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
@@ -78,6 +78,10 @@ usersRouter.put("/:userId", async (req, res) => {
           .from("hobbies_interests")
           .delete()
           .eq("user_id", userId);
+        if (deleteError) {
+          console.log(deleteError);
+          return res.status(500).send("Server error");
+        }
 
         const { data: hobbyData, error: insertError } = await supabase
           .from("hobbies_interests")
@@ -89,13 +93,9 @@ usersRouter.put("/:userId", async (req, res) => {
               };
             })
           );
-      }
-      if (deleteError) {
-        console.log(deleteError);
-        return res.status(500).send("Server error");
-      }
-      if (insertError) {
-        console.log(insertError);
+        if (insertError) {
+          console.log(insertError);
+        }
       }
     }
 
@@ -140,26 +140,3 @@ usersRouter.put("/:userId", async (req, res) => {
 });
 
 export default usersRouter;
-
-// const files = req.files;
-// const fileCount = Math.min(files.length, 5);
-
-// for (let i = 0; i < fileCount; i++) {
-//   const file = files[i];
-//   const fileName = uuidv4() + "_" + file.name;
-//   const { data: fileData, error: fileError } = await supabase.storage
-//     .from("userPictures")
-//     .upload(fileName, file.data);
-//   if (fileError) {
-//     console.log(fileError);
-//     return res.status(500).send("Server error");
-//   }
-//   const { data: insertData, error: insertError } = await supabase
-//     .from("pictures")
-//     .update([{ pic_url: fileData.key }])
-//     .eq("user_id", userId);
-//   if (insertError) {
-//     console.log(insertError);
-//     return res.status(500).send("Server error");
-//   }
-// }
