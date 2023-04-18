@@ -1,4 +1,5 @@
 import NavigationbarUser from "../components/NavigationbarUser";
+<<<<<<< HEAD
 import React, { useState, useMemo, useRef } from "react";
 import TinderCard from "react-tinder-card";
 import ProfilePopup from "../components/ProfilePopup";
@@ -32,49 +33,16 @@ function MatchingPage() {
 
   const [currentIndex, setCurrentIndex] = useState(db.length - 1);
   const [lastDirection, setLastDirection] = useState();
+=======
+import ProfilePopup from "../components/ProfilePopup";
+import { useState } from "react";
+function MatchingPage() {
+  const [ageRange, setAgeRange] = useState(18);
+>>>>>>> bf07151 (feat: adjust put-api)
 
-  const currentIndexRef = useRef(currentIndex);
-
-  const childRefs = useMemo(
-    () =>
-      Array(db.length)
-        .fill(0)
-        .map((i) => React.createRef()),
-    []
-  );
-
-  const updateCurrentIndex = (val) => {
-    setCurrentIndex(val);
-    currentIndexRef.current = val;
-  };
-
-  const canGoBack = currentIndex < db.length - 1;
-
-  const canSwipe = currentIndex >= 0;
-
-  const swiped = (direction, nameToDelete, index) => {
-    setLastDirection(direction);
-    updateCurrentIndex(index - 1);
-  };
-
-  const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
-    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
-  };
-
-  const swipe = async (dir) => {
-    if (canSwipe && currentIndex < db.length) {
-      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
-    }
-  };
-
-  // increase current index and show card
-  const goBack = async () => {
-    if (!canGoBack) return;
-    const newIndex = currentIndex + 1;
-    updateCurrentIndex(newIndex);
-    await childRefs[newIndex].current.restoreCard();
-  };
+  function handleAgeRangeChange(event) {
+    setAgeRange(event.target.value);
+  }
 
   const handleAgeRangeChange = (event) => {
     setAgeRange(event.target.value);
@@ -144,6 +112,7 @@ function MatchingPage() {
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* ------------------------section 2 ----------------------------  */}
         <div className="bg-gray-300 col-span-3 w-[904px] overflow-hidden">
           <div className="relative w-[620px] h-[620px] rounded-[32px]">
@@ -183,6 +152,12 @@ function MatchingPage() {
           </div>
         </div>
         {/* ------------------------section 3 ----------------------------  */}
+=======
+        <div className="bg-gray-300 col-span-3 w-[904px]">
+          <ProfilePopup />
+        </div>
+
+>>>>>>> bf07151 (feat: adjust put-api)
         <div className="   w-[220px] flex flex-row justify-center ">
           <div className=" flex flex-col items-center  w-[188px] mx-auto>">
             <div className="flex flex-col gap-10 mb-[170px]">
