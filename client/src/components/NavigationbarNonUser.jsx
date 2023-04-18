@@ -13,7 +13,7 @@ function NavigationbarNonUser() {
   };
 
   return (
-    <header className="font-Nunito relative z-30 w-screen shadow-md">
+    <header className="font-nunito relative z-30 w-screen shadow-md">
       <div className="w-[77%]  flex flex-row justify-between items-center py-5 bg-white mx-auto ">
         <nav>
           <Link to="/" className="text-black font-semibold text-4xl">
