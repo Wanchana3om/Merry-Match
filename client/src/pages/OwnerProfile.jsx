@@ -48,11 +48,19 @@ function OwnerProfile(props) {
         setSexualPreference(result.data[0].sexual_preference);
         setRacialPreference(result.data[0].recial_preference);
         setMeetingInterest(result.data[0].meeting_interest);
-        setHobbyLists(result.data[0].hobby);
         setInfo(result.data[0].about_me);
         setImages(result.data[0].pictures);
 
+        let newHobbyList = [];
+        let hobbyData = result.data[0].hobbies_interests;
+
+        for (let i = 0; i < hobbyData.length; i++) {
+          newHobbyList.push(hobbyData[i].hob_list);
+        }
+        setHobbyLists(newHobbyList);
+
         console.log(result.data);
+        console.log(newHobbyList);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
@@ -89,6 +97,7 @@ function OwnerProfile(props) {
     const newHobbyLists = [...hobbyLists];
     newHobbyLists.splice(index, 1);
     setHobbyLists(newHobbyLists);
+<<<<<<< HEAD
   };
 
   // ------------section 3 ---------------
@@ -151,6 +160,8 @@ function OwnerProfile(props) {
   };
   const handleClosePopupDelete = () => {
     setDeleteAccount(false);
+=======
+>>>>>>> 8e9e81f (fix: error fixing)
   };
 
   return (
@@ -332,6 +343,7 @@ function OwnerProfile(props) {
         <div className="flex flex-col  mt-[50px]">
           <div className="relative flex flex-col items-start">
             <h1>Hobbies / Interests (Maximum 10)</h1>
+<<<<<<< HEAD
             <input
               className="border-[1px] font-normal border-[#D6D9E4] rounded-lg w-[931px] h-[48px] py-[12px] pr-[12px] pl-[12px] mb-4"
               type="text"
@@ -354,14 +366,39 @@ function OwnerProfile(props) {
                       <button
                         className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
                         onClick={(event) => deleteImage(event, index)}
+=======
+            <div className="w-full relative flex flex-row items-start justify-center m-[1px] border-[#D6D9E4] border-t-[1px] border-r-[1px] border-b-[1px] border-l-[1px] rounded-lg h-[50px] bg-white ">
+              {hobbyLists.length > 0 && (
+                <div className=" border-[1px] border-none rounded-lg h-[full] p-[8px] text-[#9AA1B9] text-sm ">
+                  <ul className="flex flex-row">
+                    {hobbyLists.map((hobby, index) => (
+                      <li
+                        key={index}
+                        className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
+>>>>>>> 8e9e81f (fix: error fixing)
                       >
-                        ✕
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+                        {hobby}
+                        <button
+                          className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
+                          onClick={() => deleteHobby(index)}
+                        >
+                          ✕
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <input
+                className="border-[1px] font-normal border-none rounded-lg w-full h-full py-[12px] pr-[12px] pl-[12px] mb-4 focus:outline-none"
+                type="text"
+                value={info}
+                onChange={(e) => {
+                  setInfo(e.target.value);
+                }}
+                onKeyPress={handleKeyPress}
+              />
+            </div>
           </div>
 
           <div className="flex justify-end mt-20 mr-5">
