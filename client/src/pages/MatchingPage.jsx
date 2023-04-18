@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useRef } from "react";
 import TinderCard from "react-tinder-card";
 import NavigationbarUser from "../components/NavigationbarUser";
+import ProfilePopup from "../components/ProfilePopup";
+import eye_button from "/merrylist/eye_button.png"
 
 const db = [
   {
@@ -72,9 +74,22 @@ function MatchingPage() {
     await childRefs[newIndex].current.restoreCard();
   };
 
+  const [showProfile, setShowProfile] = useState(false)
+  const handleShowProfile = () => {
+    setShowProfile(!showProfile)
+  }
+  const handleCloseProfile = () => {
+    setShowProfile(false)
+  }
+
   return (
     <>
+
       <NavigationbarUser />
+      {showProfile && (
+        <ProfilePopup handleClose={handleCloseProfile} />
+      )}
+
       <div className="font-Poppins  grid grid-cols-5 mx-auto w-[1440px] h-[936px]">
         <div className="grid grid-rows-4 ">
           <div className="border-b border-solid border-gray-400 ">
@@ -119,7 +134,7 @@ function MatchingPage() {
         </div>
 
         {/* section 2 */}
-        <div className="bg-slate-900 col-span-3 grid grid-cols-1 justify-center items-center overflow-hidden">
+        <div className="bg-slate-900 col-span-3 grid grid-cols-1 justify-center items-center overflow-hidden relative">
           <div className="relative w-[620px] h-[620px] rounded-[32px]">
             {db.map((character, index) => (
               <TinderCard
@@ -134,6 +149,10 @@ function MatchingPage() {
                   className="card h-full w-full flex items-end px-4 py-3 text-white rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
                 >
                   <h3>{character.name}</h3>
+                  <div>
+                    <button onClick={handleShowProfile}><img src={eye_button} alt="Eye" /></button>
+
+                  </div>
                 </div>
               </TinderCard>
             ))}
@@ -144,7 +163,7 @@ function MatchingPage() {
               className="transform hover:scale-110 transition duration-300  active:scale-90 "
               onClick={() => swipe("left")}
             />
-            
+
             <img
               src="/public/icon/heartbutton.png"
               className="transform hover:scale-110 transition duration-300 active:scale-90"
