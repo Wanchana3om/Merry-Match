@@ -33,17 +33,24 @@ function RegisterForm1(props) {
               type="date"
               name="Date"
               value={props.birthDate}
-              onChange={(e) => props.setBirthDate(e.target.value)}
+              onChange={(e) => {
+                props.setBirthDate(e.target.value)
+                e.target.classList.add('text-black')
+              }}
             />
           </label>
         </div>
         <div>
           <h1>Location</h1>
           <select
-            className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+            className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px] "
             name="country"
             value={props.location}
-            onChange={(e) => props.setLocation(e.target.value)}
+            onChange={(e) => {
+              props.setLocation(e.target.value);
+              e.target.classList.add('text-black');
+            }}
+            
           >
             <option value="">Select your country</option>
             {uniqueCountries
@@ -53,7 +60,7 @@ function RegisterForm1(props) {
                 )
               })
               .map((country, index) => (
-                <option value={country} key={index}>
+                <option value={country} key={index} >
                   {country}
                 </option>
               ))}
@@ -66,7 +73,10 @@ function RegisterForm1(props) {
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="City"
             value={props.city}
-            onChange={(e) => props.setCity(e.target.value)}
+            onChange={(e) => {
+              props.setCity(e.target.value)
+              e.target.classList.add('text-black')
+            }}
           >
             <option value="">Select your city</option>
             {uniquecities
