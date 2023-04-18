@@ -15,7 +15,7 @@ function Homepage() {
           <div className=" w-[1440px] ">
             <div className="w-full h-[758px] bg-[#160404] relative flex justify-center items-center">
               <img
-                src="/header/nice-to-meet-you.png"
+                src="/homepage/image (1).svg"
                 className="w-[357px] h-[500px] absolute left-40 bottom-0"
               />
               <div className="flex flex-col justify-center items-center gap-10">
@@ -37,31 +37,31 @@ function Homepage() {
                 </Link>
               </div>
               <img
-                src="/header/image.png"
+                src="/homepage/image.svg"
                 className="absolute right-40 -top-10"
               />
               <img
-                src="/header/Ellipse 2.png"
+                src="/homepage/Ellipse 2.svg"
                 className="absolute right-20 top-[430px]"
               />
               <img
-                src="/header/Ellipse 2.png"
+                src="/homepage/Ellipse 2.svg"
                 className="absolute -left-3 top-24"
               />
               <img
-                src="/header/smile.png"
+                src="/homepage/Image (2).svg"
                 className="absolute right-32 top-[460px]"
-              />
+                />
               <img
-                src="/header/Ellipse 4.png"
+                src="/homepage/Ellipse 4.svg"
                 className="absolute right-52 bottom-36"
               />
               <img
-                src="/header/Ellipse 4.png"
+                src="/homepage/Ellipse 3.svg"
                 className="absolute left-32 top-20"
               />
               <img
-                src="/header/Vector (1).png"
+                src="/homepage/Vector (7).svg"
                 className="absolute right-[600px] top-36"
               />
             </div>
@@ -91,7 +91,7 @@ function Homepage() {
                 </div>
               </div>
               <div className="picture-container flex flex-col justify-center items-center w-1/2 h-full">
-                <img className="h-[348px] w-[546px]" src="/fast-and-easy.png" />
+                <img className="h-[348px] w-[546px]" src="/homepage/vector (6).svg" />
               </div>
             </div>
             <div className="box-border">
@@ -201,6 +201,8 @@ function Homepage() {
           </div>
         </div>
       </div>
+
+      
       <Footer />
     </>
   );

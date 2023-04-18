@@ -29,11 +29,13 @@ function LoginPage() {
   return (
     <>
       <NavigationbarNonUser />
-      <div className="w-11/12 flex flex-row justify-between items-center h-auto py-5 bg-white mx-6 font-nunito">
+      <div className="w-[1440px] mx-auto font-nunito">
+        <div className="w-[1150px] mx-auto flex flex-row justify-between items-center h-auto py-5 bg-white ">
+
         <img
-          src="/login/handsomedev.png"
+          src="/login/image (3).svg"
           alt="man"
-          className="relative w-1/3 ml-28"
+          className="relative w-[450px] h-[677px]  mt-[80px]"
         />
         <div className="flex flex-col">
           <p className="text-sm font-semibold text-[#7B4429] mt-5">LOGIN</p>
@@ -96,6 +98,8 @@ function LoginPage() {
             </div>
           </form>
         </div>
+        </div>
+
       </div>
     </>
   );

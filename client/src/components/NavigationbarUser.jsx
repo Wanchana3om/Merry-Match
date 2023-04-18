@@ -12,7 +12,7 @@ function NavigationbarUser() {
   const { logout, state } = useAuth();
 
   return (
-    <header className="font-nunito relative z-30 w-full shadow-md">
+    <header className="font-nunito relative z-30 w-screen shadow-md">
       <div className="w-[77%]  flex flex-row justify-between items-center py-5 bg-white mx-auto ">
         <nav>
           <Link to="/" className="text-black font-semibold text-4xl">
