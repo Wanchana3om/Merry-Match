@@ -131,8 +131,8 @@ function MatchingPage() {
           </div>
         </div>
 
-            
-        <div className="bg-gray-300 col-span-3 w-[904px]">
+        {/* ------------------------section 2 ----------------------------  */}
+        <div className="bg-gray-300 col-span-3 w-[904px] overflow-hidden">
           <div className="relative w-[620px] h-[620px] rounded-[32px]">
             {db.map((character, index) => (
               <TinderCard
@@ -165,7 +165,7 @@ function MatchingPage() {
             />
           </div>
         </div>
-
+        {/* ------------------------section 3 ----------------------------  */}
       <div className="   w-[220px] flex flex-row justify-center ">
         <div className=" flex flex-col items-center  w-[188px] mx-auto>">
           <div className="flex flex-col gap-10 mb-[170px]">

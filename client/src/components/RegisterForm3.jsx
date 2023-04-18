@@ -44,7 +44,6 @@ function RegisterForm3(props) {
   };
 
   const deleteImage = (event, index) => {
-    // gus
     event.preventDefault();
     delete props.imageUrls[Object.keys(props.imageUrls)[index]];
     props.setImageUrls({ ...props.imageUrls });

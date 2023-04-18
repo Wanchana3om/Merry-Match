@@ -1,271 +1,451 @@
+import { useState } from "react";
+import Footer from "../components/Footer";
 import NavigationbarUser from "../components/NavigationbarUser";
-import ProfilePopup from "../components/ProfilePopup";
-import React, { useState, useMemo, useRef } from "react";
-import TinderCard from "react-tinder-card";
+import { useParams } from "react-router";
+// import useData from "../hook/useData";
 
-const db = [
-  {
-    name: "Richard Hendricks",
-    url: "./img/richard.jpg",
-  },
-  {
-    name: "Erlich Bachman",
-    url: "./img/erlich.jpg",
-  },
-  {
-    name: "Monica Hall",
-    url: "./public/emmy.jpg",
-  },
-  {
-    name: "Jared Dunn",
-    url: "./public/jbareham.jpg",
-  },
-  {
-    name: "Dinesh Chugtai",
-    url: "./public/dragon.jpg",
-  },
-];
+function OwnerProfile() {
+  const params = useParams();
+  // const { /*user, /*getUserById ,*/ updateDataById } = useData();
 
-function MatchingPage() {
-  const [ageRange, setAgeRange] = useState(18);
+  const [name, setName] = useState("lungpom");
+  const [birthDate, setBirthDate] = useState("2022-01-01");
+  const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
+  const [username, setUsername] = useState("pa");
+  const [email, setEmail] = useState("ar");
+  const [sexualIdentity, setSexualIdentity] = useState("Male");
+  const [sexualPreference, setSexualPreference] = useState("Female");
+  const [racialPreference, setRacialPreference] = useState("Asia");
+  const [meetingInterest, setMeetingInterest] = useState("Partners");
+  const [hobbyLists, setHobbyLists] = useState(["lungtuu2","lungtuu1"]);
+  const [info, setInfo] = useState("");
+  const [images, setImages] = useState([null, null, null, null, null]);
+  console.log(name);
 
-  const [currentIndex, setCurrentIndex] = useState(db.length - 1);
-  const [lastDirection, setLastDirection] = useState();
+  // useEffect(() => {
+  //   getUserById(params.userId);
+  // }, []);
 
-  const currentIndexRef = useRef(currentIndex);
+  // useEffect(() => {
+  //   if (user) {
+  //     setName(user.Name);
+  //     setBirthDate(user.birthDate);
+  //     setLocation(user.location);
+  //     setCity(user.city);
+  //     setUsername(user.username);
+  //     setEmail(user.email);
+  //     setSexualIdentity(user.sexualIdentity);
+  //     setSexualPreference(user.sexualPreference);
+  //     setRacialPreference(user.racialPreference);
+  //     setMeetingInterest(user.meetingInterest);
+  //     setInfo(user.info);
+  //     setImages(user.images);
+  //   }
+  // }, [user]);
 
-  const childRefs = useMemo(
-    () =>
-      Array(db.length)
-        .fill(0)
-        .map((i) => React.createRef()),
-    []
-  );
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   updateUserById(params.userId, {
+  //     name,
+  //     birthDate,
+  //     location,
+  //     city,
+  //     username,
+  //     email,
+  //     sexualIdentity,
+  //     sexualPreference,
+  //     racialPreference,
+  //     meetingInterest,
+  //     hobbyLists,
+  //     info,
+  //     images
+  //   });
+  // };
 
-  const updateCurrentIndex = (val) => {
-    setCurrentIndex(val);
-    currentIndexRef.current = val;
-  };
+  // ------------section 2 ---------------
+  const maxHobbies = 10;
 
-  const canGoBack = currentIndex < db.length - 1;
-
-  const canSwipe = currentIndex >= 0;
-
-  const swiped = (direction, nameToDelete, index) => {
-    setLastDirection(direction);
-    updateCurrentIndex(index - 1);
-  };
-
-  const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
-    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
-  };
-
-  const swipe = async (dir) => {
-    if (canSwipe && currentIndex < db.length) {
-      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
+  const addHobbyLists = () => {
+    if (info.trim() !== "") {
+      if (hobbyLists.length >= maxHobbies) {
+        alert(`You can only add up to ${maxHobbies} hobbies.`);
+        return;
+      }
+      const newHobbyLists = [...hobbyLists];
+      newHobbyLists.push(info.trim());
+      setHobbyLists(newHobbyLists);
+      setInfo("");
     }
   };
 
-  // increase current index and show card
-  const goBack = async () => {
-    if (!canGoBack) return;
-    const newIndex = currentIndex + 1;
-    updateCurrentIndex(newIndex);
-    await childRefs[newIndex].current.restoreCard();
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addHobbyLists();
+    }
   };
 
-  function handleAgeRangeChange(event) {
-    setAgeRange(event.target.value);
-  }
+  const deleteHobby = (index) => {
+    const newHobbyLists = [...hobbyLists];
+    newHobbyLists.splice(index, 1);
+    setHobbyLists(newHobbyLists);
+  };
+
+  // ------------section 3 ---------------
+  const handleImageClick = (index) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImages((prevImages) => {
+          const newImages = [...prevImages];
+          newImages[index] = reader.result;
+          return newImages;
+        });
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  };
+
+  const handleImageDrop = (event, index) => {
+    event.preventDefault();
+    const droppedIndex = event.dataTransfer.getData("text");
+    if (droppedIndex === "") return;
+    setImages((prevImages) => {
+      const newImages = [...prevImages];
+      const temp = newImages[index];
+      newImages[index] = newImages[droppedIndex];
+      newImages[droppedIndex] = temp;
+      return newImages;
+    });
+  };
+
+  const handleDragStart = (event, index) => {
+    event.dataTransfer.setData("text", index);
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const deleteImage = (event, index) => {
+    event.preventDefault();
+    delete imageUrls[Object.keys(imageUrls)[index]];
+    setImageUrls({ ...imageUrls });
+
+    event.stopPropagation();
+    const newImages = [...images];
+    newImages[index] = null;
+    setImages(newImages);
+  };
 
   return (
     <>
       <NavigationbarUser />
-      <div className="font-Nunito mx-auto w-[1440px] h-[936px] flex flex-row">
-        <div className="w-[316px]">
-          <div className="w-[316px] border-b-[1px] border-gray-400">
-            <div className="w-[282px] mx-auto py-[36px]">
-              <div className="flex flex-col justify-center items-center p-6 gap-1 bg-[#F6F7FC] border-[1px] border-[#A62D82] rounded-2xl">
-                <img src="/matching/vector (5).svg" alt="search heart" />
-                <h1 className="text-[#95002B] font-bold text-xl">
-                  Discover New Match
-                </h1>
-                <p className="text-[#646D89] text-center text-sm">
-                  Start find and Merry to get know <br /> and connect with new
-                  friend!
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="w-[282px] mx-auto py-[36px]">
-            <h1 className="font-bold text-lg">Merry Match!</h1>
-            <div className="flex flex-row gap-3 py-6">
-              <img
-                src=""
-                alt=""
-                className=" w-[100px] h-[100px] border-[1px] rounded-2xl"
-              />
-              <img
-                src=""
-                alt=""
-                className=" w-[100px] h-[100px] border-[1px] rounded-2xl"
-              />
-            </div>
-          </div>
-          <div className="w-[282px] mx-auto pt-[12px]">
-            <h1 className="font-bold text-lg">Chat with Merry Match</h1>
-            <div className="flex flex-row justify-evenly py-6">
-              <img
-                src=""
-                alt=""
-                className="w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
-              />
-              <div>
-                <p className="font-[400] text-[#2A2E3F] text-[16px]">Ygritte</p>
-                <p className="font-[500] text-[#646D89] text-[14px]">
-                  You know nothing Jon Snow
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-            
-        <div className="bg-gray-300 col-span-3 w-[904px]">
-          <div className="relative w-[620px] h-[620px] rounded-[32px]">
-            {db.map((character, index) => (
-              <TinderCard
-                ref={childRefs[index]}
-                className="absolute top-0 left-32 w-full h-full rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
-                key={character.name}
-                onSwipe={(dir) => swiped(dir, character.name, index)}
-                onCardLeftScreen={() => outOfFrame(character.name, index)}
-              >
-                <div
-                  style={{ backgroundImage: "url(" + character.url + ")" }}
-                  className="card h-full w-full flex items-end px-4 py-3 text-white rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
-                >
-                  <h3>{character.name}</h3>
-                </div>
-              </TinderCard>
-            ))}
-          </div>
-          <div className=" flex justify-center gap-2">
-            <img
-              src="/public/icon/crossbutton.png"
-              className="transform hover:scale-110 transition duration-300  active:scale-90 "
-              onClick={() => swipe("left")}
-            />
-
-            <img
-              src="/public/icon/heartbutton.png"
-              className="transform hover:scale-110 transition duration-300 active:scale-90"
-              onClick={() => swipe("right")}
-            />
-          </div>
-        </div>
-
-      <div className="   w-[220px] flex flex-row justify-center ">
-        <div className=" flex flex-col items-center  w-[188px] mx-auto>">
-          <div className="flex flex-col gap-10 mb-[170px]">
-            <div className="mt-6 flex flex-col gap-5">
-              <h1 className="text-[#191C77] font-bold">Search by Keywords</h1>
-              <input
-                placeholder="   Search..."
-                type="text"
-                className="py-3 border-[1px] border-[#CCD0D7] rounded-lg"
-              />
-            </div>
-            <div class="flex flex-col gap-3 ">
-              <h1 class="text-[#191C77] font-bold">Sex you interest</h1>
-              <div class="flex">
-                <input
-                  type="checkbox"
-                  id="sex1"
-                  name="sex1"
-                  value="Default"
-                  class="w-[24px] h-[24px] rounded-lg"
-                />
-                <label for="sex1" class="ml-[12px] text-[#646D89]">
-                  Default
-                </label>
-              </div>
-              <div class="flex mt-[16px]">
-                <input
-                  type="checkbox"
-                  id="sex2"
-                  name="sex2"
-                  value="Female"
-                  class="w-[24px] h-[24px] rounded-lg"
-                />
-                <label for="sex2" class="ml-[12px] text-[#646D89]">
-                  Female
-                </label>
-              </div>
-              <div class="flex mt-[16px]">
-                <input
-                  type="checkbox"
-                  id="sex3"
-                  name="sex3"
-                  value="Non-binary people"
-                  class="w-[24px] h-[24px] rounded-lg"
-                />
-                <label for="sex3" class="ml-[12px] text-[#646D89]">
-                  Non-binary people
-                </label>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-6">
-              <label for="age-range" className="text-[#191C77] font-bold">
-                Age Range
-              </label>
-              <input
-                type="range"
-                id="age-range"
-                name="age-range"
-                min="18"
-                max="100"
-                value={ageRange}
-                className="block w-full h-1 mt-1 bg-gray-300 rounded-md appearance-none focus:outline-none"
-                onInput={handleAgeRangeChange}
-              />
-              <div className="flex justify-evenly items-center">
-                <input
-                  type="number"
-                  id="min-age"
-                  name="min-age"
-                  value={ageRange}
-                  className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
-                />
-                <p> - </p>
-                <input
-                  type="number"
-                  id="max-age"
-                  name="max-age"
-                  value="100"
-                  className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="w-[220px] flex justify-center items-center border-t-[1px] border-gray-400">
-            <div className="flex justify-center items-center w-[188px]  pt-6 ">
-              <h1 className="py-3 px-6 text-[#C70039] hover:underline hover:text-[#FF1659] hover:cursor-pointer">
-                Clear
+      <form /* onSubmit={handleSubmit} */>
+        <div className="flex flex-col font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
+          <div className="flex flex-row justify-between items-center w-full ">
+            <div>
+              <h2 className="text-[#7B4429] text-sm">Profile</h2>
+              <h1 className="text-[#A62D82] text-[46px] font-extrabold">
+                Let’s make profile <br />
+                to let others know you
               </h1>
-              <button className="py-3 px-6 bg-[#C70039] rounded-[99px] text-white hover:bg-[#FF1659]">
-                Search
+            </div>
+            <div className="flex gap-2">
+              <button className="text-[#95002B] bg-[#FFE1EA] py-3 px-6 rounded-[99px] hover:bg-[#FFB1C8]">
+                Preview Profile
+              </button>
+              <button
+                type="submit"
+                className="text-[#FFFFFF] bg-[#C70039] py-3 px-6 rounded-[99px] hover:bg-[#FF1659]"
+              >
+                Update Profile
               </button>
             </div>
           </div>
+          <h1 className="text-2xl text-[#A62D82] font-[700]  mt-20 mb-5">
+            Basic Information
+          </h1>
+          <div className="info-container grid grid-cols-2 grid-rows-4 gap-5">
+            <div>
+              <h1>Name</h1>
+              <label htmlFor="Name">
+                <input
+                  className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                  type="text"
+                  name="Name"
+                  placeholder="Jon Snow"
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                />
+              </label>
+            </div>
+            <div>
+              <h1>Date of birth</h1>
+              <label htmlFor="Date">
+                <input
+                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                  type="date"
+                  name="Date"
+                  value={birthDate}
+                  onChange={(e) => {
+                    setBirthDate(e.target.value);
+                    e.target.classList.add("text-black");
+                  }}
+                />
+              </label>
+            </div>
+            <div>
+              <h1>Location</h1>
+              <select
+                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                name="country"
+                value={location}
+                onChange={(e) => {
+                  setLocation(e.target.value);
+                  e.target.classList.add("text-black");
+                }}
+              >
+                <option value="australia">Australia</option>
+                <option value="canada">Canada</option>
+                <option value="usa">USA</option>
+                <option value="thailand ">Thailand</option>
+              </select>
+            </div>
+            <div>
+              <h1>City</h1>
+              <select
+                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                name="City"
+                value={city}
+                onChange={(e) => {
+                  setCity(e.target.value);
+                  e.target.classList.add("text-black");
+                }}
+              >
+                <option value="Sydney">Sydney</option>
+                <option value="Ottawa">Ottawa</option>
+                <option value="new york">New York</option>
+                <option value="Bangkok ">Bangkok</option>
+              </select>
+            </div>
+
+            <div>
+              <h1>Username</h1>
+              <label htmlFor="Username">
+                <input
+                  className=" border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                  type="text"
+                  name="Username"
+                  placeholder="At least 6 characters"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </label>
+            </div>
+
+            <div>
+              <h1>Email</h1>
+              <label htmlFor="Email">
+                <input
+                  className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                  type="email"
+                  name="email"
+                  placeholder="Jon Snow"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </label>
+            </div>
+          </div>
+
+          {/*------------------------section 2 ---------------------------- */}
+          <h1 className="text-2xl text-[#A62D82] font-[700]  mb-5">
+            Identities and Interests
+          </h1>
+          <div className="info-container grid grid-cols-2 grid-rows-2 gap-5">
+            <div>
+              <h1>Sexual identities </h1>
+              <select
+                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                name="Sexual identities"
+                value={sexualIdentity}
+                onChange={(e) => {
+                  setSexualIdentity(e.target.value);
+                  e.target.classList.add("text-black");
+                }}
+              >
+                <option value="Female">Female</option>
+                <option value="Non-binary">Non-binary</option>
+                <option value="Male">Male</option>
+              </select>
+            </div>
+            <div>
+              <h1>Sexual preferences</h1>
+              <select
+                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                name="Sexual preferences"
+                value={sexualPreference}
+                onChange={(e) => {
+                  setSexualPreference(e.target.value);
+                  e.target.classList.add("text-black");
+                }}
+              >
+                <option value="Female">Male</option>
+                <option value="Non-binary">Non-binary</option>
+                <option selected="selected" value="Female ">
+                  Female
+                </option>
+              </select>
+            </div>
+            <div>
+              <h1>Racial preferences</h1>
+              <select
+                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                name="Racial preferences"
+                value={racialPreference}
+                onChange={(e) => {
+                  setRacialPreference(e.target.value);
+                  e.target.classList.add("text-black");
+                }}
+              >
+                <option value="Black">Black</option>
+                <option value="European">European</option>
+                <option value="Caucasian">Caucasian</option>
+                <option value="African">African</option>
+                <option selected="selected" value="Asian">
+                  Asian
+                </option>
+              </select>
+            </div>
+            <div>
+              <h1>Meeting interests</h1>
+              <select
+                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                name="Meeting interests"
+                value={meetingInterest}
+                onChange={(e) => {
+                  setMeetingInterest(e.target.value);
+                  e.target.classList.add("text-black");
+                }}
+              >
+                <option value="Partners">Partners</option>
+                <option value="Long-term commitment">
+                  Long-term commitment
+                </option>
+                <option value="Short-term commitment">
+                  Short-term commitment
+                </option>
+                <option selected="selected" value="Friends">
+                  Friends
+                </option>
+              </select>
+            </div>
+          </div>
+          <div className="flex flex-col  mt-[50px]">
+            <div className="relative flex flex-col items-start">
+              <h1>Hobbies / Interests (Maximum 10)</h1>
+              <div className="relative w-full flex flex-row items-start justify-center m-[1px] border-[#D6D9E4] border-t-[1px] border-r-[1px] border-b-[1px] border-l-[1px] rounded-lg h-[50px] bg-white ">
+                {hobbyLists.length > 0 && (
+                  <div className=" border-[1px] border-none rounded-lg h-[full] p-[8px] text-[#9AA1B9] text-sm ">
+                    <ul className="flex flex-row">
+                      {hobbyLists.map((hobby, index) => (
+                        <li
+                          key={index}
+                          className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
+                        >
+                          {hobby}
+                          <button
+                            className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
+                            onClick={() => deleteHobby(index)}
+                          >
+                            ✕
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                <input
+                  className="border-[1px] font-normal border-none rounded-lg w-full h-full py-[12px] pr-[12px] pl-[12px] mb-4 focus:outline-none"
+                  type="text"
+                  value={info}
+                  onChange={(e) => {
+                    setInfo(e.target.value);
+                  }}
+                  onKeyPress={handleKeyPress}
+                />
+              </div>
+            </div>
+            <div>
+              <h1>About me (Maximum 150 characters)</h1>
+              <label htmlFor="About me">
+                <textarea
+                  className="border-[1px] border-[#D6D9E4] rounded-lg w-[931px] h-[120px] py-[12px] pr-[16px] pl-[12px] "
+                  type="text"
+                  name="About me"
+                />
+              </label>
+            </div>
+          </div>
+
+          {/*------------------------section 3 ---------------------------- */}
+
+          <div className="bg-[#FCFCFE] form-container w-[1440px] py-8 h-[500px]">
+            <h1 className="text-2xl text-[#A62D82] font-[700] mb-1">
+              Profile pictures
+            </h1>
+            <h2 className="mb-5">Upload at least 2 photos</h2>
+            <div className="grid grid-cols-5 grid-rows-1 gap-2">
+              {images.map((image, index) => (
+                <>
+                  <div
+                    key={index}
+                    className="w-[167px] h-[167px] bg-[#F1F2F6] rounded-2xl cursor-pointer relative z-0 "
+                    onClick={() => handleImageClick(index)}
+                    onDrop={(event) => handleImageDrop(event, index)}
+                    onDragOver={(event) => handleDragOver(event)}
+                    draggable={image !== null}
+                    onDragStart={(event) => handleDragStart(event, index)}
+                    style={{
+                      backgroundImage: `url(${image})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    {image === null && (
+                      <div className="flex flex-col text-center justify-center items-center h-full transform hover:scale-[1.2] active:scale-[0.8]">
+                        <div>
+                          <h1 className="text-[#7D2262] text-[30px]">+</h1>
+                          <p className="text-[#7D2262] ">Upload photo</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {image !== null && (
+                      <button
+                        className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
+                        onClick={(event) => deleteImage(event, index)}
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                </>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-      </div>
+      </form>
+      <Footer />
     </>
   );
 }
-
-export default MatchingPage;
+export default OwnerProfile;
