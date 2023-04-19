@@ -4,6 +4,8 @@ import NavigationbarUser from "../components/NavigationbarUser";
 import { useParams } from "react-router";
 // import useData from "../hook/useData";
 
+import DeletePopup from "../components/DeletePopup";
+
 function OwnerProfile() {
   const params = useParams();
   // const { /*user, /*getUserById ,*/ updateDataById } = useData();
@@ -21,7 +23,7 @@ function OwnerProfile() {
   const [hobbyLists, setHobbyLists] = useState([]);
   const [info, setInfo] = useState("");
   const [images, setImages] = useState([null, null, null, null, null]);
-  
+
 
   // useEffect(() => {
   //   getUserById(params.userId);
@@ -144,9 +146,24 @@ function OwnerProfile() {
     setImages(newImages);
   };
 
+  const [deleteAccount, setDeleteAccount] = useState(false)
+
+  const handleDeleteAccount = (event) => {
+    event.preventDefault()
+    setDeleteAccount(!deleteAccount)
+  }
+  const handleClosePopupDelete = () => {
+    setDeleteAccount(false)
+  }
+
   return (
     <>
       <NavigationbarUser />
+
+    {deleteAccount && (
+      <DeletePopup handleClose={handleClosePopupDelete}/>
+    )}
+
       <form /* onSubmit={handleSubmit} */>
         <div className="flex flex-col font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
           <div className="flex flex-row justify-between items-center w-full ">
@@ -299,7 +316,7 @@ function OwnerProfile() {
               >
                 <option value="Female">Male</option>
                 <option value="Non-binary">Non-binary</option>
-                <option selected="selected" value="Female ">
+                <option value="Female ">
                   Female
                 </option>
               </select>
@@ -319,7 +336,7 @@ function OwnerProfile() {
                 <option value="European">European</option>
                 <option value="Caucasian">Caucasian</option>
                 <option value="African">African</option>
-                <option selected="selected" value="Asian">
+                <option value="Asian">
                   Asian
                 </option>
               </select>
@@ -342,7 +359,7 @@ function OwnerProfile() {
                 <option value="Short-term commitment">
                   Short-term commitment
                 </option>
-                <option selected="selected" value="Friends">
+                <option value="Friends">
                   Friends
                 </option>
               </select>
@@ -356,7 +373,7 @@ function OwnerProfile() {
                   <div className=" border-[1px] border-none rounded-lg h-[full] p-[8px] text-[#9AA1B9] text-sm ">
                     <ul className="flex flex-row">
                       {hobbyLists.map((hobby, index) => (
-                        <li
+                        <li 
                           key={index}
                           className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
                         >
@@ -405,7 +422,7 @@ function OwnerProfile() {
             <div className="grid grid-cols-5 grid-rows-1 gap-2">
               {images.map((image, index) => (
                 <>
-                  <div
+                  <div 
                     key={index}
                     className="w-[167px] h-[167px] bg-[#F1F2F6] rounded-2xl cursor-pointer relative z-0 "
                     onClick={() => handleImageClick(index)}
@@ -437,10 +454,16 @@ function OwnerProfile() {
                         ✕
                       </button>
                     )}
+
                   </div>
                 </>
               ))}
             </div>
+
+            <div className="flex justify-end mt-20 mr-5">
+              <button className="hover:underline hover:text-red-600 active:text-red-800" onClick={handleDeleteAccount}>Delete account</button>
+            </div>
+
           </div>
         </div>
       </form>
