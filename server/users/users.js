@@ -139,4 +139,84 @@ usersRouter.put("/:userId", async (req, res) => {
   }
 });
 
+// Example search
+// GET /users?keyword=john&meeting_interest=male&min_age=20&max_age=30
+// {
+//   "keyword": "baifern",
+//   "meeting_interest": ["Long-term commitment","Partners","Friends"],
+//   "min_age": "20",
+//   "max_age": "50"
+// }
+// search by keyword & meeting interest & age
+usersRouter.get("/", async (req, res) => {
+  try {
+    const { keyword, meeting_interest, min_age, max_age } = req.query;
+
+    // Build the query based on the provided parameters
+    const query = supabase
+      .from("users")
+      .select(
+        `user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)`
+      );
+
+    const maxAge = parseInt(max_age);
+    const minBirthYear = new Date().getFullYear() - maxAge;
+    const minBirthDate = `${minBirthYear}/${
+      new Date().getMonth() + 1
+    }/${new Date().getDate()}`;
+
+    const minAge = parseInt(min_age);
+    const maxBirthYear = new Date().getFullYear() - minAge;
+    const maxBirthDate = `${maxBirthYear}/${
+      new Date().getMonth() + 1
+    }/${new Date().getDate()}`;
+
+    if (keyword && meeting_interest && min_age && max_age) {
+      // Add keyword, meeting_interest and age filters
+      query
+        .ilike("username", `%${keyword}%`)
+        .in("meeting_interest", meeting_interest.split(","))
+        .gte("birthDate", minBirthDate)
+        .lte("birthDate", maxBirthDate);
+    } else if (keyword && meeting_interest) {
+      // Add keyword and meeting_interest filters
+      query
+        .ilike("username", `%${keyword}%`)
+        .in("meeting_interest", meeting_interest.split(","));
+    } else if (keyword && min_age && max_age) {
+      query
+        .ilike("username", `%${keyword}%`)
+        .gte("birthDate", minBirthDate)
+        .lte("birthDate", maxBirthDate);
+    } else if (meeting_interest && min_age && max_age) {
+      query
+        .in("meeting_interest", meeting_interest.split(","))
+        .gte("birthDate", minBirthDate)
+        .lte("birthDate", maxBirthDate);
+    } else {
+      // Default query with no filters
+      if (keyword) {
+        query.ilike("username", `%${keyword}%`);
+      }
+      if (meeting_interest) {
+        query.in("meeting_interest", meeting_interest.split(","));
+      }
+      if (min_age && max_age) {
+        query.gte("birthDate", minBirthDate).lte("birthDate", maxBirthDate);
+      }
+    }
+
+    const { data, error } = await query;
+    if (error) {
+      console.log(error);
+      return res.status(500).send("Server error");
+    }
+    return res.json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+
 export default usersRouter;
