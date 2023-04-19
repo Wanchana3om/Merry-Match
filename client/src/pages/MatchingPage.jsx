@@ -1,9 +1,8 @@
 import NavigationbarUser from "../components/NavigationbarUser";
-<<<<<<< HEAD
 import React, { useState, useMemo, useRef } from "react";
 import TinderCard from "react-tinder-card";
 import ProfilePopup from "../components/ProfilePopup";
-import eye_button from "/merrylist/eye_button.png"
+import eye_button from "/merrylist/eye_button.png";
 
 const db = [
   {
@@ -16,15 +15,15 @@ const db = [
   },
   {
     name: "Monica Hall",
-    url: "./public/emmy.jpg",
+    url: "./emmy.jpg",
   },
   {
     name: "Jared Dunn",
-    url: "./public/jbareham.jpg",
+    url: "./jbareham.jpg",
   },
   {
     name: "Dinesh Chugtai",
-    url: "./public/dragon.jpg",
+    url: "./dragon.jpg",
   },
 ];
 
@@ -33,36 +32,65 @@ function MatchingPage() {
 
   const [currentIndex, setCurrentIndex] = useState(db.length - 1);
   const [lastDirection, setLastDirection] = useState();
-=======
-import ProfilePopup from "../components/ProfilePopup";
-import { useState } from "react";
-function MatchingPage() {
-  const [ageRange, setAgeRange] = useState(18);
->>>>>>> bf07151 (feat: adjust put-api)
 
-  function handleAgeRangeChange(event) {
-    setAgeRange(event.target.value);
-  }
+  const currentIndexRef = useRef(currentIndex);
+
+  const childRefs = useMemo(
+    () =>
+      Array(db.length)
+        .fill(0)
+        .map((i) => React.createRef()),
+    []
+  );
+
+  const updateCurrentIndex = (val) => {
+    setCurrentIndex(val);
+    currentIndexRef.current = val;
+  };
+
+  const canGoBack = currentIndex < db.length - 1;
+
+  const canSwipe = currentIndex >= 0;
+
+  const swiped = (direction, nameToDelete, index) => {
+    setLastDirection(direction);
+    updateCurrentIndex(index - 1);
+  };
+
+  const outOfFrame = (name, idx) => {
+    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
+  };
+
+  const swipe = async (dir) => {
+    if (canSwipe && currentIndex < db.length) {
+      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
+    }
+  };
+
+  // increase current index and show card
+  const goBack = async () => {
+    if (!canGoBack) return;
+    const newIndex = currentIndex + 1;
+    updateCurrentIndex(newIndex);
+    await childRefs[newIndex].current.restoreCard();
+  };
 
   const handleAgeRangeChange = (event) => {
     setAgeRange(event.target.value);
-
-  }
-  const [showProfile, setShowProfile] = useState(false)
+  };
+  const [showProfile, setShowProfile] = useState(false);
   const handleShowProfile = () => {
-    setShowProfile(!showProfile)
-  }
+    setShowProfile(!showProfile);
+  };
   const handleCloseProfile = () => {
-    setShowProfile(false)
-  }
+    setShowProfile(false);
+  };
 
   return (
     <>
-
       <NavigationbarUser />
-      {showProfile && (
-        <ProfilePopup handleClose={handleCloseProfile} />
-      )}
+      {showProfile && <ProfilePopup handleClose={handleCloseProfile} />}
       <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row">
         <div className="w-[316px]">
           <div className="w-[316px] border-b-[1px] border-gray-400">
@@ -112,7 +140,6 @@ function MatchingPage() {
           </div>
         </div>
 
-<<<<<<< HEAD
         {/* ------------------------section 2 ----------------------------  */}
         <div className="bg-gray-300 col-span-3 w-[904px] overflow-hidden">
           <div className="relative w-[620px] h-[620px] rounded-[32px]">
@@ -130,8 +157,13 @@ function MatchingPage() {
                 >
                   <h3>{character.name}</h3>
                   <div>
-                    <button onClick={handleShowProfile}><img src={eye_button} alt="Eye" /></button>
-
+                    <button onClick={handleShowProfile}>
+                      <img
+                        src={eye_button}
+                        alt="Eye"
+                        className="pointer-events-none"
+                      />
+                    </button>
                   </div>
                 </div>
               </TinderCard>
@@ -139,25 +171,20 @@ function MatchingPage() {
           </div>
           <div className=" flex justify-center gap-2">
             <img
-              src="/public/icon/crossbutton.png"
+              src="/icon/crossbutton.png"
               className="transform hover:scale-110 transition duration-300  active:scale-90 "
               onClick={() => swipe("left")}
             />
 
             <img
-              src="/public/icon/heartbutton.png"
+              src="/icon/heartbutton.png"
               className="transform hover:scale-110 transition duration-300 active:scale-90"
               onClick={() => swipe("right")}
             />
           </div>
         </div>
         {/* ------------------------section 3 ----------------------------  */}
-=======
-        <div className="bg-gray-300 col-span-3 w-[904px]">
-          <ProfilePopup />
-        </div>
 
->>>>>>> bf07151 (feat: adjust put-api)
         <div className="   w-[220px] flex flex-row justify-center ">
           <div className=" flex flex-col items-center  w-[188px] mx-auto>">
             <div className="flex flex-col gap-10 mb-[170px]">

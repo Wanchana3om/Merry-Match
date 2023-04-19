@@ -87,11 +87,7 @@ function RegisterPage() {
     } else if (password !== confirmPassword) {
       alert("Passwords do not match");
     } else if (ageInYears < 18) {
-<<<<<<< HEAD
-      alert("Users must be at least 18 years or older")
-=======
       alert("Users must be at least 18 years or older");
->>>>>>> 8273aaa (feat: add user profile data retrieval function)
     } else {
       setCurrentFormPage(currentFormPage + 1);
     }
