@@ -242,7 +242,7 @@ function MatchingPage() {
         {/* ------------------------section 3 ----------------------------  */}
         <form
           onSubmit={handleSubmit}
-          className="   w-[220px] flex flex-row justify-center "
+          className="   w-[210px] flex flex-row justify-center "
         >
           <div className=" flex flex-col items-center  w-[188px] mx-auto>">
             <div className="flex flex-col gap-10 mb-[170px]">
@@ -362,7 +362,7 @@ function MatchingPage() {
               </div>
             </div>
 
-            <div className="w-[220px] flex justify-center items-center border-t-[1px] border-gray-400">
+            <div className="w-[210px]  flex justify-center items-center border-t-[1px] border-gray-400">
               <div className="flex justify-center items-center w-[188px]  pt-6 ">
                 <h1
                   onClick={handleClear}
