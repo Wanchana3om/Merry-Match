@@ -721,13 +721,12 @@ function OwnerProfile() {
             </div>
             <div>
               <h1>About me (Maximum 150 characters)</h1>
-              <label htmlFor="About me">
-                <div className="border-[1px] border-[#D6D9E4] rounded-lg w-[931px] h-[120px] py-[12px] pr-[16px] pl-[12px]">
-                  <textarea
-                    className="w-full h-full resize-none border-0 outline-none"
-                    name="About me"
-                  />
-                </div>
+            <label htmlFor="About me">
+                <textarea
+                  className="border-[1px] border-[#D6D9E4] rounded-lg w-[931px] h-[120px] py-[12px] pr-[16px] pl-[12px] "
+                  type="text"
+                  name="About me"
+                />
               </label>
             </div>
           </div>
