@@ -57,13 +57,49 @@ function MerryList() {
               <img src="/merrylist/message.png" alt="message" />
               <img src="/merrylist/action button.png" alt="view" />
               <img src="/merrylist/redheart.png" alt="match" />
+                </div>
             </div>
           </div>
         </div>
+        <div className="w-[900px] mx-auto">
+          
+
+              <input
+                  type="range"
+                  id="age-range"
+                  name="age-range"
+                  min="18"
+                  max="100"
+                  className="block w-full h-1 mt-1 bg-gray-300 rounded-md appearance-none focus:outline-none"
+                  />
+                <div className="flex justify-evenly items-center">
+                  <input
+                    type="number"
+                    id="min-age"
+                    name="min-age"
+                    className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
+                    />
+                  <p> - </p>
+                  <input
+                    type="number"
+                    id="max-age"
+                    name="max-age"
+                    value="100"
+                    className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
+                    />
+        
+                    </div>
       </div>
+
+      
+      
+
+
       <Footer />
     </>
   );
 }
 
 export default MerryList;
+
+
