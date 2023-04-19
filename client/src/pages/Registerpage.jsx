@@ -79,7 +79,7 @@ function RegisterPage() {
     } else if (password !== confirmPassword) {
       alert("Passwords do not match");
     } else if (ageInYears < 18) {
-      alert("เด็กน้อย")
+      alert("Users must be at least 18 years or older")
     } else {
       setCurrentFormPage(currentFormPage + 1);
     }
