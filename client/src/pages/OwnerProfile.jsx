@@ -8,20 +8,20 @@ function OwnerProfile() {
   const params = useParams();
   // const { /*user, /*getUserById ,*/ updateDataById } = useData();
 
-  const [name, setName] = useState("lungpom");
+  const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("2022-01-01");
   const [location, setLocation] = useState("");
   const [city, setCity] = useState("");
-  const [username, setUsername] = useState("pa");
-  const [email, setEmail] = useState("ar");
-  const [sexualIdentity, setSexualIdentity] = useState("Male");
-  const [sexualPreference, setSexualPreference] = useState("Female");
-  const [racialPreference, setRacialPreference] = useState("Asia");
-  const [meetingInterest, setMeetingInterest] = useState("Partners");
-  const [hobbyLists, setHobbyLists] = useState(["lungtuu2","lungtuu1"]);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [sexualIdentity, setSexualIdentity] = useState("");
+  const [sexualPreference, setSexualPreference] = useState("");
+  const [racialPreference, setRacialPreference] = useState("");
+  const [meetingInterest, setMeetingInterest] = useState("");
+  const [hobbyLists, setHobbyLists] = useState([]);
   const [info, setInfo] = useState("");
   const [images, setImages] = useState([null, null, null, null, null]);
-  console.log(name);
+  
 
   // useEffect(() => {
   //   getUserById(params.userId);
@@ -397,7 +397,7 @@ function OwnerProfile() {
 
           {/*------------------------section 3 ---------------------------- */}
 
-          <div className="bg-[#FCFCFE] form-container w-[1440px] py-8 h-[500px]">
+          <div className="bg-[#FCFCFE] form-container w-full py-8 h-[500px]">
             <h1 className="text-2xl text-[#A62D82] font-[700] mb-1">
               Profile pictures
             </h1>
