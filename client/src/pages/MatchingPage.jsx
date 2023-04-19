@@ -75,7 +75,7 @@ function MatchingPage() {
     await childRefs[newIndex].current.restoreCard();
   };
 
-  function handleAgeRangeChange(event) {
+  const handleAgeRangeChange = (event) => {
     setAgeRange(event.target.value);
   }
 
