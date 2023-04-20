@@ -2,7 +2,7 @@ import NavigationbarUser from "../components/NavigationbarUser";
 import React, { useState, useMemo, useRef } from "react";
 import TinderCard from "react-tinder-card";
 import ProfilePopup from "../components/ProfilePopup";
-import eye_button from "/merrylist/eye_button.png"
+import eye_button from "/merrylist/eye_button.png";
 
 const db = [
   {
@@ -28,7 +28,7 @@ const db = [
 ];
 
 function MatchingPage() {
-  const [ageRange, setAgeRange] = useState(18);
+  const [ageRange, setAgeRange] = useState([18, 100]);
 
   const [currentIndex, setCurrentIndex] = useState(db.length - 1);
   const [lastDirection, setLastDirection] = useState();
@@ -75,26 +75,28 @@ function MatchingPage() {
     updateCurrentIndex(newIndex);
     await childRefs[newIndex].current.restoreCard();
   };
-
+  // --------- age ----------------
   const handleAgeRangeChange = (event) => {
-    setAgeRange(event.target.value);
+    setAgeRange([parseInt(event.target.value), ageRange[1]]);
+  };
 
-  }
-  const [showProfile, setShowProfile] = useState(false)
+  const handleAgeMaxRangeChange = (event) => {
+    setAgeRange([ageRange[0], parseInt(event.target.value)]);
+  };
+
+  // --------- pop up ----------------
+  const [showProfile, setShowProfile] = useState(false);
   const handleShowProfile = () => {
-    setShowProfile(!showProfile)
-  }
+    setShowProfile(!showProfile);
+  };
   const handleCloseProfile = () => {
-    setShowProfile(false)
-  }
+    setShowProfile(false);
+  };
 
   return (
     <>
-
       <NavigationbarUser />
-      {showProfile && (
-        <ProfilePopup handleClose={handleCloseProfile} />
-      )}
+      {showProfile && <ProfilePopup handleClose={handleCloseProfile} />}
       <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row">
         <div className="w-[316px]">
           <div className="w-[316px] border-b-[1px] border-gray-400">
@@ -145,8 +147,8 @@ function MatchingPage() {
         </div>
 
         {/* ------------------------section 2 ----------------------------  */}
-        <div className="bg-gray-300 col-span-3 w-[904px] overflow-hidden">
-          <div className="relative w-[620px] h-[620px] rounded-[32px]">
+        <div className="bg-[#160404] col-span-3 w-[904px] overflow-hidden">
+          <div className="relative w-[620px] h-[620px] mt-40 rounded-[32px]">
             {db.map((character, index) => (
               <TinderCard
                 ref={childRefs[index]}
@@ -161,8 +163,9 @@ function MatchingPage() {
                 >
                   <h3>{character.name}</h3>
                   <div>
-                    <button onClick={handleShowProfile}><img src={eye_button} alt="Eye" /></button>
-
+                    <button onClick={handleShowProfile}>
+                      <img src={eye_button} alt="Eye" />
+                    </button>
                   </div>
                 </div>
               </TinderCard>
@@ -235,7 +238,7 @@ function MatchingPage() {
               </div>
 
               <div className="flex flex-col gap-6">
-                <label for="age-range" className="text-[#191C77] font-bold">
+                <label htmlFor="age-range" className="text-[#191C77] font-bold">
                   Age Range
                 </label>
                 <input
@@ -244,25 +247,41 @@ function MatchingPage() {
                   name="age-range"
                   min="18"
                   max="100"
-                  value={ageRange}
-                  className="block w-full h-1 mt-1 bg-gray-300 rounded-md appearance-none focus:outline-none"
+                  value={ageRange[0]}
+                  className="range  h-2 rounded-full"
                   onInput={handleAgeRangeChange}
+                  onChange={handleAgeRangeChange}
+                  step="2"
+                />
+                <input
+                  type="range"
+                  id="age-max-range"
+                  name="age-max-range"
+                  min="18"
+                  max="100"
+                  value={ageRange[1]}
+                  className="range  h-2 rounded-full"
+                  onInput={handleAgeMaxRangeChange}
+                  onChange={handleAgeMaxRangeChange}
+                  step="2"
                 />
                 <div className="flex justify-evenly items-center">
                   <input
                     type="number"
                     id="min-age"
                     name="min-age"
-                    value={ageRange}
+                    value={ageRange[0]}
                     className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
+                    onChange={handleAgeRangeChange}
                   />
                   <p> - </p>
                   <input
                     type="number"
                     id="max-age"
                     name="max-age"
-                    value="100"
+                    value={ageRange[1]}
                     className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
+                    onChange={handleAgeMaxRangeChange}
                   />
                 </div>
               </div>

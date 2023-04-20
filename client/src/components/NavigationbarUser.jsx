@@ -28,7 +28,7 @@ function NavigationbarUser() {
               <Link to="/matching">Start Matching!</Link>
             </li>
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77] ">
-              <Link to="/">Merry Membership</Link>
+              <Link to="/merrypackage">Merry Membership</Link>
             </li>
 
             <div className="pr-[12px]">
@@ -84,7 +84,7 @@ function NavigationbarUser() {
                       alt="icon"
                     />
                     <a
-                      href="#"
+                      href="/merrypackage"
                       className="block px-4 py-2 text-sm text-gray-700 "
                     >
                       Merry Membership
