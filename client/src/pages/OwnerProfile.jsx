@@ -3,6 +3,8 @@ import Footer from "../components/Footer";
 import NavigationbarUser from "../components/NavigationbarUser";
 import { useParams } from "react-router";
 import useData from "../hook/useData";
+import ProfilePopup from "../components/ProfilePopup";
+
 import DeletePopup from "../components/DeletePopup";
 import axios from "axios";
 import { useAuth } from "../contexts/authentication";
@@ -190,9 +192,26 @@ function OwnerProfile(props) {
     setDeleteAccount(false);
   };
 
+  const [showProfile, setShowProfile] = useState(false)
+  const handleShowProfile = (event) => {
+    event.preventDefault()
+    setShowProfile(!showProfile)
+  }
+  const handleClosePopupProfile = () => {
+    setShowProfile(false)
+  }
+
   return (
     <>
       <NavigationbarUser />
+
+      {deleteAccount && (
+        <DeletePopup handleClose={handleClosePopupDelete} />
+      )}
+      {showProfile && (
+        <ProfilePopup handleClose={handleClosePopupProfile} />
+      )}
+
       <form /* onSubmit={handleSubmit} */>
         <div className="flex flex-col font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE] w-screen ">
            <div className="w-[1440px] mx-auto bg-[#FCFCFE]">
@@ -205,7 +224,7 @@ function OwnerProfile(props) {
               </h1>
             </div>
             <div className="flex gap-2">
-              <button className="text-[#95002B] bg-[#FFE1EA] py-3 px-6 rounded-[99px] hover:bg-[#FFB1C8]">
+              <button className="text-[#95002B] bg-[#FFE1EA] py-3 px-6 rounded-[99px] hover:bg-[#FFB1C8]" onClick={handleShowProfile}>
                 Preview Profile
               </button>
               <button
