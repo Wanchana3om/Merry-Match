@@ -2,6 +2,7 @@ import { useState } from "react";
 import Footer from "../components/Footer";
 import NavigationbarUser from "../components/NavigationbarUser";
 import { useParams } from "react-router";
+import ProfilePopup from "../components/ProfilePopup";
 // import useData from "../hook/useData";
 
 import DeletePopup from "../components/DeletePopup";
@@ -156,13 +157,25 @@ function OwnerProfile() {
     setDeleteAccount(false)
   }
 
+  const [showProfile, setShowProfile] = useState(false)
+  const handleShowProfile = (event) => {
+    event.preventDefault()
+    setShowProfile(!showProfile)
+  }
+  const handleClosePopupProfile = () => {
+    setShowProfile(false)
+  }
+
   return (
     <>
       <NavigationbarUser />
 
-    {deleteAccount && (
-      <DeletePopup handleClose={handleClosePopupDelete}/>
-    )}
+      {deleteAccount && (
+        <DeletePopup handleClose={handleClosePopupDelete} />
+      )}
+      {showProfile && (
+        <ProfilePopup handleClose={handleClosePopupProfile} />
+      )}
 
       <form /* onSubmit={handleSubmit} */>
         <div className="flex flex-col font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
@@ -175,7 +188,7 @@ function OwnerProfile() {
               </h1>
             </div>
             <div className="flex gap-2">
-              <button className="text-[#95002B] bg-[#FFE1EA] py-3 px-6 rounded-[99px] hover:bg-[#FFB1C8]">
+              <button className="text-[#95002B] bg-[#FFE1EA] py-3 px-6 rounded-[99px] hover:bg-[#FFB1C8]" onClick={handleShowProfile}>
                 Preview Profile
               </button>
               <button
@@ -373,7 +386,7 @@ function OwnerProfile() {
                   <div className=" border-[1px] border-none rounded-lg h-[full] p-[8px] text-[#9AA1B9] text-sm ">
                     <ul className="flex flex-row">
                       {hobbyLists.map((hobby, index) => (
-                        <li 
+                        <li
                           key={index}
                           className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
                         >
@@ -422,7 +435,7 @@ function OwnerProfile() {
             <div className="grid grid-cols-5 grid-rows-1 gap-2">
               {images.map((image, index) => (
                 <>
-                  <div 
+                  <div
                     key={index}
                     className="w-[167px] h-[167px] bg-[#F1F2F6] rounded-2xl cursor-pointer relative z-0 "
                     onClick={() => handleImageClick(index)}
