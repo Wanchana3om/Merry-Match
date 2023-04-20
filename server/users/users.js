@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { supabase } from "../app.js";
-import { v4 as uuidv4 } from "uuid";
 
 const usersRouter = Router();
 
@@ -154,9 +153,9 @@ usersRouter.get("/", async (req, res) => {
 
     // Build the query based on the provided parameters
     const query = supabase
-      .from("users")
+      .from("hobbies_interests")
       .select(
-        `user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)`
+        `users(user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url)), hob_list`
       );
 
     const maxAge = parseInt(max_age);
@@ -174,18 +173,18 @@ usersRouter.get("/", async (req, res) => {
     if (keyword && meeting_interest && min_age && max_age) {
       // Add keyword, meeting_interest and age filters
       query
-        .ilike("username", `%${keyword}%`)
+        .ilike("hob_list", `%${keyword}%`)
         .in("meeting_interest", meeting_interest.split(","))
         .gte("birthDate", minBirthDate)
         .lte("birthDate", maxBirthDate);
     } else if (keyword && meeting_interest) {
       // Add keyword and meeting_interest filters
       query
-        .ilike("username", `%${keyword}%`)
+        .ilike("hob_list", `%${keyword}%`)
         .in("meeting_interest", meeting_interest.split(","));
     } else if (keyword && min_age && max_age) {
       query
-        .ilike("username", `%${keyword}%`)
+        .ilike("hob_list", `%${keyword}%`)
         .gte("birthDate", minBirthDate)
         .lte("birthDate", maxBirthDate);
     } else if (meeting_interest && min_age && max_age) {
@@ -196,7 +195,7 @@ usersRouter.get("/", async (req, res) => {
     } else {
       // Default query with no filters
       if (keyword) {
-        query.ilike("username", `%${keyword}%`);
+        query.ilike("hob_list", `%${keyword}%`);
       }
       if (meeting_interest) {
         query.in("meeting_interest", meeting_interest.split(","));
@@ -217,6 +216,5 @@ usersRouter.get("/", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
-
 
 export default usersRouter;
