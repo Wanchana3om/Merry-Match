@@ -16,7 +16,6 @@ const useData = () => {
       setIsLoading(true);
       await axios.put(`http://localhost:3000/users/${userId}`, data);
       setIsLoading(false);
-    //   navigate("/");
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -24,12 +23,33 @@ const useData = () => {
   };
 
 
-
- 
-  return {
+  const getData = async (input) => {
+    const { keyword, meetingInterest,minAge, maxAge} = input;
+    console.log(input);
+    try {
+      const params = new URLSearchParams();
+      params.append("keyword", keyword);
+      params.append("meeting_interest", meetingInterest);
+      params.append("min_age", minAge);
+      params.append("max_age", maxAge);
     
+      setIsError(false);
+      setIsLoading(true);
+      await axios.get(
+        `http://localhost:3000/users?keyword=${keyword}&meeting_interest=${meeting_interest}&min_age=${min_age}&max_age=${max_age}`
+      );
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+    }
+  };
+
+  
+
+  return {
     user,
     updateDataById,
+    getData,
     isError,
     isLoading,
   };

@@ -194,7 +194,8 @@ function OwnerProfile(props) {
     <>
       <NavigationbarUser />
       <form /* onSubmit={handleSubmit} */>
-        <div className="flex flex-col font-nunito h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
+        <div className="flex flex-col font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE] w-screen ">
+           <div className="w-[1440px] mx-auto bg-[#FCFCFE]">
           <div className="flex flex-row justify-between items-center w-full ">
             <div>
               <h2 className="text-[#7B4429] text-sm">Profile</h2>
@@ -488,6 +489,7 @@ function OwnerProfile(props) {
               ))}
             </div>
           </div>
+        </div>
         </div>
       </form>
       <Footer />

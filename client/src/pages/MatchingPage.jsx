@@ -3,35 +3,97 @@ import React, { useState, useMemo, useRef } from "react";
 import TinderCard from "react-tinder-card";
 import ProfilePopup from "../components/ProfilePopup";
 import eye_button from "/merrylist/eye_button.png";
+import useData from "../hook/useData";
+import {
+  RangeSlider,
+  RangeSliderTrack,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
+} from "@chakra-ui/react";
 
 const db = [
   {
     name: "Richard Hendricks",
-    url: "./img/richard.jpg",
+    url: "/img/richard.jpg",
   },
   {
     name: "Erlich Bachman",
-    url: "./img/erlich.jpg",
+    url: "/img/erlich.jpg",
   },
   {
     name: "Monica Hall",
-    url: "./emmy.jpg",
+    url: "/emmy.jpg",
   },
   {
     name: "Jared Dunn",
-    url: "./jbareham.jpg",
+    url: "/jbareham.jpg",
   },
   {
     name: "Dinesh Chugtai",
-    url: "./dragon.jpg",
+    url: "/dragon.jpg",
   },
 ];
 
 function MatchingPage() {
-  const [ageRange, setAgeRange] = useState(18);
-
   const [currentIndex, setCurrentIndex] = useState(db.length - 1);
   const [lastDirection, setLastDirection] = useState();
+  const [keyword, setKeyword] = useState("");
+  const [meetingInterest, setMeetingInterest] = useState([]);
+  const [minAge, setMinAge] = useState(18);
+  const [maxAge, setMaxAge] = useState(50);
+  // const [range, setRange] = useState([18, 50]);
+
+  const { getData } = useData();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    getData({
+      keyword,
+      meetingInterest,
+      minAge,
+      maxAge,
+    });
+  };
+
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+
+    if (event.target.checked) {
+      setMeetingInterest((prevMeetingInterest) => [
+        ...prevMeetingInterest,
+        value,
+      ]);
+    } else {
+      setMeetingInterest((prevMeetingInterest) =>
+        prevMeetingInterest.filter((item) => item !== value)
+      );
+    }
+  };
+  console.log(keyword);
+  console.log(meetingInterest);
+  console.log(minAge);
+  console.log(maxAge);
+
+  const handleRangeChange = (newRange) => {
+    setMinAge(newRange[0]);
+    setMaxAge(newRange[1]);
+  };
+
+  const handleMinChange = (event) => {
+    setMinAge(parseInt(event.target.value));
+  };
+
+  const handleMaxChange = (event) => {
+    setMaxAge(parseInt(event.target.value));
+  };
+
+  const handleClear = (event) => {
+    event.preventDefault();
+    setKeyword("");
+    setMeetingInterest([]);
+    window.location.reload();
+  };
 
   const currentIndexRef = useRef(currentIndex);
 
@@ -76,9 +138,9 @@ function MatchingPage() {
     await childRefs[newIndex].current.restoreCard();
   };
 
-  const handleAgeRangeChange = (event) => {
-    setAgeRange(event.target.value);
-  };
+  // const handleAgeRangeChange = (event) => {
+  //   setAgeRange(event.target.value);
+  // };
   const [showProfile, setShowProfile] = useState(false);
   const handleShowProfile = () => {
     setShowProfile(!showProfile);
@@ -91,7 +153,7 @@ function MatchingPage() {
     <>
       <NavigationbarUser />
       {showProfile && <ProfilePopup handleClose={handleCloseProfile} />}
-      <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row">
+      <div className="font-nunito mx-auto w-[1440px] h-[936px]  flex flex-row">
         <div className="w-[316px]">
           <div className="w-[316px] border-b-[1px] border-gray-400">
             <div className="w-[282px] mx-auto py-[36px]">
@@ -183,105 +245,148 @@ function MatchingPage() {
             />
           </div>
         </div>
-        {/* ------------------------section 3 ----------------------------  */}
 
-        <div className="   w-[220px] flex flex-row justify-center ">
+        {/* ------------------------section 3 ----------------------------  */}
+        <form
+          onSubmit={handleSubmit}
+          className="   w-[210px] flex flex-row justify-center "
+        >
           <div className=" flex flex-col items-center  w-[188px] mx-auto>">
             <div className="flex flex-col gap-10 mb-[170px]">
               <div className="mt-6 flex flex-col gap-5">
                 <h1 className="text-[#191C77] font-bold">Search by Keywords</h1>
                 <input
-                  placeholder="   Search..."
+                  placeholder="Search..."
                   type="text"
-                  className="py-3 border-[1px] border-[#CCD0D7] rounded-lg"
+                  value={keyword}
+                  className="py-3 border-[1px] w-[168px] px-[10px] border-[#CCD0D7] rounded-lg "
+                  onChange={(event) => {
+                    setKeyword(event.target.value);
+                  }}
                 />
               </div>
-              <div class="flex flex-col gap-3 ">
-                <h1 class="text-[#191C77] font-bold">Sex you interest</h1>
-                <div class="flex">
+
+              <div className="flex flex-col gap-3 ">
+                <h1 className="text-[#191C77] font-bold">Sex you interest</h1>
+                <div className="flex">
                   <input
                     type="checkbox"
-                    id="sex1"
-                    name="sex1"
-                    value="Default"
-                    class="w-[24px] h-[24px] rounded-lg"
+                    id="Friends"
+                    name="Friends"
+                    value="Friends"
+                    className="w-[24px] h-[24px] rounded-lg"
+                    onChange={handleCheckboxChange}
                   />
-                  <label for="sex1" class="ml-[12px] text-[#646D89]">
-                    Default
+                  <label htmlFor="sex1" className="ml-[12px] text-[#646D89]">
+                    Friends
                   </label>
                 </div>
-                <div class="flex mt-[16px]">
+                <div className="flex mt-[16px]">
                   <input
                     type="checkbox"
-                    id="sex2"
-                    name="sex2"
-                    value="Female"
-                    class="w-[24px] h-[24px] rounded-lg"
+                    id="Partners"
+                    name="Partners"
+                    value="Partners"
+                    className="w-[24px] h-[24px] rounded-lg"
+                    onChange={handleCheckboxChange}
                   />
-                  <label for="sex2" class="ml-[12px] text-[#646D89]">
-                    Female
+
+                  <label htmlFor="sex2" className="ml-[12px] text-[#646D89]">
+                    Partners
                   </label>
                 </div>
-                <div class="flex mt-[16px]">
+                <div className="flex mt-[16px]">
                   <input
                     type="checkbox"
-                    id="sex3"
-                    name="sex3"
-                    value="Non-binary people"
-                    class="w-[24px] h-[24px] rounded-lg"
+                    id="Short-term commitment"
+                    name="Short-term commitment"
+                    value="Short-term commitment"
+                    className="w-[24px] h-[24px] rounded-lg"
+                    onChange={handleCheckboxChange}
                   />
-                  <label for="sex3" class="ml-[12px] text-[#646D89]">
-                    Non-binary people
+
+                  <label htmlFor="sex3" className="ml-[12px] text-[#646D89]">
+                    Short-term
+                  </label>
+                </div>
+                <div className="flex mt-[16px]">
+                  <input
+                    type="checkbox"
+                    id="Long-term commitment"
+                    name="Long-term commitment"
+                    value="Long-term commitment"
+                    className="w-[24px] h-[24px] rounded-lg"
+                    onChange={handleCheckboxChange}
+                  />
+
+                  <label htmlFor="sex3" className="ml-[12px] text-[#646D89]">
+                    Long-term
                   </label>
                 </div>
               </div>
 
               <div className="flex flex-col gap-6">
-                <label for="age-range" className="text-[#191C77] font-bold">
+                <label htmlFor="age-range" className="text-blue-700 font-bold">
                   Age Range
                 </label>
-                <input
-                  type="range"
-                  id="age-range"
-                  name="age-range"
-                  min="18"
-                  max="100"
-                  value={ageRange}
-                  className="block w-full h-1 mt-1 bg-gray-300 rounded-md appearance-none focus:outline-none"
-                  onInput={handleAgeRangeChange}
-                />
-                <div className="flex justify-evenly items-center">
-                  <input
-                    type="number"
-                    id="min-age"
-                    name="min-age"
-                    value={ageRange}
-                    className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
-                  />
-                  <p> - </p>
-                  <input
-                    type="number"
-                    id="max-age"
-                    name="max-age"
-                    value="100"
-                    className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
-                  />
+                <div className="relative w-full">
+                  <RangeSlider
+                    aria-label={["min", "max"]}
+                    colorScheme="pink"
+                    defaultValue={[minAge, maxAge]}
+                    min={18}
+                    max={100}
+                    onChange={handleRangeChange}
+                    >
+                    <RangeSliderTrack>
+                      <RangeSliderFilledTrack />
+                    </RangeSliderTrack>
+                    <RangeSliderThumb index={0} />
+                    <RangeSliderThumb index={1} />
+                  </RangeSlider>
+                  <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-between mt-[40px]">
+                    <input
+                      type="number"
+                      id="min"
+                      value={minAge}
+                      onChange={handleMinChange}
+                      min={18}
+                      max={maxAge}
+                      className="border-[1px] mr-[4px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
+                      />
+                    <div className="mt-[10px]"> - </div>
+                    <input
+                      type="number"
+                      id="max"
+                      value={maxAge}
+                      onChange={handleMaxChange}
+                      min={minAge}
+                      max={100}
+                      className="border-[1px] ml-[4px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
+                      />
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="w-[220px] flex justify-center items-center border-t-[1px] border-gray-400">
+            <div className="w-[210px]  flex justify-center items-center border-t-[1px] border-gray-400">
               <div className="flex justify-center items-center w-[188px]  pt-6 ">
-                <h1 className="py-3 px-6 text-[#C70039] hover:underline hover:text-[#FF1659] hover:cursor-pointer">
+                <h1
+                  onClick={handleClear}
+                  className="py-3 px-6 text-[#C70039] hover:underline hover:text-[#FF1659] hover:cursor-pointer"
+                >
                   Clear
                 </h1>
-                <button className="py-3 px-6 bg-[#C70039] rounded-[99px] text-white hover:bg-[#FF1659]">
+                <button
+                  type="submit"
+                  className="py-3 px-6 bg-[#C70039] rounded-[99px] text-white hover:bg-[#FF1659]"
+                >
                   Search
                 </button>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );

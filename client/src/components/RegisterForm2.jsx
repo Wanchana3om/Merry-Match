@@ -1,8 +1,6 @@
 import { useState } from "react";
 
 function RegisterForm2(props) {
-  // const [hobbyLists, setHobbyLists] = useState([]);
-  // const [info, setInfo] = useState("");
   const maxHobbies = 10;
 
   const addHobbyLists = () => {
