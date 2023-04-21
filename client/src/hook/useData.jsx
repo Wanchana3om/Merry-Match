@@ -42,6 +42,22 @@ const useData = () => {
           setIsLoading(false);
         }
       };
+
+      const deleteUserProfile = async (userId) => {
+        try {
+          setIsError(false);
+          setIsLoading(true);
+          await axios.delete(`http://localhost:3000/users/${userId}`);
+          const newUser = user.filter((user) => {
+            return user._id !== userId;
+          });
+          setPosts(newUser);
+          setIsLoading(false);
+        } catch (error) {
+          setIsError(true);
+          setIsLoading(false);
+        }
+      };
     
   
 
@@ -49,6 +65,7 @@ const useData = () => {
     user,
     updateUserProfile,
     getData,
+    deleteUserProfile,
     isError,
     isLoading,
   };
