@@ -3,7 +3,6 @@ import { supabase } from "../app.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-
 const authRouter = Router();
 
 authRouter.post("/register", async (req, res) => {
@@ -50,6 +49,7 @@ authRouter.post("/register", async (req, res) => {
           meeting_interest: meeting_interest,
           created_at: new Date().toISOString(),
           last_logged_in: new Date().toISOString(),
+          mer_id: null,
         },
       ])
       .select("user_id");
@@ -57,6 +57,30 @@ authRouter.post("/register", async (req, res) => {
       return res.status(500).send(error.message);
     } else {
       const userId = data[0].user_id;
+      const { data: merData, error: merError } = await supabase
+        .from("merry_list")
+        .insert([
+          {
+            mer_id: userId,
+          },
+        ]);
+      if (merError) {
+        return res.status(500).send(merError.message);
+      }
+
+      const { data: insertMer, error: insertMerError } = await supabase
+        .from("users")
+        .update([
+          {
+            mer_id: userId,
+            mer_limit: 20,
+          },
+        ])
+        .eq("user_id", userId);
+      if (insertMerError) {
+        return res.status(500).send(insertMerError.message);
+      }
+
       const hobbyList = req.body.hobby?.slice(0, 10) || [];
       if (hobbyList.length > 0) {
         const { data: hobbyData, error: hobbyError } = await supabase

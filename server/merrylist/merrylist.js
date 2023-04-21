@@ -1,0 +1,152 @@
+import { Router } from "express";
+import { supabase } from "../app.js";
+
+const merryRouter = Router();
+
+// get all user in merrylist page
+merryRouter.get("/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { data, error } = await supabase
+      .from("merry_status")
+      .select("mer_id, user_id")
+      .eq("mer_id", userId);
+
+    if (error) throw error;
+
+    const userIds = data.map((user) => user.user_id);
+    const usersData = await supabase
+      .from("users")
+      .select(
+        "user_id, name, birthDate, location, city, sexual_identity, sexual_preference, racial_preference, meeting_interest"
+      )
+      .in("user_id", userIds);
+
+    res.json(usersData.data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+// put user in merrylist by love of swipe right
+merryRouter.put("/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const newUserId = req.body.newUserId;
+
+    const { data: existingData } = await supabase
+      .from("merry_status")
+      .select("status_id")
+      .eq("mer_id", userId)
+      .eq("user_id", newUserId);
+
+    if (existingData.length === 0) {
+      const { error: updateError } = await supabase
+        .from("merry_status")
+        .insert([
+          { mer_id: userId, user_id: newUserId, mer_status: "Not Match Yet" },
+        ])
+        .eq("mer_id", userId);
+
+      if (updateError) throw updateError;
+    }
+    // select status_id form meery_status for updating to merry_list
+    const { data, selectError } = await supabase
+      .from("merry_status")
+      .select("status_id")
+      .eq("mer_id", userId);
+
+    if (selectError) throw selectError;
+    console.log(data);
+
+    const statusIds = data
+      .map((status) => status.status_id)
+      .filter((id) => id !== null && id !== undefined);
+    const newStatusIds = [...statusIds, data.status_id];
+    const newAllStatusId = newStatusIds.filter(
+      (id) => id !== null && id !== undefined
+    );
+    console.log(newAllStatusId);
+
+    // Update the all_user field in the database
+    const { error: insertError } = await supabase
+      .from("merry_list")
+      .update({ all_status_id: newAllStatusId })
+      .eq("mer_id", userId);
+
+    if (insertError) throw insertError;
+
+    res.json({ message: "Merrylist has been updated successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+// deleted user in merry_status
+merryRouter.delete("/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const deleteUserId = parseInt(
+      req.body.deleteUserId.toString().replace(/\D/g, "")
+    );
+
+    const { data, error } = await supabase
+      .from("merry_status")
+      .select("user_id")
+      .eq("mer_id", userId)
+      .eq("user_id", deleteUserId)
+      .single();
+
+    if (error) throw error;
+    console.log(data);
+    console.log(deleteUserId);
+
+    if (data) {
+      const { error: deleteError } = await supabase
+        .from("merry_status")
+        .delete()
+        .eq("mer_id", userId)
+        .eq("user_id", deleteUserId);
+
+      if (deleteError) throw deleteError;
+    }
+
+    const { data: selectData, error: selectError } = await supabase
+      .from("merry_status")
+      .select("status_id")
+      .eq("mer_id", userId);
+
+    if (selectError) throw selectError;
+
+    console.log(userId);
+    console.log(selectData);
+
+    const statusIds = selectData
+      .map((status) => status.status_id)
+      .filter((id) => id !== null && id !== undefined);
+    const newStatusIds = [...statusIds, data.status_id];
+    const newAllStatusId = newStatusIds.filter(
+      (id) => id !== null && id !== undefined
+    );
+    console.log(newAllStatusId);
+
+    // Update the all_user field in the database
+    const { error: insertError } = await supabase
+      .from("merry_list")
+      .update({ all_status_id: newAllStatusId })
+      .eq("mer_id", userId);
+
+    if (insertError) throw insertError;
+
+    res.json({
+      message: `User ${deleteUserId} removed from Merry List ${userId}`,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+export default merryRouter;
