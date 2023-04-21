@@ -44,16 +44,15 @@ function RegisterForm3(props) {
   };
 
   const deleteImage = (event, index) => {
+    event.stopPropagation();
     event.preventDefault();
     delete props.imageUrls[Object.keys(props.imageUrls)[index]];
     props.setImageUrls({ ...props.imageUrls });
-
-    event.stopPropagation();
     const newImages = [...props.images];
     newImages[index] = null;
     props.setImages(newImages);
+    
   };
-
   return (
     <div className="bg-[#FCFCFE] form-container px-[255px] w-[1440px] mx-auto py-8 h-[500px]">
       <h1 className="text-2xl text-[#A62D82] font-[700] mb-1">

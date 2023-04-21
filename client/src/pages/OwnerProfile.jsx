@@ -4,29 +4,31 @@ import NavigationbarUser from "../components/NavigationbarUser";
 import { useParams } from "react-router";
 import useData from "../hook/useData";
 import ProfilePopup from "../components/ProfilePopup";
-
 import DeletePopup from "../components/DeletePopup";
 import axios from "axios";
-import { useAuth } from "../contexts/authentication";
 import jwtDecode from "jwt-decode";
 
-function OwnerProfile(props) {
+function OwnerProfile() {
   const params = useParams();
-  const { /*user, /*getUserById ,*/ updateDataById } = useData();
+  const { updateUserProfile } = useData();
 
-  const [name, setName] = useState("lungpom");
-  const [birthDate, setBirthDate] = useState("2022-01-01");
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [location, setLocation] = useState("");
   const [city, setCity] = useState("");
-  const [username, setUsername] = useState("pa");
-  const [email, setEmail] = useState("ar");
-  const [sexualIdentity, setSexualIdentity] = useState("Male");
-  const [sexualPreference, setSexualPreference] = useState("Female");
-  const [racialPreference, setRacialPreference] = useState("Asia");
-  const [meetingInterest, setMeetingInterest] = useState("Partners");
+  const [email, setEmail] = useState("");
+  const [sexualIdentity, setSexualIdentity] = useState("");
+  const [sexualPreference, setSexualPreference] = useState("");
+  const [racialPreference, setRacialPreference] = useState("");
+  const [meetingInterest, setMeetingInterest] = useState("");
   const [hobbyLists, setHobbyLists] = useState([]);
+  const [aboutMe, setAboutMe] = useState("");
+  const [images, setImages] = useState(Array(5).fill(null));
   const [info, setInfo] = useState("");
-  const [images, setImages] = useState([null, null, null, null, null]);
+
+
+  console.log(images);
 
   const getUserProfile = async () => {
     const token = localStorage.getItem("token");
@@ -52,7 +54,7 @@ function OwnerProfile(props) {
         setSexualPreference(result.data[0].sexual_preference);
         setRacialPreference(result.data[0].recial_preference);
         setMeetingInterest(result.data[0].meeting_interest);
-        setInfo(result.data[0].about_me);
+        setAboutMe(result.data[0].about_me);
 
         let newHobbyList = [];
         let hobbyData = result.data[0].hobbies_interests;
@@ -68,9 +70,8 @@ function OwnerProfile(props) {
         for (let i = 0; i < imageData.length; i++) {
           newImageList.push(imageData[i].pic_url);
         }
-        setImages(newImageList);
+        setImages([...newImageList, ...Array(5 - newImageList.length).fill(null)]); 
 
-        console.log(newImageList);
         console.log(newHobbyList);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
@@ -78,25 +79,27 @@ function OwnerProfile(props) {
     }
   };
 
+  
+
   useEffect(() => {
     getUserProfile();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
-    updateUserById(params.userId, {
+    updateUserProfile(params.userId, {
       name,
-      birthDate,
-      // location,
-      // city,
       username,
+      birthDate,
+      location,
+      city,
       email,
       sexualIdentity,
       sexualPreference,
       racialPreference,
       meetingInterest,
       hobbyLists,
-      info,
+      aboutMe,
       images,
     });
   };
@@ -192,323 +195,324 @@ function OwnerProfile(props) {
     setDeleteAccount(false);
   };
 
-  const [showProfile, setShowProfile] = useState(false)
+  const [showProfile, setShowProfile] = useState(false);
   const handleShowProfile = (event) => {
-    event.preventDefault()
-    setShowProfile(!showProfile)
-  }
+    event.preventDefault();
+    setShowProfile(!showProfile);
+  };
   const handleClosePopupProfile = () => {
-    setShowProfile(false)
-  }
+    setShowProfile(false);
+  };
 
   return (
     <>
       <NavigationbarUser />
 
-      {deleteAccount && (
-        <DeletePopup handleClose={handleClosePopupDelete} />
-      )}
-      {showProfile && (
-        <ProfilePopup handleClose={handleClosePopupProfile} />
-      )}
-
-      <form /* onSubmit={handleSubmit} */>
-        <div className="flex flex-col font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE] w-screen ">
-           <div className="w-[1440px] mx-auto bg-[#FCFCFE]">
-          <div className="flex flex-row justify-between items-center w-full ">
-            <div>
-              <h2 className="text-[#7B4429] text-sm">Profile</h2>
-              <h1 className="text-[#A62D82] text-[46px] font-extrabold">
-                Let’s make profile <br />
-                to let others know you
-              </h1>
-            </div>
-            <div className="flex gap-2">
-              <button className="text-[#95002B] bg-[#FFE1EA] py-3 px-6 rounded-[99px] hover:bg-[#FFB1C8]" onClick={handleShowProfile}>
-                Preview Profile
-              </button>
-              <button
-                type="submit"
-                className="text-[#FFFFFF] bg-[#C70039] py-3 px-6 rounded-[99px] hover:bg-[#FF1659]"
-              >
-                Update Profile
-              </button>
-            </div>
-          </div>
-          <h1 className="text-2xl text-[#A62D82] font-[700]  mt-20 mb-5">
-            Basic Information
-          </h1>
-          <div className="info-container grid grid-cols-2 grid-rows-4 gap-5">
-            <div>
-              <h1>Name</h1>
-              <label htmlFor="Name">
-                <input
-                  className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                  type="text"
-                  name="Name"
-                  placeholder="Jon Snow"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
-                />
-              </label>
-            </div>
-            <div>
-              <h1>Date of birth</h1>
-              <label htmlFor="Date">
-                <input
-                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                  type="date"
-                  name="Date"
-                  value={birthDate}
-                  onChange={(e) => {
-                    setBirthDate(e.target.value);
-                    e.target.classList.add("text-black");
-                  }}
-                />
-              </label>
-            </div>
-            <div>
-              <h1>Location</h1>
-              <select
-                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                name="country"
-                value={location}
-                onChange={(e) => {
-                  setLocation(e.target.value);
-                  e.target.classList.add("text-black");
-                }}
-              >
-                <option value="australia">Australia</option>
-                <option value="canada">Canada</option>
-                <option value="usa">USA</option>
-                <option value="thailand ">Thailand</option>
-              </select>
-            </div>
-            <div>
-              <h1>City</h1>
-              <select
-                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-                name="City"
-                value={city}
-                onChange={(e) => {
-                  setCity(e.target.value);
-                  e.target.classList.add("text-black");
-                }}
-              >
-                <option value="Sydney">Sydney</option>
-                <option value="Ottawa">Ottawa</option>
-                <option value="new york">New York</option>
-                <option value="Bangkok ">Bangkok</option>
-              </select>
-            </div>
-
-            <div>
-              <h1>Username</h1>
-              <label htmlFor="Username">
-                <input
-                  className=" border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                  type="text"
-                  name="Username"
-                  placeholder="At least 6 characters"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </label>
-            </div>
-
-            <div>
-              <h1>Email</h1>
-              <label htmlFor="Email">
-                <input
-                  className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                  type="email"
-                  name="email"
-                  placeholder="Jon Snow"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </label>
-            </div>
-          </div>
-
-          {/*------------------------section 2 ---------------------------- */}
-          <h1 className="text-2xl text-[#A62D82] font-[700]  mb-5">
-            Identities and Interests
-          </h1>
-          <div className="info-container grid grid-cols-2 grid-rows-2 gap-5">
-            <div>
-              <h1>Sexual identities </h1>
-              <select
-                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-                name="Sexual identities"
-                value={sexualIdentity}
-                onChange={(e) => {
-                  setSexualIdentity(e.target.value);
-                  e.target.classList.add("text-black");
-                }}
-              >
-                <option value="Female">Female</option>
-                <option value="Non-binary">Non-binary</option>
-                <option value="Male">Male</option>
-              </select>
-            </div>
-            <div>
-              <h1>Sexual preferences</h1>
-              <select
-                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-                name="Sexual preferences"
-                value={sexualPreference}
-                onChange={(e) => {
-                  setSexualPreference(e.target.value);
-                  e.target.classList.add("text-black");
-                }}
-              >
-                <option value="Female">Male</option>
-                <option value="Non-binary">Non-binary</option>
-                <option selected="selected" value="Female ">
-                  Female
-                </option>
-              </select>
-            </div>
-            <div>
-              <h1>Racial preferences</h1>
-              <select
-                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-                name="Racial preferences"
-                value={racialPreference}
-                onChange={(e) => {
-                  setRacialPreference(e.target.value);
-                  e.target.classList.add("text-black");
-                }}
-              >
-                <option value="Black">Black</option>
-                <option value="European">European</option>
-                <option value="Caucasian">Caucasian</option>
-                <option value="African">African</option>
-                <option selected="selected" value="Asian">
-                  Asian
-                </option>
-              </select>
-            </div>
-            <div>
-              <h1>Meeting interests</h1>
-              <select
-                className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-                name="Meeting interests"
-                value={meetingInterest}
-                onChange={(e) => {
-                  setMeetingInterest(e.target.value);
-                  e.target.classList.add("text-black");
-                }}
-              >
-                <option value="Partners">Partners</option>
-                <option value="Long-term commitment">
-                  Long-term commitment
-                </option>
-                <option value="Short-term commitment">
-                  Short-term commitment
-                </option>
-                <option selected="selected" value="Friends">
-                  Friends
-                </option>
-              </select>
-            </div>
-          </div>
-          <div className="flex flex-col  mt-[50px]">
-            <div className="relative flex flex-col items-start">
-              <h1>Hobbies / Interests (Maximum 10)</h1>
-              <div className="relative w-full flex flex-row items-start justify-center m-[1px] border-[#D6D9E4] border-t-[1px] border-r-[1px] border-b-[1px] border-l-[1px] rounded-lg h-[50px] bg-white ">
-                {hobbyLists.length > 0 && (
-                  <div className=" border-[1px] border-none rounded-lg h-[full] p-[8px] text-[#9AA1B9] text-sm ">
-                    <ul className="flex flex-row">
-                      {hobbyLists.map((hobby, index) => (
-                        <li
-                          key={index}
-                          className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
-                        >
-                          {hobby}
-                          <button
-                            className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
-                            onClick={() => deleteHobby(index)}
-                          >
-                            ✕
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                <input
-                  className="border-[1px] font-normal border-none rounded-lg w-full h-full py-[12px] pr-[12px] pl-[12px] mb-4 focus:outline-none"
-                  type="text"
-                  value={info}
-                  onChange={(e) => {
-                    setInfo(e.target.value);
-                  }}
-                  onKeyPress={handleKeyPress}
-                />
+      {deleteAccount && <DeletePopup handleClose={handleClosePopupDelete} />}
+      {showProfile && <ProfilePopup handleClose={handleClosePopupProfile} />}
+      {/* bg-[#FCFCFE] */}
+      <form onSubmit={handleUpdate} className="w-screen bg-[#FCFCFE] ">
+        <div className=" flex flex-col w-[1440px] mx-auto font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE] ">
+          <div className="w-full mx-auto bg-[#FCFCFE]">
+            <div className="flex flex-row justify-between items-center w-full ">
+              <div>
+                <h2 className="text-[#7B4429] text-sm">Profile</h2>
+                <h1 className="text-[#A62D82] text-[46px] font-extrabold">
+                  Let’s make profile <br />
+                  to let others know you
+                </h1>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  className="text-[#95002B] bg-[#FFE1EA] py-3 px-6 rounded-[99px] hover:bg-[#FFB1C8]"
+                  onClick={handleShowProfile}
+                >
+                  Preview Profile
+                </button>
+                <button
+                  type="submit"
+                  className="text-[#FFFFFF] bg-[#C70039] py-3 px-6 rounded-[99px] hover:bg-[#FF1659]"
+                >
+                  Update Profile
+                </button>
               </div>
             </div>
-            <div>
-              <h1>About me (Maximum 150 characters)</h1>
-              <label htmlFor="About me">
-                <textarea
-                  className="border-[1px] border-[#D6D9E4] rounded-lg w-[931px] h-[120px] py-[12px] pr-[16px] pl-[12px] "
-                  type="text"
-                  name="About me"
-                />
-              </label>
-            </div>
-          </div>
-
-          {/*------------------------section 3 ---------------------------- */}
-
-          <div className="bg-[#FCFCFE] form-container w-full py-8 h-[500px]">
-            <h1 className="text-2xl text-[#A62D82] font-[700] mb-1">
-              Profile pictures
+            <h1 className="text-2xl text-[#A62D82] font-[700]  mt-20 mb-5">
+              Basic Information
             </h1>
-            <h2 className="mb-5">Upload at least 2 photos</h2>
-            <div className="grid grid-cols-5 grid-rows-1 gap-2">
-              {images.map((image, index) => (
-                <>
-                  <div
-                    key={index}
-                    className="w-[167px] h-[167px] bg-[#F1F2F6] rounded-2xl cursor-pointer relative z-0 "
-                    onClick={() => handleImageClick(index)}
-                    onDrop={(event) => handleImageDrop(event, index)}
-                    onDragOver={(event) => handleDragOver(event)}
-                    draggable={image !== null}
-                    onDragStart={(event) => handleDragStart(event, index)}
-                    style={{
-                      backgroundImage: `url(${image})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
+            <div className="info-container grid grid-cols-2 grid-rows-4 gap-5">
+              <div>
+                <h1>Name</h1>
+                <label htmlFor="Name">
+                  <input
+                    className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                    type="text"
+                    name="Name"
+                    placeholder="Jon Snow"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                  />
+                </label>
+              </div>
+              <div>
+                <h1>Date of birth</h1>
+                <label htmlFor="Date">
+                  <input
+                    className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                    type="date"
+                    name="Date"
+                    value={birthDate}
+                    onChange={(e) => {
+                      setBirthDate(e.target.value);
+                      e.target.classList.add("text-black");
                     }}
-                  >
-                    {image === null && (
-                      <div className="flex flex-col text-center justify-center items-center h-full transform hover:scale-[1.2] active:scale-[0.8]">
-                        <div>
-                          <h1 className="text-[#7D2262] text-[30px]">+</h1>
-                          <p className="text-[#7D2262] ">Upload photo</p>
-                        </div>
-                      </div>
-                    )}
+                  />
+                </label>
+              </div>
+              <div>
+                <h1>Location</h1>
+                <select
+                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                  name="country"
+                  value={location}
+                  onChange={(e) => {
+                    setLocation(e.target.value);
+                    e.target.classList.add("text-black");
+                  }}
+                >
+                  <option value="australia">Australia</option>
+                  <option value="canada">Canada</option>
+                  <option value="usa">USA</option>
+                  <option value="thailand ">Thailand</option>
+                </select>
+              </div>
+              <div>
+                <h1>City</h1>
+                <select
+                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                  name="City"
+                  value={city}
+                  onChange={(e) => {
+                    setCity(e.target.value);
+                    e.target.classList.add("text-black");
+                  }}
+                >
+                  <option value="Sydney">Sydney</option>
+                  <option value="Ottawa">Ottawa</option>
+                  <option value="new york">New York</option>
+                  <option value="Bangkok ">Bangkok</option>
+                </select>
+              </div>
 
-                    {image !== null && (
-                      <button
-                        className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
-                        onClick={(event) => deleteImage(event, index)}
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
-                </>
-              ))}
+              <div>
+                <h1>Username</h1>
+                <label htmlFor="Username">
+                  <input
+                    className=" border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                    type="text"
+                    name="Username"
+                    placeholder="At least 6 characters"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </label>
+              </div>
+
+              <div>
+                <h1>Email</h1>
+                <label htmlFor="Email">
+                  <input
+                    className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                    type="email"
+                    name="email"
+                    placeholder="Jon Snow"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </label>
+              </div>
+            </div>
+
+            {/*------------------------section 2 ---------------------------- */}
+            <h1 className="text-2xl text-[#A62D82] font-[700]  mb-5">
+              Identities and Interests
+            </h1>
+            <div className="info-container grid grid-cols-2 grid-rows-2 gap-5">
+              <div>
+                <h1>Sexual identities </h1>
+                <select
+                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                  name="Sexual identities"
+                  value={sexualIdentity}
+                  onChange={(e) => {
+                    setSexualIdentity(e.target.value);
+                    e.target.classList.add("text-black");
+                  }}
+                >
+                  <option value="Female">Female</option>
+                  <option value="Non-binary">Non-binary</option>
+                  <option value="Male">Male</option>
+                </select>
+              </div>
+              <div>
+                <h1>Sexual preferences</h1>
+                <select
+                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                  name="Sexual preferences"
+                  value={sexualPreference}
+                  onChange={(e) => {
+                    setSexualPreference(e.target.value);
+                    e.target.classList.add("text-black");
+                  }}
+                >
+                  <option value="Female">Male</option>
+                  <option value="Non-binary">Non-binary</option>
+                  <option selected="selected" value="Female ">
+                    Female
+                  </option>
+                </select>
+              </div>
+              <div>
+                <h1>Racial preferences</h1>
+                <select
+                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                  name="Racial preferences"
+                  value={racialPreference}
+                  onChange={(e) => {
+                    setRacialPreference(e.target.value);
+                    e.target.classList.add("text-black");
+                  }}
+                >
+                  <option value="Black">Black</option>
+                  <option value="European">European</option>
+                  <option value="Caucasian">Caucasian</option>
+                  <option value="African">African</option>
+                  <option selected="selected" value="Asian">
+                    Asian
+                  </option>
+                </select>
+              </div>
+              <div>
+                <h1>Meeting interests</h1>
+                <select
+                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                  name="Meeting interests"
+                  value={meetingInterest}
+                  onChange={(e) => {
+                    setMeetingInterest(e.target.value);
+                    e.target.classList.add("text-black");
+                  }}
+                >
+                  <option value="Partners">Partners</option>
+                  <option value="Long-term commitment">
+                    Long-term commitment
+                  </option>
+                  <option value="Short-term commitment">
+                    Short-term commitment
+                  </option>
+                  <option selected="selected" value="Friends">
+                    Friends
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div className="flex flex-col  mt-[50px]">
+              <div className="relative flex flex-col items-start">
+                <h1>Hobbies / Interests (Maximum 10)</h1>
+                <div className="relative w-full flex flex-row items-start justify-center m-[1px] border-[#D6D9E4] border-t-[1px] border-r-[1px] border-b-[1px] border-l-[1px] rounded-lg h-[50px] bg-white ">
+                  {hobbyLists.length > 0 && (
+                    <div className=" border-[1px] border-none rounded-lg h-[full] p-[8px] text-[#9AA1B9] text-sm ">
+                      <ul className="flex flex-row">
+                        {hobbyLists.map((hobby, index) => (
+                          <li
+                            key={index}
+                            className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
+                          >
+                            {hobby}
+                            <button
+                              className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
+                              onClick={() => deleteHobby(index)}
+                            >
+                              ✕
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  <input
+                    className="border-[1px] font-normal border-none rounded-lg w-full h-full py-[12px] pr-[12px] pl-[12px] mb-4 focus:outline-none"
+                    type="text"
+                    value={info}
+                    onChange={(e) => {
+                      setInfo(e.target.value);
+                    }}
+                    onKeyPress={handleKeyPress}
+                  />
+                </div>
+              </div>
+              <div className="mt-[24px]">
+                <h1>About me (Maximum 150 characters)</h1>
+                <label htmlFor="About me">
+                  <textarea
+                    className="border-[1px] border-[#D6D9E4] rounded-lg w-[931px] h-[120px] py-[12px] pr-[16px] pl-[12px] "
+                    type="text"
+                    name="About me"
+                    value={aboutMe}
+                    onchange={(e) => setAboutMe(e.target.value)}
+                  />
+                </label>
+              </div>
+            </div>
+
+            {/*------------------------section 3 ---------------------------- */}
+
+            <div className="bg-[#FCFCFE] form-container w-full py-8 h-[500px]">
+              <h1 className="text-2xl text-[#A62D82] font-[700] mb-1">
+                Profile pictures
+              </h1>
+              <h2 className="mb-5">Upload at least 2 photos</h2>
+              <div className="grid grid-cols-5 grid-rows-1 gap-2">
+                {images.map((image, index) => (
+                  <>
+                    <div
+                      key={index}
+                      className="w-[167px] h-[167px] bg-[#F1F2F6] rounded-2xl cursor-pointer relative z-0 "
+                      onClick={() => handleImageClick(index)}
+                      onDrop={(event) => handleImageDrop(event, index)}
+                      onDragOver={(event) => handleDragOver(event)}
+                      draggable={image !== null}
+                      onDragStart={(event) => handleDragStart(event, index)}
+                      style={{
+                        backgroundImage: `url(${image})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    >
+                      {image === null && (
+                        <div className="flex flex-col text-center justify-center items-center h-full transform hover:scale-[1.2] active:scale-[0.8]">
+                          <div>
+                            <h1 className="text-[#7D2262] text-[30px]">+</h1>
+                            <p className="text-[#7D2262] ">Upload photo</p>
+                          </div>
+                        </div>
+                      )}
+
+                      {image !== null && (
+                        <button
+                          className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
+                          onClick={(event) => deleteImage(event, index)}
+                        >
+                          ✕
+                        </button>
+                      )}
+                    </div>
+                  </>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </form>
       <Footer />

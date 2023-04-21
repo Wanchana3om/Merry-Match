@@ -41,7 +41,14 @@ function RegisterPage() {
       : 0);
 
   const handleNextStep = async () => {
-    if (currentFormPage === 3) {
+    if (currentFormPage === 3) { {images !== null && (
+                <button
+                  className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
+                  onClick={(event) => deleteImage(event, index)}
+                >
+                  ✕
+                </button>
+              )}
       let nullCount = 0;
       for (let i = 0; i < images.length; i++) {
         if (images[i] === null) {
