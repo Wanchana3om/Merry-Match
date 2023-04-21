@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import NavigationbarUser from "../components/NavigationbarUser";
-import { useParams } from "react-router";
 import useData from "../hook/useData";
 import ProfilePopup from "../components/ProfilePopup";
 import DeletePopup from "../components/DeletePopup";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { useAuth } from "../contexts/authentication";
+import { uploadCloudinary } from "../components/uploadCloudinary";
 
 function OwnerProfile() {
-  const params = useParams();
   const { updateUserProfile } = useData();
-
+  const { state } = useAuth();
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -27,8 +27,50 @@ function OwnerProfile() {
   const [images, setImages] = useState(Array(5).fill(null));
   const [info, setInfo] = useState("");
 
+  
 
-  console.log(images);
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    if (images.length > 2) {
+      let nullCount = 0;
+      for (let i = 0; i < images.length; i++) {
+        if (images[i] === null) {
+          nullCount = nullCount + 1;
+        }
+      }
+      if (nullCount >= 4) {
+        alert("Please upload at least two photos");
+      } 
+      else if (!username) {
+        alert("Please enter username");
+      } else if (!name) {
+        alert("Please enter name");
+      } else {
+        let imageUrls = [];
+        const noNullImages = images.filter((image) => image !== null);
+        for (let i = 0; i < noNullImages.length; i++) {
+          const data = await uploadCloudinary(noNullImages[i]);
+          imageUrls.push(data);
+        }
+        updateUserProfile(state?.user?.user_id,{
+          name: name,
+          username: username,
+          birthDate: birthDate,
+          location: location,
+          city: city,
+          sexual_preference: sexualPreference,
+          sexual_identity: sexualIdentity,
+          meeting_interest: meetingInterest,
+          racial_preference: racialPreference,
+          about_me: aboutMe,
+          image: imageUrls,
+          hobby: hobbyLists,
+        });
+        alert("Data submitted");
+        window.location.reload();
+      }
+    } 
+  };
 
   const getUserProfile = async () => {
     const token = localStorage.getItem("token");
@@ -70,7 +112,10 @@ function OwnerProfile() {
         for (let i = 0; i < imageData.length; i++) {
           newImageList.push(imageData[i].pic_url);
         }
-        setImages([...newImageList, ...Array(5 - newImageList.length).fill(null)]); 
+        setImages([
+          ...newImageList,
+          ...Array(5 - newImageList.length).fill(null),
+        ]);
 
         console.log(newHobbyList);
       } catch (error) {
@@ -79,30 +124,9 @@ function OwnerProfile() {
     }
   };
 
-  
-
   useEffect(() => {
     getUserProfile();
   }, []);
-
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    updateUserProfile(params.userId, {
-      name,
-      username,
-      birthDate,
-      location,
-      city,
-      email,
-      sexualIdentity,
-      sexualPreference,
-      racialPreference,
-      meetingInterest,
-      hobbyLists,
-      aboutMe,
-      images,
-    });
-  };
 
   // ------------section 2 ---------------
   const maxHobbies = 10;
@@ -176,9 +200,8 @@ function OwnerProfile() {
 
   const deleteImage = (event, index) => {
     event.preventDefault();
-    delete imageUrls[Object.keys(imageUrls)[index]];
-    setImageUrls({ ...imageUrls });
-
+    delete images[Object.keys(images)[index]];
+    setImages({ ...images });
     event.stopPropagation();
     const newImages = [...images];
     newImages[index] = null;
@@ -191,6 +214,7 @@ function OwnerProfile() {
     event.preventDefault();
     setDeleteAccount(!deleteAccount);
   };
+
   const handleClosePopupDelete = () => {
     setDeleteAccount(false);
   };
@@ -459,7 +483,7 @@ function OwnerProfile() {
                     type="text"
                     name="About me"
                     value={aboutMe}
-                    onchange={(e) => setAboutMe(e.target.value)}
+                    onChange={(e) => setAboutMe(e.target.value)}
                   />
                 </label>
               </div>
@@ -474,9 +498,8 @@ function OwnerProfile() {
               <h2 className="mb-5">Upload at least 2 photos</h2>
               <div className="grid grid-cols-5 grid-rows-1 gap-2">
                 {images.map((image, index) => (
-                  <>
+                  <div key={index}>
                     <div
-                      key={index}
                       className="w-[167px] h-[167px] bg-[#F1F2F6] rounded-2xl cursor-pointer relative z-0 "
                       onClick={() => handleImageClick(index)}
                       onDrop={(event) => handleImageDrop(event, index)}
@@ -508,7 +531,7 @@ function OwnerProfile() {
                         </button>
                       )}
                     </div>
-                  </>
+                  </div>
                 ))}
               </div>
             </div>

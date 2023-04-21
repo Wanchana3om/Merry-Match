@@ -24,7 +24,8 @@ function RegisterPage() {
   const [hobbyLists, setHobbyLists] = useState([]);
   const [info, setInfo] = useState("");
   const [images, setImages] = useState([null, null, null, null, null]);
-
+  console.log(images);
+  
   const time = new Date();
   const year = time.getFullYear();
   const month = time.getMonth();

@@ -4,6 +4,7 @@ import TinderCard from "react-tinder-card";
 import ProfilePopup from "../components/ProfilePopup";
 import eye_button from "/merrylist/eye_button.png";
 import useData from "../hook/useData";
+import { useAuth } from "../contexts/authentication";
 import {
   RangeSlider,
   RangeSliderTrack,

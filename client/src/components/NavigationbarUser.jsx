@@ -9,14 +9,14 @@ function NavigationbarUser() {
     setShowMenu(!showMenu);
   };
 
-  const { logout, state } = useAuth();
+  const { logout } = useAuth();
 
   return (
     <header className="font-nunito relative z-30 w-screen shadow-md">
       <div className="w-screen  flex flex-row justify-between items-center py-5 bg-white mx-auto">
       <nav className="ml-[12%]">
           <Link to="/" className="text-black font-semibold text-4xl">
-            Merry 
+            Merry
           </Link>
           <Link to="/" className="text-red-500 font-bold text-4xl">
             Match 
@@ -25,7 +25,7 @@ function NavigationbarUser() {
         <nav className="mr-[12%]">
           <ul className="flex flex-row items-center">
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77]">
-              <Link to="/matching">Start Matching! {state?.user?.username}</Link>
+              <Link to="/matching">Start Matching! </Link>
             </li>
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77] ">
               <Link to="/">Merry Membership </Link>
