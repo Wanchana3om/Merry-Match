@@ -332,6 +332,7 @@ function OwnerProfile() {
                     placeholder="Jon Snow"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled
                   />
                 </label>
               </div>

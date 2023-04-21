@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import express from "express";
 import authRouter from "./auth/auth.js";
 import usersRouter from "./users/users.js";
-import cloudinary from "cloudinary";
+import merryRouter from "./merrylist/merrylist.js";
 // import fileUploadMiddleware from "./middlewares/fileUploadMiddleware.js";
 
 dotenv.config();
@@ -15,7 +15,6 @@ export const supabase = createClient(
 );
 
 async function init() {
-
   const app = express();
   const port = 3000;
 
@@ -26,6 +25,7 @@ async function init() {
   // app.use("/auth", fileUploadMiddleware, authRouter);
   app.use("/auth", authRouter);
   app.use("/users", usersRouter);
+  app.use("/merrylist", merryRouter);
 
   app.listen(port, () => {
     console.log("Server listening on port 3000");
