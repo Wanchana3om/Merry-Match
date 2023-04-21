@@ -138,9 +138,7 @@ function MatchingPage() {
     await childRefs[newIndex].current.restoreCard();
   };
 
-  // const handleAgeRangeChange = (event) => {
-  //   setAgeRange(event.target.value);
-  // };
+  
   const [showProfile, setShowProfile] = useState(false);
   const handleShowProfile = () => {
     setShowProfile(!showProfile);
@@ -153,7 +151,7 @@ function MatchingPage() {
     <>
       <NavigationbarUser />
       {showProfile && <ProfilePopup handleClose={handleCloseProfile} />}
-      <div className="font-nunito mx-auto w-[1440px] h-[936px]  flex flex-row">
+      <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row">
         <div className="w-[316px]">
           <div className="w-[316px] border-b-[1px] border-gray-400">
             <div className="w-[282px] mx-auto py-[36px]">
@@ -203,8 +201,8 @@ function MatchingPage() {
         </div>
 
         {/* ------------------------section 2 ----------------------------  */}
-        <div className="bg-gray-300 col-span-3 w-[904px] overflow-hidden">
-          <div className="relative w-[620px] h-[620px] rounded-[32px]">
+        <div className="bg-[#160404] col-span-3 w-[904px] overflow-hidden">
+          <div className="relative w-[620px] h-[620px] mt-40 rounded-[32px]">
             {db.map((character, index) => (
               <TinderCard
                 ref={childRefs[index]}
