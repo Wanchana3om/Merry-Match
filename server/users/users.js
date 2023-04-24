@@ -230,7 +230,17 @@ usersRouter.delete("/:userId", async (req , res) => {
     if (error) {
       throw error;
     }
-    res.json({ message: 'delete successfully' });
+
+    const { error: error2 } = await supabase
+      .from("merry_list")
+      .delete()
+      .eq("mer_id", userId); 
+
+    if (error2) {
+      throw error2;
+    }
+
+    res.json({ message: 'Delete user success.' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
