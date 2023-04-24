@@ -5,6 +5,8 @@ import express from "express";
 import authRouter from "./auth/auth.js";
 import usersRouter from "./users/users.js";
 import merryRouter from "./merrylist/merrylist.js";
+import merryRejectRouter from "./merrylist/merryReject.js";
+import chatRouther from "./merrylist/chat.js";
 // import fileUploadMiddleware from "./middlewares/fileUploadMiddleware.js";
 
 dotenv.config();
@@ -26,6 +28,8 @@ async function init() {
   app.use("/auth", authRouter);
   app.use("/users", usersRouter);
   app.use("/merrylist", merryRouter);
+  app.use("/merryreject", merryRejectRouter);
+  app.use("/chat", chatRouther);
 
   app.listen(port, () => {
     console.log("Server listening on port 3000");

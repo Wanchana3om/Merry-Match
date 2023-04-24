@@ -146,10 +146,16 @@ authRouter.post("/login", async (req, res) => {
     return;
   }
 
-  const { data, error: updateError } = await supabase
+  const { error: updateError } = await supabase
     .from("users")
     .update({ last_logged_in: new Date().toISOString() })
     .eq("user_id", userdata[0].user_id);
+
+  const { data: profielPic } = await supabase
+    .from("pictures")
+    .select("*")
+    .eq("user_id", userId)
+    .limit(1);
 
   if (updateError) {
     console.log(updateError);
@@ -160,6 +166,7 @@ authRouter.post("/login", async (req, res) => {
         user_id: userdata[0].user_id,
         username: userdata[0].username,
         name: userdata[0].name,
+        profilePic: profielPic[0].pic_url,
       },
       process.env.SECRET_KEY,
       { expiresIn: "1h" }

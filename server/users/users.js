@@ -3,7 +3,7 @@ import { supabase } from "../app.js";
 
 const usersRouter = Router();
 
-// read profile
+// read user profile
 usersRouter.get("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -146,7 +146,8 @@ usersRouter.put("/:userId", async (req, res) => {
 //   "min_age": "20",
 //   "max_age": "50"
 // }
-// search by keyword & meeting interest & age
+
+// search default by user meeting interest and ages +-10 years and search by keyword & meeting interest & age
 usersRouter.get("/", async (req, res) => {
   try {
     const { keyword, meeting_interest, min_age, max_age } = req.query;
@@ -193,7 +194,7 @@ usersRouter.get("/", async (req, res) => {
         .gte("birthDate", minBirthDate)
         .lte("birthDate", maxBirthDate);
     } else {
-      // Default query with no filters
+      // Query with one filter
       if (keyword) {
         query.ilike("hob_list", `%${keyword}%`);
       }
