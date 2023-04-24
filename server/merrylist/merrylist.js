@@ -77,6 +77,35 @@ merryRouter.put("/:userId", async (req, res) => {
 
     if (insertError) throw insertError;
 
+    // when people swipe right together let merrymatch
+    const { data: matching, error } = await supabase
+      .from("merry_status")
+      .select("*")
+      .or(
+        `and(mer_id.eq.${userId},user_id.eq.${newUserId}),and(mer_id.eq.${newUserId},user_id.eq.${userId}))`
+      );
+
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(matching);
+    }
+
+    if (matching && matching.length === 2) {
+      for (let i = 0; i < matching.length; i++) {
+        const { error: updateError } = await supabase
+          .from("merry_status")
+          .update({ mer_status: "MerryMatch" })
+          .eq("status_id", matching[i].status_id);
+        if (updateError) throw updateError;
+      }
+      // add mer_id to table match
+      const { error: insertMatchError } = await supabase
+        .from("match")
+        .insert({ mer_id1: userId, mer_id2: newUserId });
+      if (insertMatchError) throw insertError;
+    }
+
     res.json({ message: "Merrylist has been updated successfully" });
   } catch (error) {
     console.log(error);
@@ -94,7 +123,7 @@ merryRouter.delete("/:userId", async (req, res) => {
 
     const { data, error } = await supabase
       .from("merry_status")
-      .select("user_id")
+      .select("status_id")
       .eq("mer_id", userId)
       .eq("user_id", deleteUserId)
       .single();
@@ -123,22 +152,43 @@ merryRouter.delete("/:userId", async (req, res) => {
     console.log(userId);
     console.log(selectData);
 
-    const statusIds = selectData
+    const allStatusIds = selectData
       .map((status) => status.status_id)
       .filter((id) => id !== null && id !== undefined);
-    const newStatusIds = [...statusIds, data.status_id];
-    const newAllStatusId = newStatusIds.filter(
-      (id) => id !== null && id !== undefined
-    );
-    console.log(newAllStatusId);
 
     // Update the all_user field in the database
     const { error: insertError } = await supabase
       .from("merry_list")
-      .update({ all_status_id: newAllStatusId })
+      .update({ all_status_id: allStatusIds })
       .eq("mer_id", userId);
 
     if (insertError) throw insertError;
+
+    const { data: matching, error: matchingError } = await supabase
+      .from("merry_status")
+      .select("*")
+      .or(
+        `and(mer_id.eq.${userId},user_id.eq.${deleteUserId}),and(mer_id.eq.${deleteUserId},user_id.eq.${userId}))`
+      );
+
+    if (matchingError) {
+      console.error(matchingError);
+    } else {
+      console.log(matching);
+    }
+    if (matching) {
+      const { error: updateError } = await supabase
+        .from("merry_status")
+        .update({ mer_status: "Not Match Yet" })
+        .eq("mer_id", deleteUserId);
+      if (updateError) throw updateError;
+      // delete match table
+      const { error: deleteMatchError } = await supabase
+        .from("match")
+        .delete()
+        .eq("mer_id2", deleteUserId);
+      if (deleteMatchError) throw deleteMatchError;
+    }
 
     res.json({
       message: `User ${deleteUserId} removed from Merry List ${userId}`,
