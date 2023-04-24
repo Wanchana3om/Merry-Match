@@ -30,7 +30,9 @@ authRouter.post("/register", async (req, res) => {
     password: hashPassword,
   });
   if (error) {
+    console.log(error);
     res.status(400).send(error.message);
+    return;
   } else {
     const { data, error } = await supabase
       .from("users")
@@ -54,6 +56,7 @@ authRouter.post("/register", async (req, res) => {
       ])
       .select("user_id");
     if (error) {
+      console.log(error);
       return res.status(500).send(error.message);
     } else {
       const userId = data[0].user_id;
@@ -73,7 +76,7 @@ authRouter.post("/register", async (req, res) => {
         .update([
           {
             mer_id: userId,
-            mer_limit: 20,
+            // mer_limit: 20,
           },
         ])
         .eq("user_id", userId);
@@ -151,10 +154,10 @@ authRouter.post("/login", async (req, res) => {
     .update({ last_logged_in: new Date().toISOString() })
     .eq("user_id", userdata[0].user_id);
 
-  const { data: profielPic } = await supabase
+  const { data: profilePic } = await supabase
     .from("pictures")
     .select("*")
-    .eq("user_id", userId)
+    .eq("user_id", userdata[0].user_id)
     .limit(1);
 
   if (updateError) {
@@ -166,7 +169,7 @@ authRouter.post("/login", async (req, res) => {
         user_id: userdata[0].user_id,
         username: userdata[0].username,
         name: userdata[0].name,
-        profilePic: profielPic[0].pic_url,
+        profilePic: profilePic[0].pic_url,
       },
       process.env.SECRET_KEY,
       { expiresIn: "1h" }
