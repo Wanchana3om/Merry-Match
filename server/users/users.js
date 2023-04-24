@@ -141,51 +141,95 @@ usersRouter.put("/:userId", async (req, res) => {
 // Example search
 // GET /users?keyword=john&meeting_interest=male&min_age=20&max_age=30
 // {
-//   "keyword": "baifern",
-//   "meeting_interest": ["Long-term commitment","Partners","Friends"],
+//   "keyword": "hobby",
+//   "meeting_interest": "Long-term commitment,Partners,Friends",
 //   "min_age": "20",
 //   "max_age": "50"
 // }
 
 // search default by user meeting interest and ages +-10 years and search by keyword & meeting interest & age
-usersRouter.get("/", async (req, res) => {
+usersRouter.get("/merrymatch/:userId", async (req, res) => {
   try {
-    const { keyword, meeting_interest, min_age, max_age } = req.query;
+    const userId = req.params.userId;
+    const { keyword, meeting_interest, min_age, max_age } = req.body;
+    if (typeof req.body === "undefined" || Object.keys(req.body).length === 0) {
+      const { data: userData, error: userDataError } = await supabase
+        .from("users")
+        .select("birthDate, sexual_preference, meeting_interest")
+        .eq("user_id", userId);
+      console.log(userData);
+      if (userDataError) throw userDataError;
 
-    // Build the query based on the provided parameters
-    const query = supabase
-      .from("hobbies_interests")
-      .select(
-        `users(user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url)), hob_list`
-      );
+      const maxAge = 10;
+      const minBirthYear =
+        new Date(userData[0].birthDate).getFullYear() - maxAge;
+      const minBirthDate = new Date(
+        minBirthYear,
+        new Date().getMonth(),
+        new Date().getDate()
+      )
+        .toISOString()
+        .slice(0, 10);
 
+      const minAge = 10;
+      const maxBirthYear =
+        new Date(userData[0].birthDate).getFullYear() + minAge;
+      const maxBirthDate = new Date(
+        maxBirthYear,
+        new Date().getMonth(),
+        new Date().getDate()
+      )
+        .toISOString()
+        .slice(0, 10);
+
+      const { data: defaultData, error: defaultDataError } = await supabase
+        .from("users")
+        .select(
+          `user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)`
+        )
+        .neq("user_id", userId)
+        .eq("sexual_identity", userData[0].sexual_preference)
+        .eq("meeting_interest", userData[0].meeting_interest)
+        .gte("birthDate", minBirthDate)
+        .lte("birthDate", maxBirthDate);
+
+      if (defaultDataError) throw defaultDataError;
+      return res.json(defaultData);
+    }
+
+    // search with request
     const maxAge = parseInt(max_age);
     const minBirthYear = new Date().getFullYear() - maxAge;
     const minBirthDate = `${minBirthYear}/${
       new Date().getMonth() + 1
     }/${new Date().getDate()}`;
-
     const minAge = parseInt(min_age);
     const maxBirthYear = new Date().getFullYear() - minAge;
     const maxBirthDate = `${maxBirthYear}/${
       new Date().getMonth() + 1
     }/${new Date().getDate()}`;
 
+    const query = supabase
+      .from("users")
+      .select(
+        `user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)`
+      );
+
     if (keyword && meeting_interest && min_age && max_age) {
       // Add keyword, meeting_interest and age filters
       query
-        .ilike("hob_list", `%${keyword}%`)
+        .ilike("hobbies_interests.hob_list", `%${keyword}%`)
         .in("meeting_interest", meeting_interest.split(","))
         .gte("birthDate", minBirthDate)
         .lte("birthDate", maxBirthDate);
     } else if (keyword && meeting_interest) {
       // Add keyword and meeting_interest filters
       query
-        .ilike("hob_list", `%${keyword}%`)
+        .ilike("hobbies_interests.hob_list", `%${keyword}%`)
         .in("meeting_interest", meeting_interest.split(","));
     } else if (keyword && min_age && max_age) {
       query
-        .ilike("hob_list", `%${keyword}%`)
+        .ilike("hobbies_interests.hob_list", `%${keyword}%`)
         .gte("birthDate", minBirthDate)
         .lte("birthDate", maxBirthDate);
     } else if (meeting_interest && min_age && max_age) {
@@ -196,7 +240,7 @@ usersRouter.get("/", async (req, res) => {
     } else {
       // Query with one filter
       if (keyword) {
-        query.ilike("hob_list", `%${keyword}%`);
+        query.ilike("hobbies_interests.hob_list", `%${keyword}%`);
       }
       if (meeting_interest) {
         query.in("meeting_interest", meeting_interest.split(","));
@@ -207,11 +251,20 @@ usersRouter.get("/", async (req, res) => {
     }
 
     const { data, error } = await query;
+    const filteredData = data.filter((row) =>
+      row.hobbies_interests.some((hobby) => hobby.hob_list.includes(keyword))
+    );
+
     if (error) {
       console.log(error);
       return res.status(500).send("Server error");
     }
-    return res.json(data);
+    if (keyword) {
+      return res.json(filteredData);
+    } else {
+      return res.json(data);
+    }
+    // return res.json(data);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
