@@ -45,7 +45,7 @@ function AuthProvider(props) {
       );
       return result;
     } catch (error) {
-      alert("Please check again");
+      return Promise.reject(error);
     }
   };
 
