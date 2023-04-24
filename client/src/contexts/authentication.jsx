@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
@@ -11,6 +11,15 @@ function AuthProvider(props) {
     error: null,
     user: null,
   });
+console.log(state);
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const userDataFromToken = jwtDecode(token);
+    setState({ ...state, user: userDataFromToken });
+  }
+}, []);
 
   const navigate = useNavigate();
 

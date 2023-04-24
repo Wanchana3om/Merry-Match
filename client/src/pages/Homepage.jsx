@@ -4,8 +4,9 @@ import NavigationbarUser from "../components/NavigationbarUser";
 import NavigationbarNonUser from "../components/NavigationbarNonUser";
 import { useAuth } from "../contexts/authentication";
 
+
 function Homepage() {
-  const { isAuthenticated, state } = useAuth();
+  const { isAuthenticated } = useAuth();
   
   return (
     <>

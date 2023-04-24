@@ -1,7 +1,5 @@
-import { useState } from "react";
 
 function RegisterForm3(props) {
-  // const [images, setImages] = useState([null, null, null, null, null]);
 
   const handleImageClick = (index) => {
     const input = document.createElement("input");
@@ -46,8 +44,8 @@ function RegisterForm3(props) {
   const deleteImage = (event, index) => {
     event.stopPropagation();
     event.preventDefault();
-    delete props.imageUrls[Object.keys(props.imageUrls)[index]];
-    props.setImageUrls({ ...props.imageUrls });
+    delete props.images[Object.keys(props.images)[index]];
+    props.setImages({ ...props.images });
     const newImages = [...props.images];
     newImages[index] = null;
     props.setImages(newImages);
@@ -62,9 +60,8 @@ function RegisterForm3(props) {
 
       <div className="grid grid-cols-5 grid-rows-1 gap-2">
         {props.images.map((image, index) => (
-          <>
+          <div key={index} >
             <div
-              key={index}
               className="w-[167px] h-[167px] bg-[#F1F2F6] rounded-2xl cursor-pointer relative z-0 "
               onClick={() => handleImageClick(index)}
               onDrop={(event) => handleImageDrop(event, index)}
@@ -86,7 +83,7 @@ function RegisterForm3(props) {
                   </div>
                 </div>
               )}
-
+              
               {image !== null && (
                 <button
                   className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
@@ -96,7 +93,7 @@ function RegisterForm3(props) {
                 </button>
               )}
             </div>
-          </>
+          </div>
         ))}
       </div>
     </div>
