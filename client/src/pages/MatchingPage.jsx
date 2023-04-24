@@ -17,6 +17,11 @@ import {
 
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
+  const [ageRange, setAgeRange] = useState(18);
+  const [childRefs, setChildRefs] = useState([]);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [lastDirection, setLastDirection] = useState();
 
   const restructureData = (data) => {
     const usersMap = new Map();
@@ -55,19 +60,36 @@ function MatchingPage() {
         let matchingData = result.data;
         const newMatchingList = restructureData(matchingData);
         setMatchingList(newMatchingList);
+        setCurrentIndex(newMatchingList.length - 1);
+
+        setChildRefs(newMatchingList.map(() => React.createRef()));
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
     }
   };
 
+  const calculateAge = (birthDate) => {
+    const birth = new Date(birthDate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDifference = today.getMonth() - birth.getMonth();
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 && today.getDate() < birth.getDate())
+    ) {
+      age--;
+    }
+    return age;
+  };
+
   useEffect(() => {
     getMatchingProfile();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(matchingList);
-  // }, [matchingList]);
+  useEffect(() => {
+    console.log(matchingList);
+  }, [matchingList]);
 
   const [keyword, setKeyword] = useState("");
   const [meetingInterest, setMeetingInterest] = useState([]);
@@ -102,10 +124,6 @@ function MatchingPage() {
       );
     }
   };
-  console.log(keyword);
-  console.log(meetingInterest);
-  console.log(minAge);
-  console.log(maxAge);
 
   const handleRangeChange = (newRange) => {
     setMinAge(newRange[0]);
@@ -127,20 +145,7 @@ function MatchingPage() {
     window.location.reload();
   };
 
-  const [ageRange, setAgeRange] = useState(18);
-
-  const [currentIndex, setCurrentIndex] = useState(matchingList.length - 1);
-  const [lastDirection, setLastDirection] = useState();
-
   const currentIndexRef = useRef(currentIndex);
-
-  const childRefs = useMemo(
-    () =>
-      Array(matchingList.length)
-        .fill(0)
-        .map((i) => React.createRef()),
-    []
-  );
 
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val);
@@ -182,7 +187,6 @@ function MatchingPage() {
   const [selectedUser, setSelectedUser] = useState(null);
   const handleShowProfile = (user) => {
     setSelectedUser(user);
-    console.log(user);
     setShowProfile(!showProfile);
   };
   const handleCloseProfile = () => {
@@ -265,17 +269,20 @@ function MatchingPage() {
                   className="z-30 bg-cover bg-center card h-full w-full flex items-end px-4 py-3 text-white rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
                 >
                   <h3 className="z-40 pb-8 pl-3 font-bold text-3xl text-white pointer-events-none ">
-                    {item.name}
+                    {item.name} {calculateAge(item.birthDate)}
                   </h3>
-                  <div className="z-40 mb-8 ml-4 bg-white/[.2] rounded-full flex items-center justify-center w-8 h-8">
-                    <button onClick={() => handleShowProfile(item)}>
+                  <button
+                    onClick={() => handleShowProfile(item)}
+                    className="z-40 mb-8 ml-4 bg-white/[.2] rounded-full flex items-center justify-center w-8 h-8"
+                  >
+                    <div>
                       <img
                         src={eye_button}
                         alt="Eye"
                         className=" pointer-events-none"
                       />
-                    </button>
-                  </div>
+                    </div>
+                  </button>
                 </div>
                 <div
                   style={{
