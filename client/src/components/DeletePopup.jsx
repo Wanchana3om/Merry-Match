@@ -1,9 +1,12 @@
 import React from "react";
 import cross from "/icon/cross.svg";
 import useData from "../hook/useData";
+import { useAuth } from "../contexts/authentication";
 
 function DeletePopup(props) {
   const { deleteUserProfile } = useData();
+  const { state } = useAuth();
+  console.log(state?.user?.user_id);
 
   const handleClosePopupDelete = () => {
     props.handleClose();
@@ -38,7 +41,7 @@ function DeletePopup(props) {
           <div className="flex gap-5 px-6 pb-2">
             <button
               className="text-[#95002B] bg-[#FFE1EA] rounded-3xl p-3 font-semibold hover:bg-[#FFB1C8]"
-              onClick={() => deleteUserProfile(user._id)}
+              onClick={() => deleteUserProfile(state?.user?.user_id)}
             >
               Yes, I want to delete
             </button>

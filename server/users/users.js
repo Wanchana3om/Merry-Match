@@ -217,4 +217,24 @@ usersRouter.get("/", async (req, res) => {
   }
 });
 
+// ---------------delete user----------------------
+
+usersRouter.delete("/:userId", async (req , res) => {
+  const userId = req.params.userId;
+  try {
+    const { error } = await supabase
+      .from("users")
+      .delete()
+      .eq('user_id', userId);
+
+    if (error) {
+      throw error;
+    }
+    res.json({ message: 'delete successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 export default usersRouter;

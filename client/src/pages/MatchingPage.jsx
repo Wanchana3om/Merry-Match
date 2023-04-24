@@ -164,6 +164,7 @@ function MatchingPage() {
   const swipe = async (dir) => {
     if (canSwipe && currentIndex < matchingList.length) {
       await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
+      console.log(currentIndex);
     }
   };
 
