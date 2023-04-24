@@ -1,10 +1,11 @@
 import NavigationbarUser from "../components/NavigationbarUser";
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import TinderCard from "react-tinder-card";
-import ProfilePopup from "../components/ProfilePopup";
-import eye_button from "/merrylist/eye_button.png";
+// import ProfilePopup from "../components/ProfilePopup";
+import eye_button from "/matching/eye_button.svg";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import ProfilePopupMatching from "../components/ProfilePopupMatching";
 
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
@@ -15,7 +16,15 @@ function MatchingPage() {
     data.forEach((item) => {
       const user = item.users;
       if (!usersMap.has(user.user_id)) {
-        usersMap.set(user.user_id, user);
+        usersMap.set(user.user_id, {
+          ...user,
+          hobbyLists: [],
+        });
+      }
+
+      const currentUser = usersMap.get(user.user_id);
+      if (item.hob_list && !currentUser.hobbyLists.includes(item.hob_list)) {
+        currentUser.hobbyLists.push(item.hob_list);
       }
     });
 
@@ -37,7 +46,6 @@ function MatchingPage() {
 
         let matchingData = result.data;
         const newMatchingList = restructureData(matchingData);
-        console.log(result.data);
         setMatchingList(newMatchingList);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
@@ -49,9 +57,9 @@ function MatchingPage() {
     getMatchingProfile();
   }, []);
 
-  useEffect(() => {
-    console.log(matchingList);
-  }, [matchingList]);
+  // useEffect(() => {
+  //   console.log(matchingList);
+  // }, [matchingList]);
 
   const [ageRange, setAgeRange] = useState(18);
 
@@ -105,7 +113,10 @@ function MatchingPage() {
     setAgeRange(event.target.value);
   };
   const [showProfile, setShowProfile] = useState(false);
-  const handleShowProfile = () => {
+  const [selectedUser, setSelectedUser] = useState(null);
+  const handleShowProfile = (user) => {
+    setSelectedUser(user);
+    console.log(user);
     setShowProfile(!showProfile);
   };
   const handleCloseProfile = () => {
@@ -115,7 +126,12 @@ function MatchingPage() {
   return (
     <>
       <NavigationbarUser />
-      {showProfile && <ProfilePopup handleClose={handleCloseProfile} />}
+      {showProfile && (
+        <ProfilePopupMatching
+          user={selectedUser}
+          handleCloseProfile={handleCloseProfile}
+        />
+      )}
       <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row">
         <div className="w-[316px]">
           <div className="w-[316px] border-b-[1px] border-gray-400">
@@ -166,7 +182,7 @@ function MatchingPage() {
         </div>
 
         {/* ------------------------section 2 ----------------------------  */}
-        <div className="bg-gray-300 col-span-3 w-[904px] overflow-hidden">
+        <div className="bg-gray-300 flex flex-col justify-center col-span-3 w-[904px] overflow-hidden">
           <div className="relative w-[620px] h-[620px] rounded-[32px]">
             {matchingList.map((item, index) => (
               <TinderCard
@@ -180,19 +196,28 @@ function MatchingPage() {
                   style={{
                     backgroundImage: "url(" + item.pictures[0].pic_url + ")",
                   }}
-                  className="card h-full w-full flex items-end px-4 py-3 text-white rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
+                  className="z-30 bg-cover bg-center card h-full w-full flex items-end px-4 py-3 text-white rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
                 >
-                  <h3>{item.name}</h3>
-                  <div>
-                    <button onClick={handleShowProfile}>
+                  <h3 className="z-40 pb-8 pl-3 font-bold text-3xl text-white pointer-events-none ">
+                    {item.name}
+                  </h3>
+                  <div className="z-40 mb-8 ml-4 bg-white/[.2] rounded-full flex items-center justify-center w-8 h-8">
+                    <button onClick={() => handleShowProfile(item)}>
                       <img
                         src={eye_button}
                         alt="Eye"
-                        className="pointer-events-none"
+                        className=" pointer-events-none"
                       />
                     </button>
                   </div>
                 </div>
+                <div
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(360deg, #390741, rgba(7, 9, 65, 0) 70.71%)",
+                  }}
+                  className="z-20 rounded-[32px] bottom-0 absolute w-full h-2/6"
+                />
               </TinderCard>
             ))}
           </div>
