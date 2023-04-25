@@ -6,7 +6,7 @@ const merryRouter = Router();
 // get all user in merrylist page
 merryRouter.get("/:userId", async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = parseInt(req.params.userId);
     const { data, error } = await supabase
       .from("merry_status")
       .select("mer_id, user_id")
@@ -15,14 +15,27 @@ merryRouter.get("/:userId", async (req, res) => {
     if (error) throw error;
 
     const userIds = data.map((user) => user.user_id);
-    const usersData = await supabase
+    const { data: usersData, error: usersDataError } = await supabase
       .from("users")
       .select(
-        "user_id, name, birthDate, location, city, sexual_identity, sexual_preference, racial_preference, meeting_interest"
+        "user_id, name, birthDate, location, city, sexual_identity, sexual_preference, racial_preference, meeting_interest,merry_status(*),pictures(pic_url)"
       )
       .in("user_id", userIds);
 
-    res.json(usersData.data);
+    if (usersDataError) throw usersDataError;
+
+    const filteredUsersData = usersData
+      .map((user) => {
+        return {
+          ...user,
+          merry_status: user.merry_status.filter((status) => {
+            return status.mer_id === userId;
+          }),
+        };
+      })
+      .filter((user) => user.merry_status.length > 0);
+    console.log(userId);
+    res.json(filteredUsersData);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
