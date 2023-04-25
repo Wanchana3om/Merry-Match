@@ -86,29 +86,43 @@ complaintRouter.put("/:adminId/:complaintId", async (req, res) => {
       .eq("admin_id", adminId);
     if (adminDataError) throw adminDataError;
     if (adminData[0].role === "admin") {
-      const { error: deleteError } = await supabase
+      const { error: updateError } = await supabase
         .from("complaint")
         .update([{ com_status: status }])
         .eq("com_id", complaintId);
-      if (deleteError) throw deleteError;
+      if (updateError) throw updateError;
 
       const { data: statusData, error: statusDataError } = await supabase
         .from("complaint")
         .select("com_status")
         .eq("com_id", complaintId);
       if (statusDataError) throw statusDataError;
+
+      const { data: resolveData, error: resolveDataError } = await supabase
+        .from("resolve")
+        .select("com_id")
+        .eq("com_id", complaintId);
+      if (resolveDataError) throw resolveDataError;
       if (
         statusData[0].com_status === "Resolved" ||
         statusData[0].com_status === "Cancel"
       ) {
-        const { error: insertError } = await supabase.from("resolve").insert([
-          {
-            com_id: complaintId,
-            admin_id: adminId,
-            res_date: resolveOrCancelDate,
-          },
-        ]);
-        if (insertError) throw insertError;
+        if (resolveData.length === 0) {
+          const { error: insertError } = await supabase.from("resolve").insert([
+            {
+              com_id: complaintId,
+              admin_id: adminId,
+              res_date: resolveOrCancelDate,
+            },
+          ]);
+          if (insertError) throw insertError;
+        } else {
+          const { error: updateError } = await supabase
+            .from("resolve")
+            .update({ admin_id: adminId, res_date: resolveOrCancelDate })
+            .eq("com_id", complaintId);
+          if (updateError) throw updateError;
+        }
       }
     }
     return res.json({ message: "Complaint has been updated successfully" });
