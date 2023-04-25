@@ -10,21 +10,20 @@ const useData = () => {
   const [isLoading, setIsLoading] = useState(null);
 
   
-  const getData = async (data) => {
+  const getData = async (userId,data) => {
     try {
     
       setIsError(false);
       setIsLoading(true);
       await axios.get(
-        `http://localhost:3000/users`,data
+        `http://localhost:3000/users/merrymatch/${userId}`,data
         );
       } catch (error) {
         setIsError(true);
         setIsLoading(false);
       }
     };
-    
-    
+
 
       const updateUserProfile = async (userId, data) => {
         try {

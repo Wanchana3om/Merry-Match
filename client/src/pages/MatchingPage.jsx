@@ -23,10 +23,6 @@ function MatchingPage() {
   const [lastDirection, setLastDirection] = useState();
 
 
-
-
-
-
   const restructureData = (data) => {
     const usersMap = new Map();
 
@@ -55,11 +51,15 @@ function MatchingPage() {
       try {
         const userDataFromToken = jwtDecode(token);
 
-        const result = await axios.get(`http://localhost:3000/users/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const result = await axios.get(
+          `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setMatchingList(result.data);
 
         let matchingData = result.data;
         const newMatchingList = restructureData(matchingData);
@@ -72,6 +72,33 @@ function MatchingPage() {
       }
     }
   };
+
+
+
+  // const getDefaultData = async () => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     try {
+  //       const userDataFromToken = jwtDecode(token);
+
+  //       const result = await axios.get(
+  //         `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       setMatchingList(result.data);
+        
+  //     } catch (error) {
+  //       console.error("Error decoding the token or fetching user data:", error);
+  //     }
+  //   }
+  // };
+
+
+
 
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
@@ -96,22 +123,62 @@ function MatchingPage() {
   const [meetingInterest, setMeetingInterest] = useState([]);
   const [minAge, setMinAge] = useState(18);
   const [maxAge, setMaxAge] = useState(50);
+
+  // const handleSubmit = async () => {
+  //   const token = localStorage.getItem("token");
+  
+  //   if (token) {
+  //     try {
+  //       const userDataFromToken = jwtDecode(token);
+  
+  //       const params = {
+  //         keyword: keyword,
+  //         meeting_interest: meetingInterest,
+  //         min_age: minAge,
+  //         max_age: maxAge
+  //       };
+  
+  //       const result = await axios.get(
+  //         `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
+  //         {
+  //           params: params,
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  
+  //       let matchingData = result.data;
+  //       const newMatchingList = restructureData(matchingData);
+  //       setMatchingList(newMatchingList);
+  //       setCurrentIndex(newMatchingList.length - 1);
+  
+  //       setChildRefs(newMatchingList.map(() => React.createRef()));
+  //     } catch (error) {
+  //       console.error("Error decoding the token or fetching user data:", error);
+  //     }
+  //   }
+  // };
   
 
-  const { getData } = useData();
+  const { getData} = useData();
+  const { state } = useAuth();
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    getData({
+    getData((state?.users?.user_id),{
       keyword : keyword,
       meeting_interest : meetingInterest,
       min_age : minAge,
       max_age : maxAge
     });
-    window.location.reload();
-    
   };
 
+
+  
+
+  // ----------------------------
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
 
