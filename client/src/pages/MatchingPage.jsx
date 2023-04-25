@@ -17,11 +17,15 @@ import {
 
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
-  const [ageRange, setAgeRange] = useState(18);
   const [childRefs, setChildRefs] = useState([]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
+
+
+
+
+
 
   const restructureData = (data) => {
     const usersMap = new Map();
@@ -87,27 +91,25 @@ function MatchingPage() {
     getMatchingProfile();
   }, []);
 
-  useEffect(() => {
-    console.log(matchingList);
-  }, [matchingList]);
-
+ 
   const [keyword, setKeyword] = useState("");
   const [meetingInterest, setMeetingInterest] = useState([]);
   const [minAge, setMinAge] = useState(18);
   const [maxAge, setMaxAge] = useState(50);
-  // const [range, setRange] = useState([18, 50]);
+  
 
   const { getData } = useData();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     getData({
-      keyword,
-      meetingInterest,
-      minAge,
-      maxAge,
+      keyword : keyword,
+      meeting_interest : meetingInterest,
+      min_age : minAge,
+      max_age : maxAge
     });
+    window.location.reload();
+    
   };
 
   const handleCheckboxChange = (event) => {
@@ -181,9 +183,7 @@ function MatchingPage() {
     await childRefs[newIndex].current.restoreCard();
   };
 
-  const handleAgeRangeChange = (event) => {
-    setAgeRange(event.target.value);
-  };
+  
   const [showProfile, setShowProfile] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const handleShowProfile = (user) => {

@@ -73,7 +73,7 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
               <img
                 src={image.pic_url}
                 alt={`${name} image`}
-                className={`w-[350px] h-[420px] rounded-3xl ${
+                className={`w-[350px] object-contain h-[420px] rounded-3xl ${
                   index === countImage ? "block" : "hidden"
                 }`}
                 key={index}

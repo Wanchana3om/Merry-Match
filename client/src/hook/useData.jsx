@@ -10,26 +10,20 @@ const useData = () => {
   const [isLoading, setIsLoading] = useState(null);
 
   
-  const getData = async (input) => {
-    const { keyword, meetingInterest,minAge, maxAge} = input;
-    console.log(input);
+  const getData = async (data) => {
     try {
-      const params = new URLSearchParams();
-      params.append("keyword", keyword);
-      params.append("meeting_interest", meetingInterest);
-      params.append("min_age", minAge);
-      params.append("max_age", maxAge);
-      
+    
       setIsError(false);
       setIsLoading(true);
       await axios.get(
-        `http://localhost:3000/users?keyword=${keyword}&meeting_interest=${meeting_interest}&min_age=${min_age}&max_age=${max_age}`
+        `http://localhost:3000/users`,data
         );
       } catch (error) {
         setIsError(true);
         setIsLoading(false);
       }
     };
+    
     
 
       const updateUserProfile = async (userId, data) => {
@@ -43,6 +37,8 @@ const useData = () => {
           setIsLoading(false);
         }
       };
+
+      
 
       const deleteUserProfile = async (userId) => {
         try {

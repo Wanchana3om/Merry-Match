@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
 import { useState } from "react";
 
+
 function NavigationbarUser() {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -9,7 +10,7 @@ function NavigationbarUser() {
     setShowMenu(!showMenu);
   };
 
-  const { logout } = useAuth();
+  const { logout, state } = useAuth();
 
   return (
     <header className="font-nunito relative z-30 w-screen shadow-md">
@@ -41,9 +42,9 @@ function NavigationbarUser() {
             <div>
               <div className="relative mr-[16px]">
                 <img
-                  src="/nav-bar/profile.svg"
+                  src= {state?.user?.profilePic}
                   alt="Profile"
-                  className="w-[48px] h-[48px] rounded-full cursor-pointer"
+                  className="w-[48px] h-[48px] rounded-full cursor-pointer object-cover"
                   onClick={toggleMenu}
                 />
               </div>

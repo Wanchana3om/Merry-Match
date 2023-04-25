@@ -33,7 +33,7 @@ function ProfilePopup(props) {
               <img
                 src={image}
                 alt={`${name} image`}
-                className={`w-[350px] h-[420px] rounded-3xl ${index === countImage ? 'block' : 'hidden'
+                className={`w-[350px] h-[420px] object-cover rounded-3xl ${index === countImage ? 'block' : 'hidden'
                   }`}
                 key={index}
               />

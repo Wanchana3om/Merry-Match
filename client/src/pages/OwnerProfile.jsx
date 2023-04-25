@@ -117,7 +117,7 @@ function OwnerProfile() {
           ...Array(5 - newImageList.length).fill(null),
         ]);
 
-        console.log(newHobbyList);
+        console.log(images);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
