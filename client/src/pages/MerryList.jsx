@@ -1,7 +1,39 @@
+import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import NavigationbarUser from "../components/NavigationbarUser";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 function MerryList() {
+  const [usersData, setUsersData] = useState([]);
+  // const birthDate = new Date(user.birthDate);
+  // const age = new Date().getFullYear() - birthDate.getFullYear();
+  
+
+  const getMerryList = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const userDataFromToken = jwtDecode(token);
+
+        const result = await axios.get(
+          `http://localhost:3000/merrylist/${userDataFromToken.user_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUsersData(result.data);
+      } catch (error) {
+        console.error("Error decoding the token or fetching user data:", error);
+      }
+    }
+  };
+  useEffect(() => {
+    getMerryList();
+  }, []);
+
   return (
     <>
       <NavigationbarUser />
@@ -15,91 +47,58 @@ function MerryList() {
             </h1>
           </div>
           <div>
-            <span className="text-[#646D89] text-base">Merry limit today</span>{" "}
-            <span className="text-[#FF1659] text-base">2/20</span>
-            <p className="text-[#646D89] text-base">Reset in 12h...</p>
+            <span className="text-[#646D89] text-base">Who do you want to match with?</span>
+            <p className="text-[#FF1659] text-base">press now</p>
+            <p className="text-[#646D89] text-base">you will be happy</p>
           </div>
         </div>
-        <div className="flex justify-between">
+          {usersData.map((user, index) => (
+        <div key={index} className="flex justify-between">
           <img
             src=""
-            alt=""
+            alt={user.name}
             className="w-[187px] h-[187px] border-[1px] border-[#A62D82] rounded-3xl"
           />
           <div className="basis-2/4 flex flex-col gap-6">
-            <div>
-              <span className="text-[#2A2E3F] text-2xl">Daeny</span>{" "}
-              <span className="text-[#646D89] text-2xl">24</span>{" "}
+            <div className="flex gap-3 items-center">
+              <span className="text-[#2A2E3F] text-2xl font-bold">{user.name}</span>
+              <span className="text-[#646D89] text-2xl font-bold">{new Date().getFullYear() - new Date(user.birthDate).getFullYear()}</span>
               <span className="text-[#646D89] text-base">
-                Bangkok, Thailand{" "}
+                {user.city}, {user.location}
               </span>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <p>Sexual identities</p>
-              <p className="text-[#646D89]">Female</p>
+              <p className="text-[#646D89]">{user.sexual_identity}</p>
               <p>Sexual preferences</p>
-              <p className="text-[#646D89]">Male</p>
+              <p className="text-[#646D89]">{user.sexual_preference}</p>
               <p>Racial preferences</p>
-              <p className="text-[#646D89]">Indefinite</p>
+              <p className="text-[#646D89]">{user.racial_preference}</p>
               <p>Meeting interests</p>
-              <p className="text-[#646D89]">Long-term commitment</p>
+              <p className="text-[#646D89]">{user.meeting_interest}</p>
             </div>
           </div>
           <div className="flex flex-col gap-6">
             <div className="flex justify-evenly items-center py-1 px-4 border-[1px] border-[#C70039] rounded-[99px] font-bold text-[#C70039]">
               <img
-                src="/merrylist/merry match.png"
+                src="/merrylist/merry match.svg"
                 className="h-[12px] w-[20.4px]"
               />
               <h1>Merry Match!</h1>
             </div>
             <div className="flex">
-              <img src="/merrylist/message.png" alt="message" />
-              <img src="/merrylist/action button.png" alt="view" />
-              <img src="/merrylist/redheart.png" alt="match" />
-                </div>
+              <img src="/merrylist/message.svg" alt="message" className="w-[84px] h-[84px]"/>
+              <img src="/merrylist/eye.svg" alt="view" className="w-[84px] h-[84px]"/>
+              <img src="/merrylist/action button.svg" alt="match" className="w-[84px] h-[84px]"/>
             </div>
           </div>
         </div>
-        <div className="w-[900px] mx-auto">
-          
-
-              <input
-                  type="range"
-                  id="age-range"
-                  name="age-range"
-                  min="18"
-                  max="100"
-                  className="block w-full h-1 mt-1 bg-gray-300 rounded-md appearance-none focus:outline-none"
-                  />
-                <div className="flex justify-evenly items-center">
-                  <input
-                    type="number"
-                    id="min-age"
-                    name="min-age"
-                    className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
-                    />
-                  <p> - </p>
-                  <input
-                    type="number"
-                    id="max-age"
-                    name="max-age"
-                    value="100"
-                    className="border-[1px] border-[#D6D9E4] py-3 pr-4 pl-3 w-[85.5px] h-[48px] rounded-lg"
-                    />
-        
-                    </div>
+          ))}
       </div>
-
-      
-      
-
-
+      <div className="w-[900px] mx-auto"></div>
       <Footer />
     </>
   );
 }
 
 export default MerryList;
-
-
