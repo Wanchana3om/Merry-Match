@@ -50,16 +50,17 @@ function MerryList() {
           </div>
         </div>
           {usersData.map((user, index) => (
-        <div key={index} className="flex justify-between">
+        <div key={index} className="flex gap-10">
           <img
-            src=""
+            src={user.pictures[0].pic_url}
             alt={user.name}
-            className="w-[187px] h-[187px] border-[1px] border-[#A62D82] rounded-3xl"
+            className="object-cover w-[187px] h-[187px] border-[1px] border-[#A62D82] rounded-3xl"
           />
           <div className="basis-2/4 flex flex-col gap-6">
             <div className="flex gap-3 items-center">
               <span className="text-[#2A2E3F] text-2xl font-bold">{user.name}</span>
               <span className="text-[#646D89] text-2xl font-bold">{new Date().getFullYear() - new Date(user.birthDate).getFullYear()}</span>
+              <img src="/merrylist/Vector.svg" alt="location" />
               <span className="text-[#646D89] text-base">
                 {user.city}, {user.location}
               </span>
