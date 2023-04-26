@@ -28,7 +28,7 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
     sexual_preference: sexualPreference,
     racial_preference: racialPreference,
     meeting_interest: meetingInterest,
-    hobbyLists,
+    hobbies_interests: hobbyLists ,
     pictures,
     about_me,
   } = user;
@@ -53,7 +53,7 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
 
   const [countImage, setCountImage] = useState(0);
 
-  if (!user || !pictures || !hobbyLists) {
+  if (!user || !pictures) {
     // console.log(user);
     return null;
   }
@@ -67,13 +67,13 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
         className="flex relative max-w-full h-auto bg-white gap-20 pt-14 px-24 pb-20 rounded-3xl"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex flex-col justify-start items-center">
+        <div className="flex flex-col justify-start items-center ">
           {pictures.map((image, index) => {
             return (
               <img
                 src={image.pic_url}
                 alt={`${name} image`}
-                className={`w-[350px] object-contain h-[420px] rounded-3xl ${
+                className={`w-[350px] object-cover h-[420px] rounded-3xl ${
                   index === countImage ? "block" : "hidden"
                 }`}
                 key={index}
@@ -160,10 +160,11 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
                       key={index}
                       className="bg-[#F4EBF2]  rounded-lg p-[8px] text-[#7D2262] border-[1px] border-pink-400 text-[14px] mr-2 mb-2 flex items-center"
                     >
-                      {hobbies}
+                      {hobbies?.hob_list || null}
                     </li>
                   );
-                })}
+                }) }
+                
               </ul>
             </div>
           </div>

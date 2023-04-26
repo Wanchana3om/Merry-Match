@@ -18,7 +18,8 @@ function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
   const [childRefs, setChildRefs] = useState([]);
   const [chat, setChat] = useState([]);
-
+  const [showProfile, setShowProfile] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
 
@@ -40,6 +41,7 @@ function MatchingPage() {
     }
     return age;
   };
+  console.log(showProfile);
 
   const getMatchingProfile = async () => {
     const token = localStorage.getItem("token");
@@ -56,6 +58,7 @@ function MatchingPage() {
           }
         );
         setMatchingList(result.data);
+        console.log(result.data);
     }
   };
 
@@ -181,8 +184,7 @@ setChat(!chat)
     await childRefs[newIndex].current.restoreCard();
   };
 
-  const [showProfile, setShowProfile] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  
   const handleShowProfile = (user) => {
     setSelectedUser(user);
     setShowProfile(!showProfile);
