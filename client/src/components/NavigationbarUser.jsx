@@ -46,7 +46,6 @@ function NavigationbarUser() {
                   src= {state?.user?.profilePic}
                   alt="Profile"
                   className="w-[48px] h-[48px]  rounded-full cursor-pointer object-cover hover:scale-125 transition-all duration-300"
-                  typ
                 />
               </div>
                 <div className="font-nunito  absolute z-50 w-[204px] mt-2 bg-white rounded-[12px] shadow-lg flex flex-col p-[8px] opacity-0 group-focus:opacity-100 transition-all duration-700">
