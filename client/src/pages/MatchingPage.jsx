@@ -50,7 +50,8 @@ function MatchingPage() {
         const userDataFromToken = jwtDecode(token);
 
         const result = await axios.get(
-          `http://localhost:3000/merrylist/${userDataFromToken.user_id}`,
+          // `http://localhost:3000/merrylist/${userDataFromToken.user_id}`,
+          `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

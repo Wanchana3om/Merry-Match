@@ -8,6 +8,7 @@ import merryRouter from "./merrylist/merrylist.js";
 import merryRejectRouter from "./merrylist/merryReject.js";
 import chatRouther from "./merrylist/chat.js";
 import complaintRouter from "./complaint/complaint.js";
+import { protect } from "./middlewares/protect.js";
 // import fileUploadMiddleware from "./middlewares/fileUploadMiddleware.js";
 
 dotenv.config();
@@ -27,10 +28,10 @@ async function init() {
 
   // app.use("/auth", fileUploadMiddleware, authRouter);
   app.use("/auth", authRouter);
-  app.use("/users", usersRouter);
-  app.use("/merrylist", merryRouter);
-  app.use("/merryreject", merryRejectRouter);
-  app.use("/chat", chatRouther);
+  app.use("/users", protect, usersRouter);
+  app.use("/merrylist", protect, merryRouter);
+  app.use("/merryreject", protect, merryRejectRouter);
+  app.use("/chat", protect, chatRouther);
   app.use("/complaint", complaintRouter);
 
   app.listen(port, () => {

@@ -1,10 +1,7 @@
 import { Router } from "express";
 import { supabase } from "../app.js";
-import { protect } from "../middlewares/protect.js";
 
 const merryRouter = Router();
-
-merryRouter.use(protect);
 
 // get all user in merrylist page
 merryRouter.get("/:userId", async (req, res) => {

@@ -1,10 +1,8 @@
 import { Router } from "express";
 import { supabase } from "../app.js";
-import { protect } from "../middlewares/protect.js";
 
 const chatRouter = Router();
 
-chatRouter.use(protect);
 // fetch message
 // แบบที่1
 // chatRouter.get("/:senderId/:receiverId", async (req, res) => {

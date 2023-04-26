@@ -64,7 +64,7 @@ function RegisterForm2(props) {
           >
             <option value="Male">Male</option>
             <option value="Non-binary">Non-binary</option>
-            <option value="Female ">Female</option>
+            <option value="Female">Female</option>
           </select>
         </div>
         <div>
