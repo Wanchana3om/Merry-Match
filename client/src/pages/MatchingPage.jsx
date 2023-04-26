@@ -41,6 +41,24 @@ function MatchingPage() {
     return age;
   };
 
+  const getMatchingProfile = async () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        const userDataFromToken = jwtDecode(token);
+
+        const result = await axios.get(
+          `http://localhost:3000/merrylist/${userDataFromToken.user_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setMatchingList(result.data);
+    }
+  };
+
   const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
     event.preventDefault();
@@ -82,6 +100,10 @@ function MatchingPage() {
       }
     }
   };
+
+  useEffect(() => {
+    getMatchingProfile();
+  }, []);
 
   const handleChat = ()=>{
 setChat(!chat)

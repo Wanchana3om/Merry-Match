@@ -52,7 +52,7 @@ function MerryList() {
           {usersData.map((user, index) => (
         <div key={index} className="flex gap-10">
           <img
-            src={user.pictures[0].pic_url}
+            src={user.pictures[0]?.pic_url || null}
             alt={user.name}
             className="object-cover w-[187px] h-[187px] border-[1px] border-[#A62D82] rounded-3xl"
           />
