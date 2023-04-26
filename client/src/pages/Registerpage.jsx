@@ -6,6 +6,7 @@ import RegisterForm3 from "../components/RegisterForm3";
 import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../components/uploadCloudinary";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "@chakra-ui/react";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -26,8 +27,8 @@ function RegisterPage() {
   const [hobbyLists, setHobbyLists] = useState([]);
   const [info, setInfo] = useState("");
   const [images, setImages] = useState([null, null, null, null, null]);
-  console.log(navigate);
-
+  const [isLoading, setIsLoading] = useState(null);
+  
   const time = new Date();
   const year = time.getFullYear();
   const month = time.getMonth();
@@ -55,6 +56,7 @@ function RegisterPage() {
           </button>
         );
       }
+      setIsLoading(true)
       let nullCount = 0;
       for (let i = 0; i < images.length; i++) {
         if (images[i] === null) {
@@ -86,10 +88,12 @@ function RegisterPage() {
           image: imageUrls,
         };
 
+             
+                
         await register(newFormData);
-        console.log(imageUrls);
         alert("Data submitted");
-        navigate("/");
+        navigate("/login");
+        setIsLoading(false)
       }
     } else if (!username) {
       alert("Please enter username");
@@ -117,6 +121,21 @@ function RegisterPage() {
   return (
     <div>
       <NavigationbarNonUser />
+      {isLoading === true ? (
+        <div className="flex justify-center items-center fixed z-50 w-screen p-4 bg-black bg-opacity-50 inset-0">
+          <div className="text-container flex justify-center items-center flex-col w-1/2 h-1/3 pt-6 mt-[29px]">
+            <Spinner
+              thickness="10px"
+              speed="0.5s"
+              emptyColor="pink.200"
+              color="pink.300"
+              width={100}
+              height={100}
+              className="pop-up-spinner"
+            />
+          </div>
+        </div>
+      ) : (
       <div className="bg-[#FCFCFE] font-nunito">
         <div className=" relative  h-fit px-[255px] py-12 bg-[#FCFCFE] flex items-center w-[1440px] mx-auto">
           <div className="bg-[#FAF1ED] absolute h-[100px] w-[100px] rounded-full top-[85px] left-[-19px]" />
@@ -277,6 +296,7 @@ function RegisterPage() {
         </div>
         {/* <DraggableList /> */}
       </div>
+      )}
     </div>
   );
 }

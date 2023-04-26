@@ -172,7 +172,7 @@ authRouter.post("/login", async (req, res) => {
         profilePic: profilePic[0].pic_url,
       },
       process.env.SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "3h" }
     );
     return res.json({ token });
   }
