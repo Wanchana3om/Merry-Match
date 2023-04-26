@@ -76,7 +76,7 @@ function RegisterForm3(props) {
               }}
             >
               {image === null && (
-                <div className="flex flex-col text-center justify-center items-center h-full transform hover:scale-[1.2] active:scale-[0.8]">
+                <div className="flex flex-col text-center justify-center items-center h-full transition-all duration-300  hover:scale-105 hover:bg-[#d0d0d0] hover:rounded-2xl active:scale-[0.8]">
                   <div>
                     <h1 className="text-[#7D2262] text-[30px]">+</h1>
                     <p className="text-[#7D2262] ">Upload photo</p>

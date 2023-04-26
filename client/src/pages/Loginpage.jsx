@@ -48,7 +48,7 @@ function LoginPage() {
                 Username or Email
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-red-500 focus:shadow-red-500"
+                className="shadow appearance-none border mt-[5px] rounded-[8px]  w-full h-[48px] py-2 px-3 text-gray-700 leading-tight focus:outline-red-500 focus:shadow-red-500 transition-all duration-500"
                 type="text"
                 name="username"
                 placeholder="Enter Username or Email"
@@ -62,7 +62,7 @@ function LoginPage() {
                 Password
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-red-500 focus:shadow-red-500"
+                className="shadow appearance-none border mt-[5px] rounded-[8px] w-full  h-[48px] py-2 px-3 text-gray-700 leading-tight focus:outline-red-500 focus:shadow-red-500 transition-all duration-500"
                 type="password"
                 name="password"
                 placeholder="Enter password"
@@ -81,7 +81,7 @@ function LoginPage() {
               </div>
               <button
                 type="submit"
-                className="block h-12 bg-red-500 hover:bg-red-600 text-white text-base font-bold px-56 rounded-full my-10"
+                className="block h-12 bg-[#C70039] w-full  transition-all duration-300 hover:bg-[#ff2563] text-white text-base font-bold px-56 rounded-full my-10"
               >
                 Log in
               </button>

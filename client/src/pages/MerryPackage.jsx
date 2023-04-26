@@ -6,6 +6,7 @@ function MerryPackage() {
   return (
     <>
       <NavigationbarUser />
+      <div className="bg-[#FCFCFE]">
       <div className="flex flex-col font-nunito h-fit px-[150px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
         <div className="flex flex-row justify-start items-center w-full ">
           <div>
@@ -114,6 +115,7 @@ function MerryPackage() {
             </Link>
           </div>
         </div>
+      </div>
       </div>
       <Footer />
     </>

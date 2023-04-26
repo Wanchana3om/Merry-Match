@@ -36,7 +36,7 @@ function NavigationbarNonUser() {
               </Link>
             </li>
             <Link to="/login">
-              <button className="bg-red-500 hover:bg-red-600 text-white font-bold mx-5 px-6 py-2 rounded-full h-[66] ">
+              <button className="bg-[#C70039] transition-all duration-300 hover:bg-[#ff2563] text-white font-bold mx-5 px-6 py-2 rounded-full h-[66] ">
                 Log In
               </button>
             </Link>
