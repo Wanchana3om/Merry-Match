@@ -151,8 +151,11 @@ usersRouter.put("/:userId", async (req, res) => {
 usersRouter.get("/merrymatch/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { keyword, meeting_interest, min_age, max_age } = req.body;
-    if (typeof req.body === "undefined" || Object.keys(req.body).length === 0) {
+    const { keyword, meeting_interest, min_age, max_age } = req.query;
+    if (
+      typeof req.query === "undefined" ||
+      Object.keys(req.query).length === 0
+    ) {
       const { data: userData, error: userDataError } = await supabase
         .from("users")
         .select("birthDate, sexual_preference, meeting_interest")
@@ -260,8 +263,10 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
       return res.status(500).send("Server error");
     }
     if (keyword) {
+      console.log(filteredData);
       return res.json(filteredData);
     } else {
+      console.log(data);
       return res.json(data);
     }
     // return res.json(data);
@@ -273,13 +278,13 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
 
 // ---------------delete user----------------------
 
-usersRouter.delete("/:userId", async (req , res) => {
+usersRouter.delete("/:userId", async (req, res) => {
   const userId = req.params.userId;
   try {
     const { error } = await supabase
       .from("users")
       .delete()
-      .eq('user_id', userId);
+      .eq("user_id", userId);
 
     if (error) {
       throw error;
@@ -288,17 +293,16 @@ usersRouter.delete("/:userId", async (req , res) => {
     const { error: error2 } = await supabase
       .from("merry_list")
       .delete()
-      .eq("mer_id", userId); 
+      .eq("mer_id", userId);
 
     if (error2) {
       throw error2;
     }
 
-    res.json({ message: 'Delete user success.' });
+    res.json({ message: "Delete user success." });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
-
 
 export default usersRouter;

@@ -27,8 +27,6 @@ function OwnerProfile() {
   const [images, setImages] = useState(Array(5).fill(null));
   const [info, setInfo] = useState("");
 
-  
-
   const handleUpdate = async (e) => {
     e.preventDefault();
     if (images.length > 2) {
@@ -40,8 +38,7 @@ function OwnerProfile() {
       }
       if (nullCount >= 4) {
         alert("Please upload at least two photos");
-      } 
-      else if (!username) {
+      } else if (!username) {
         alert("Please enter username");
       } else if (!name) {
         alert("Please enter name");
@@ -52,7 +49,7 @@ function OwnerProfile() {
           const data = await uploadCloudinary(noNullImages[i]);
           imageUrls.push(data);
         }
-        updateUserProfile(state?.user?.user_id,{
+        updateUserProfile(state?.user?.user_id, {
           name: name,
           username: username,
           birthDate: birthDate,
@@ -69,7 +66,7 @@ function OwnerProfile() {
         alert("Data submitted");
         window.location.reload();
       }
-    } 
+    }
   };
 
   const getUserProfile = async () => {
@@ -232,12 +229,8 @@ function OwnerProfile() {
     <>
       <NavigationbarUser />
 
-      {deleteAccount && (
-        <DeletePopup handleClose={handleClosePopupDelete} />
-      )}
-      {showProfile && (
-        <ProfilePopup handleClose={handleClosePopupProfile} />
-      )}
+      {deleteAccount && <DeletePopup handleClose={handleClosePopupDelete} />}
+      {showProfile && <ProfilePopup handleClose={handleClosePopupProfile} />}
       {/* bg-[#FCFCFE] */}
       <form onSubmit={handleUpdate} className="w-screen bg-[#FCFCFE] ">
         <div className=" flex flex-col w-[1440px] mx-auto font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE] ">
@@ -264,7 +257,7 @@ function OwnerProfile() {
                   Update Profile
                 </button>
               </div>
-            </div >
+            </div>
             <h1 className="text-2xl text-[#A62D82] font-[700]  mt-20 mb-5">
               Basic Information
             </h1>
@@ -360,11 +353,11 @@ function OwnerProfile() {
                   />
                 </label>
               </div>
-            </div >
+            </div>
 
             {/*------------------------section 2 ---------------------------- */}
 
-            <h1 className="text-2xl text-[#A62D82] font-[700]  mb-5" >
+            <h1 className="text-2xl text-[#A62D82] font-[700]  mb-5">
               Identities and Interests
             </h1>
 
@@ -542,14 +535,18 @@ function OwnerProfile() {
                 ))}
               </div>
             </div>
-            
-            <div className="flex justify-end mt-20 mr-5">
-              <button className="hover:underline hover:text-red-600 active:text-red-800" onClick={handleDeleteAccount}>Delete account</button>
-            </div>
 
-          </div >
-        </div >
-      </form >
+            <div className="flex justify-end mt-20 mr-5">
+              <button
+                className="hover:underline hover:text-red-600 active:text-red-800"
+                onClick={handleDeleteAccount}
+              >
+                Delete account
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
       <Footer />
     </>
   );

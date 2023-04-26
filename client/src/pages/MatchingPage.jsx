@@ -22,83 +22,10 @@ function MatchingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
 
-
-  const restructureData = (data) => {
-    const usersMap = new Map();
-
-    data.forEach((item) => {
-      const user = item.users;
-      if (!usersMap.has(user.user_id)) {
-        usersMap.set(user.user_id, {
-          ...user,
-          hobbyLists: [],
-        });
-      }
-
-      const currentUser = usersMap.get(user.user_id);
-      if (item.hob_list && !currentUser.hobbyLists.includes(item.hob_list)) {
-        currentUser.hobbyLists.push(item.hob_list);
-      }
-    });
-
-    return Array.from(usersMap.values());
-  };
-
-  const getMatchingProfile = async () => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      try {
-        const userDataFromToken = jwtDecode(token);
-
-        const result = await axios.get(
-          `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setMatchingList(result.data);
-
-        let matchingData = result.data;
-        const newMatchingList = restructureData(matchingData);
-        setMatchingList(newMatchingList);
-        setCurrentIndex(newMatchingList.length - 1);
-
-        setChildRefs(newMatchingList.map(() => React.createRef()));
-      } catch (error) {
-        console.error("Error decoding the token or fetching user data:", error);
-      }
-    }
-  };
-
-
-
-  // const getDefaultData = async () => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     try {
-  //       const userDataFromToken = jwtDecode(token);
-
-  //       const result = await axios.get(
-  //         `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-  //       setMatchingList(result.data);
-        
-  //     } catch (error) {
-  //       console.error("Error decoding the token or fetching user data:", error);
-  //     }
-  //   }
-  // };
-
-
-
+  const [keyword, setKeyword] = useState("");
+  const [meetingInterest, setMeetingInterest] = useState([]);
+  const [minAge, setMinAge] = useState(18);
+  const [maxAge, setMaxAge] = useState(50);
 
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
@@ -114,69 +41,47 @@ function MatchingPage() {
     return age;
   };
 
-  useEffect(() => {
-    getMatchingProfile();
-  }, []);
-
- 
-  const [keyword, setKeyword] = useState("");
-  const [meetingInterest, setMeetingInterest] = useState([]);
-  const [minAge, setMinAge] = useState(18);
-  const [maxAge, setMaxAge] = useState(50);
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
-  
+    event.preventDefault();
+
     if (token) {
       try {
         const userDataFromToken = jwtDecode(token);
-  
+
         const params = {
           keyword: keyword,
-          meeting_interest: meetingInterest,
+          meeting_interest: meetingInterest.join(","),
           min_age: minAge,
-          max_age: maxAge
+          max_age: maxAge,
         };
-  
+
         const result = await axios.get(
           `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
           {
-            params: params,
+            params,
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-  
+
         let matchingData = result.data;
-        const newMatchingList = restructureData(matchingData);
+        const newMatchingList = [];
+
+        for (let i = 0; i < matchingData.length; i++) {
+          newMatchingList.push(result.data[i]);
+        }
+
         setMatchingList(newMatchingList);
         setCurrentIndex(newMatchingList.length - 1);
-  
+        console.log(newMatchingList);
         setChildRefs(newMatchingList.map(() => React.createRef()));
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
     }
   };
-  
-
-  // const { getData} = useData();
-  // const { state } = useAuth();
-
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   getData((state?.users?.user_id),{
-  //     keyword : keyword,
-  //     meeting_interest : meetingInterest,
-  //     min_age : minAge,
-  //     max_age : maxAge
-  //   });
-  // };
-
-
-  
 
   // ----------------------------
   const handleCheckboxChange = (event) => {
@@ -250,7 +155,6 @@ function MatchingPage() {
     await childRefs[newIndex].current.restoreCard();
   };
 
-  
   const [showProfile, setShowProfile] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const handleShowProfile = (user) => {
@@ -332,7 +236,8 @@ function MatchingPage() {
               >
                 <div
                   style={{
-                    backgroundImage: "url(" + item.pictures[0].pic_url + ")",
+                    backgroundImage:
+                      "url(" + (item.pictures[0]?.pic_url || null) + ")",
                   }}
                   className="z-30 bg-cover bg-center card h-full w-full flex items-end px-4 py-3 text-white rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
                 >
