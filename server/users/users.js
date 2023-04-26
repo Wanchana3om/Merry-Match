@@ -219,7 +219,8 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
       .from("users")
       .select(
         `user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)`
-      );
+      )
+      .neq("user_id", userId);
 
     if (keyword && meeting_interest && min_age && max_age) {
       // Add keyword, meeting_interest and age filters
