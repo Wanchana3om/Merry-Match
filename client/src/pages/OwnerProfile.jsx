@@ -233,7 +233,7 @@ function OwnerProfile() {
       {showProfile && <ProfilePopup handleClose={handleClosePopupProfile} />}
       {/* bg-[#FCFCFE] */}
       <form onSubmit={handleUpdate} className="w-screen bg-[#FCFCFE] ">
-        <div className=" flex flex-col w-[1440px] mx-auto font-Poppins h-fit px-[255px] py-12 bg-[#FCFCFE] ">
+        <div className=" flex flex-col w-[1440px] mx-auto font-nunito h-fit px-[255px] py-12 bg-[#FCFCFE] ">
           <div className="w-full mx-auto bg-[#FCFCFE]">
             <div className="flex flex-row justify-between items-center w-full ">
               <div>
