@@ -5,9 +5,11 @@ import RegisterForm2 from "../components/RegisterForm2";
 import RegisterForm3 from "../components/RegisterForm3";
 import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../components/uploadCloudinary";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
-  const { navigate, register } = useAuth();
+  const navigate = useNavigate();
+  const { register } = useAuth();
   const [currentFormPage, setCurrentFormPage] = useState(1);
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("2022-01-01");
@@ -24,8 +26,8 @@ function RegisterPage() {
   const [hobbyLists, setHobbyLists] = useState([]);
   const [info, setInfo] = useState("");
   const [images, setImages] = useState([null, null, null, null, null]);
-  console.log(images);
-  
+  console.log(navigate);
+
   const time = new Date();
   const year = time.getFullYear();
   const month = time.getMonth();
@@ -42,14 +44,17 @@ function RegisterPage() {
       : 0);
 
   const handleNextStep = async () => {
-    if (currentFormPage === 3) { {images !== null && (
-                <button
-                  className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
-                  onClick={(event) => deleteImage(event, index)}
-                >
-                  ✕
-                </button>
-              )}
+    if (currentFormPage === 3) {
+      {
+        images !== null && (
+          <button
+            className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
+            onClick={(event) => deleteImage(event, index)}
+          >
+            ✕
+          </button>
+        );
+      }
       let nullCount = 0;
       for (let i = 0; i < images.length; i++) {
         if (images[i] === null) {

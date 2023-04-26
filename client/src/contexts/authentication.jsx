@@ -11,7 +11,7 @@ function AuthProvider(props) {
     error: null,
     user: null,
   });
-  
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {

@@ -191,7 +191,7 @@ function MatchingPage() {
             </div>
           </div>
           <div className="w-[282px] mx-auto py-[36px]">
-            <h1 className="font-bold text-lg">Merry Match!</h1>
+            <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row gap-3 py-6">
               <img
                 src=""
@@ -206,7 +206,9 @@ function MatchingPage() {
             </div>
           </div>
           <div className="w-[282px] mx-auto pt-[12px]">
-            <h1 className="font-bold text-lg">Chat with Merry Match</h1>
+            <h1 className="text-[#191C77] font-bold text-lg">
+              Chat with Merry Match
+            </h1>
             <div className="flex flex-row justify-evenly py-6">
               <img
                 src=""
@@ -302,7 +304,9 @@ function MatchingPage() {
               </div>
 
               <div className="flex flex-col gap-3 ">
-                <h1 className="text-[#191C77] font-bold">Sex you interest</h1>
+                <h1 className="text-[#191C77] font-bold">
+                  Relationship Interest
+                </h1>
                 <div className="flex">
                   <input
                     type="checkbox"
@@ -361,7 +365,7 @@ function MatchingPage() {
               </div>
 
               <div className="flex flex-col gap-6">
-                <label htmlFor="age-range" className="text-blue-700 font-bold">
+                <label htmlFor="age-range" className="text-[#191C77] font-bold">
                   Age Range
                 </label>
                 <div className="relative w-full">

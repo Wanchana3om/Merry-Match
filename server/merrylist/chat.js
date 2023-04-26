@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { supabase } from "../app.js";
+import { protect } from "../middlewares/protect.js";
 
-const chatRouther = Router();
+const chatRouter = Router();
 
+chatRouter.use(protect);
 // fetch message
 // แบบที่1
-// chatRouther.get("/:senderId/:receiverId", async (req, res) => {
+// chatRouter.get("/:senderId/:receiverId", async (req, res) => {
 //   try {
 //     const { senderId, receiverId } = req.params;
 //     const { data: senderMessage, error: senderMessageError } = await supabase
@@ -38,7 +40,7 @@ const chatRouther = Router();
 // });
 
 // แบบที่2
-chatRouther.get("/:senderId/:receiverId", async (req, res) => {
+chatRouter.get("/:senderId/:receiverId", async (req, res) => {
   try {
     const { senderId, receiverId } = req.params;
     const { data: getMatchId, error: getMatchIdError } = await supabase
@@ -62,7 +64,7 @@ chatRouther.get("/:senderId/:receiverId", async (req, res) => {
 });
 
 // send message
-chatRouther.post("/:senderId/:receiverId", async (req, res) => {
+chatRouter.post("/:senderId/:receiverId", async (req, res) => {
   try {
     const { senderId, receiverId } = req.params;
     const { message } = req.body;
@@ -90,7 +92,7 @@ chatRouther.post("/:senderId/:receiverId", async (req, res) => {
 });
 
 // edit message
-chatRouther.put("/:senderId/:chatId", async (req, res) => {
+chatRouter.put("/:senderId/:chatId", async (req, res) => {
   try {
     const { senderId, chatId } = req.params;
     const { message } = req.body;
@@ -108,7 +110,7 @@ chatRouther.put("/:senderId/:chatId", async (req, res) => {
 });
 
 //   deleted message
-chatRouther.delete("/:senderId/:chatId", async (req, res) => {
+chatRouter.delete("/:senderId/:chatId", async (req, res) => {
   try {
     const { senderId, chatId } = req.params;
     const { error } = await supabase
@@ -124,4 +126,4 @@ chatRouther.delete("/:senderId/:chatId", async (req, res) => {
   }
 });
 
-export default chatRouther;
+export default chatRouter;

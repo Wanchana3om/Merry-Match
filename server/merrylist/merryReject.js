@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { supabase } from "../app.js";
+import { protect } from "../middlewares/protect.js";
 
 const merryRejectRouter = Router();
 
+merryRejectRouter.use(protect);
 //  reject user
 merryRejectRouter.put("/:userId", async (req, res) => {
   try {

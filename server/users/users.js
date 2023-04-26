@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { supabase } from "../app.js";
+import { protect } from "../middlewares/protect.js";
 
 const usersRouter = Router();
+
+usersRouter.use(protect);
 
 // read user profile
 usersRouter.get("/:userId", async (req, res) => {
