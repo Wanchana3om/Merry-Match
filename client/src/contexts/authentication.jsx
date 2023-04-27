@@ -12,14 +12,6 @@ function AuthProvider(props) {
     user: null,
   });
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const userDataFromToken = jwtDecode(token);
-      setState({ ...state, user: userDataFromToken });
-    }
-  }, []);
-
   const navigate = useNavigate();
 
   const login = async (data) => {

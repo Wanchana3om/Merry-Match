@@ -10,7 +10,6 @@ import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../components/uploadCloudinary";
 import Loading from "../components/loading";
 
-
 function OwnerProfile() {
   const { updateUserProfile } = useData();
   const { state } = useAuth();
@@ -31,10 +30,9 @@ function OwnerProfile() {
   const [isLoading, setIsLoading] = useState(null);
   // const [isSubmit, setIsSubmit] = useState(null);
 
-
   const handleUpdate = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
     if (images.length > 2) {
       let nullCount = 0;
       for (let i = 0; i < images.length; i++) {
@@ -69,10 +67,12 @@ function OwnerProfile() {
           image: imageUrls,
           hobby: hobbyLists,
         });
-        setIsLoading(false)
+        setIsLoading(false);
         // setIsSubmit(true)
         // setIsSubmit(false)
-        {alert("Data submitted");}
+        {
+          alert("Data submitted");
+        }
         window.location.reload();
       }
     }
@@ -85,12 +85,7 @@ function OwnerProfile() {
         const userDataFromToken = jwtDecode(token);
 
         const result = await axios.get(
-          `http://localhost:3000/users/${userDataFromToken.user_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          `http://localhost:3000/users/${userDataFromToken.user_id}`
         );
         setName(result.data[0].name);
         setBirthDate(result.data[0].birthDate);
@@ -237,17 +232,15 @@ function OwnerProfile() {
   return (
     <>
       <NavigationbarUser />
-      {isLoading && (
-        <Loading
-        />
-      )}
-      
+      {isLoading && <Loading />}
+
       {deleteAccount && <DeletePopup handleClose={handleClosePopupDelete} />}
       {showProfile && <ProfilePopup handleClose={handleClosePopupProfile} />}
       {/* bg-[#FCFCFE] */}
-      <form onSubmit={(e)=>handleUpdate(e)} className="w-screen bg-[#FCFCFE] ">
-        
-        
+      <form
+        onSubmit={(e) => handleUpdate(e)}
+        className="w-screen bg-[#FCFCFE] "
+      >
         <div className=" flex flex-col w-[1440px] mx-auto font-nunito h-fit px-[255px] py-12 bg-[#FCFCFE] ">
           <div className="w-full mx-auto bg-[#FCFCFE]">
             <div className="flex flex-row justify-between items-center w-full ">

@@ -7,16 +7,15 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import ProfilePopupMatching from "../components/ProfilePopupMatching";
 
-
 import {
   RangeSlider,
   RangeSliderTrack,
   RangeSliderFilledTrack,
   RangeSliderThumb,
 } from "@chakra-ui/react";
-import useData from "../hook/useData"
+import useData from "../hook/useData";
 import { useAuth } from "../contexts/authentication";
-import mini_heart from "/matching/mini_heart.svg"
+import mini_heart from "/matching/mini_heart.svg";
 
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
@@ -27,10 +26,10 @@ function MatchingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
 
-  const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData()
-  const { state } = useAuth()
-  const [matchingListPictures, setMatchingListPictures] = useState(null)
-  const [matchingPictureIndex, setMatchingPictureIndex] = useState(0)
+  const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
+  const { state } = useAuth();
+  const [matchingListPictures, setMatchingListPictures] = useState(null);
+  const [matchingPictureIndex, setMatchingPictureIndex] = useState(0);
 
   const [keyword, setKeyword] = useState("");
   const [meetingInterest, setMeetingInterest] = useState([]);
@@ -57,17 +56,12 @@ function MatchingPage() {
     if (token) {
       const userDataFromToken = jwtDecode(token);
 
-        const result = await axios.get(
-          // `http://localhost:3000/merrylist/${userDataFromToken.user_id}`,
-          `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setMatchingList(result.data);
-        console.log(result.data);
+      const result = await axios.get(
+        // `http://localhost:3000/merrylist/${userDataFromToken.user_id}`,
+        `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`
+      );
+      setMatchingList(result.data);
+      console.log(result.data);
     }
   };
   const handleSubmit = async (event) => {
@@ -86,13 +80,7 @@ function MatchingPage() {
         };
 
         const result = await axios.get(
-          `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
-          {
-            params,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`
         );
 
         let matchingData = result.data;
@@ -117,8 +105,8 @@ function MatchingPage() {
   }, []);
 
   const handleChat = () => {
-    setChat(!chat)
-  }
+    setChat(!chat);
+  };
 
   // ----------------------------
   const handleCheckboxChange = (event) => {
@@ -167,32 +155,30 @@ function MatchingPage() {
 
   const canSwipe = currentIndex >= 0;
 
-  const [userSwipeRight, setUserSwipeRight] = useState(false)
-  const [showName, setShowName] = useState(true)
-  const [showEye, setShowEye] = useState(true)
+  const [userSwipeRight, setUserSwipeRight] = useState(false);
+  const [showName, setShowName] = useState(true);
+  const [showEye, setShowEye] = useState(true);
 
   const swiped = (direction, nameToDelete, index, userId) => {
     setLastDirection(direction);
     updateCurrentIndex(index - 1);
 
     if (direction === "right") {
-      setUserSwipeRight(true)
-      setShowName(false)
-      setShowEye(false)
-      userLoveSwipeRight(state?.user?.user_id, { newUserId: userId })
-      setMatchingPictureIndex(userId)
+      setUserSwipeRight(true);
+      setShowName(false);
+      setShowEye(false);
+      userLoveSwipeRight(state?.user?.user_id, { newUserId: userId });
+      setMatchingPictureIndex(userId);
 
-      const matchingUser = matchingList.find(item => item.user_id === userId)
+      const matchingUser = matchingList.find((item) => item.user_id === userId);
       if (matchingUser) {
-        const pictureUrl = matchingUser.pictures[0]?.pic_url
-        setMatchingListPictures([pictureUrl])
+        const pictureUrl = matchingUser.pictures[0]?.pic_url;
+        setMatchingListPictures([pictureUrl]);
       }
     } else if (direction === "left") {
-      setUserSwipeRight(false)
-      userRejectSwipeLeft(state?.user?.user_id, { deleteUserId: userId })
-
+      setUserSwipeRight(false);
+      userRejectSwipeLeft(state?.user?.user_id, { deleteUserId: userId });
     }
-
   };
 
   const outOfFrame = (name, idx) => {
@@ -215,7 +201,6 @@ function MatchingPage() {
     await childRefs[newIndex].current.restoreCard();
   };
 
-
   const handleShowProfile = (user) => {
     setSelectedUser(user);
     setShowProfile(!showProfile);
@@ -236,25 +221,41 @@ function MatchingPage() {
       <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row relative">
         {userSwipeRight && (
           <div className="w-full h-full flex flex-col justify-center items-center absolute z-50 bg-pink-300 bg-opacity-50 inset-0">
-
-
             <div className="flex flex-col justify-center items-center ml-24 mt-24 max-w-full h-auto pt-14 px-24 pb-20 rounded-3xl relative">
-            <img src={matchingListPictures} alt="" className="h-[680px] w-[680px] object-cover bg-center rounded-3xl mr-7 mb-[192px]" />
+              <img
+                src={matchingListPictures}
+                alt=""
+                className="h-[680px] w-[680px] object-cover bg-center rounded-3xl mr-7 mb-[192px]"
+              />
 
               <div className="mb-10 z-50">
-                <img src={mini_heart} alt="Mini heart" className="absolute right-[445px] top-[390px]  animate-bounce z-50 " />
+                <img
+                  src={mini_heart}
+                  alt="Mini heart"
+                  className="absolute right-[445px] top-[390px]  animate-bounce z-50 "
+                />
 
-                <img src={mini_heart} alt="Mini heart" className="absolute right-[410px] top-[390px] animate-bounce z-50" />
+                <img
+                  src={mini_heart}
+                  alt="Mini heart"
+                  className="absolute right-[410px] top-[390px] animate-bounce z-50"
+                />
               </div>
 
-              <h1 className="text-red-500 font-black text-5xl pb-10 absolute top-[440px]" style={{ WebkitTextStrokeWidth: "2px", WebkitTextStrokeColor: "white" }}>
+              <h1
+                className="text-red-500 font-black text-5xl pb-10 absolute top-[440px]"
+                style={{
+                  WebkitTextStrokeWidth: "2px",
+                  WebkitTextStrokeColor: "white",
+                }}
+              >
                 Merry Match
               </h1>
               <div className="flex justify-center items-center">
                 <button
                   className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 font-semibold text-base absolute top-[490px]"
                   onClick={() => {
-                    handleChat(),setUserSwipeRight(false)
+                    handleChat(), setUserSwipeRight(false);
                   }}
                 >
                   Start Conversation
@@ -304,7 +305,7 @@ function MatchingPage() {
                 className="w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
                 onClick={handleChat}
               />
-              <div >
+              <div>
                 <p className="font-[400] text-[#2A2E3F] text-[16px]">Ygritte</p>
                 <p className="font-[500] text-[#646D89] text-[14px]">
                   You know nothing Jon Snow
@@ -316,25 +317,45 @@ function MatchingPage() {
         {!chat && (
           <div className="bg-[#160404] flex flex-col justify-end col-span-3 w-full  overflow-hidden">
             <div className="w-full h-[836px] flex flex-row justify-center pt-[90px] ">
-
               <div className="w-[750px] h-[90px] flex flex-row justify-center  items-center bg-[#F4EBF2] border-[1px] border-[#DF89C6] rounded-2xl">
-                <img src="/chat/merry match.svg" alt="merry match" className="pr-[27px]" />
-                <p className="text-[#64001D]">Now you and Daeny are Merry Match! <br />
-                  You can messege something nice and make a good conversation. Happy Merry!</p>
+                <img
+                  src="/chat/merry match.svg"
+                  alt="merry match"
+                  className="pr-[27px]"
+                />
+                <p className="text-[#64001D]">
+                  Now you and Daeny are Merry Match! <br />
+                  You can messege something nice and make a good conversation.
+                  Happy Merry!
+                </p>
               </div>
             </div>
             <div className="w-full h-[100px] bg-[#160404] border-t-[1px] flex flex-row border-gray-200 items-center justify-center">
-              <img src="/chat/upload image.svg" alt="upload image" className="w-[45px] h-[45px] mr-[10px]" />
-              <input type="text" className="w-[908px] h-[50px] px-[15px] bg-[#160404] placeholder:italic placeholder:text-slate-400 focus:outline-none text-white" placeholder="Message here..." />
-              <img src="/chat/send button.svg" alt="send button" className="w-[70px] h-[70px] ml-[10px]" />
+              <img
+                src="/chat/upload image.svg"
+                alt="upload image"
+                className="w-[45px] h-[45px] mr-[10px]"
+              />
+              <input
+                type="text"
+                className="w-[908px] h-[50px] px-[15px] bg-[#160404] placeholder:italic placeholder:text-slate-400 focus:outline-none text-white"
+                placeholder="Message here..."
+              />
+              <img
+                src="/chat/send button.svg"
+                alt="send button"
+                className="w-[70px] h-[70px] ml-[10px]"
+              />
             </div>
           </div>
-
         )}
 
         {/* ------------------------section 2 ----------------------------  */}
-        <div className={`bg-[#160404] ${!chat ? 'hidden' : 'flex'} flex-col justify-center col-span-3 w-[904px]  overflow-hidden`}>
-
+        <div
+          className={`bg-[#160404] ${
+            !chat ? "hidden" : "flex"
+          } flex-col justify-center col-span-3 w-[904px]  overflow-hidden`}
+        >
           <div className="relative w-[620px] h-[620px] rounded-[32px]">
             {matchingList.map((item, index) => (
               <TinderCard
@@ -370,7 +391,6 @@ function MatchingPage() {
                       </div>
                     </button>
                   )}
-
                 </div>
                 <div
                   style={{
@@ -399,7 +419,9 @@ function MatchingPage() {
         {/* ------------------------section 3 ----------------------------  */}
         <form
           onSubmit={handleSubmit}
-          className={`   w-[210px] ${!chat ? 'hidden' : 'flex'} flex-row justify-center `}
+          className={`   w-[210px] ${
+            !chat ? "hidden" : "flex"
+          } flex-row justify-center `}
         >
           <div className=" flex flex-col items-center  w-[188px] mx-auto>">
             <div className="flex flex-col gap-10 mb-[170px]">
