@@ -6,6 +6,19 @@ const merryRouter = Router();
 
 merryRouter.use(protect);
 
+// get all user in merry match
+merryRouter.get("/", async (req, res) => {
+  try {
+    const { data, error } = await supabase.from("merry_status").select("*");
+
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
 // get all user in merrylist page
 merryRouter.get("/:userId", async (req, res) => {
   try {
@@ -50,7 +63,8 @@ merryRouter.put("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const newUserId = req.body.newUserId;
-
+    console.log(userId);
+    console.log(newUserId);
     const { data: existingData } = await supabase
       .from("merry_status")
       .select("status_id")
@@ -133,9 +147,11 @@ merryRouter.put("/:userId", async (req, res) => {
 merryRouter.delete("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const deleteUserId = parseInt(
-      req.body.deleteUserId.toString().replace(/\D/g, "")
-    );
+    const deleteUserId = req.body.deleteUserId;
+    // const newUserId = req.body.newUserId;
+
+    console.log(userId);
+    console.log(deleteUserId);
 
     const { data, error } = await supabase
       .from("merry_status")

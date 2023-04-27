@@ -7,12 +7,16 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import ProfilePopupMatching from "../components/ProfilePopupMatching";
 
+
 import {
   RangeSlider,
   RangeSliderTrack,
   RangeSliderFilledTrack,
   RangeSliderThumb,
 } from "@chakra-ui/react";
+import useData from "../hook/useData"
+import { useAuth } from "../contexts/authentication";
+import mini_heart from "/matching/mini_heart.svg"
 
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
@@ -22,6 +26,11 @@ function MatchingPage() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
+
+  const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData()
+  const { state } = useAuth()
+  const [matchingListPictures, setMatchingListPictures] = useState(null)
+  const [matchingPictureIndex, setMatchingPictureIndex] = useState(0)
 
   const [keyword, setKeyword] = useState("");
   const [meetingInterest, setMeetingInterest] = useState([]);
@@ -41,27 +50,25 @@ function MatchingPage() {
     }
     return age;
   };
-  console.log(showProfile);
 
   const getMatchingProfile = async () => {
     const token = localStorage.getItem("token");
 
     if (token) {
-        const userDataFromToken = jwtDecode(token);
+      const userDataFromToken = jwtDecode(token);
 
-        const result = await axios.get(
-          `http://localhost:3000/merrylist/${userDataFromToken.user_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setMatchingList(result.data);
-        console.log(result.data);
+      const result = await axios.get(
+        `http://localhost:3000/merrylist/${userDataFromToken.user_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setMatchingList(result.data);
+      console.log(result.data);
     }
   };
-
   const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
     event.preventDefault();
@@ -108,9 +115,9 @@ function MatchingPage() {
     getMatchingProfile();
   }, []);
 
-  const handleChat = ()=>{
-setChat(!chat)
-  } 
+  const handleChat = () => {
+    setChat(!chat)
+  }
 
   // ----------------------------
   const handleCheckboxChange = (event) => {
@@ -159,9 +166,32 @@ setChat(!chat)
 
   const canSwipe = currentIndex >= 0;
 
-  const swiped = (direction, nameToDelete, index) => {
+  const [userSwipeRight, setUserSwipeRight] = useState(false)
+  const [showName, setShowName] = useState(true)
+  const [showEye, setShowEye] = useState(true)
+
+  const swiped = (direction, nameToDelete, index, userId) => {
     setLastDirection(direction);
     updateCurrentIndex(index - 1);
+
+    if (direction === "right") {
+      setUserSwipeRight(true)
+      setShowName(false)
+      setShowEye(false)
+      userLoveSwipeRight(state?.user?.user_id, { newUserId: userId })
+      setMatchingPictureIndex(userId)
+
+      const matchingUser = matchingList.find(item => item.user_id === userId)
+      if (matchingUser) {
+        const pictureUrl = matchingUser.pictures[0]?.pic_url
+        setMatchingListPictures([pictureUrl])
+      }
+    } else if (direction === "left") {
+      setUserSwipeRight(false)
+      userRejectSwipeLeft(state?.user?.user_id, { deleteUserId: userId })
+
+    }
+
   };
 
   const outOfFrame = (name, idx) => {
@@ -184,7 +214,7 @@ setChat(!chat)
     await childRefs[newIndex].current.restoreCard();
   };
 
-  
+
   const handleShowProfile = (user) => {
     setSelectedUser(user);
     setShowProfile(!showProfile);
@@ -202,7 +232,36 @@ setChat(!chat)
           handleCloseProfile={handleCloseProfile}
         />
       )}
-      <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row">
+      <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row relative">
+        {userSwipeRight && (
+          <div className="w-full h-full flex flex-col justify-center items-center absolute z-50 bg-pink-300 bg-opacity-50 inset-0">
+
+
+            <div className="flex flex-col justify-center items-center ml-24 mt-24 max-w-full h-auto pt-14 px-24 pb-20 rounded-3xl relative">
+            <img src={matchingListPictures} alt="" className="h-[680px] w-[680px] bg-cover bg-center rounded-3xl mr-7 mb-[192px]" />
+
+              <div className="mb-10 z-50">
+                <img src={mini_heart} alt="Mini heart" className="absolute right-[445px] top-[390px]  animate-bounce z-50 " />
+
+                <img src={mini_heart} alt="Mini heart" className="absolute right-[410px] top-[390px] animate-bounce z-50" />
+              </div>
+
+              <h1 className="text-red-500 font-black text-5xl pb-10 absolute top-[440px]" style={{ WebkitTextStrokeWidth: "2px", WebkitTextStrokeColor: "white" }}>
+                Merry Match
+              </h1>
+              <div className="flex justify-center items-center">
+                <button
+                  className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 font-semibold text-base absolute top-[490px]"
+                  onClick={() => {
+                    handleChat(),setUserSwipeRight(false)
+                  }}
+                >
+                  Start Conversation
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="w-[316px]">
           <div className="w-[316px] border-b-[1px] border-gray-400">
             <div className="w-[282px] mx-auto py-[36px]">
@@ -240,7 +299,7 @@ setChat(!chat)
             <div className="flex flex-row justify-evenly py-6">
               <img
                 src=""
-                alt=""
+                alt="dd"
                 className="w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
                 onClick={handleChat}
               />
@@ -254,24 +313,24 @@ setChat(!chat)
           </div>
         </div>
         {!chat && (
-       <div className="bg-[#160404] flex flex-col justify-end col-span-3 w-full  overflow-hidden">
-        <div className="w-full h-[836px] flex flex-row justify-center pt-[90px] ">
+          <div className="bg-[#160404] flex flex-col justify-end col-span-3 w-full  overflow-hidden">
+            <div className="w-full h-[836px] flex flex-row justify-center pt-[90px] ">
 
-        <div className="w-[750px] h-[90px] flex flex-row justify-center  items-center bg-[#F4EBF2] border-[1px] border-[#DF89C6] rounded-2xl">
-          <img src="/chat/merry match.svg" alt="merry match" className="pr-[27px]"/>
-          <p className="text-[#64001D]">Now you and Daeny are Merry Match! <br />
-You can messege something nice and make a good conversation. Happy Merry!</p>
-        </div>
-        </div>
-       <div className="w-full h-[100px] bg-[#160404] border-t-[1px] flex flex-row border-gray-200 items-center justify-center">
-         <img src="/chat/upload image.svg" alt="upload image" className="w-[45px] h-[45px] mr-[10px]" />
-         <input type="text" className="w-[908px] h-[50px] px-[15px] bg-[#160404] placeholder:italic placeholder:text-slate-400 focus:outline-none text-white"  placeholder="Message here..." />
-         <img src="/chat/send button.svg" alt="send button" className="w-[70px] h-[70px] ml-[10px]" />
-       </div>
-     </div>
-     
-      )}
-        
+              <div className="w-[750px] h-[90px] flex flex-row justify-center  items-center bg-[#F4EBF2] border-[1px] border-[#DF89C6] rounded-2xl">
+                <img src="/chat/merry match.svg" alt="merry match" className="pr-[27px]" />
+                <p className="text-[#64001D]">Now you and Daeny are Merry Match! <br />
+                  You can messege something nice and make a good conversation. Happy Merry!</p>
+              </div>
+            </div>
+            <div className="w-full h-[100px] bg-[#160404] border-t-[1px] flex flex-row border-gray-200 items-center justify-center">
+              <img src="/chat/upload image.svg" alt="upload image" className="w-[45px] h-[45px] mr-[10px]" />
+              <input type="text" className="w-[908px] h-[50px] px-[15px] bg-[#160404] placeholder:italic placeholder:text-slate-400 focus:outline-none text-white" placeholder="Message here..." />
+              <img src="/chat/send button.svg" alt="send button" className="w-[70px] h-[70px] ml-[10px]" />
+            </div>
+          </div>
+
+        )}
+
         {/* ------------------------section 2 ----------------------------  */}
         <div className={`bg-gray-300 ${!chat ? 'hidden' : 'flex'} flex-col justify-center col-span-3 w-[904px]  overflow-hidden`}>
 
@@ -281,7 +340,7 @@ You can messege something nice and make a good conversation. Happy Merry!</p>
                 ref={childRefs[index]}
                 className="absolute top-0 left-32 w-full h-full rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
                 key={item.user_id}
-                onSwipe={(dir) => swiped(dir, item.name, index)}
+                onSwipe={(dir) => swiped(dir, item.name, index, item.user_id)}
                 onCardLeftScreen={() => outOfFrame(item.name, index)}
               >
                 <div
@@ -291,21 +350,26 @@ You can messege something nice and make a good conversation. Happy Merry!</p>
                   }}
                   className="z-30 bg-cover bg-center card h-full w-full flex items-end px-4 py-3 text-white rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
                 >
-                  <h3 className="z-40 pb-8 pl-3 font-bold text-3xl text-white pointer-events-none ">
-                    {item.name} {calculateAge(item.birthDate)}
-                  </h3>
-                  <button
-                    onClick={() => handleShowProfile(item)}
-                    className="z-40 mb-8 ml-4 bg-white/[.2] rounded-full flex items-center justify-center w-8 h-8"
-                  >
-                    <div>
-                      <img
-                        src={eye_button}
-                        alt="Eye"
-                        className=" pointer-events-none"
-                      />
-                    </div>
-                  </button>
+                  {showName && (
+                    <h3 className="z-40 pb-8 pl-3 font-bold text-3xl text-white pointer-events-none ">
+                      {item.name} {calculateAge(item.birthDate)}
+                    </h3>
+                  )}
+                  {showEye && (
+                    <button
+                      onClick={() => handleShowProfile(item)}
+                      className="z-40 mb-8 ml-4 bg-white/[.2] rounded-full flex items-center justify-center w-8 h-8"
+                    >
+                      <div>
+                        <img
+                          src={eye_button}
+                          alt="Eye"
+                          className=" pointer-events-none"
+                        />
+                      </div>
+                    </button>
+                  )}
+
                 </div>
                 <div
                   style={{
