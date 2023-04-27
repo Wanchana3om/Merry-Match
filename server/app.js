@@ -27,6 +27,7 @@ async function init() {
   app.use(express.urlencoded({ limit: "1mb", extended: true }));
 
   // app.use("/auth", fileUploadMiddleware, authRouter);
+
   app.use("/auth", authRouter);
   app.use("/users", protect, usersRouter);
   app.use("/merrylist", protect, merryRouter);
