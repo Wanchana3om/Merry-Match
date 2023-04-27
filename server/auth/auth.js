@@ -6,25 +6,6 @@ import bcrypt from "bcrypt";
 const authRouter = Router();
 
 authRouter.post("/register", async (req, res) => {
-  if (!("caches" in window)) {
-    console.log("This browser does not support the Cache API");
-    return;
-  }
-
-  async function cacheImage(url) {
-    try {
-      const cache = await caches.open("profile-pictures");
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      await cache.put(url, response);
-      console.log("Image cached successfully");
-    } catch (error) {
-      console.error("Caching failed:", error);
-    }
-  }
-
   console.log("connect to back-end");
   const {
     username,
@@ -191,7 +172,7 @@ authRouter.post("/login", async (req, res) => {
         profilePic: profilePic[0].pic_url,
       },
       process.env.SECRET_KEY,
-      { expiresIn: "3h" }
+      { expiresIn: "1h" }
     );
     return res.json({ token });
   }
