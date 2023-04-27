@@ -239,7 +239,7 @@ function MatchingPage() {
 
 
             <div className="flex flex-col justify-center items-center ml-24 mt-24 max-w-full h-auto pt-14 px-24 pb-20 rounded-3xl relative">
-            <img src={matchingListPictures} alt="" className="h-[680px] w-[680px] bg-cover bg-center rounded-3xl mr-7 mb-[192px]" />
+            <img src={matchingListPictures} alt="" className="h-[680px] w-[680px] object-cover bg-center rounded-3xl mr-7 mb-[192px]" />
 
               <div className="mb-10 z-50">
                 <img src={mini_heart} alt="Mini heart" className="absolute right-[445px] top-[390px]  animate-bounce z-50 " />
