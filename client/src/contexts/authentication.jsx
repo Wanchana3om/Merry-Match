@@ -7,10 +7,25 @@ const AuthContext = React.createContext();
 
 function AuthProvider(props) {
   const [state, setState] = useState({
-    loading: null,
+    loading: true,
     error: null,
     user: null,
   });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const userDataFromToken = jwtDecode(token);
+        setState({ ...state, user: userDataFromToken, loading: false });
+      } catch (error) {
+        console.error("Error decoding the token:", error);
+        setState({ ...state, loading: false });
+      }
+    } else {
+      setState({ ...state, loading: false });
+    }
+  }, []);
 
   const navigate = useNavigate();
 

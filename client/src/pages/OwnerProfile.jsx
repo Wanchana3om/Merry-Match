@@ -12,7 +12,7 @@ import Loading from "../components/loading";
 
 function OwnerProfile() {
   const { updateUserProfile } = useData();
-  const { state } = useAuth();
+  const { state, loading } = useAuth();
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -117,8 +117,6 @@ function OwnerProfile() {
           ...newImageList,
           ...Array(5 - newImageList.length).fill(null),
         ]);
-
-        console.log(images);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
@@ -128,6 +126,10 @@ function OwnerProfile() {
   useEffect(() => {
     getUserProfile();
   }, []);
+
+  useEffect(() => {
+    console.log(state?.user?.user_id);
+  }, [state?.user?.user_id]);
 
   // ------------section 2 ---------------
   const maxHobbies = 10;
@@ -228,6 +230,10 @@ function OwnerProfile() {
   const handleClosePopupProfile = () => {
     setShowProfile(false);
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>

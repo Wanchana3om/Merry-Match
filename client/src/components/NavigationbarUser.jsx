@@ -10,8 +10,6 @@ function NavigationbarUser() {
 
   const { logout, state } = useAuth();
 
-  console.log(state?.user?.profilePic);
-
   return (
     <header className="font-nunito relative z-30 w-screen shadow-md">
       <div className="w-screen  flex flex-row justify-between items-center py-5 bg-white mx-auto">
