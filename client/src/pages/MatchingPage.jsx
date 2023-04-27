@@ -29,7 +29,6 @@ function MatchingPage() {
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
   const { state } = useAuth();
   const [matchingListPictures, setMatchingListPictures] = useState(null);
-  const [matchingPictureIndex, setMatchingPictureIndex] = useState(0);
 
   const [keyword, setKeyword] = useState("");
   const [meetingInterest, setMeetingInterest] = useState([]);
@@ -155,9 +154,10 @@ function MatchingPage() {
 
   const canSwipe = currentIndex >= 0;
 
-  const [userSwipeRight, setUserSwipeRight] = useState(false);
-  const [showName, setShowName] = useState(true);
-  const [showEye, setShowEye] = useState(true);
+  const [userSwipeRight, setUserSwipeRight] = useState(false)
+  const [userContinueMatch, setUserContinueMatch] = useState(false)
+  const [showName, setShowName] = useState(true)
+  const [showEye, setShowEye] = useState(true)
 
   const swiped = (direction, nameToDelete, index, userId) => {
     setLastDirection(direction);
@@ -168,7 +168,6 @@ function MatchingPage() {
       setShowName(false);
       setShowEye(false);
       userLoveSwipeRight(state?.user?.user_id, { newUserId: userId });
-      setMatchingPictureIndex(userId);
 
       const matchingUser = matchingList.find((item) => item.user_id === userId);
       if (matchingUser) {
@@ -208,6 +207,12 @@ function MatchingPage() {
   const handleCloseProfile = () => {
     setShowProfile(false);
   };
+  const handleUserContinueMatching = () => {
+    setUserSwipeRight(false)
+    setShowName(true);
+    setShowEye(true);
+  }
+
 
   return (
     <>
@@ -259,6 +264,12 @@ function MatchingPage() {
                   }}
                 >
                   Start Conversation
+                </button>
+                <button
+                  className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 font-semibold text-base absolute top-[560px]"
+                  onClick={() => handleUserContinueMatching()}
+                >
+                  Continue Match...
                 </button>
               </div>
             </div>
@@ -352,9 +363,8 @@ function MatchingPage() {
 
         {/* ------------------------section 2 ----------------------------  */}
         <div
-          className={`bg-[#160404] ${
-            !chat ? "hidden" : "flex"
-          } flex-col justify-center col-span-3 w-[904px]  overflow-hidden`}
+          className={`bg-[#160404] ${!chat ? "hidden" : "flex"
+            } flex-col justify-center col-span-3 w-[904px]  overflow-hidden`}
         >
           <div className="relative w-[620px] h-[620px] rounded-[32px]">
             {matchingList.map((item, index) => (
@@ -419,9 +429,8 @@ function MatchingPage() {
         {/* ------------------------section 3 ----------------------------  */}
         <form
           onSubmit={handleSubmit}
-          className={`   w-[210px] ${
-            !chat ? "hidden" : "flex"
-          } flex-row justify-center `}
+          className={`   w-[210px] ${!chat ? "hidden" : "flex"
+            } flex-row justify-center `}
         >
           <div className=" flex flex-col items-center  w-[188px] mx-auto>">
             <div className="flex flex-col gap-10 mb-[170px]">
@@ -565,5 +574,6 @@ function MatchingPage() {
     </>
   );
 }
+
 
 export default MatchingPage;
