@@ -8,6 +8,8 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../components/uploadCloudinary";
+import Loading from "../components/loading";
+
 
 function OwnerProfile() {
   const { updateUserProfile } = useData();
@@ -26,9 +28,13 @@ function OwnerProfile() {
   const [aboutMe, setAboutMe] = useState("");
   const [images, setImages] = useState(Array(5).fill(null));
   const [info, setInfo] = useState("");
+  const [isLoading, setIsLoading] = useState(null);
+  // const [isSubmit, setIsSubmit] = useState(null);
+
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setIsLoading(true)
     if (images.length > 2) {
       let nullCount = 0;
       for (let i = 0; i < images.length; i++) {
@@ -63,7 +69,10 @@ function OwnerProfile() {
           image: imageUrls,
           hobby: hobbyLists,
         });
-        alert("Data submitted");
+        setIsLoading(false)
+        // setIsSubmit(true)
+        // setIsSubmit(false)
+        {alert("Data submitted");}
         window.location.reload();
       }
     }
@@ -228,11 +237,17 @@ function OwnerProfile() {
   return (
     <>
       <NavigationbarUser />
-
+      {isLoading && (
+        <Loading
+        />
+      )}
+      
       {deleteAccount && <DeletePopup handleClose={handleClosePopupDelete} />}
       {showProfile && <ProfilePopup handleClose={handleClosePopupProfile} />}
       {/* bg-[#FCFCFE] */}
-      <form onSubmit={handleUpdate} className="w-screen bg-[#FCFCFE] ">
+      <form onSubmit={(e)=>handleUpdate(e)} className="w-screen bg-[#FCFCFE] ">
+        
+        
         <div className=" flex flex-col w-[1440px] mx-auto font-nunito h-fit px-[255px] py-12 bg-[#FCFCFE] ">
           <div className="w-full mx-auto bg-[#FCFCFE]">
             <div className="flex flex-row justify-between items-center w-full ">
@@ -245,14 +260,14 @@ function OwnerProfile() {
               </div>
               <div className="flex gap-2">
                 <button
-                  className="text-[#95002B] bg-[#FFE1EA] py-3 px-6 rounded-[99px] hover:bg-[#FFB1C8]"
+                  className="text-[#95002B] transition-all duration-300  hover:scale-105  bg-[#FFE1EA] py-3 px-6 rounded-[99px] hover:bg-[#FFB1C8]"
                   onClick={handleShowProfile}
                 >
                   Preview Profile
                 </button>
                 <button
                   type="submit"
-                  className="text-[#FFFFFF] bg-[#C70039] py-3 px-6 rounded-[99px] hover:bg-[#FF1659]"
+                  className="text-[#FFFFFF] transition-all duration-300  hover:scale-105  bg-[#C70039] py-3 px-6 rounded-[99px] hover:bg-[#FF1659]"
                 >
                   Update Profile
                 </button>
@@ -514,7 +529,7 @@ function OwnerProfile() {
                       }}
                     >
                       {image === null && (
-                        <div className="flex flex-col text-center justify-center items-center h-full transform hover:scale-[1.2] active:scale-[0.8]">
+                        <div className="flex flex-col text-center justify-center items-center h-full transition-all duration-300  hover:scale-105 hover:bg-[#d0d0d0] hover:rounded-2xl active:scale-[0.8]">
                           <div>
                             <h1 className="text-[#7D2262] text-[30px]">+</h1>
                             <p className="text-[#7D2262] ">Upload photo</p>

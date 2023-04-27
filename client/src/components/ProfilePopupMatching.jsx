@@ -1,8 +1,3 @@
-import location_icon from "/icon/location_icon.png";
-import action_button_love from "/merrylist/action_button_love.png";
-import action_button_cross from "/merrylist/action_button_cross.png";
-import left_arrow from "/merrylist/left_arrow.png";
-import right_arrow from "/merrylist/right_arrow.png";
 import { useState } from "react";
 
 function ProfilePopupMatching({ user, handleCloseProfile }) {
@@ -86,19 +81,20 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
               <span className="text-gray-400">{pictures.length}</span>
             </p>
             <div className="flex absolute -top-10 left-[4.25rem]">
+            
               <button>
-                <img src={action_button_cross} alt="Close picture" />
+                <img src="/popup/action button (3).svg" alt="Close picture" />
               </button>
               <button>
-                <img src={action_button_love} alt="Heart picture" />
+                <img src="/popup/action button (2).svg"alt="Heart picture" />
               </button>
             </div>
-            <div className="flex ">
+            <div className="flex mt-[16px] mr-[16px] ">
               <button onClick={handlePreviousImage}>
-                <img src={left_arrow} alt="Left arrow" />
+                <img src="/popup/Vector (10).svg" className="mr-[32px]" alt="Left arrow " />
               </button>
               <button onClick={handleNextImage}>
-                <img src={right_arrow} alt="Right arrow" />
+                <img src="/popup/Vector (9).svg" alt="Right arrow" />
               </button>
             </div>
           </div>
@@ -120,7 +116,7 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
               </h1>
             </div>
             <div className="flex flex-row gap-5">
-              <img src={location_icon} alt="Some" className="h-6" />
+              <img src="/popup/Vector (11).svg" alt="Some" className="h-6" />
               <h4 className="text-lg font-medium text-gray-500">
                 {city}, {location}
               </h4>

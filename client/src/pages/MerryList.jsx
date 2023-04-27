@@ -43,6 +43,7 @@ function MerryList() {
   return (
     <>
       <NavigationbarUser />
+      <div className="bg-[#FCFCFE]">
       <div className="flex flex-col gap-28 font-nunito h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
         <div className="flex flex-row justify-between items-center w-full ">
           <div>
@@ -173,6 +174,7 @@ function MerryList() {
         ))}
       </div>
       <div className="w-[900px] mx-auto"></div>
+      </div>
       <Footer />
     </>
   );

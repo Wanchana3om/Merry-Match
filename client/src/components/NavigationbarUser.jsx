@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
-import { useState } from "react";
+
 
 
 function NavigationbarUser() {
-  const [showMenu, setShowMenu] = useState(false);
+  // const [showMenu, setShowMenu] = useState(false);
 
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
+  // const toggleMenu = () => {
+  //   setShowMenu(!showMenu);
+  // };
 
   const { logout, state } = useAuth();
 
@@ -37,20 +37,18 @@ function NavigationbarUser() {
                 src="/nav-bar/bell.svg"
                 alt="Profile"
                 className="w-[48px] h-[48px] rounded-full cursor-pointer"
+              
               />
             </div>
-            <div>
+            <button className="group " >
               <div className="relative mr-[16px]">
                 <img
                   src= {state?.user?.profilePic}
                   alt="Profile"
-                  className="w-[48px] h-[48px] rounded-full cursor-pointer object-cover"
-                  onClick={toggleMenu}
+                  className="w-[48px] h-[48px]  rounded-full cursor-pointer object-cover hover:scale-125 transition-all duration-300"
                 />
               </div>
-
-              {showMenu && (
-                <div className="font-nunito absolute z-50 w-[204px] mt-2 bg-white rounded-[12px] shadow-lg flex flex-col p-[8px]">
+                <div className="font-nunito  absolute z-50 w-[204px] mt-2 bg-white rounded-[12px] shadow-lg flex flex-col p-[8px] opacity-0 group-focus:opacity-100 transition-all duration-700">
                   <img src="/nav-bar/premium cta.svg" alt="icon" />
                   <div className="flex items-center p-[8px]  hover:bg-gray-100 hover:cursor-pointer hover:rounded-[12px]">
                     <img
@@ -101,7 +99,7 @@ function NavigationbarUser() {
                       href="#"
                       className="block px-4 py-2 text-sm text-gray-700 "
                     >
-                      Compliant
+                      Complaint
                     </a>
                   </div>
                   <div className="flex items-center p-[8px] border-t-[1px] border-gray hover:bg-gray-100 hover:cursor-pointer hover:rounded-[12px]">
@@ -124,8 +122,8 @@ function NavigationbarUser() {
                 
                 
                 </div>
-              )}
-            </div>
+              
+            </button>
           </ul>
         </nav>
       </div>

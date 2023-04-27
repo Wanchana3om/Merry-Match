@@ -274,7 +274,7 @@ You can messege something nice and make a good conversation. Happy Merry!</p>
       )}
         
         {/* ------------------------section 2 ----------------------------  */}
-        <div className={`bg-gray-300 ${!chat ? 'hidden' : 'flex'} flex-col justify-center col-span-3 w-[904px]  overflow-hidden`}>
+        <div className={`bg-[#160404] ${!chat ? 'hidden' : 'flex'} flex-col justify-center col-span-3 w-[904px]  overflow-hidden`}>
 
           <div className="relative w-[620px] h-[620px] rounded-[32px]">
             {matchingList.map((item, index) => (
@@ -293,11 +293,11 @@ You can messege something nice and make a good conversation. Happy Merry!</p>
                   className="z-30 bg-cover bg-center card h-full w-full flex items-end px-4 py-3 text-white rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
                 >
                   <h3 className="z-40 pb-8 pl-3 font-bold text-3xl text-white pointer-events-none ">
-                    {item.name} {calculateAge(item.birthDate)}
+                    {item.name} <span className="text-[#D6D9E4]">{calculateAge(item.birthDate)}</span>
                   </h3>
                   <button
                     onClick={() => handleShowProfile(item)}
-                    className="z-40 mb-8 ml-4 bg-white/[.2] rounded-full flex items-center justify-center w-8 h-8"
+                    className="z-40 mb-8 ml-4 bg-white/[.2] hover:bg-[#9e9e9e] hover:opacity-50 transition-all duration-300  hover:scale-150 rounded-full flex items-center justify-center w-8 h-8"
                   >
                     <div>
                       <img
@@ -320,14 +320,14 @@ You can messege something nice and make a good conversation. Happy Merry!</p>
           </div>
           <div className=" flex justify-center gap-2">
             <img
-              src="/icon/crossbutton.png"
-              className="transform hover:scale-110 transition duration-300  active:scale-90 "
+              src="/popup/action button.svg"
+              className="transform hover:scale-110 transition duration-300  active:scale-90 cursor-pointer"
               onClick={() => swipe("left")}
             />
 
             <img
-              src="/icon/heartbutton.png"
-              className="transform hover:scale-110 transition duration-300 active:scale-90"
+              src="/popup/action button (1).svg"
+              className="transform hover:scale-110 transition duration-300 active:scale-90 cursor-pointer"
               onClick={() => swipe("right")}
             />
           </div>
@@ -461,13 +461,13 @@ You can messege something nice and make a good conversation. Happy Merry!</p>
               <div className="flex justify-center items-center w-[188px]  pt-6 ">
                 <h1
                   onClick={handleClear}
-                  className="py-3 px-6 text-[#C70039] hover:underline hover:text-[#FF1659] hover:cursor-pointer"
+                  className="py-3 px-6 text-[#C70039] hover:underline transition-all duration-300  hover:scale-105 hover:text-[#FF1659] hover:cursor-pointer"
                 >
                   Clear
                 </h1>
                 <button
                   type="submit"
-                  className="py-3 px-6 bg-[#C70039] rounded-[99px] text-white hover:bg-[#FF1659]"
+                  className="py-3 px-6 bg-[#C70039] rounded-[99px] text-white transition-all duration-300  hover:scale-105 hover:bg-[#FF1659] "
                 >
                   Search
                 </button>
