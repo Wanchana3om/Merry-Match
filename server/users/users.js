@@ -195,10 +195,22 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
         .eq("meeting_interest", userData[0].meeting_interest)
         .gte("birthDate", minBirthDate)
         .lte("birthDate", maxBirthDate);
-
       if (defaultDataError) throw defaultDataError;
-      console.log(defaultData);
-      return res.json(defaultData);
+
+      // Don't show user that already in own merrylist
+      const { data: filterData, error: filterDataError } = await supabase
+        .from("merry_status")
+        .select("mer_id, user_id")
+        .eq("mer_id", userId);
+      if (filterDataError) throw filterDataError;
+      const alreadyUser = filterData.map((user) => user.user_id);
+      const filteredData = defaultData.filter(
+        (data) => !alreadyUser.includes(data.user_id)
+      );
+      console.log(filterData);
+      console.log("and");
+      console.log(filteredData);
+      return res.json(filteredData);
     }
 
     // search with request
@@ -256,22 +268,35 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
     }
 
     const { data, error } = await query;
-    const filteredData = data.filter((row) =>
+    const getHobbyData = data.filter((row) =>
       row.hobbies_interests.some((hobby) => hobby.hob_list.includes(keyword))
     );
-
     if (error) {
       console.log(error);
       return res.status(500).send("Server error");
     }
+
+    // Don't show user that already in own merrylist
+    const { data: filterData, error: filterDataError } = await supabase
+      .from("merry_status")
+      .select("mer_id, user_id")
+      .eq("mer_id", userId);
+    if (filterDataError) throw filterDataError;
+    const alreadyUser = filterData.map((user) => user.user_id);
+    const filteredData = getHobbyData.filter(
+      (data) => !alreadyUser.includes(data.user_id)
+    );
+    const filteredData2 = data.filter(
+      (data) => !alreadyUser.includes(data.user_id)
+    );
+
     if (keyword) {
       console.log(filteredData);
       return res.json(filteredData);
     } else {
-      console.log(data);
-      return res.json(data);
+      console.log(filteredData2);
+      return res.json(filteredData2);
     }
-    // return res.json(data);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
