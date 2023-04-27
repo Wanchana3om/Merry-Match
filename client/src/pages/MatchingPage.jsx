@@ -27,7 +27,7 @@ function MatchingPage() {
   const [lastDirection, setLastDirection] = useState();
 
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
-  const { state } = useAuth();
+  const { state, loading } = useAuth();
   const [matchingListPictures, setMatchingListPictures] = useState(null);
   const [matchingPictureIndex, setMatchingPictureIndex] = useState(0);
 
@@ -56,9 +56,18 @@ function MatchingPage() {
     if (token) {
       const userDataFromToken = jwtDecode(token);
 
+      const params = {
+        keyword: keyword,
+        meeting_interest: meetingInterest.join(","),
+        min_age: minAge,
+        max_age: maxAge,
+      };
+
       const result = await axios.get(
-        // `http://localhost:3000/merrylist/${userDataFromToken.user_id}`,
-        `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`
+        `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
+        {
+          params: params,
+        }
       );
       setMatchingList(result.data);
       console.log(result.data);
@@ -80,7 +89,10 @@ function MatchingPage() {
         };
 
         const result = await axios.get(
-          `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`
+          `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
+          {
+            params: params,
+          }
         );
 
         let matchingData = result.data;
@@ -103,6 +115,10 @@ function MatchingPage() {
   useEffect(() => {
     getMatchingProfile();
   }, []);
+
+  useEffect(() => {
+    console.log(matchingList);
+  }, [matchingList]);
 
   const handleChat = () => {
     setChat(!chat);
@@ -448,7 +464,7 @@ function MatchingPage() {
                     id="Friends"
                     name="Friends"
                     value="Friends"
-                    className="w-[24px] h-[24px] rounded-lg"
+                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="sex1" className="ml-[12px] text-[#646D89]">
@@ -461,7 +477,7 @@ function MatchingPage() {
                     id="Partners"
                     name="Partners"
                     value="Partners"
-                    className="w-[24px] h-[24px] rounded-lg"
+                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
                     onChange={handleCheckboxChange}
                   />
 
@@ -475,7 +491,7 @@ function MatchingPage() {
                     id="Short-term commitment"
                     name="Short-term commitment"
                     value="Short-term commitment"
-                    className="w-[24px] h-[24px] rounded-lg"
+                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
                     onChange={handleCheckboxChange}
                   />
 
@@ -489,7 +505,7 @@ function MatchingPage() {
                     id="Long-term commitment"
                     name="Long-term commitment"
                     value="Long-term commitment"
-                    className="w-[24px] h-[24px] rounded-lg"
+                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
                     onChange={handleCheckboxChange}
                   />
 

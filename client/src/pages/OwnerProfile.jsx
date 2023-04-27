@@ -27,7 +27,7 @@ function OwnerProfile() {
   const [aboutMe, setAboutMe] = useState("");
   const [images, setImages] = useState(Array(5).fill(null));
   const [info, setInfo] = useState("");
-  const [isLoading, setIsLoading] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   // const [isSubmit, setIsSubmit] = useState(null);
 
   const handleUpdate = async (e) => {
@@ -117,6 +117,7 @@ function OwnerProfile() {
           ...newImageList,
           ...Array(5 - newImageList.length).fill(null),
         ]);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
