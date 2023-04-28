@@ -28,7 +28,11 @@ function RegisterPage() {
   const [info, setInfo] = useState("");
   const [images, setImages] = useState([null, null, null, null, null]);
   const [isLoading, setIsLoading] = useState(null);
-  
+
+  const emailRegex =
+    /^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/;
+  const isValidEmail = emailRegex.test(email);
+
   const time = new Date();
   const year = time.getFullYear();
   const month = time.getMonth();
@@ -46,17 +50,7 @@ function RegisterPage() {
 
   const handleNextStep = async () => {
     if (currentFormPage === 3) {
-      {
-        images !== null && (
-          <button
-            className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"
-            onClick={(event) => deleteImage(event, index)}
-          >
-            ✕
-          </button>
-        );
-      }
-      setIsLoading(true)
+      setIsLoading(true);
       let nullCount = 0;
       for (let i = 0; i < images.length; i++) {
         if (images[i] === null) {
@@ -88,25 +82,25 @@ function RegisterPage() {
           image: imageUrls,
         };
 
-             
-                
         await register(newFormData);
         alert("Data submitted");
         navigate("/login");
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    } else if (!username) {
-      alert("Please enter username");
-    } else if (!email) {
-      alert("Please provide an email address");
-    } else if (!password) {
-      alert("Please enter password");
-    } else if (password !== confirmPassword) {
-      alert("Passwords do not match");
-    } else if (ageInYears < 18) {
-      alert("Users must be at least 18 years or older");
     } else {
-      setCurrentFormPage(currentFormPage + 1);
+      if (!username) {
+        alert("Please enter username");
+      } else if (!email || !isValidEmail) {
+        alert("Please provide a valid email address");
+      } else if (!password) {
+        alert("Please enter password");
+      } else if (password !== confirmPassword) {
+        alert("Passwords do not match");
+      } else if (ageInYears < 18) {
+        alert("Users must be at least 18 years or older");
+      } else {
+        setCurrentFormPage(currentFormPage + 1);
+      }
     }
   };
 
@@ -121,10 +115,7 @@ function RegisterPage() {
   return (
     <div>
       <NavigationbarNonUser />
-      {isLoading && (
-        <Loading
-        />
-      )}
+      {isLoading && <Loading />}
       <div className="bg-[#FCFCFE] font-nunito">
         <div className=" relative  h-fit px-[255px] py-12 bg-[#FCFCFE] flex items-center w-[1440px] mx-auto">
           <div className="bg-[#FAF1ED] absolute h-[100px] w-[100px] rounded-full top-[85px] left-[-19px]" />
