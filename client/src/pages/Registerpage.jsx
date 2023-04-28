@@ -7,6 +7,7 @@ import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../components/uploadCloudinary";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/loading";
+import { useToast } from '@chakra-ui/react'
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -28,6 +29,8 @@ function RegisterPage() {
   const [info, setInfo] = useState("");
   const [images, setImages] = useState([null, null, null, null, null]);
   const [isLoading, setIsLoading] = useState(null);
+
+  const toast = useToast()
 
   const emailRegex =
     /^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/;
@@ -83,21 +86,55 @@ function RegisterPage() {
         };
 
         await register(newFormData);
-        alert("Data submitted");
+        toast({
+          title: 'Account created.',
+          description: "Your account has been created.",
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position:"top"
+        })
         navigate("/login");
+        
         setIsLoading(false);
       }
     } else {
       if (!username) {
-        alert("Please enter username");
+        toast({
+          title: "Please enter username",
+          position: "top",
+          isClosable: true,
+        })
+      } else if (!name) {
+          toast({
+            title: "Please enter name",
+            position: "top",
+            isClosable: true,
+          })
       } else if (!email || !isValidEmail) {
-        alert("Please provide a valid email address");
+        toast({
+          title: "Please provide a valid email address",
+          position: "top",
+          isClosable: true,
+        })
       } else if (!password) {
-        alert("Please enter password");
+        toast({
+          title: "Please enter password",
+          position: "top",
+          isClosable: true,
+        })
       } else if (password !== confirmPassword) {
-        alert("Passwords do not match");
+        toast({
+          title: "Passwords do not match",
+          position: "top",
+          isClosable: true,
+        })
       } else if (ageInYears < 18) {
-        alert("Users must be at least 18 years or older");
+        toast({
+          title: "Users must be at least 18 years or older",
+          position: "top",
+          isClosable: true,
+        })
       } else {
         setCurrentFormPage(currentFormPage + 1);
       }

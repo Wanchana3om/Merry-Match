@@ -10,6 +10,7 @@ import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../components/uploadCloudinary";
 import Loading from "../components/loading";
 import CountryStateData from "../data/CountryStateData.json"
+import { useToast } from '@chakra-ui/react'
 
   
 
@@ -36,7 +37,7 @@ function OwnerProfile() {
 
   const countries = CountryStateData
   const cities = CountryStateData.flatMap(country => country.states)
-
+  const toast = useToast()
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -48,12 +49,18 @@ function OwnerProfile() {
           nullCount = nullCount + 1;
         }
       }
-      if (nullCount >= 4) {
-        alert("Please upload at least two photos");
-      } else if (!username) {
-        alert("Please enter username");
+      if (!username) {
+        toast({
+          title: "Please enter username",
+          position: "top",
+          isClosable: true,
+        })
       } else if (!name) {
-        alert("Please enter name");
+        toast({
+          title: "Please enter name",
+          position: "top",
+          isClosable: true,
+        })
       } else {
         let imageUrls = [];
         const noNullImages = images.filter((image) => image !== null);
@@ -81,7 +88,14 @@ function OwnerProfile() {
         {
           setProfileUpdated(true);
           updateProfilePic(images[0]);
-          alert("Data submitted");
+          toast({
+            title: 'Profile updated.',
+            description: "Your profile has been updated.",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+            position:"top"
+          })
         }
       }
     }
