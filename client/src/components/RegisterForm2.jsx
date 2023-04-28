@@ -78,12 +78,13 @@ function RegisterForm2(props) {
               e.target.classList.add('text-black')
             }}
           >
-            <option value="Black">Black</option>
-            <option value="White">White</option>
+            
+            <option value="Asian">Asian</option>
             <option value="European">European</option>
             <option value="Caucasian">Caucasian</option>
             <option value="African">African</option>
-            <option value="Asian">Asian</option>
+            <option value="Black">Black</option>
+            <option value="White">White</option>
           </select>
         </div>
         <div>

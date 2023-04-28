@@ -9,6 +9,8 @@ import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../components/uploadCloudinary";
 import Loading from "../components/loading";
+import ct from "city-timezones"
+
 
 function OwnerProfile() {
   const { updateUserProfile } = useData();
@@ -29,6 +31,15 @@ function OwnerProfile() {
   const [info, setInfo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   // const [isSubmit, setIsSubmit] = useState(null);
+  console.log(sexualPreference
+    );
+
+
+    const countryList = ct.cityMapping
+    const uniqueCountries = Array.from(new Set(countryList.map(country => country.country)));
+    const uniquecities = Array.from(new Set(countryList.map(city => city.province))).filter((city) => city !== null)
+  
+  
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -87,6 +98,7 @@ function OwnerProfile() {
         const result = await axios.get(
           `http://localhost:3000/users/${userDataFromToken.user_id}`
         );
+        console.log(result);
         setName(result.data[0].name);
         setBirthDate(result.data[0].birthDate);
         setLocation(result.data[0].location);
@@ -95,7 +107,7 @@ function OwnerProfile() {
         setEmail(result.data[0].email);
         setSexualIdentity(result.data[0].sexual_identity);
         setSexualPreference(result.data[0].sexual_preference);
-        setRacialPreference(result.data[0].recial_preference);
+        setRacialPreference(result.data[0].racial_preference);
         setMeetingInterest(result.data[0].meeting_interest);
         setAboutMe(result.data[0].about_me);
 
@@ -308,36 +320,61 @@ function OwnerProfile() {
               <div>
                 <h1>Location</h1>
                 <select
-                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                  name="country"
-                  value={location}
-                  onChange={(e) => {
-                    setLocation(e.target.value);
-                    e.target.classList.add("text-black");
-                  }}
-                >
-                  <option value="australia">Australia</option>
-                  <option value="canada">Canada</option>
-                  <option value="usa">USA</option>
-                  <option value="thailand ">Thailand</option>
-                </select>
+            className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px] "
+            name="country"
+            value={location}
+            onChange={(e) => {
+              props.setLocation(e.target.value);
+              e.target.classList.add('text-black');
+            }}
+            
+          >
+            <option value="">Select your country</option>
+            {uniqueCountries
+              .sort((a, b) => {
+                return (
+                  a > b ? 1 : -1
+                )
+              })
+              .map((country, index) => (
+                <option value={country} key={index} >
+                  {country}
+                </option>
+              ))}
+          </select>
               </div>
               <div>
                 <h1>City</h1>
                 <select
-                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-                  name="City"
-                  value={city}
-                  onChange={(e) => {
-                    setCity(e.target.value);
-                    e.target.classList.add("text-black");
-                  }}
-                >
-                  <option value="Sydney">Sydney</option>
-                  <option value="Ottawa">Ottawa</option>
-                  <option value="new york">New York</option>
-                  <option value="Bangkok ">Bangkok</option>
-                </select>
+            className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+            name="City"
+            value={city}
+            onChange={(e) => {
+              setCity(e.target.value)
+              e.target.classList.add('text-black')
+            }}
+          >
+            <option value="">Select your city</option>
+            {uniquecities
+              .filter((city) => {
+                const filterCountries = countryList.filter((country) => {
+                  return country.province === city
+                })
+                return filterCountries.some(filterCountry => filterCountry.country === location)
+              })
+              .sort((a, b) => {
+                return (
+                  a > b ? 1 : -1
+                )
+              })
+              .map((city, index) => {
+                return (
+                  <option value={city} key={index}>
+                    {city}
+                  </option>
+                )
+              })}
+          </select>
               </div>
 
               <div>
@@ -404,13 +441,17 @@ function OwnerProfile() {
                     e.target.classList.add("text-black");
                   }}
                 >
-                  <option value="Female">Male</option>
+                  <option value="Female">Female</option>
                   <option value="Non-binary">Non-binary</option>
-                  <option selected="selected" value="Female ">
-                    Female
-                  </option>
+                  <option value="Male">Male</option>
                 </select>
               </div>
+
+
+
+
+
+
               <div>
                 <h1>Racial preferences</h1>
                 <select
@@ -422,13 +463,11 @@ function OwnerProfile() {
                     e.target.classList.add("text-black");
                   }}
                 >
-                  <option value="Black">Black</option>
+                  <option value="Asian">Asian</option>
                   <option value="European">European</option>
                   <option value="Caucasian">Caucasian</option>
                   <option value="African">African</option>
-                  <option selected="selected" value="Asian">
-                    Asian
-                  </option>
+                  <option value="Black">Black</option>
                 </select>
               </div>
               <div>
@@ -442,6 +481,9 @@ function OwnerProfile() {
                     e.target.classList.add("text-black");
                   }}
                 >
+                  <option value="Friends">
+                  Friends
+                  </option>
                   <option value="Partners">Partners</option>
                   <option value="Long-term commitment">
                     Long-term commitment
@@ -449,9 +491,8 @@ function OwnerProfile() {
                   <option value="Short-term commitment">
                     Short-term commitment
                   </option>
-                  <option selected="selected" value="Friends">
-                    Friends
-                  </option>
+                  
+                  
                 </select>
               </div>
             </div>
