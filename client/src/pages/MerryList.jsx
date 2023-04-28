@@ -3,10 +3,25 @@ import Footer from "../components/Footer";
 import NavigationbarUser from "../components/NavigationbarUser";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import useData from "../hook/useData";
+import ProfilePopupMatching from "../components/ProfilePopupMatching";
 
 function MerryList() {
   const [usersData, setUsersData] = useState([]);
   const [clickedImgIndex, setClickedImgIndex] = useState([]);
+  const { deleteMerryMatch } = useData();
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
+  const [ownUserId, setOwnUserId ] = useState("")
+
+  const handleShowProfile = (user) => {
+    setSelectedUser(user);
+    setShowProfile(!showProfile);
+    console.log(user);
+  };
+  const handleCloseProfile = () => {
+    setShowProfile(false);
+  };
 
   const handleClickImg = (index) => {
     setClickedImgIndex((prevState) => {
@@ -24,8 +39,8 @@ function MerryList() {
         const result = await axios.get(
           `http://localhost:3000/merrylist/${userDataFromToken.user_id}`
         );
+        setOwnUserId(userDataFromToken.user_id)
         setUsersData(result.data);
-        console.log(result);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
@@ -38,6 +53,12 @@ function MerryList() {
   return (
     <>
       <NavigationbarUser />
+      {showProfile && (
+        <ProfilePopupMatching
+          user={selectedUser}
+          handleCloseProfile={handleCloseProfile}
+        />
+      )}
       <div className="bg-[#FCFCFE]">
         <div className="flex flex-col gap-28 font-nunito h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
           <div className="flex flex-row justify-between items-center w-full ">
@@ -137,11 +158,14 @@ function MerryList() {
                     </div>
                   )}
                   <div className="flex flex-col relative group">
-                    <img
-                      src="/merrylist/eye.svg"
-                      alt="view"
-                      className="w-[114px] h-[114px] cursor-pointer"
-                    />
+                    
+                      <img
+                        src="/merrylist/eye.svg"
+                        alt="view"
+                        className="w-[114px] h-[114px] cursor-pointer"
+                        onClick={() => handleShowProfile(user)}
+                      />
+                    
                     <p className="absolute bottom-1 left-3 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] px-[8px] text-xs opacity-0 group-hover:opacity-100">
                       See profile
                     </p>
@@ -155,7 +179,10 @@ function MerryList() {
                       }
                       alt="match"
                       className="w-[114px] h-[114px] cursor-pointer"
-                      onClick={() => handleClickImg(index)}
+                      onClick={() => {
+                        handleClickImg(index);
+                        deleteMerryMatch( ownUserId, user.user_id );
+                      }}
                     />
 
                     <p className="absolute bottom-1 left-6 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] px-[8px] text-xs opacity-0 group-hover:opacity-100">

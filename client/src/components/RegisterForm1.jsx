@@ -34,7 +34,7 @@ function RegisterForm1(props) {
               name="Date"
               value={props.birthDate}
               onChange={(e) => {
-                props.setBirthDate(e.target.value)
+                props.setBirthDate(e.target.value);
                 e.target.classList.add('text-black')
               }}
             />
