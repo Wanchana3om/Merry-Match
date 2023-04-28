@@ -206,7 +206,18 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
       const filteredData = defaultData.filter(
         (data) => !alreadyUser.includes(data.user_id)
       );
-      return res.json(filteredData);
+      // Don't show user in RejectList
+      const { data: getRejectUser, error: getRejectUserError } = await supabase
+        .from("merry_reject")
+        .select("user_id")
+        .eq("mer_id", userId);
+      if (getRejectUserError) throw getRejectUserError;
+      const rejectUser = getRejectUser.map((user) => user.user_id);
+      const NewDefaultUserData = filteredData.filter(
+        (data) => !rejectUser.includes(data.user_id)
+      );
+
+      return res.json(NewDefaultUserData);
     }
 
     // search with request
@@ -286,13 +297,26 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
     const filteredData2 = data.filter(
       (data) => !alreadyUser.includes(data.user_id)
     );
+    // Don't show user in RejectList
+    const { data: getRejectUser, error: getRejectUserError } = await supabase
+      .from("merry_reject")
+      .select("user_id")
+      .eq("mer_id", userId);
+    if (getRejectUserError) throw getRejectUserError;
+    const rejectUser = getRejectUser.map((user) => user.user_id);
+    const NewUserData1 = filteredData.filter(
+      (data) => !rejectUser.includes(data.user_id)
+    );
+    const NewUserData2 = filteredData2.filter(
+      (data) => !rejectUser.includes(data.user_id)
+    );
 
     if (keyword) {
-      console.log(filteredData);
-      return res.json(filteredData);
+      // console.log(NewUserData1);
+      return res.json(NewUserData1);
     } else {
-      console.log(filteredData2);
-      return res.json(filteredData2);
+      // console.log(NewUserData2);
+      return res.json(NewUserData2);
     }
   } catch (error) {
     console.log(error);
