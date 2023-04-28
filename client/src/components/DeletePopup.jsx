@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/authentication";
 
 function DeletePopup(props) {
   const { deleteUserProfile } = useData();
-  const { state , logout } = useAuth();
+  const { state, logout } = useAuth();
   console.log(state?.user?.user_id);
 
   const handleClosePopupDelete = () => {
@@ -41,7 +41,10 @@ function DeletePopup(props) {
           <div className="flex gap-5 px-6 pb-2">
             <button
               className="text-[#95002B] bg-[#FFE1EA] rounded-3xl p-3 font-semibold hover:bg-[#FFB1C8]"
-              onClick={() => deleteUserProfile(state?.user?.user_id).then(logout())}
+              onClick={async () => {
+                await deleteUserProfile(state?.user?.user_id);
+                logout();
+              }}
             >
               Yes, I want to delete
             </button>
