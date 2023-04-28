@@ -9,6 +9,9 @@ import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../components/uploadCloudinary";
 import Loading from "../components/loading";
+import CountryStateData from "../data/CountryStateData.json"
+
+  
 
 function OwnerProfile() {
   const { updateUserProfile } = useData();
@@ -30,6 +33,10 @@ function OwnerProfile() {
   const [isLoading, setIsLoading] = useState(true);
   const [profileUpdated, setProfileUpdated] = useState(false);
   // const [isSubmit, setIsSubmit] = useState(null);
+
+  const countries = CountryStateData
+  const cities = CountryStateData.flatMap(country => country.states)
+
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -310,32 +317,54 @@ function OwnerProfile() {
               <div>
                 <h1>Location</h1>
                 <select
-                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
-                  name="country"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  onClick={(e) => e.target.classList.add("text-black")}
-                >
-                  <option value="australia">Australia</option>
-                  <option value="canada">Canada</option>
-                  <option value="usa">USA</option>
-                  <option value="thailand ">Thailand</option>
-                </select>
+            className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px] "
+            name="country"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            onClick={(e) => e.target.classList.add("text-black")}
+          >
+            <option value="">Select your country</option>
+            {countries
+              .sort((a, b) => {
+                return a > b ? 1 : -1;
+              })
+              .map((country, index) => (
+                <option value={country.country_name} key={index}>
+                  {country.country_name}
+                </option>
+              ))}
+          </select>
               </div>
               <div>
                 <h1>City</h1>
                 <select
-                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-                  name="City"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  onClick={(e) => e.target.classList.add("text-black")}
-                >
-                  <option value="Sydney">Sydney</option>
-                  <option value="Ottawa">Ottawa</option>
-                  <option value="new york">New York</option>
-                  <option value="Bangkok ">Bangkok</option>
-                </select>
+            className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+            name="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            onClick={(e) => e.target.classList.add("text-black")}
+          >
+            <option value="">Select your city</option>
+            {cities
+              .filter((city) => {
+                const filterCountries = CountryStateData.filter((country) => {
+                  return country.country_id === city.country_id;
+                });
+                return filterCountries.some(
+                  (filterCountry) => filterCountry.country_name === location
+                );
+              })
+              .sort((a, b) => {
+                return a > b ? -1 : 1;
+              })
+              .map((city, index) => {
+                return (
+                  <option value={city.state_name} key={index}>
+                    {city.state_name}
+                  </option>
+                );
+              })}
+          </select>
               </div>
 
               <div>

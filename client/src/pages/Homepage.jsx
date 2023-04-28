@@ -39,34 +39,50 @@ function Homepage() {
               </div>
               <img
                 src="/homepage/image.svg"
-                className="absolute right-40 -top-10"
+                className="absolute right-40 -top-10 "
               />
               <img
                 src="/homepage/Ellipse 2.svg"
-                className="absolute right-20 top-[430px]"
+                className="absolute right-20 top-[430px] "
               />
               <img
                 src="/homepage/Ellipse 2.svg"
-                className="absolute -left-3 top-24"
+                className="absolute -left-3 top-24 animate-pulse"
               />
               <img
                 src="/homepage/Image (2).svg"
-                className="absolute right-32 top-[460px]"
+                className="absolute right-32 top-[460px] animate-bounce"
                 />
               <img
                 src="/homepage/Ellipse 4.svg"
-                className="absolute right-52 bottom-36"
+                className="absolute right-52 bottom-36 animate-ping"
               />
+
+<img
+                src="/homepage/Ellipse 4.svg"
+                className="absolute  bottom-6 animate-pulse"
+              />
+
+<img
+                src="/homepage/Ellipse 4.svg"
+                className="absolute top-11 right-48 bottom-6 animate-ping"
+              />
+
+
               <img
                 src="/homepage/Ellipse 3.svg"
-                className="absolute left-32 top-20"
+                className="absolute left-32 top-20 animate-pulse "
               />
               <img
                 src="/homepage/Vector (7).svg"
-                className="absolute right-[600px] top-36"
+                className="absolute right-[600px] top-36 animate-bounce "
+              />
+              <img
+                src="/homepage/Vector (7).svg"
+                className="absolute right-[1300px] bottom-36 animate-bounce "
               />
             </div>
-            <div className="part-2-container flex w-full h-[533px] bg-[#160404]">
+            <div className="part-2-container flex w-full  h-[533px] bg-[#160404]">
               <div className="text-container-outer flex flex-col justify-center items-center w-1/2 h-full pl-40">
                 <h1
                   id="why-merry"
@@ -111,7 +127,7 @@ function Homepage() {
                       <img
                         src="/emotion1.svg"
                         alt="emotion"
-                        className="w-[50px]"
+                        className="w-[50px] "
                       />
                     </div>
                     <div>
