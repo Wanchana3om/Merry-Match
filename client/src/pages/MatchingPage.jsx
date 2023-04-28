@@ -67,7 +67,6 @@ function MatchingPage() {
 
       setMatchingList(newMatchingList);
       setCurrentIndex(newMatchingList.length - 1);
-      console.log(newMatchingList);
       setChildRefs(newMatchingList.map(() => React.createRef()));
     }
   };
@@ -102,7 +101,6 @@ function MatchingPage() {
 
         setMatchingList(newMatchingList);
         setCurrentIndex(newMatchingList.length - 1);
-        console.log(newMatchingList);
         setChildRefs(newMatchingList.map(() => React.createRef()));
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
@@ -115,7 +113,7 @@ function MatchingPage() {
   }, []);
 
   useEffect(() => {
-    console.log(matchingList);
+    // console.log(matchingList);
   }, [matchingList]);
 
   const handleChat = () => {

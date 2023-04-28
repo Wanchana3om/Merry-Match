@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
-import React, { useState } from "react";
-import { Flex, useDisclosure } from "@chakra-ui/react";
+import React from "react";
+
 
 import {
   Menu,
@@ -36,7 +36,7 @@ function NavigationbarUser() {
         <nav className="mr-[12%]">
           <ul className="flex flex-row items-center">
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77]">
-              <Link to="/matching">Start Matching! </Link>
+            <a href="/matching">Start Matching!</a>
             </li>
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77] ">
               <Link to="/merrypackage">Merry Membership</Link>
@@ -81,7 +81,7 @@ function NavigationbarUser() {
                   </div>
                 </MenuItem>
                 <MenuItem _hover={{ borderRadius: 12 }}>
-                  <div className="flex items-center px-[8px] hover:bg-gray-100 hover:cursor-pointer hover:rounded-[12px]">
+                  <div className="flex items-center px-[8px] ">
                     <img
                       src="/nav-bar/Vector2.png"
                       className="w-[13px] h-[13px] "
@@ -97,7 +97,7 @@ function NavigationbarUser() {
                 </MenuItem>
 
                 <MenuItem _hover={{ borderRadius: 12 }}>
-                  <div className="flex items-center px-[8px] hover:bg-gray-100 hover:cursor-pointer hover:rounded-[12px]">
+                  <div className="flex items-center px-[8px] ">
                     <img
                       src="/nav-bar/Vector (3).svg"
                       className="w-[13px] h-[13px] "
@@ -111,7 +111,7 @@ function NavigationbarUser() {
 
                 <MenuDivider />
                 <MenuItem _hover={{ borderRadius: 12 }}>
-                  <div className="flex items-center px-[8px] border-gray hover:bg-gray-100 hover:cursor-pointer hover:rounded-[12px]">
+                  <div className="flex items-center px-[8px] border-gray ">
                     <img
                       src="/nav-bar/Vector (4).svg"
                       className="w-[13px] h-[13px] "

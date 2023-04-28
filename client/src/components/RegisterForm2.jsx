@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 function RegisterForm2(props) {
   const maxHobbies = 10;
@@ -72,12 +72,13 @@ function RegisterForm2(props) {
             onChange={(e) => props.setRacialPreference(e.target.value)}
             onClick={(e) => e.target.classList.add("text-black")}
           >
-            <option value="Black">Black</option>
-            <option value="White">White</option>
+            
+            <option value="Asian">Asian</option>
             <option value="European">European</option>
             <option value="Caucasian">Caucasian</option>
             <option value="African">African</option>
-            <option value="Asian">Asian</option>
+            <option value="Black">Black</option>
+            <option value="White">White</option>
           </select>
         </div>
         <div>
@@ -105,7 +106,7 @@ function RegisterForm2(props) {
                 {props.hobbyLists.map((hobby, index) => (
                   <li
                     key={index}
-                    className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
+                    className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px]  text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
                   >
                     {hobby}
                     <button
