@@ -31,7 +31,7 @@ merryRouter.get("/:userId", async (req, res) => {
     const { data: usersData, error: usersDataError } = await supabase
       .from("users")
       .select(
-        "user_id, name, birthDate, location, city, sexual_identity, sexual_preference, racial_preference, meeting_interest,merry_status(*),pictures(pic_url)"
+        "user_id, name, birthDate, location, city, sexual_identity, sexual_preference, racial_preference, meeting_interest,merry_status(*),pictures(pic_url), hobbies_interests(hob_list)"
       )
       .in("user_id", userIds);
 

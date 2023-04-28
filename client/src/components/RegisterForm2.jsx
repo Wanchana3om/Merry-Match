@@ -41,10 +41,8 @@ function RegisterForm2(props) {
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="Sexual identities"
             value={props.sexualIdentity}
-            onChange={(e) => {
-              props.setSexualIdentity(e.target.value)
-              e.target.classList.add('text-black')
-            }}
+            onChange={(e) => props.setSexualIdentity(e.target.value)}
+            onClick={(e) => e.target.classList.add("text-black")}
           >
             <option value="Female">Female</option>
             <option value="Non-binary">Non-binary</option>
@@ -57,10 +55,8 @@ function RegisterForm2(props) {
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="Sexual preferences"
             value={props.sexualPreference}
-            onChange={(e) => {
-              props.setSexualPreference(e.target.value)
-              e.target.classList.add('text-black')
-            }}
+            onChange={(e) => props.setSexualPreference(e.target.value)}
+            onClick={(e) => e.target.classList.add("text-black")}
           >
             <option value="Male">Male</option>
             <option value="Non-binary">Non-binary</option>
@@ -73,10 +69,8 @@ function RegisterForm2(props) {
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="Racial preferences"
             value={props.racialPreference}
-            onChange={(e) => {
-              props.setRacialPreference(e.target.value)
-              e.target.classList.add('text-black')
-            }}
+            onChange={(e) => props.setRacialPreference(e.target.value)}
+            onClick={(e) => e.target.classList.add("text-black")}
           >
             <option value="Black">Black</option>
             <option value="White">White</option>
@@ -92,10 +86,8 @@ function RegisterForm2(props) {
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="Meeting interests"
             value={props.meetingInterest}
-            onChange={(e) => {
-              props.setMeetingInterest(e.target.value)
-              e.target.classList.add('text-black')
-            }}
+            onChange={(e) => props.setMeetingInterest(e.target.value)}
+            onClick={(e) => e.target.classList.add("text-black")}
           >
             <option value="Partners">Partners</option>
             <option value="Long-term commitment">Long-term commitment</option>

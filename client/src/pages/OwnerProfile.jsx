@@ -300,10 +300,8 @@ function OwnerProfile() {
                     type="date"
                     name="Date"
                     value={birthDate}
-                    onChange={(e) => {
-                      setBirthDate(e.target.value);
-                      e.target.classList.add("text-black");
-                    }}
+                    onChange={(e) => setBirthDate(e.target.value)}
+                    onClick={(e) => e.target.classList.add("text-black")}
                   />
                 </label>
               </div>
@@ -313,10 +311,8 @@ function OwnerProfile() {
                   className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
                   name="country"
                   value={location}
-                  onChange={(e) => {
-                    setLocation(e.target.value);
-                    e.target.classList.add("text-black");
-                  }}
+                  onChange={(e) => setLocation(e.target.value)}
+                  onClick={(e) => e.target.classList.add("text-black")}
                 >
                   <option value="australia">Australia</option>
                   <option value="canada">Canada</option>
@@ -330,10 +326,8 @@ function OwnerProfile() {
                   className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
                   name="City"
                   value={city}
-                  onChange={(e) => {
-                    setCity(e.target.value);
-                    e.target.classList.add("text-black");
-                  }}
+                  onChange={(e) => setCity(e.target.value)}
+                  onClick={(e) => e.target.classList.add("text-black")}
                 >
                   <option value="Sydney">Sydney</option>
                   <option value="Ottawa">Ottawa</option>
@@ -385,10 +379,8 @@ function OwnerProfile() {
                   className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
                   name="Sexual identities"
                   value={sexualIdentity}
-                  onChange={(e) => {
-                    setSexualIdentity(e.target.value);
-                    e.target.classList.add("text-black");
-                  }}
+                  onChange={(e) => setSexualIdentity(e.target.value)}
+                  onClick={(e) => e.target.classList.add("text-black")}
                 >
                   <option value="Female">Female</option>
                   <option value="Non-binary">Non-binary</option>
@@ -401,10 +393,8 @@ function OwnerProfile() {
                   className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
                   name="Sexual preferences"
                   value={sexualPreference}
-                  onChange={(e) => {
-                    setSexualPreference(e.target.value);
-                    e.target.classList.add("text-black");
-                  }}
+                  onChange={(e) => setSexualPreference(e.target.value)}
+                  onClick={(e) => e.target.classList.add("text-black")}
                 >
                   <option value="Female">Male</option>
                   <option value="Non-binary">Non-binary</option>
@@ -419,10 +409,8 @@ function OwnerProfile() {
                   className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
                   name="Racial preferences"
                   value={racialPreference}
-                  onChange={(e) => {
-                    setRacialPreference(e.target.value);
-                    e.target.classList.add("text-black");
-                  }}
+                  onChange={(e) => setRacialPreference(e.target.value)}
+                  onClick={(e) => e.target.classList.add("text-black")}
                 >
                   <option value="Black">Black</option>
                   <option value="European">European</option>
@@ -439,10 +427,8 @@ function OwnerProfile() {
                   className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
                   name="Meeting interests"
                   value={meetingInterest}
-                  onChange={(e) => {
-                    setMeetingInterest(e.target.value);
-                    e.target.classList.add("text-black");
-                  }}
+                  onChange={(e) => setMeetingInterest(e.target.value)}
+                  onClick={(e) => e.target.classList.add("text-black")}
                 >
                   <option value="Partners">Partners</option>
                   <option value="Long-term commitment">
