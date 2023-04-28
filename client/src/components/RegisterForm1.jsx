@@ -1,13 +1,10 @@
 import ct from "city-timezones";
+import CountryStateData from "../data/CountryStateData.json"
 
 function RegisterForm1(props) {
-  const countryList = ct.cityMapping;
-  const uniqueCountries = Array.from(
-    new Set(countryList.map((country) => country.country))
-  );
-  const uniquecities = Array.from(
-    new Set(countryList.map((city) => city.province))
-  ).filter((city) => city !== null);
+  const countries = CountryStateData
+  const cities = CountryStateData.flatMap(country => country.states)
+
 
   return (
     <div className="bg-[#FCFCFE] form-container px-[255px] py-8 h-[500px] w-[1440px] mx-auto">
@@ -51,13 +48,13 @@ function RegisterForm1(props) {
             onClick={(e) => e.target.classList.add("text-black")}
           >
             <option value="">Select your country</option>
-            {uniqueCountries
+            {countries
               .sort((a, b) => {
                 return a > b ? 1 : -1;
               })
               .map((country, index) => (
-                <option value={country} key={index}>
-                  {country}
+                <option value={country.country_name} key={index}>
+                  {country.country_name}
                 </option>
               ))}
           </select>
@@ -73,22 +70,22 @@ function RegisterForm1(props) {
             onClick={(e) => e.target.classList.add("text-black")}
           >
             <option value="">Select your city</option>
-            {uniquecities
+            {cities
               .filter((city) => {
-                const filterCountries = countryList.filter((country) => {
-                  return country.province === city;
+                const filterCountries = CountryStateData.filter((country) => {
+                  return country.country_id === city.country_id;
                 });
                 return filterCountries.some(
-                  (filterCountry) => filterCountry.country === props.location
+                  (filterCountry) => filterCountry.country_name === props.location
                 );
               })
               .sort((a, b) => {
-                return a > b ? 1 : -1;
+                return a > b ? -1 : 1;
               })
               .map((city, index) => {
                 return (
-                  <option value={city} key={index}>
-                    {city}
+                  <option value={city.state_name} key={index}>
+                    {city.state_name}
                   </option>
                 );
               })}
