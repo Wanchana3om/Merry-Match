@@ -62,6 +62,9 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
         className="flex relative max-w-full h-auto bg-white gap-20 pt-14 px-24 pb-20 rounded-3xl"
         onClick={(event) => event.stopPropagation()}
       >
+
+
+
         <div className="flex flex-col justify-start items-center ">
           {pictures.map((image, index) => {
             return (

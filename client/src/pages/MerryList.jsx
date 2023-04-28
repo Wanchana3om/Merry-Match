@@ -72,7 +72,7 @@ function MerryList() {
           handleCloseProfile={handleCloseProfile}
         />
       )}
-      <div className="bg-[#FCFCFE]">
+      <div className="bg-[#FCFCFE] font-nunito">
         <div className="flex flex-col gap-28 font-nunito h-fit px-[255px] py-12 bg-[#FCFCFE]  w-[1440px] mx-auto">
           <div className="flex flex-row justify-between items-center w-full ">
             <div>
@@ -90,7 +90,7 @@ function MerryList() {
               <p className="text-[#646D89] text-base">you will be happy</p>
 
               <button
-                className="absolute -bottom-20 right-0 bg-red-400 p-3 rounded-full text-black"
+                className="absolute -bottom-20 right-0 bg-red-100 py-4 px-5 rounded-full text-[#95002B] duration-300  transition-all hover:scale-125 hover:bg-[#ffb3ca]  "
                 onClick={() => handleClearRejectedPopup(true)}
               >
                 Clear rejected
@@ -99,7 +99,7 @@ function MerryList() {
           </div>
           {clearRejectedPopup && (
             <div
-              className="flex justify-center items-center fixed z-50 w-full h-auto p-4 bg-black bg-opacity-50 inset-0"
+              className="flex justify-center items-center font-nunito  fixed z-50 w-full h-auto p-4 bg-black bg-opacity-50 inset-0"
               onClick={() => handleClearRejectedPopup(false)}
             >
               <div
@@ -110,13 +110,13 @@ function MerryList() {
 
                 <div className="flex gap-10">
                   <button
-                    className="text-[#95002B] bg-[#FFE1EA] rounded-3xl p-3 font-semibold hover:bg-[#FFB1C8]"
+                    className="text-[#95002B] font-nunito bg-[#FFE1EA] rounded-3xl py-4 px-8 font-semibold hover:scale-110 duration-200 transition-all hover:bg-[#FFB1C8]"
                     onClick={() => handleClearRejected(state?.user?.user_id)}
                   >
                     Yes, I want
                   </button>
                   <button
-                    className="text-[#FFFFFF] bg-[#C70039] rounded-3xl p-3 font-semibold hover:bg-[#FF1659]"
+                    className="text-[#FFFFFF] bg-[#C70039] rounded-3xl py-4 px-8 font-semibold hover:scale-110 duration-200 transition-all hover:bg-[#FF1659]"
                     onClick={() => handleClearRejectedPopup(false)}
                   >
                     No, I don't
@@ -188,25 +188,25 @@ function MerryList() {
                   <h1>{user.merry_status[0].mer_status}</h1>
                 </div>
 
-                <div className="flex ">
+                <div className="flex justify-end w-[350px] ">
                   {user.merry_status[0].mer_status === "MerryMatch" && (
-                    <div className="flex flex-col relative group">
+                    <div className="relative group">
                       <img
                         src="/merrylist/message.svg"
                         alt="message"
-                        className="w-[114px] h-[114px] cursor-pointer"
+                        className="w-[114px] h-[114px] cursor-pointer hover:scale-110 duration-300 transition-all"
                       />
                       <p className="absolute bottom-1 left-2 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] px-[8px] text-xs opacity-0 group-hover:opacity-100">
                         Go to chat
                       </p>
                     </div>
                   )}
-                  <div className="flex flex-col relative group">
+                  <div className="relative group">
                     
                       <img
                         src="/merrylist/eye.svg"
                         alt="view"
-                        className="w-[114px] h-[114px] cursor-pointer"
+                        className="w-[114px] h-[114px] cursor-pointer  hover:scale-110 duration-300 transition-all "
                         onClick={() => handleShowProfile(user)}
                       />
                     
@@ -214,7 +214,7 @@ function MerryList() {
                       See profile
                     </p>
                   </div>
-                  <div className="flex flex-col relative group">
+                  <div className="relative group">
                     <img
                       src={
                         clickedImgIndex[index]
@@ -222,7 +222,7 @@ function MerryList() {
                           : "/merrylist/action button.svg"
                       }
                       alt="match"
-                      className="w-[114px] h-[114px] cursor-pointer"
+                      className="w-[114px] h-[114px] cursor-pointer hover:scale-110 duration-300 transition-all"
                       onClick={() => {
                         handleClickImg(index);
                         deleteMerryMatch( ownUserId, user.user_id );

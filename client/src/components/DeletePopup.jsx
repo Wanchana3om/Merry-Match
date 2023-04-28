@@ -38,9 +38,9 @@ function DeletePopup(props) {
           <p className="text-gray-600 pl-6 pr-60 my-6">
             Do you sure to delete account?
           </p>
-          <div className="flex gap-5 px-6 pb-2">
+          <div className="flex gap-5 px-6 pb-2 ">
             <button
-              className="text-[#95002B] bg-[#FFE1EA] rounded-3xl p-3 font-semibold hover:bg-[#FFB1C8]"
+              className="text-[#95002B] bg-[#FFE1EA] rounded-3xl px-4 hover:scale-105 duration-200 transition-all py-3 font-semibold hover:bg-[#FFB1C8]"
               onClick={async () => {
                 await deleteUserProfile(state?.user?.user_id);
                 logout();
@@ -49,7 +49,7 @@ function DeletePopup(props) {
               Yes, I want to delete
             </button>
             <button
-              className="text-[#FFFFFF] bg-[#C70039] rounded-3xl p-3 font-semibold hover:bg-[#FF1659]"
+              className="text-[#FFFFFF] bg-[#C70039] rounded-3xl px-4  py-3 hover:scale-105 duration-200 transition-all font-semibold hover:bg-[#FF1659]"
               onClick={handleClosePopupDelete}
             >
               No, I don't

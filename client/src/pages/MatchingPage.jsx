@@ -259,10 +259,11 @@ function MatchingPage() {
           handleCloseProfile={handleCloseProfile}
         />
       )}
-      <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row relative">
+      <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row relative"> 
         {merryMatch && (
-          <div className="w-full h-full flex flex-col justify-center items-center absolute z-50 bg-purple-300 bg-opacity-50 inset-0">
-            <div className="flex flex-col justify-center items-center ml-24 mt-24 max-w-full h-auto pt-14 px-24 pb-20 rounded-3xl relative">
+          <div className="flex justify-center items-center  fixed z-50 w-full h-auto p-4 bg-[#350139] bg-opacity-50 inset-0">
+            <div className="flex flex-col justify-center  items-center ml-[200px] mt-24 max-w-full h-auto pt-14 px-24 pb-20 rounded-3xl relative">
+              
               <img
                 src={matchingListPictures}
                 alt=""
@@ -292,9 +293,9 @@ function MatchingPage() {
               >
                 Merry Match
               </h1>
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center font-nonito">
                 <button
-                  className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 font-semibold text-base absolute top-[490px]"
+                  className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 duration-300 transition-all hover:scale-125 hover:bg-[#ffb3ca]  hover:text-[#95002B] font-semibold text-base absolute top-[490px]"
                   onClick={() => {
                     handleChat(), setMerryMatch(false);
                   }}
@@ -302,7 +303,7 @@ function MatchingPage() {
                   Start Conversation
                 </button>
                 <button
-                  className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 font-semibold text-base absolute top-[560px]"
+                  className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 font-semibold text-base absolute top-[560px] duration-300 transition-all hover:scale-125 hover:bg-[#ffb3ca]  hover:text-[#95002B]"
                   onClick={() => handleUserContinueMatching()}
                 >
                   Continue Matching...
