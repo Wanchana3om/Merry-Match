@@ -196,27 +196,29 @@ function MatchingPage() {
   };
 
   const handleSwipeRight = (userId) => {
-
     try {
-
-      for (let i = 0; i < 0; i++) {
-        // logic
-      }
-
-      setMerryMatch(true);
-      setShowName(false);
-      setShowEye(false);
+      
       userLoveSwipeRight(state?.user?.user_id, { newUserId: userId });
-
       const matchingUser = matchingList.find((item) => item.user_id === userId);
-      if (matchingUser) {
-        const pictureUrl = matchingUser.pictures[0]?.pic_url
-        setMatchingListPictures(pictureUrl)
+      const merryMatching = merryMatchList.find((match) => {
+        return (match.user_id === state?.user?.user_id && match.mer_id === userId)
+      });
+
+      if (merryMatching) {
+        setMerryMatch(true);
+        setShowName(false);
+        setShowEye(false);
+
+        if (matchingUser) {
+          const pictureUrl = matchingUser.pictures[0]?.pic_url
+          setMatchingListPictures(pictureUrl)
+        }
       }
     } catch (error) {
       console.error(error);
     }
   }
+
 
   const handleSwipeLeft = (userId) => {
     try {

@@ -91,6 +91,19 @@ const useData = () => {
           setIsLoading(false);
         }
       }
+
+      const userClearRejected = async (userId) => {
+        console.log(userId)
+        try {
+          setIsError(false);
+          setIsLoading(true);
+          await axios.delete(`http://localhost:3000/merryreject/${userId}`)
+          setIsLoading(false);
+        } catch (error) {
+          setIsError(true);
+          setIsLoading(false);
+        }
+      }
     
       useEffect(() => {
         merryMatch()
@@ -108,6 +121,7 @@ const useData = () => {
     merryMatchList,
     userLoveSwipeRight,
     userRejectSwipeLeft,
+    userClearRejected,
   };
 };
 
