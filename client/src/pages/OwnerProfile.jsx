@@ -305,7 +305,7 @@ function OwnerProfile() {
                 <h1>Date of birth</h1>
                 <label htmlFor="Date">
                   <input
-                    className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                    className=" border-[1px]  font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
                     type="date"
                     name="Date"
                     value={birthDate}
@@ -317,7 +317,7 @@ function OwnerProfile() {
               <div>
                 <h1>Location</h1>
                 <select
-            className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px] "
+            className=" border-[1px]  font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px] "
             name="country"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
@@ -338,7 +338,7 @@ function OwnerProfile() {
               <div>
                 <h1>City</h1>
                 <select
-            className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+            className=" border-[1px]  font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="City"
             value={city}
             onChange={(e) => setCity(e.target.value)}
@@ -385,7 +385,7 @@ function OwnerProfile() {
                 <h1>Email</h1>
                 <label htmlFor="Email">
                   <input
-                    className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                    className="border-[1px] text-[#9AA1B9] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
                     type="email"
                     name="email"
                     placeholder="Jon Snow"
@@ -407,7 +407,7 @@ function OwnerProfile() {
               <div>
                 <h1>Sexual identities </h1>
                 <select
-                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                  className=" border-[1px]  font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
                   name="Sexual identities"
                   value={sexualIdentity}
                   onChange={(e) => setSexualIdentity(e.target.value)}
@@ -421,7 +421,7 @@ function OwnerProfile() {
               <div>
                 <h1>Sexual preferences</h1>
                 <select
-                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                  className=" border-[1px]  font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
                   name="Sexual preferences"
                   value={sexualPreference}
                   onChange={(e) => setSexualPreference(e.target.value)}
@@ -436,7 +436,7 @@ function OwnerProfile() {
               <div>
                 <h1>Racial preferences</h1>
                 <select
-                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                  className=" border-[1px]  font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
                   name="Racial preferences"
                   value={racialPreference}
                   onChange={(e) => setRacialPreference(e.target.value)}
@@ -452,7 +452,7 @@ function OwnerProfile() {
               <div>
                 <h1>Meeting interests</h1>
                 <select
-                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                  className=" border-[1px]  font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
                   name="Meeting interests"
                   value={meetingInterest}
                   onChange={(e) => setMeetingInterest(e.target.value)}
