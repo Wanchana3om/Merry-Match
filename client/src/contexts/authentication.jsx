@@ -12,6 +12,16 @@ function AuthProvider(props) {
     user: null,
   });
 
+  const updateProfilePic = (newProfilePic) => {
+    setState((prevState) => ({
+      ...prevState,
+      user: {
+        ...prevState.user,
+        profilePic: newProfilePic,
+      },
+    }));
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -66,7 +76,14 @@ function AuthProvider(props) {
 
   return (
     <AuthContext.Provider
-      value={{ state, login, logout, register, isAuthenticated }}
+      value={{
+        state,
+        login,
+        logout,
+        register,
+        isAuthenticated,
+        updateProfilePic,
+      }}
     >
       {props.children}
     </AuthContext.Provider>

@@ -12,7 +12,7 @@ import Loading from "../components/loading";
 
 function OwnerProfile() {
   const { updateUserProfile } = useData();
-  const { state, loading } = useAuth();
+  const { state, loading, updateProfilePic } = useAuth();
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -28,7 +28,7 @@ function OwnerProfile() {
   const [images, setImages] = useState(Array(5).fill(null));
   const [info, setInfo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  // const [isSubmit, setIsSubmit] = useState(null);
+  const [profileUpdated, setProfileUpdated] = useState(false);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -71,9 +71,10 @@ function OwnerProfile() {
         // setIsSubmit(true)
         // setIsSubmit(false)
         {
+          setProfileUpdated(true);
+          updateProfilePic(images[0]);
           alert("Data submitted");
         }
-        window.location.reload();
       }
     }
   };
@@ -126,6 +127,7 @@ function OwnerProfile() {
 
   useEffect(() => {
     getUserProfile();
+    setProfileUpdated(false);
   }, []);
 
   useEffect(() => {
