@@ -28,19 +28,12 @@ async function init() {
 
   // app.use("/auth", fileUploadMiddleware, authRouter);
 
-  // app.use("/auth", authRouter);
-  // app.use("/users", protect, usersRouter);
-  // app.use("/merrylist", protect, merryRouter);
-  // app.use("/merryreject", protect, merryRejectRouter);
-  // app.use("/chat", protect, chatRouther);
-  // app.use("/complaint",protect, complaintRouter);
-
   app.use("/auth", authRouter);
-  app.use("/users", usersRouter);
-  app.use("/merrylist", merryRouter);
-  app.use("/merryreject", merryRejectRouter);
-  app.use("/chat", chatRouther);
-  app.use("/complaint", complaintRouter);
+  app.use("/users", protect, usersRouter);
+  app.use("/merrylist", protect, merryRouter);
+  app.use("/merryreject", protect, merryRejectRouter);
+  app.use("/chat", protect, chatRouther);
+  app.use("/complaint", protect, complaintRouter);
 
   app.listen(port, () => {
     console.log("Server listening on port 3000");
