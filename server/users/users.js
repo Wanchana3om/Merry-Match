@@ -152,17 +152,16 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const { keyword, meeting_interest, min_age, max_age } = req.query;
+    const { data: userData, error: userDataError } = await supabase
+      .from("users")
+      .select("birthDate, sexual_preference, meeting_interest")
+      .eq("user_id", userId);
+    console.log(userData);
+    if (userDataError) throw userDataError;
     if (
       typeof req.query === "undefined" ||
       Object.keys(req.query).length === 0
     ) {
-      const { data: userData, error: userDataError } = await supabase
-        .from("users")
-        .select("birthDate, sexual_preference, meeting_interest")
-        .eq("user_id", userId);
-      console.log(userData);
-      if (userDataError) throw userDataError;
-
       const maxAge = 10;
       const minBirthYear =
         new Date(userData[0].birthDate).getFullYear() - maxAge;
@@ -207,9 +206,6 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
       const filteredData = defaultData.filter(
         (data) => !alreadyUser.includes(data.user_id)
       );
-      console.log(filterData);
-      console.log("and");
-      console.log(filteredData);
       return res.json(filteredData);
     }
 
@@ -230,6 +226,7 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
       .select(
         `user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)`
       )
+      .eq("sexual_identity", userData[0].sexual_preference)
       .neq("user_id", userId);
 
     if (keyword && meeting_interest && min_age && max_age) {

@@ -55,18 +55,8 @@ function MatchingPage() {
     if (token) {
       const userDataFromToken = jwtDecode(token);
 
-      const params = {
-        keyword: keyword,
-        meeting_interest: meetingInterest.join(","),
-        min_age: minAge,
-        max_age: maxAge,
-      };
-
       const result = await axios.get(
-        `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
-        {
-          params: params,
-        }
+        `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`
       );
       let matchingData = result.data;
       const newMatchingList = [];

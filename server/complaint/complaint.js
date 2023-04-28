@@ -32,10 +32,22 @@ complaintRouter.get("/:adminId/:complaintId", async (req, res) => {
     const complaintId = req.params.complaintId;
     const { data: complaintData, error: complaintDataError } = await supabase
       .from("complaint")
-      .select("*, resolve(res_date)")
-      .eq("com_id", complaintId);
+      .select(`*, resolve(res_action_date)`)
+      .eq("com_id", complaintId)
+      .not("resolve.res_action_date", "is", null);
     if (complaintDataError) throw complaintDataError;
     console.log(complaintData);
+
+    const { error: updateStatusError } = await supabase
+      .from("complaint")
+      .update([
+        {
+          com_status: "Pending",
+        },
+      ])
+      .eq("com_id", complaintId);
+    if (updateStatusError) throw updateStatusError;
+
     return res.json(complaintData);
   } catch (error) {
     console.log(error);
@@ -54,14 +66,14 @@ complaintRouter.get("/:adminId/:complaintId", async (req, res) => {
 complaintRouter.post("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { title, description, status } = req.body;
+    const { title, description } = req.body;
     const timeCreate = new Date().toISOString();
     const { error: insertError } = await supabase.from("complaint").insert([
       {
         user_id: userId,
         com_title: title,
         com_description: description,
-        com_status: status,
+        com_status: "New",
         com_date: timeCreate,
       },
     ]);
