@@ -151,7 +151,6 @@ merryRouter.delete("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const deleteUserId = req.body.deleteUserId;
-    // const newUserId = req.body.newUserId;
 
     console.log(userId);
     console.log(deleteUserId);

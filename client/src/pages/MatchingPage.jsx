@@ -28,8 +28,8 @@ function MatchingPage() {
 
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
   const { state, loading } = useAuth();
-  const [matchingListPictures, setMatchingListPictures] = useState(null);
 
+  const [matchingListPictures, setMatchingListPictures] = useState(null);
   const [keyword, setKeyword] = useState("");
   const [meetingInterest, setMeetingInterest] = useState([]);
   const [minAge, setMinAge] = useState(18);
@@ -68,8 +68,17 @@ function MatchingPage() {
           params: params,
         }
       );
-      setMatchingList(result.data);
-      console.log(result.data);
+      let matchingData = result.data;
+      const newMatchingList = [];
+
+      for (let i = 0; i < matchingData.length; i++) {
+        newMatchingList.push(result.data[i]);
+      }
+
+      setMatchingList(newMatchingList);
+      setCurrentIndex(newMatchingList.length - 1);
+      console.log(newMatchingList);
+      setChildRefs(newMatchingList.map(() => React.createRef()));
     }
   };
   const handleSubmit = async (event) => {
@@ -170,8 +179,7 @@ function MatchingPage() {
 
   const canSwipe = currentIndex >= 0;
 
-  const [userSwipeRight, setUserSwipeRight] = useState(false)
-  const [userContinueMatch, setUserContinueMatch] = useState(false)
+  const [merryMatch, setMerryMatch] = useState(false)
   const [showName, setShowName] = useState(true)
   const [showEye, setShowEye] = useState(true)
 
@@ -180,21 +188,44 @@ function MatchingPage() {
     updateCurrentIndex(index - 1);
 
     if (direction === "right") {
-      setUserSwipeRight(true);
+      handleSwipeRight(userId)
+
+    } else if (direction === "left") {
+      handleSwipeLeft(userId)
+    }
+  };
+
+  const handleSwipeRight = (userId) => {
+
+    try {
+
+      for (let i = 0; i < 0; i++) {
+        // logic
+      }
+
+      setMerryMatch(true);
       setShowName(false);
       setShowEye(false);
       userLoveSwipeRight(state?.user?.user_id, { newUserId: userId });
 
       const matchingUser = matchingList.find((item) => item.user_id === userId);
       if (matchingUser) {
-        const pictureUrl = matchingUser.pictures[0]?.pic_url;
-        setMatchingListPictures([pictureUrl]);
+        const pictureUrl = matchingUser.pictures[0]?.pic_url
+        setMatchingListPictures(pictureUrl)
       }
-    } else if (direction === "left") {
-      setUserSwipeRight(false);
-      userRejectSwipeLeft(state?.user?.user_id, { deleteUserId: userId });
+    } catch (error) {
+      console.error(error);
     }
-  };
+  }
+
+  const handleSwipeLeft = (userId) => {
+    try {
+      setMerryMatch(false);
+      return userRejectSwipeLeft(state?.user?.user_id, { rejectUserId: userId });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
@@ -204,7 +235,6 @@ function MatchingPage() {
   const swipe = async (dir) => {
     if (canSwipe && currentIndex < matchingList.length) {
       await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
-      console.log(currentIndex);
     }
   };
 
@@ -224,10 +254,11 @@ function MatchingPage() {
     setShowProfile(false);
   };
   const handleUserContinueMatching = () => {
-    setUserSwipeRight(false)
+    setMerryMatch(false)
     setShowName(true);
     setShowEye(true);
   }
+
 
 
   return (
@@ -240,8 +271,8 @@ function MatchingPage() {
         />
       )}
       <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row relative">
-        {userSwipeRight && (
-          <div className="w-full h-full flex flex-col justify-center items-center absolute z-50 bg-pink-300 bg-opacity-50 inset-0">
+        {merryMatch && (
+          <div className="w-full h-full flex flex-col justify-center items-center absolute z-50 bg-purple-300 bg-opacity-50 inset-0">
             <div className="flex flex-col justify-center items-center ml-24 mt-24 max-w-full h-auto pt-14 px-24 pb-20 rounded-3xl relative">
               <img
                 src={matchingListPictures}
@@ -276,7 +307,7 @@ function MatchingPage() {
                 <button
                   className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 font-semibold text-base absolute top-[490px]"
                   onClick={() => {
-                    handleChat(), setUserSwipeRight(false);
+                    handleChat(), setMerryMatch(false);
                   }}
                 >
                   Start Conversation

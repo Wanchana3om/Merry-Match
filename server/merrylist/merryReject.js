@@ -8,7 +8,8 @@ merryRejectRouter.put("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const rejectUserId = req.body.rejectUserId;
-
+    console.log(userId)
+    console.log(rejectUserId)
     const { data: existingData } = await supabase
       .from("merry_reject")
       .select("reject_id")

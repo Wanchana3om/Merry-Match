@@ -84,7 +84,7 @@ const useData = () => {
         try {
           setIsError(false);
           setIsLoading(true);
-          await axios.delete(`http://localhost:3000/merryreject/${userId}`, data)
+          await axios.put(`http://localhost:3000/merryreject/${userId}`, data)
           setIsLoading(false);
         } catch (error) {
           setIsError(true);
