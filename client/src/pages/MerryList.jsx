@@ -11,12 +11,12 @@ function MerryList() {
   const [usersData, setUsersData] = useState([]);
   const [clickedImgIndex, setClickedImgIndex] = useState([]);
   const { state } = useAuth();
-  const { userClearRejected } = useData()
-  const [clearRejectedPopup, setClearRejectedPopup] = useState(false)
+  const { userClearRejected } = useData();
+  const [clearRejectedPopup, setClearRejectedPopup] = useState(false);
   const { deleteMerryMatch } = useData();
   const [selectedUser, setSelectedUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
-  const [ownUserId, setOwnUserId ] = useState("")
+  const [ownUserId, setOwnUserId] = useState("");
 
   const handleShowProfile = (user) => {
     setSelectedUser(user);
@@ -36,13 +36,12 @@ function MerryList() {
   };
 
   const handleClearRejected = async (userId) => {
-    await userClearRejected(userId)
-    setClearRejectedPopup(false)
-
-  }
+    await userClearRejected(userId);
+    setClearRejectedPopup(false);
+  };
   const handleClearRejectedPopup = (boolean) => {
-    setClearRejectedPopup(boolean)
-  }
+    setClearRejectedPopup(boolean);
+  };
   const getMerryList = async () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -52,7 +51,7 @@ function MerryList() {
         const result = await axios.get(
           `http://localhost:3000/merrylist/${userDataFromToken.user_id}`
         );
-        setOwnUserId(userDataFromToken.user_id)
+        setOwnUserId(userDataFromToken.user_id);
         setUsersData(result.data);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
@@ -106,7 +105,10 @@ function MerryList() {
                 className="flex flex-col justify-center items-center max-w-full h-auto bg-white gap-10 py-8 px-8 rounded-3xl"
                 onClick={(event) => event.stopPropagation()}
               >
-                <h3>Do you want to clear the person you swipe left or the person you reject?</h3>
+                <h3>
+                  Do you want to clear the person you swipe left or the person
+                  you reject?
+                </h3>
 
                 <div className="flex gap-10">
                   <button
@@ -126,57 +128,76 @@ function MerryList() {
             </div>
           )}
           {usersData.map((user, index) => (
-            <div key={index} className="flex gap-10">
-              <img
-                src={user.pictures[0]?.pic_url || null}
-                alt={user.name}
-                className="object-cover w-[187px] h-[187px] border-[1px] border-[#A62D82] rounded-3xl"
-              />
-              <div className="basis-2/4 flex flex-col gap-6">
-                <div className="flex gap-3 items-center">
-                  <span className="text-[#2A2E3F] text-2xl font-bold">
-                    {user.name}
-                  </span>
-                  <span className="text-[#646D89] text-2xl font-bold">
-                    {new Date().getFullYear() -
-                      new Date(user.birthDate).getFullYear()}
-                  </span>
-                  <img src="/merrylist/Vector.svg" alt="location" />
-                  <span className="text-[#646D89] text-base">
-                    {user.city}, {user.location}
-                  </span>
+            <div
+              key={index}
+              className="flex gap-10 justify-between"
+            >
+              <div className="flex w-[650px] ">
+                <div className="w-[187px] h-[187px] ">
+                  <img
+                    src={user.pictures[0]?.pic_url || null}
+                    alt={user.name}
+                    className="object-cover w-full h-full border-[1px] border-[#A62D82] rounded-3xl"
+                  />
                 </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <p>Sexual identities</p>
-                  <p className="text-[#646D89]">{user.sexual_identity}</p>
-                  <p>Sexual preferences</p>
-                  <p className="text-[#646D89]">{user.sexual_preference}</p>
-                  <p>Racial preferences</p>
-                  <p className="text-[#646D89]">{user.racial_preference}</p>
-                  <p>Meeting interests</p>
-                  <p className="text-[#646D89]">{user.meeting_interest}</p>
+
+                <div className="flex ml-[40px] w-[400px] flex-col gap-6  ">
+                  <div className="flex gap-3 items-center">
+                    <span className="text-[#2A2E3F] text-2xl font-bold">
+                      {user.name}
+                    </span>
+                    <span className="text-[#646D89] text-2xl font-bold">
+                      {new Date().getFullYear() -
+                        new Date(user.birthDate).getFullYear()}
+                    </span>
+                    <img src="/merrylist/Vector.svg" alt="location" />
+                    <span className="text-[#646D89] text-base">
+                      {user.city}, {user.location}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <p>Sexual identities</p>
+                    <p className="text-[#646D89]">{user.sexual_identity}</p>
+                    <p>Sexual preferences</p>
+                    <p className="text-[#646D89]">{user.sexual_preference}</p>
+                    <p>Racial preferences</p>
+                    <p className="text-[#646D89]">{user.racial_preference}</p>
+                    <p>Meeting interests</p>
+                    <p className="text-[#646D89]">{user.meeting_interest}</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-col items-end gap-4">
+
+
+
+
+
+
+
+              <div className="flex flex-col items-end w-[300px]  gap-4">
                 <div
                   className={`flex justify-evenly items-center py-1 px-4 border-[1px] rounded-[99px] text-[16px]`}
                   style={{
-                    color: `${user.merry_status[0].mer_status === "MerryMatch"
-                      ? "#C70039"
-                      : "#646D89"
-                      }`,
-                    borderColor: `${user.merry_status[0].mer_status === "MerryMatch"
-                      ? "#C70039"
-                      : "#646D89"
-                      }`,
-                    width: `${user.merry_status[0].mer_status === "MerryMatch"
-                      ? "160px"
-                      : "140px"
-                      }`,
-                    fontWeight: `${user.merry_status[0].mer_status === "MerryMatch"
-                      ? "bold"
-                      : ""
-                      }`,
+                    color: `${
+                      user.merry_status[0].mer_status === "MerryMatch"
+                        ? "#C70039"
+                        : "#646D89"
+                    }`,
+                    borderColor: `${
+                      user.merry_status[0].mer_status === "MerryMatch"
+                        ? "#C70039"
+                        : "#646D89"
+                    }`,
+                    width: `${
+                      user.merry_status[0].mer_status === "MerryMatch"
+                        ? "160px"
+                        : "140px"
+                    }`,
+                    fontWeight: `${
+                      user.merry_status[0].mer_status === "MerryMatch"
+                        ? "bold"
+                        : ""
+                    }`,
                   }}
                 >
                   {user.merry_status[0].mer_status === "MerryMatch" && (
@@ -188,29 +209,28 @@ function MerryList() {
                   <h1>{user.merry_status[0].mer_status}</h1>
                 </div>
 
-                <div className="flex justify-end w-[350px] ">
+                <div className="relative flex w-full justify-end ">
                   {user.merry_status[0].mer_status === "MerryMatch" && (
-                    <div className="relative group">
+                    <div className=" group">
                       <img
                         src="/merrylist/message.svg"
                         alt="message"
-                        className="w-[114px] h-[114px] cursor-pointer hover:scale-110 duration-300 transition-all"
+                        className="w-full  cursor-pointer hover:scale-110 duration-300 transition-all"
                       />
-                      <p className="absolute bottom-1 left-2 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] px-[8px] text-xs opacity-0 group-hover:opacity-100">
-                        Go to chat
+                      <p className="bottom-1 absolude left-2 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] ] text-xs opacity-0 group-hover:opacity-100">
+                          Go to chat
                       </p>
                     </div>
                   )}
                   <div className="relative group">
-                    
-                      <img
-                        src="/merrylist/eye.svg"
-                        alt="view"
-                        className="w-[114px] h-[114px] cursor-pointer  hover:scale-110 duration-300 transition-all "
-                        onClick={() => handleShowProfile(user)}
-                      />
-                    
-                    <p className="absolute bottom-1 left-3 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] px-[8px] text-xs opacity-0 group-hover:opacity-100">
+                    <img
+                      src="/merrylist/eye.svg"
+                      alt="view"
+                      className="w-full cursor-pointer  hover:scale-110 duration-300 transition-all "
+                      onClick={() => handleShowProfile(user)}
+                    />
+
+                    <p className=" bottom-1 absolude left-3 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] px-[8px] text-xs opacity-0 group-hover:opacity-100">
                       See profile
                     </p>
                   </div>
@@ -222,14 +242,14 @@ function MerryList() {
                           : "/merrylist/action button.svg"
                       }
                       alt="match"
-                      className="w-[114px] h-[114px] cursor-pointer hover:scale-110 duration-300 transition-all"
+                      className="w-full  cursor-pointer hover:scale-110 duration-300 transition-all"
                       onClick={() => {
                         handleClickImg(index);
-                        deleteMerryMatch( ownUserId, user.user_id );
+                        deleteMerryMatch(ownUserId, user.user_id);
                       }}
                     />
 
-                    <p className="absolute bottom-1 left-6 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] px-[8px] text-xs opacity-0 group-hover:opacity-100">
+                    <p className=" bottom-1 absolude left-6 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] px-[8px] text-xs opacity-0 group-hover:opacity-100">
                       Merry
                     </p>
                   </div>
