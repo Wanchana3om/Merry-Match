@@ -1,10 +1,13 @@
-import ct from "city-timezones"
+import ct from "city-timezones";
 
 function RegisterForm1(props) {
-
-  const countryList = ct.cityMapping
-  const uniqueCountries = Array.from(new Set(countryList.map(country => country.country)));
-  const uniquecities = Array.from(new Set(countryList.map(city => city.province))).filter((city) => city !== null)
+  const countryList = ct.cityMapping;
+  const uniqueCountries = Array.from(
+    new Set(countryList.map((country) => country.country))
+  );
+  const uniquecities = Array.from(
+    new Set(countryList.map((city) => city.province))
+  ).filter((city) => city !== null);
 
   return (
     <div className="bg-[#FCFCFE] form-container px-[255px] py-8 h-[500px] w-[1440px] mx-auto">
@@ -33,10 +36,8 @@ function RegisterForm1(props) {
               type="date"
               name="Date"
               value={props.birthDate}
-              onChange={(e) => {
-                props.setBirthDate(e.target.value);
-                e.target.classList.add('text-black')
-              }}
+              onChange={(e) => props.setBirthDate(e.target.value)}
+              onClick={(e) => e.target.classList.add("text-black")}
             />
           </label>
         </div>
@@ -46,21 +47,16 @@ function RegisterForm1(props) {
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px] "
             name="country"
             value={props.location}
-            onChange={(e) => {
-              props.setLocation(e.target.value);
-              e.target.classList.add('text-black');
-            }}
-            
+            onChange={(e) => props.setLocation(e.target.value)}
+            onClick={(e) => e.target.classList.add("text-black")}
           >
             <option value="">Select your country</option>
             {uniqueCountries
               .sort((a, b) => {
-                return (
-                  a > b ? 1 : -1
-                )
+                return a > b ? 1 : -1;
               })
               .map((country, index) => (
-                <option value={country} key={index} >
+                <option value={country} key={index}>
                   {country}
                 </option>
               ))}
@@ -73,30 +69,28 @@ function RegisterForm1(props) {
             className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
             name="City"
             value={props.city}
-            onChange={(e) => {
-              props.setCity(e.target.value)
-              e.target.classList.add('text-black')
-            }}
+            onChange={(e) => props.setCity(e.target.value)}
+            onClick={(e) => e.target.classList.add("text-black")}
           >
             <option value="">Select your city</option>
             {uniquecities
               .filter((city) => {
                 const filterCountries = countryList.filter((country) => {
-                  return country.province === city
-                })
-                return filterCountries.some(filterCountry => filterCountry.country === props.location)
+                  return country.province === city;
+                });
+                return filterCountries.some(
+                  (filterCountry) => filterCountry.country === props.location
+                );
               })
               .sort((a, b) => {
-                return (
-                  a > b ? 1 : -1
-                )
+                return a > b ? 1 : -1;
               })
               .map((city, index) => {
                 return (
                   <option value={city} key={index}>
                     {city}
                   </option>
-                )
+                );
               })}
           </select>
         </div>

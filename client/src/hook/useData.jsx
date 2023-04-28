@@ -98,7 +98,7 @@ const useData = () => {
         try {
           setIsError(false);
           setIsLoading(true);
-          await axios.delete(`localhost:3000/merrylist/${userId}`, { data: { deleteUserId: deleteUserId }, });
+          await axios.delete(`http://localhost:3000/merrylist/${userId}`, { data: { deleteUserId: deleteUserId }, });
           setIsLoading(false);
         } catch (error) {
           setIsError(true);
