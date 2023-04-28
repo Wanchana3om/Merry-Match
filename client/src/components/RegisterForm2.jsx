@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 function RegisterForm2(props) {
   const maxHobbies = 10;
@@ -114,7 +114,7 @@ function RegisterForm2(props) {
                 {props.hobbyLists.map((hobby, index) => (
                   <li
                     key={index}
-                    className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
+                    className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px]  text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
                   >
                     {hobby}
                     <button

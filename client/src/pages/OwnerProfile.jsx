@@ -9,8 +9,6 @@ import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../components/uploadCloudinary";
 import Loading from "../components/loading";
-import ct from "city-timezones"
-
 
 function OwnerProfile() {
   const { updateUserProfile } = useData();
@@ -31,15 +29,7 @@ function OwnerProfile() {
   const [info, setInfo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   // const [isSubmit, setIsSubmit] = useState(null);
-  console.log(sexualPreference
-    );
-
-
-    const countryList = ct.cityMapping
-    const uniqueCountries = Array.from(new Set(countryList.map(country => country.country)));
-    const uniquecities = Array.from(new Set(countryList.map(city => city.province))).filter((city) => city !== null)
-  
-  
+  console.log(sexualPreference);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -320,61 +310,36 @@ function OwnerProfile() {
               <div>
                 <h1>Location</h1>
                 <select
-            className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px] "
-            name="country"
-            value={location}
-            onChange={(e) => {
-              props.setLocation(e.target.value);
-              e.target.classList.add('text-black');
-            }}
-            
-          >
-            <option value="">Select your country</option>
-            {uniqueCountries
-              .sort((a, b) => {
-                return (
-                  a > b ? 1 : -1
-                )
-              })
-              .map((country, index) => (
-                <option value={country} key={index} >
-                  {country}
-                </option>
-              ))}
-          </select>
+                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                  name="country"
+                  value={location}
+                  onChange={(e) => {
+                    setLocation(e.target.value);
+                    e.target.classList.add("text-black");
+                  }}
+                >
+                  <option value="australia">Australia</option>
+                  <option value="canada">Canada</option>
+                  <option value="usa">USA</option>
+                  <option value="thailand ">Thailand</option>
+                </select>
               </div>
               <div>
                 <h1>City</h1>
                 <select
-            className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
-            name="City"
-            value={city}
-            onChange={(e) => {
-              setCity(e.target.value)
-              e.target.classList.add('text-black')
-            }}
-          >
-            <option value="">Select your city</option>
-            {uniquecities
-              .filter((city) => {
-                const filterCountries = countryList.filter((country) => {
-                  return country.province === city
-                })
-                return filterCountries.some(filterCountry => filterCountry.country === location)
-              })
-              .sort((a, b) => {
-                return (
-                  a > b ? 1 : -1
-                )
-              })
-              .map((city, index) => {
-                return (
-                  <option value={city} key={index}>
-                    {city}
-                  </option>
-                )
-              })}
-          </select>
+                  className=" border-[1px] text-[#9AA1B9] font-normal border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px]  pl-[12px]"
+                  name="City"
+                  value={city}
+                  onChange={(e) => {
+                    setCity(e.target.value);
+                    e.target.classList.add("text-black");
+                  }}
+                >
+                  <option value="Sydney">Sydney</option>
+                  <option value="Ottawa">Ottawa</option>
+                  <option value="new york">New York</option>
+                  <option value="Bangkok ">Bangkok</option>
+                </select>
               </div>
 
               <div>
@@ -447,11 +412,6 @@ function OwnerProfile() {
                 </select>
               </div>
 
-
-
-
-
-
               <div>
                 <h1>Racial preferences</h1>
                 <select
@@ -481,9 +441,7 @@ function OwnerProfile() {
                     e.target.classList.add("text-black");
                   }}
                 >
-                  <option value="Friends">
-                  Friends
-                  </option>
+                  <option value="Friends">Friends</option>
                   <option value="Partners">Partners</option>
                   <option value="Long-term commitment">
                     Long-term commitment
@@ -491,46 +449,44 @@ function OwnerProfile() {
                   <option value="Short-term commitment">
                     Short-term commitment
                   </option>
-                  
-                  
                 </select>
               </div>
             </div>
-            <div className="flex flex-col  mt-[50px]">
-              <div className="relative flex flex-col items-start">
-                <h1>Hobbies / Interests (Maximum 10)</h1>
-                <div className="relative w-full flex flex-row items-start justify-center m-[1px] border-[#D6D9E4] border-t-[1px] border-r-[1px] border-b-[1px] border-l-[1px] rounded-lg h-[50px] bg-white ">
-                  {hobbyLists.length > 0 && (
-                    <div className=" border-[1px] border-none rounded-lg h-[full] p-[8px] text-[#9AA1B9] text-sm ">
-                      <ul className="flex flex-row">
-                        {hobbyLists.map((hobby, index) => (
-                          <li
-                            key={index}
-                            className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px] text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
-                          >
-                            {hobby}
-                            <button
-                              className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
-                              onClick={() => deleteHobby(index)}
-                            >
-                              ✕
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  <input
-                    className="border-[1px] font-normal border-none rounded-lg w-full h-full py-[12px] pr-[12px] pl-[12px] mb-4 focus:outline-none"
-                    type="text"
-                    value={info}
-                    onChange={(e) => {
-                      setInfo(e.target.value);
-                    }}
-                    onKeyPress={handleKeyPress}
-                  />
-                </div>
-              </div>
+            <div className=" mt-[50px] ">
+              <h1>Hobbies / Interests (Maximum 10)</h1>
+              <div className="w-full flex flex-row items-start justify-start border-[#D6D9E4] border-t-[1px] border-r-[1px] border-b-[1px] border-l-[1px] rounded-lg">
+  {hobbyLists.length > 0 && (
+    <div className="border-[1px] border-none rounded-lg p-[8px]  text-[#9AA1B9] text-sm">
+      <ul className="flex flex-row ">
+        {hobbyLists.map((hobby, index) => (
+          <li
+            key={index}
+            className="bg-[#F4EBF2] border-[#D6D9E4] mr-2 rounded-lg p-[6px] text-[#7D2262] text-[14px] flex items-center"
+          >
+            {hobby}
+            <button
+              className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
+              onClick={() => deleteHobby(index)}
+            >
+              ✕
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+  <input
+    className="border-[1px] font-normal border-none rounded-lg py-[12px] px-[12px] focus:outline-none w-full"
+    type="text"
+    value={info}
+    onChange={(e) => {
+      setInfo(e.target.value);
+    }}
+    onKeyPress={handleKeyPress}
+    style={{ wordWrap: "break-word" }}
+  />
+</div>
+
               <div className="mt-[24px]">
                 <h1>About me (Maximum 150 characters)</h1>
                 <label htmlFor="About me">
