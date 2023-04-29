@@ -14,11 +14,30 @@ const useData = () => {
       setIsError(false);
       setIsLoading(true);
       await axios.get(`http://localhost:3000/users/merrymatch/${userId}`, data);
+
+
+      
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+
+    }
+  };
+
+
+  const submitedCompliant = async (data) => {
+    try {
+      setIsError(false);
+      setIsLoading(true);
+      await axios.post(`http://localhost:3000/complaint`, data);
+      setIsLoading(false);
+      
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
     }
   };
+
 
   const updateUserProfile = async (userId, data) => {
     try {
@@ -130,6 +149,7 @@ const useData = () => {
     userLoveSwipeRight,
     userRejectSwipeLeft,
     userClearRejected,
+    submitedCompliant
   };
 };
 

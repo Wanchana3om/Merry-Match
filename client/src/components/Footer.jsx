@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="font-nunito absolute w-full h-auto py-5 bg-white mt-[70px]">
+    <footer className="font-nunito absolute w-full h-auto py-5 bg-[#F6F7FC] mt-[70px]">
       <div className="flex flex-col items-center justify-center">
         <div>
           <span className="text-black font-semibold text-4xl">Merry</span>
