@@ -27,9 +27,9 @@ function AdminSidebar() {
         </div>
       </div>
       <div className="w-full ">
-        <ComplaintList />
+        {/* <ComplaintList /> */}
         {/* <Detail /> */}
-        {/* <Resolve /> */}
+        <Resolve />
         {/* <Cancel /> */}
       </div>
     </div>
