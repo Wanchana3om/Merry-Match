@@ -6,6 +6,8 @@ import OwnerProfile from "./OwnerProfile";
 import MerryPackage from "./MerryPackage";
 import Payment1 from "./Payment1";
 import Payment2 from "./Payment2";
+import ChatPage from "./ChatPage";
+import ComplaintPage from "./ComplaintPage";
 
 function AuthenticatedApp() {
   return (
@@ -17,6 +19,8 @@ function AuthenticatedApp() {
         <Route path="/ownerprofile" element={<OwnerProfile />} />
         <Route path="/merrypackage" element={<MerryPackage />} />
         <Route path="/payment1" element={<Payment1 />} />
+        <Route path="/chat" element={<ChatPage/>} />
+        <Route path="/complaint" element={<ComplaintPage/>} />
         <Route path="/payment2" element={<Payment2 />} />
       </Routes>
     </div>

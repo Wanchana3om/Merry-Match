@@ -16,18 +16,18 @@ import {
 import useData from "../hook/useData";
 import { useAuth } from "../contexts/authentication";
 import mini_heart from "/matching/mini_heart.svg";
+import { Link } from "react-router-dom";
 
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
   const [childRefs, setChildRefs] = useState([]);
-  const [chat, setChat] = useState([]);
   const [showProfile, setShowProfile] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
 
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
-  const { state, loading } = useAuth();
+  const { state} = useAuth();
 
   const [matchingListPictures, setMatchingListPictures] = useState(null);
   const [keyword, setKeyword] = useState("");
@@ -116,10 +116,7 @@ function MatchingPage() {
     // console.log(matchingList);
   }, [matchingList]);
 
-  const handleChat = () => {
-    setChat(!chat);
-  };
-
+  
   // ----------------------------
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
@@ -294,14 +291,12 @@ function MatchingPage() {
                 Merry Match
               </h1>
               <div className="flex justify-center items-center font-nonito">
-                <button
+                <Link to="/chat"
                   className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 duration-300 transition-all hover:scale-125 hover:bg-[#ffb3ca]  hover:text-[#95002B] font-semibold text-base absolute top-[490px]"
-                  onClick={() => {
-                    handleChat(), setMerryMatch(false);
-                  }}
+                  
                 >
                   Start Conversation
-                </button>
+                </Link>
                 <button
                   className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 font-semibold text-base absolute top-[560px] duration-300 transition-all hover:scale-125 hover:bg-[#ffb3ca]  hover:text-[#95002B]"
                   onClick={() => handleUserContinueMatching()}
@@ -351,7 +346,6 @@ function MatchingPage() {
                 src=""
                 alt="dd"
                 className="w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
-                onClick={handleChat}
               />
               <div>
                 <p className="font-[400] text-[#2A2E3F] text-[16px]">Ygritte</p>
@@ -362,47 +356,11 @@ function MatchingPage() {
             </div>
           </div>
         </div>
-        {!chat && (
-          <div className="bg-[#160404] flex flex-col justify-end col-span-3 w-full  overflow-hidden">
-            <div className="w-full h-[836px] flex flex-row justify-center pt-[90px] ">
-              <div className="w-[750px] h-[90px] flex flex-row justify-center  items-center bg-[#F4EBF2] border-[1px] border-[#DF89C6] rounded-2xl">
-                <img
-                  src="/chat/merry match.svg"
-                  alt="merry match"
-                  className="pr-[27px]"
-                />
-                <p className="text-[#64001D]">
-                  Now you and Daeny are Merry Match! <br />
-                  You can messege something nice and make a good conversation.
-                  Happy Merry!
-                </p>
-              </div>
-            </div>
-            <div className="w-full h-[100px] bg-[#160404] border-t-[1px] flex flex-row border-gray-200 items-center justify-center">
-              <img
-                src="/chat/upload image.svg"
-                alt="upload image"
-                className="w-[45px] h-[45px] mr-[10px]"
-              />
-              <input
-                type="text"
-                className="w-[908px] h-[50px] px-[15px] bg-[#160404] placeholder:italic placeholder:text-slate-400 focus:outline-none text-white"
-                placeholder="Message here..."
-              />
-              <img
-                src="/chat/send button.svg"
-                alt="send button"
-                className="w-[70px] h-[70px] ml-[10px]"
-              />
-            </div>
-          </div>
-        )}
-
+       
         {/* ------------------------section 2 ----------------------------  */}
         <div
-          className={`bg-[#160404] ${
-            !chat ? "hidden" : "flex"
-          } flex-col justify-center col-span-3 w-[904px]  overflow-hidden`}
+          className="bg-[#160404] 
+            flex flex-col justify-center col-span-3 w-[904px]  overflow-hidden"
         >
           <div className="relative w-[620px] h-[620px] rounded-[32px]">
             {matchingList.map((item, index) => (
@@ -467,9 +425,7 @@ function MatchingPage() {
         {/* ------------------------section 3 ----------------------------  */}
         <form
           onSubmit={handleSubmit}
-          className={`   w-[210px] ${
-            !chat ? "hidden" : "flex"
-          } flex-row justify-center `}
+          className=  "w-[210px] flex flex-row justify-center"
         >
           <div className=" flex flex-col items-center  w-[188px] mx-auto>">
             <div className="flex flex-col gap-10 mb-[170px]">
@@ -601,7 +557,7 @@ function MatchingPage() {
                 </h1>
                 <button
                   type="submit"
-                  className="py-3 px-6 bg-[#C70039] rounded-[99px] text-white transition-all duration-300  hover:scale-105 hover:bg-[#FF1659] "
+                  className="py-3 px-6 bg-[#C70039] rounded-[99px]  text-white transition-all duration-300  hover:scale-105 hover:bg-[#FF1659] "
                 >
                   Search
                 </button>

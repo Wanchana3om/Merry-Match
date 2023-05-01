@@ -39,7 +39,7 @@ function NavigationbarUser() {
             <a href="/matching">Start Matching!</a>
             </li>
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77] ">
-              <Link to="/merrypackage">Merry Membership</Link>
+              <Link to="/chat">Merry Membership</Link>
             </li>
             <div className="">
               <img
@@ -103,7 +103,7 @@ function NavigationbarUser() {
                       className="w-[13px] h-[13px] "
                       alt="icon"
                     />
-                    <a href="#" className="block px-4 py-2  text-gray-700 ">
+                    <a href="/complaint" className="block px-4 py-2  text-gray-700 ">
                       Complaint
                     </a>
                   </div>
