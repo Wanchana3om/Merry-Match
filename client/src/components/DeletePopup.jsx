@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/authentication";
 function DeletePopup(props) {
   const { deleteUserProfile } = useData();
   const { state, logout } = useAuth();
-  console.log(state?.user?.user_id);
+  // console.log(state?.user?.user_id);
 
   const handleClosePopupDelete = () => {
     props.handleClose();
