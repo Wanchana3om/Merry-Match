@@ -1,8 +1,3 @@
-import Cancel from "../admin/Cancel";
-import ComplaintList from "../admin/ComplaintList";
-import Detail from "../admin/Detail";
-import Resolve from "../admin/Resolve";
-
 
 function AdminSidebar() {
   return (
@@ -25,12 +20,6 @@ function AdminSidebar() {
           <img src="/admin/logout.svg" alt="logout" />
           <p className="text-[#424C6B] font-bold hover:text-[#FFB1C8] hover:underline">Log out</p>
         </div>
-      </div>
-      <div className="w-full ">
-        <ComplaintList />
-        {/* <Detail /> */}
-        {/* <Resolve /> */}
-        {/* <Cancel /> */}
       </div>
     </div>
   );
