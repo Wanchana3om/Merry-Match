@@ -1,4 +1,29 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 function ComplaintList() {
+  const [complaintData, setComplaintData] = useState([]);
+
+  const fetchComplaint = async () => {
+    try {
+      const adminId = "admin_id"; 
+      const adminResponse = await axios.get(`http://localhost:3000/admins/${adminId}`);
+      const isAdmin = adminResponse.data.role === "admin";
+      console.log(adminResponse);
+      
+      if (isAdmin) {
+        const complaintResponse = await axios.get(`http://localhost:3000/complaints`);
+        setComplaintData(complaintResponse.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchComplaint();
+  }, []);
+
   return (
     <div className="font-nunito w-full ">
       <nav className="flex justify-between items-center py-4 px-16 bg-white  border-[1px] border-[#D6D9E4]">
@@ -17,7 +42,7 @@ function ComplaintList() {
             <option value="">New</option>
             <option value="">Pending</option>
             <option value="">Resolved</option>
-            <option value="">Cancel</option>
+            <option value="">Cancel</option> 
           </select>
         </div>
       </nav>

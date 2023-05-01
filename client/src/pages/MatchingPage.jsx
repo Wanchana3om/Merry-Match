@@ -25,6 +25,7 @@ function MatchingPage() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
+  const [usersData, setUsersData] = useState([]);
 
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
   const { state} = useAuth();
@@ -246,6 +247,25 @@ function MatchingPage() {
     setShowName(true);
     setShowEye(true);
   };
+  // -------------------------------------
+  const getMerryList = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const userDataFromToken = jwtDecode(token);
+
+        const result = await axios.get(
+          `http://localhost:3000/merrylist/${userDataFromToken.user_id}`
+        );
+        setUsersData(result.data);
+      } catch (error) {
+        console.error("Error decoding the token or fetching user data:", error);
+      }
+    }
+  };
+  useEffect(() => {
+    getMerryList();
+  }, []);
 
   return (
     <>
@@ -322,38 +342,43 @@ function MatchingPage() {
               </div>
             </div>
           </div>
-          <div className="w-[282px] mx-auto py-[36px]">
+          <div  className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
-            <div className="flex flex-row gap-3 py-6">
-              <img
-                src=""
-                alt=""
-                className=" w-[100px] h-[100px] border-[1px] rounded-2xl"
+          {usersData.map((user, index) => (
+            <div key={index} className="flex flex-row ">
+            {user.merry_status[0].mer_status === "MerryMatch" && (
+              <img 
+                src={user.pictures[0]?.pic_url || null}
+                alt={user.name}
+                className="object-cover w-[100px] h-[100px] border-[1px] rounded-2xl"
               />
-              <img
-                src=""
-                alt=""
-                className=" w-[100px] h-[100px] border-[1px] rounded-2xl"
-              />
+              )}
             </div>
+          ))}
           </div>
           <div className="w-[282px] mx-auto pt-[12px]">
             <h1 className="text-[#191C77] font-bold text-lg">
               Chat with Merry Match
             </h1>
-            <div className="flex flex-row justify-evenly py-6">
+            {usersData.map((user, index) => (
+            <div key={index} className="flex flex-row justify-evenly py-2">
+              {user.merry_status[0].mer_status === "MerryMatch" && (
               <img
-                src=""
-                alt="dd"
-                className="w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
+                src={user.pictures[0]?.pic_url || null}
+                alt={user.name}
+                className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
               />
+                )}
+                {user.merry_status[0].mer_status === "MerryMatch" && (
               <div>
-                <p className="font-[400] text-[#2A2E3F] text-[16px]">Ygritte</p>
+                <p className="font-[400] text-[#2A2E3F] text-[16px]">{user.name}</p>
                 <p className="font-[500] text-[#646D89] text-[14px]">
                   You know nothing Jon Snow
                 </p>
               </div>
+              )}
             </div>
+            ))}
           </div>
         </div>
        
