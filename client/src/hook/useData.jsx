@@ -25,11 +25,11 @@ const useData = () => {
   };
 
 
-  const submitedCompliant = async (data) => {
+  const submitedCompliant = async (userId,data) => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.post(`http://localhost:3000/complaint`, data);
+      await axios.post(`http://localhost:3000/complaint/${userId}`, data);
       setIsLoading(false);
       
     } catch (error) {
@@ -39,6 +39,7 @@ const useData = () => {
   };
 
 
+  
   const updateUserProfile = async (userId, data) => {
     try {
       setIsError(false);

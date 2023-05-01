@@ -5,76 +5,80 @@ import { useState } from "react";
 import useData from "../hook/useData";
 import { useToast } from '@chakra-ui/react'
 import Loading from "../components/loading";
-
+import { useAuth } from "../contexts/authentication";
 function ComplaintPage() {
 
     
-    const [issue, setIssue] = useState("")
+    const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [date, setDate] = useState("")
     const [isLoading, setIsLoading] = useState("")
+
     
     const toast = useToast()
+    const {state} = useAuth()
+
     const {submitedCompliant, 
         // isLoading
     } = useData()
 
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-    //     isLoading(true)
-    //     await submitedCompliant({
-    //                 issue,
-    //                 description,
-    //                 date
-    //     });
-    //     isLoading(false)
-         
-    //         toast({
-    //           title: 'Profile updated.',
-    //           description: "Your profile has been updated.",
-    //           status: 'success',
-    //           duration: 3000,
-    //           isClosable: true,
-    //           position:"top"
-    //         })
-        
-    //   };
-
-
+    
+    
     const handleSubmit = async(event) => {
-        event.preventDefault();
-        setIsLoading(true)
-        await submitedCompliant({
-            issue,
-            description,
-            date
-        });
+      event.preventDefault();
+      setIsLoading(true)
+      await submitedCompliant(state?.user?.user_id,{
+        title,
+        description,
+          });
         {
-            setProfileUpdated(true);
-            updateProfilePic(images[0]);
             toast({
               title: 'Profile updated.',
               description: "Your profile has been updated.",
               status: 'success',
-              duration: 3000,
+              duration: 5000,
               isClosable: true,
               position:"top"
             })
           }
             setIsLoading(false)  
-        .catch((error) => {
-          if (error.response && error.response.status === 401) {
-            setIsError(true);
-            toast({
-                title: "Error 401",
-                status: "error",
-                isClosable: true,
-              })
-          }
-        });
-      };
-    
+            setTitle("")
+            setDescription("")
+          };
+                // const handleSubmit = async (event) => {
+        //     event.preventDefault();
+        //     isLoading(true)
+        //     await submitedCompliant({
+        //                 issue,
+        //                 description,
+        //                 date
+        //     });
+        //     isLoading(false)
+             
+        //         toast({
+        //           title: 'Profile updated.',
+        //           description: "Your profile has been updated.",
+        //           status: 'success',
+        //           duration: 3000,
+        //           isClosable: true,
+        //           position:"top"
+        //         })
+            
+        //   };
 
+
+
+
+          
+          // .catch((error) => {
+          //   if (error.response && error.response.status === 401) {
+          //     setIsError(true);
+          //     toast({
+          //         title: "Error 401",
+          //         status: "error",
+          //         isClosable: true,
+          //       })
+          //   }
+          // });
 
 
   return (
@@ -106,7 +110,8 @@ function ComplaintPage() {
                   name="Issue "
                   placeholder="Place Holder"
                   required
-                  onChange={(e)=>(setIssue(e.target.value))}
+                  value={title}
+                  onChange={(e)=>(setTitle(e.target.value))}
                 />
                 <label className="block text-gray-600 text-base font-normal mt-8">
                 Description
@@ -117,20 +122,11 @@ function ComplaintPage() {
                   name="Description "
                   placeholder="Place Holder"
                   required
+                  value={description}
                   onChange={(e)=>(setDescription(e.target.value))}
                 />
                 
-                <label className="block text-gray-600 text-base font-normal mt-8">
-                Date Submitted
-                </label>
-                <input
-                  className="shadow appearance-none border mt-[5px] w-[357px] rounded-[8px]   h-[48px] py-2 px-3 text-[#9AA1B9] leading-tight focus:outline-red-500 focus:shadow-red-500 transition-all duration-500"
-                  type="date"
-                  name="Date Submitted"
-                  placeholder="Place Holder"
-                  required
-                  onChange={(e)=>(setDate(e.target.value))}
-                />
+                
 
                 <button
                   type="submit"
