@@ -1,31 +1,40 @@
 import NavigationbarUser from "../components/NavigationbarUser";
-import React from "react";
-import { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import useData from "../hook/useData";
+import { useLocation } from "react-router-dom";
+import editMessageIcon from "/icon/editMessageIcon.png"
 function ChatPage() {
-  const [text, setText] = useState("")
+
   const [message, setMessege] = useState("")
+  const { chatMessage, conversation, sendingChatMessage, editChatMessage, deleteChatMessage } = useData()
+  const { state } = useLocation();
+  const senderID = state.senderID; // my Id
+  const receiverID = state.receiverID;
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (text !== "") {
-     setMessege(text);
-     setText("");
-    }else{
-        alert("Enter message box")
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    if (message !== "" || event.key === "Enter") {
+
+      setMessege("");
+      sendingChatMessage(senderID, receiverID, message)
+      chatMessage(senderID, receiverID)
+
+    } else {
+      alert("Enter message box")
     }
   };
 
-  console.log(message);
+  const handleEditMessage = () => {
 
+  }
+  const handleDeleteMessage = () => {
 
+  }
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
+  useEffect(() => {
+    chatMessage(senderID, receiverID)
+
+  }, [])
 
   return (
     <>
@@ -88,74 +97,97 @@ function ChatPage() {
             <div className="flex flex-col w-full">
 
 
-            <div className="flex items-center justify-center">
-            <div className="w-[750px] h-[90px] flex flex-row justify-center  items-center bg-[#F4EBF2] border-[1px] border-[#DF89C6] rounded-2xl">
+              <div className="flex items-center justify-center">
+                <div className="w-[750px] h-[90px] flex flex-row justify-center  items-center bg-[#F4EBF2] border-[1px] border-[#DF89C6] rounded-2xl">
+                  <img
+                    src="/chat/merry match.svg"
+                    alt="merry match"
+                    className=" pr-[27px] animate-bounce"
+                  />
+                  <p className="text-[#64001D]">
+                    Now you and Daeny are Merry Match! <br />
+                    You can messege something nice and make a good conversation.
+                    Happy Merry!
+                  </p>
+                </div>
+              </div>
+
+
+              <div className="flex flex-col-reverse h-full bg-red-200">
+                {conversation.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`${message.sender_id === senderID ? "ml-auto" : "mr-auto"
+                      } my-4`}
+                  >
+                    <div
+                      className={`${message.sender_id === senderID ? "bg-purple-600 text-white" : "bg-pink-200 text-black"
+                        } p-4 rounded-lg`}
+                    >
+                      <p className="">{message.message}</p>
+                      <div className="flex justify-end mt-2 relative">
+                        <button
+                          className=""
+                          onClick={() => handleEditMessage(message)}
+                        >
+                          <img
+                            src={editMessageIcon}
+                            alt="edit message icon"
+                            className="w-4 h-4 absolute" />
+                        </button>
+                        <button
+                          className="bg-gray-600 p-2 rounded-full "
+                          onClick={() => handleDeleteMessage(message)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <form onSubmit={(event) => (handleSubmit(event))}>
+
+            <div className="w-full h-[100px] bg-[#160404] border-t-[1px] flex flex-row border-gray-200 items-center justify-center ">
               <img
-                src="/chat/merry match.svg"
-                alt="merry match"
-                className=" pr-[27px] animate-bounce"
+                src="/matching/mini_heart.svg"
+                alt="upload image"
+                className="w-[45px] h-[45px] mr-[10px]"
               />
-              <p className="text-[#64001D]">
-                Now you and Daeny are Merry Match! <br />
-                You can messege something nice and make a good conversation.
-                Happy Merry!
-              </p>
-            </div>
-            </div>
-
-
-            <div className="grid  grid-cols-2 h-full">
-
-            <div className="text-white-500 bg-red-500">
-            </div>
-            <div className="text-white-500 bg-green-500">
-            </div>
-            </div>
-
-
-
-
-            </div>
-
-
-
-          </div>
-
-
-
-
-
-
-
-          <form onSubmit={(e)=>(handleSubmit(e))}>
-            
-          <div className="w-full h-[100px] bg-[#160404] border-t-[1px] flex flex-row border-gray-200 items-center justify-center ">
-            <img
-              src="/matching/mini_heart.svg"
-              alt="upload image"
-              className="w-[45px] h-[45px] mr-[10px]"
-              />
-            <input
-              type="text"
-              className="w-[908px] h-[50px] px-[15px] bg-[#160404] placeholder:italic placeholder:text-slate-400 focus:outline-none text-white"
-              placeholder="Message here..."
-              value={text}
-              onChange={(e) => {
-                  setText(e.target.value);
+              <input
+                type="text"
+                className="w-[908px] h-[50px] px-[15px] bg-[#160404] placeholder:italic placeholder:text-slate-400 focus:outline-none text-white"
+                placeholder="Message here..."
+                value={message}
+                onChange={(event) => {
+                  setMessege(event.target.value);
                 }}
-                onKeyPress={handleKeyPress}
                 style={{ wordWrap: "break-word" }}
-                
-                />
-            <button type="submit">
-            <img
-              src="/chat/send button.svg"
-              alt="send button"
-              className="w-[70px] h-[70px] ml-[10px]"
+
               />
+              <button type="submit">
+                <img
+                  src="/chat/send button.svg"
+                  alt="send button"
+                  className="w-[70px] h-[70px] ml-[10px]"
+                />
               </button>
-          </div>
-              </form>
+            </div>
+          </form>
         </div>
       </div>
     </>

@@ -16,7 +16,7 @@ import {
 import useData from "../hook/useData";
 import { useAuth } from "../contexts/authentication";
 import mini_heart from "/matching/mini_heart.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
@@ -27,9 +27,12 @@ function MatchingPage() {
   const [lastDirection, setLastDirection] = useState();
   const [usersData, setUsersData] = useState([]);
 
-  const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
-  const { state} = useAuth();
+  const [senderId, setSenderId] = useState(0)
+  const [receiverId, setReceiverId] = useState(0)
 
+  const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
+  const { state } = useAuth();
+  const navigate = useNavigate()
   const [matchingListPictures, setMatchingListPictures] = useState(null);
   const [keyword, setKeyword] = useState("");
   const [meetingInterest, setMeetingInterest] = useState([]);
@@ -117,7 +120,7 @@ function MatchingPage() {
     // console.log(matchingList);
   }, [matchingList]);
 
-  
+
   // ----------------------------
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
@@ -182,14 +185,16 @@ function MatchingPage() {
 
   const handleSwipeRight = (userId) => {
     try {
-      
+
       userLoveSwipeRight(state?.user?.user_id, { newUserId: userId });
       const matchingUser = matchingList.find((item) => item.user_id === userId);
       const merryMatching = merryMatchList.find((match) => {
         return (match.user_id === state?.user?.user_id && match.mer_id === userId)
       });
-
+      
       if (merryMatching) {
+        setReceiverId(userId)
+        setSenderId(state?.user?.user_id)
         setMerryMatch(true);
         setShowName(false);
         setShowEye(false);
@@ -215,6 +220,15 @@ function MatchingPage() {
       console.error(error);
     }
   };
+
+  const handleChat = (senderID, receiverID) => {
+    try {
+      navigate("/chat", { state: { senderID, receiverID } });
+    } catch (error) {
+      console.error(error);
+
+    }
+  }
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
@@ -276,11 +290,11 @@ function MatchingPage() {
           handleCloseProfile={handleCloseProfile}
         />
       )}
-      <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row relative"> 
+      <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row relative">
         {merryMatch && (
           <div className="flex justify-center items-center  fixed z-50 w-full h-auto p-4 bg-[#350139] bg-opacity-50 inset-0">
             <div className="flex flex-col justify-center  items-center ml-[200px] mt-24 max-w-full h-auto pt-14 px-24 pb-20 rounded-3xl relative">
-              
+
               <img
                 src={matchingListPictures}
                 alt=""
@@ -311,12 +325,13 @@ function MatchingPage() {
                 Merry Match
               </h1>
               <div className="flex justify-center items-center font-nonito">
-                <Link to="/chat"
+                <button
                   className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 duration-300 transition-all hover:scale-125 hover:bg-[#ffb3ca]  hover:text-[#95002B] font-semibold text-base absolute top-[490px]"
-                  
+                  onClick={() => handleChat(senderId, receiverId)}
+
                 >
                   Start Conversation
-                </Link>
+                </button>
                 <button
                   className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 font-semibold text-base absolute top-[560px] duration-300 transition-all hover:scale-125 hover:bg-[#ffb3ca]  hover:text-[#95002B]"
                   onClick={() => handleUserContinueMatching()}
@@ -383,7 +398,7 @@ function MatchingPage() {
             ))}
           </div>
         </div>
-       
+
         {/* ------------------------section 2 ----------------------------  */}
         <div
           className="bg-[#160404] 
@@ -452,7 +467,7 @@ function MatchingPage() {
         {/* ------------------------section 3 ----------------------------  */}
         <form
           onSubmit={handleSubmit}
-          className=  "w-[210px] flex flex-row justify-center"
+          className="w-[210px] flex flex-row justify-center"
         >
           <div className=" flex flex-col items-center  w-[188px] mx-auto>">
             <div className="flex flex-col gap-10 mb-[170px]">
