@@ -27,12 +27,12 @@ function MatchingPage() {
   const [lastDirection, setLastDirection] = useState();
   const [usersData, setUsersData] = useState([]);
 
-  const [senderId, setSenderId] = useState(0)
-  const [receiverId, setReceiverId] = useState(0)
+  const [senderId, setSenderId] = useState(0);
+  const [receiverId, setReceiverId] = useState(0);
 
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
   const { state } = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [matchingListPictures, setMatchingListPictures] = useState(null);
   const [keyword, setKeyword] = useState("");
   const [meetingInterest, setMeetingInterest] = useState([]);
@@ -120,7 +120,6 @@ function MatchingPage() {
     // console.log(matchingList);
   }, [matchingList]);
 
-
   // ----------------------------
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
@@ -185,30 +184,30 @@ function MatchingPage() {
 
   const handleSwipeRight = (userId) => {
     try {
-
       userLoveSwipeRight(state?.user?.user_id, { newUserId: userId });
       const matchingUser = matchingList.find((item) => item.user_id === userId);
       const merryMatching = merryMatchList.find((match) => {
-        return (match.user_id === state?.user?.user_id && match.mer_id === userId)
+        return (
+          match.user_id === state?.user?.user_id && match.mer_id === userId
+        );
       });
-      
+
       if (merryMatching) {
-        setReceiverId(userId)
-        setSenderId(state?.user?.user_id)
+        setReceiverId(userId);
+        setSenderId(state?.user?.user_id);
         setMerryMatch(true);
         setShowName(false);
         setShowEye(false);
 
         if (matchingUser) {
-          const pictureUrl = matchingUser.pictures[0]?.pic_url
-          setMatchingListPictures(pictureUrl)
+          const pictureUrl = matchingUser.pictures[0]?.pic_url;
+          setMatchingListPictures(pictureUrl);
         }
       }
     } catch (error) {
       console.error(error);
     }
   };
-
 
   const handleSwipeLeft = (userId) => {
     try {
@@ -226,9 +225,8 @@ function MatchingPage() {
       navigate("/chat", { state: { senderID, receiverID } });
     } catch (error) {
       console.error(error);
-
     }
-  }
+  };
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
@@ -294,7 +292,6 @@ function MatchingPage() {
         {merryMatch && (
           <div className="flex justify-center items-center  fixed z-50 w-full h-auto p-4 bg-[#350139] bg-opacity-50 inset-0">
             <div className="flex flex-col justify-center  items-center ml-[200px] mt-24 max-w-full h-auto pt-14 px-24 pb-20 rounded-3xl relative">
-
               <img
                 src={matchingListPictures}
                 alt=""
@@ -328,7 +325,6 @@ function MatchingPage() {
                 <button
                   className="bg-red-100 py-4 px-6 rounded-full mt-14 text-red-700 duration-300 transition-all hover:scale-125 hover:bg-[#ffb3ca]  hover:text-[#95002B] font-semibold text-base absolute top-[490px]"
                   onClick={() => handleChat(senderId, receiverId)}
-
                 >
                   Start Conversation
                 </button>
@@ -357,44 +353,52 @@ function MatchingPage() {
               </div>
             </div>
           </div>
-          <div  className="w-[282px] mx-auto py-[36px]">
+          <div className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
-            <div  className="flex gap-1 pt-2">
-          {usersData.map((user, index) => (
-            <div key={index}>
-            {user.merry_status[0].mer_status === "MerryMatch" && (
-              <img 
-                src={user.pictures[0]?.pic_url || null}
-                alt={user.name}
-                className="object-cover w-[100px] h-[100px] border-[1px] rounded-2xl"
-              />
-              )}
-              </div>
-              ))}
-              </div>
+            <div className="flex flex-row gap-3 w-[100px] h-[100px]">
+              {usersData
+                .filter(
+                  (user) => user.merry_status[0].mer_status === "MerryMatch"
+                )
+                .map((user, index) => (
+                  <button key={index} className="relative">
+                    <img
+                      src={user.pictures[0]?.pic_url || null}
+                      alt={user.name}
+                      className="w-[100px] h-[100px] border-[1px] rounded-2xl"
+                    />
+                    <img
+                      src={"/matching/merry match.svg"}
+                      className="absolute bottom-0 right-0"
+                    />
+                  </button>
+                ))}
+            </div>
           </div>
           <div className="w-[282px] mx-auto pt-[12px]">
             <h1 className="text-[#191C77] font-bold text-lg">
               Chat with Merry Match
             </h1>
             {usersData.map((user, index) => (
-            <div key={index} className="flex flex-row justify-evenly py-2">
-              {user.merry_status[0].mer_status === "MerryMatch" && (
-              <img
-                src={user.pictures[0]?.pic_url || null}
-                alt={user.name}
-                className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
-              />
+              <div key={index} className="flex flex-row justify-evenly py-2">
+                {user.merry_status[0].mer_status === "MerryMatch" && (
+                  <img
+                    src={user.pictures[0]?.pic_url || null}
+                    alt={user.name}
+                    className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
+                  />
                 )}
                 {user.merry_status[0].mer_status === "MerryMatch" && (
-              <div>
-                <p className="font-[400] text-[#2A2E3F] text-[16px]">{user.name}</p>
-                <p className="font-[500] text-[#646D89] text-[14px]">
-                  You know nothing Jon Snow
-                </p>
+                  <div>
+                    <p className="font-[400] text-[#2A2E3F] text-[16px]">
+                      {user.name}
+                    </p>
+                    <p className="font-[500] text-[#646D89] text-[14px]">
+                      You know nothing Jon Snow
+                    </p>
+                  </div>
+                )}
               </div>
-              )}
-            </div>
             ))}
           </div>
         </div>
