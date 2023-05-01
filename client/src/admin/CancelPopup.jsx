@@ -1,20 +1,14 @@
 import React from "react";
 import cross from "/icon/cross.svg";
-import useData from "../hook/useData";
-import { useAuth } from "../contexts/authentication";
 
-function DeletePopup(props) {
-  const { deleteUserProfile } = useData();
-  const { state, logout } = useAuth();
-  // console.log(state?.user?.user_id);
-
-  const handleClosePopupDelete = () => {
+function CancelPopup(props) {
+  const handleClosePopupCancel = () => {
     props.handleClose();
   };
   return (
     <div
       className="flex justify-center items-center fixed z-50 w-full h-full bg-black bg-opacity-50 inset-0"
-      onClick={handleClosePopupDelete}
+      onClick={handleClosePopupCancel}
     >
       <div
         className="flex relative max-w-full h-auto bg-white rounded-3xl "
@@ -22,10 +16,10 @@ function DeletePopup(props) {
       >
         <div className="flex flex-col relative py-4">
           <h1 className="text-xl font-semibold pb-4 px-6 ">
-            Delete confirmation
+          Cancel Complaint
           </h1>
 
-          <button onClick={handleClosePopupDelete}>
+          <button onClick={handleClosePopupCancel}>
             <img
               src={cross}
               alt="cross"
@@ -36,23 +30,17 @@ function DeletePopup(props) {
           <div className="flex w-full border-[1px] border-gray-300 rounded-[1px] h-full"></div>
 
           <p className="text-gray-600 pl-6 pr-60 my-6">
-            Do you sure to delete account?
+          Do you sure to cancel this conplaint?
           </p>
           <div className="flex gap-5 px-6 pb-2">
-            <button
-              className="text-[#95002B] bg-[#FFE1EA] rounded-3xl p-3 font-semibold hover:bg-[#FFB1C8]"
-              onClick={async () => {
-                await deleteUserProfile(state?.user?.user_id);
-                logout();
-              }}
-            >
-              Yes, I want to delete
+            <button className="text-[#95002B] bg-[#FFE1EA] rounded-3xl p-3 font-semibold hover:bg-[#FFB1C8]">
+            Yes, cancel this complaint
             </button>
             <button
               className="text-[#FFFFFF] bg-[#C70039] rounded-3xl p-3 font-semibold hover:bg-[#FF1659]"
-              onClick={handleClosePopupDelete}
+              onClick={handleClosePopupCancel}
             >
-              No, I don't
+              No, give me more time
             </button>
           </div>
         </div>
@@ -61,4 +49,4 @@ function DeletePopup(props) {
   );
 }
 
-export default DeletePopup;
+export default CancelPopup;
