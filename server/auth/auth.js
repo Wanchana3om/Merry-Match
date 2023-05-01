@@ -102,6 +102,7 @@ authRouter.post("/register", async (req, res) => {
         }
       }
     }
+    
 
     const userId = data[0].user_id;
     const { data: insertData, error: insertError } = await supabase
@@ -125,10 +126,37 @@ authRouter.post("/register", async (req, res) => {
 authRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
+  const { data: admindata } = await supabase
+  .from("admins") 
+  .select()
+  .eq("admin_username", username);
+  console.log(admindata);
+    if ( admindata.length === 1) {
+
+    const storedPassword = admindata[0].admin_password;
+
+    if (storedPassword === password ){
+      const token = jwt.sign(
+        {
+          admin_id: admindata[0].admin_id,
+          admin_username: admindata[0].admin_username,
+          role: admindata[0].role,
+        },
+        process.env.SECRET_KEY,
+        { expiresIn: "1h" }
+      );
+      return res.json({ token });
+    }
+  } 
+
   const { data: userdata, error } = await supabase
-    .from("users")
+    .from("users") 
     .select("user_id, username, name, password")
     .eq("username", username);
+
+  
+
+  
 
   if (error || !userdata || userdata.length === 0) {
     res.status(401).send("Invalid credentials");
@@ -148,6 +176,7 @@ authRouter.post("/login", async (req, res) => {
     res.status(401).send("Invalid password");
     return;
   }
+
 
   const { error: updateError } = await supabase
     .from("users")
@@ -177,5 +206,6 @@ authRouter.post("/login", async (req, res) => {
     return res.json({ token });
   }
 });
+
 
 export default authRouter;

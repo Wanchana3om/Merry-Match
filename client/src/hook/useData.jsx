@@ -8,6 +8,7 @@ const useData = () => {
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [merryMatchList, setMerryMatchList] = useState([]);
+  
 
   const getData = async (userId, data) => {
     try {
@@ -39,7 +40,7 @@ const useData = () => {
   };
 
 
-  
+
   const updateUserProfile = async (userId, data) => {
     try {
       setIsError(false);
