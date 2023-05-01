@@ -4,10 +4,10 @@ import NavigationbarUser from "../components/NavigationbarUser";
 import NavigationbarNonUser from "../components/NavigationbarNonUser";
 import { useAuth } from "../contexts/authentication";
 
-
 function Homepage() {
   const { isAuthenticated } = useAuth();
-  
+
+
   return (
     <>
       {isAuthenticated ? <NavigationbarUser /> : <NavigationbarNonUser />}
@@ -52,22 +52,21 @@ function Homepage() {
               <img
                 src="/homepage/Image (2).svg"
                 className="absolute right-32 top-[460px] animate-bounce"
-                />
+              />
               <img
                 src="/homepage/Ellipse 4.svg"
                 className="absolute right-52 bottom-36 animate-ping"
               />
 
-<img
+              <img
                 src="/homepage/Ellipse 4.svg"
                 className="absolute  bottom-6 animate-pulse"
               />
 
-<img
+              <img
                 src="/homepage/Ellipse 4.svg"
                 className="absolute top-11 right-48 bottom-6 animate-ping"
               />
-
 
               <img
                 src="/homepage/Ellipse 3.svg"
@@ -108,7 +107,10 @@ function Homepage() {
                 </div>
               </div>
               <div className="picture-container flex flex-col justify-center items-center w-1/2 h-full">
-                <img className="h-[348px] w-[546px]" src="/homepage/vector (6).svg" />
+                <img
+                  className="h-[348px] w-[546px]"
+                  src="/homepage/vector (6).svg"
+                />
               </div>
             </div>
             <div className="box-border">
@@ -218,8 +220,6 @@ function Homepage() {
           </div>
         </div>
       </div>
-
-      
       <Footer />
     </>
   );

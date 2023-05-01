@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import { notification } from "./notification";
+import jwtDecode from "jwt-decode";
 
 import {
   Menu,
@@ -22,6 +23,16 @@ function NavigationbarUser() {
   // const { isOpen, onToggle } = useDisclosure()
   const { logout, state } = useAuth();
 
+  // ให้ fetch ข้อมูล notification ทุกครั้งที่มีการเรียกใช้ navbar
+  const token = localStorage.getItem("token");
+  if (token) {
+    const userDataFromToken = jwtDecode(token);
+    const userId = userDataFromToken.user_id;
+    useEffect(() => {
+      notification(userId);
+    }, []);
+  }
+
   return (
     <header className="font-nunito relative z-30 w-screen shadow-md">
       <div className="w-screen  flex flex-row justify-between items-center py-5 bg-white mx-auto">
@@ -36,7 +47,7 @@ function NavigationbarUser() {
         <nav className="mr-[12%]">
           <ul className="flex flex-row items-center">
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77]">
-            <a href="/matching">Start Matching!</a>
+              <a href="/matching">Start Matching!</a>
             </li>
             <li className="mr-[56px] text-base font-bold hover:text-[#191C77] ">
               <Link to="/chat">Merry Membership</Link>
@@ -103,7 +114,10 @@ function NavigationbarUser() {
                       className="w-[13px] h-[13px] "
                       alt="icon"
                     />
-                    <a href="/complaint" className="block px-4 py-2  text-gray-700 ">
+                    <a
+                      href="/complaint"
+                      className="block px-4 py-2  text-gray-700 "
+                    >
                       Complaint
                     </a>
                   </div>

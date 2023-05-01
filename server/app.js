@@ -9,6 +9,7 @@ import merryRejectRouter from "./merrylist/merryReject.js";
 import chatRouther from "./merrylist/chat.js";
 import complaintRouter from "./complaint/complaint.js";
 import { protect } from "./middlewares/protect.js";
+import notificationRouter from "./notification/notification.js";
 // import fileUploadMiddleware from "./middlewares/fileUploadMiddleware.js";
 
 dotenv.config();
@@ -34,6 +35,7 @@ async function init() {
   app.use("/merryreject", protect, merryRejectRouter);
   app.use("/chat", protect, chatRouther);
   app.use("/complaint", protect, complaintRouter);
+  app.use("/notification", protect, notification);
 
   app.listen(port, () => {
     console.log("Server listening on port 3000");
