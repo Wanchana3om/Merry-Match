@@ -344,8 +344,9 @@ function MatchingPage() {
           </div>
           <div  className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
+            <div  className="flex gap-1 pt-2">
           {usersData.map((user, index) => (
-            <div key={index} className="flex flex-row ">
+            <div key={index}>
             {user.merry_status[0].mer_status === "MerryMatch" && (
               <img 
                 src={user.pictures[0]?.pic_url || null}
@@ -353,8 +354,9 @@ function MatchingPage() {
                 className="object-cover w-[100px] h-[100px] border-[1px] rounded-2xl"
               />
               )}
-            </div>
-          ))}
+              </div>
+              ))}
+              </div>
           </div>
           <div className="w-[282px] mx-auto pt-[12px]">
             <h1 className="text-[#191C77] font-bold text-lg">
