@@ -217,9 +217,9 @@ function MerryList() {
                         alt="message"
                         className="w-full  cursor-pointer hover:scale-110 duration-300 transition-all"
                       />
-                      <p className="bottom-1 absolude left-2 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] ] text-xs opacity-0 group-hover:opacity-100">
-                          Go to chat
-                      </p>
+                      <div className="bottom-1 absolude left-2 text-white bg-[#9AA1B9] w-auto rounded-[4px] py-[2px] text-xs opacity-0 group-hover:opacity-100 text-center">
+                         <p> Go to chat</p>
+                      </div>
                     </div>
                   )}
                   <div className="relative group">
@@ -230,9 +230,9 @@ function MerryList() {
                       onClick={() => handleShowProfile(user)}
                     />
 
-                    <p className=" bottom-1 absolude left-3 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] px-[8px] text-xs opacity-0 group-hover:opacity-100">
-                      See profile
-                    </p>
+                    <div className=" bottom-1 absolude left-2 text-white bg-[#9AA1B9] w-auto rounded-[4px] py-[2px] text-xs opacity-0 group-hover:opacity-100 text-center">
+                     <p>See profile</p> 
+                    </div>
                   </div>
                   <div className="relative group">
                     <img
@@ -249,9 +249,9 @@ function MerryList() {
                       }}
                     />
 
-                    <p className=" bottom-1 absolude left-6 text-white bg-[#9AA1B9] rounded-[4px] py-[2px] px-[8px] text-xs opacity-0 group-hover:opacity-100">
-                      Merry
-                    </p>
+                    <div className=" bottom-1 absolude left-2 text-white bg-[#9AA1B9] rounded-[4px] mx-auto w-[50px] py-[2px] text-xs opacity-0 group-hover:opacity-100  text-center">
+                     <p>Merry</p> 
+                    </div>
                   </div>
                 </div>
               </div>
