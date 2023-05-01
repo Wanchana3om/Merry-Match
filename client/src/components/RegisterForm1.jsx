@@ -1,4 +1,3 @@
-import ct from "city-timezones";
 import CountryStateData from "../data/CountryStateData.json"
 
 function RegisterForm1(props) {

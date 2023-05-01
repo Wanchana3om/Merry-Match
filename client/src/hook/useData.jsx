@@ -8,6 +8,7 @@ const useData = () => {
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [merryMatchList, setMerryMatchList] = useState([]);
+  const [conversation, setConversation] = useState([])
 
   const getData = async (userId, data) => {
     try {
@@ -16,7 +17,7 @@ const useData = () => {
       await axios.get(`http://localhost:3000/users/merrymatch/${userId}`, data);
 
 
-      
+
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -31,7 +32,7 @@ const useData = () => {
       setIsLoading(true);
       await axios.post(`http://localhost:3000/complaint`, data);
       setIsLoading(false);
-      
+
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -131,9 +132,64 @@ const useData = () => {
     }
   };
 
+  const chatMessage = async (senderId, receiverId) => {
+    try {
+      setIsError(false);
+      setIsLoading(true);
+
+      const response = await axios.get(`http://localhost:3000/chat/${senderId}/${receiverId}`)
+
+      console.log(response.data)
+      setConversation(response.data)
+      setIsLoading(false);
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+    }
+  }
+
+  const sendingChatMessage = async (senderId, receiverId, message) => {
+    try {
+      setIsError(false);
+      setIsLoading(true);
+      await axios.post(`http://localhost:3000/chat/${senderId}/${receiverId}`, { message })
+      setIsLoading(false);
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+    }
+  }
+
+  const editChatMessage = async (senderId, chatId) => {
+    try {
+      setIsError(false);
+      setIsLoading(true);
+      await axios.put(`http://localhost:3000/chat/${senderId}/${chatId}`, { message })
+      setIsLoading(false);
+
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+    }
+  }
+
+  const deleteChatMessage = async (senderId, chatId) => {
+    try {
+      setIsError(false);
+      setIsLoading(true);
+      await axios.delete(`http://localhost:3000/chat/${senderId}/${chatId}`)
+      setIsLoading(false);
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+    }
+  }
+
+
   useEffect(() => {
     merryMatch()
   }, [])
+
 
 
 
@@ -149,7 +205,12 @@ const useData = () => {
     userLoveSwipeRight,
     userRejectSwipeLeft,
     userClearRejected,
-    submitedCompliant
+    submitedCompliant,
+    chatMessage,
+    conversation,
+    sendingChatMessage,
+    editChatMessage,
+    deleteChatMessage,
   };
 };
 

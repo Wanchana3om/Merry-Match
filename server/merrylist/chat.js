@@ -41,6 +41,13 @@ const chatRouter = Router();
 chatRouter.get("/:senderId/:receiverId", async (req, res) => {
   try {
     const { senderId, receiverId } = req.params;
+    const matchId = await supabase
+      .from("match")
+      .select("match_id")
+      .or(
+        `and(mer_id1.eq.${senderId},mer_id2.eq.${receiverId}),and(mer_id1.eq.${receiverId},mer_id2.eq.${senderId}))`
+      )
+      .single();
     const { data: getMatchId, error: getMatchIdError } = await supabase
       .from("chat")
       .select("match_id")
@@ -51,7 +58,7 @@ chatRouter.get("/:senderId/:receiverId", async (req, res) => {
     const { data, error } = await supabase
       .from("chat")
       .select("*")
-      .eq("match_id", getMatchId[0].match_id)
+      .eq("match_id", matchId.data.match_id)
       .order("timestamp", { ascending: false });
     if (error) throw error;
     return res.json(data);
@@ -72,13 +79,14 @@ chatRouter.post("/:senderId/:receiverId", async (req, res) => {
       .or(
         `and(mer_id1.eq.${senderId},mer_id2.eq.${receiverId}),and(mer_id1.eq.${receiverId},mer_id2.eq.${senderId}))`
       );
+
     if (matchIdError) throw matchIdError;
     const timestamp = new Date();
     const { error } = await supabase.from("chat").insert({
       sender_id: senderId,
       receiver_id: receiverId,
       match_id: matchId[0].match_id,
-      message,
+      message: message,
       timestamp: timestamp,
     });
     if (error) return res.status(500).json({ error: error.message });
