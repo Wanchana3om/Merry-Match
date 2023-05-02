@@ -1,5 +1,9 @@
+import { useAuth } from "../contexts/authentication";
+import { Link } from "react-router-dom";
 
 function AdminSidebar() {
+  const { logout } = useAuth();
+
   return (
     <div className="font-nunito flex bg-[#F6F7FC] h-screen">
       <div className="bg-white flex flex-col justify-between items-center w-72 h-full border-[1px] border-[#D6D9E4]">
@@ -11,14 +15,25 @@ function AdminSidebar() {
           <p className="text-[#646D89]">Admin Panel Control</p>
         </div>
         <div className="flex  items-start h-[540px] w-full ">
-          <div className="flex justify-center gap-5 p-6 w-full cursor-pointer hover:bg-[#F1F2F6]">
+          <Link to="/detail" className="flex justify-center gap-5 p-6 w-full cursor-pointer hover:bg-[#F1F2F6]">
             <img src="/admin/!!!.svg" alt="!" />
-            <p className="text-[#424C6B] font-bold">Complaint</p>
-          </div>
+
+            <button className="text-[#424C6B] font-bold">Complaint</button>
+          </Link>
+
         </div>
         <div className="flex gap-5 p-6 mb-32 cursor-pointer">
           <img src="/admin/logout.svg" alt="logout" />
-          <p className="text-[#424C6B] font-bold hover:text-[#FFB1C8] hover:underline">Log out</p>
+
+          <a
+            href="/"
+            className="text-[#424C6B] font-bold hover:text-[#FFB1C8] hover:underline"
+            onClick={() => {
+              logout();
+            }}
+          >
+            Log Out
+          </a>
         </div>
       </div>
     </div>
