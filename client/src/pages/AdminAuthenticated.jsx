@@ -8,7 +8,7 @@ function AdminAuthenticated() {
   return (
     <>
       <Routes>
-        <Route path="/complaintlist" element={<ComplaintDashboard />} />
+        <Route path="/" element={<ComplaintDashboard />} />
         <Route path="/detail" element={<AdminDetailPage />} />
         <Route path="/resolve" element={<AdminResolvePage />} />
         <Route path="/cancel" element={<AdminCancelPage />} />
