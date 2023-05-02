@@ -4,21 +4,26 @@ import { useAuth } from "./contexts/authentication";
 import AuthenticatedApp from "./pages/AuthenticatedApp";
 import UnauthenticatedApp from "./pages/UnauthenticatedApp";
 import { useNavigate } from "react-router-dom";
+import AdminAuthenticated from "./pages/AdminAuthenticated";
 
-const isTokenValid = (token) => {
-  try {
-    const decodedToken = jwtDecode(token);
-    const currentTime = Date.now() / 1000;
-    return decodedToken.exp > currentTime;
-  } catch (error) {
-    return false;
-  }
-};
 
 function App() {
   const auth = useAuth();
   const navigate = useNavigate();
   const [tokenValid, setTokenValid] = useState(true);
+  const [state, setState] = useState({})
+
+
+  const isTokenValid = (token) => {
+    try {
+      const decodedToken = jwtDecode(token);
+      setState({ ...state, admins: decodedToken, loading: false });
+      const currentTime = Date.now() / 1000;
+      return decodedToken.exp > currentTime;
+    } catch (error) {
+      return false;
+    }
+  };
 
   useEffect(() => {
     if (auth.isAuthenticated) {
@@ -33,20 +38,20 @@ function App() {
     }
   }, [auth, navigate]);
 
-  return auth.isAuthenticated && tokenValid ? (
+  return state?.admins?.role === "admin" ? (
+    <AdminAuthenticated />
+  ) : auth.isAuthenticated && tokenValid ? (
     <AuthenticatedApp />
   ) : (
     <UnauthenticatedApp />
   );
+  // auth.isAuthenticated && tokenValid ? (
+  //   <AuthenticatedApp />
+  // ) : (
+  //   <UnauthenticatedApp />
+  // );
 }
 
 export default App;
 
-// dddddddd ? (
-//   <AdminSidebar />
 
-// ) : auth.isAuthenticated && tokenValid ? (
-//   <AuthenticatedApp />
-// ) : (
-//   <UnauthenticatedApp />
-// );
