@@ -361,7 +361,11 @@ function MatchingPage() {
                   (user) => user.merry_status[0].mer_status === "MerryMatch"
                 )
                 .map((user, index) => (
-                  <button key={index} className="relative">
+                  <button
+                    key={index}
+                    className="relative"
+                    onClick={() => handleShowProfile(user)}
+                  >
                     <img
                       src={user.pictures[0]?.pic_url || null}
                       alt={user.name}
