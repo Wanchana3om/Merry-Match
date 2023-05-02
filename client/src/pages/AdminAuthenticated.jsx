@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import AdminPendingPage from "./AdminPendingPage";
-import ComplaintList from "./ComplaintList";
+import AdminDetailPage from "../admin/AdminDetailPage";
+import ComplaintList from "../admin/ComplaintList";
 
 function AdminAuthenticated() {
   return (
     <>
       <Routes>
         <Route path="/" element={<ComplaintList />} />
-        <Route path="/detail" element={<AdminPendingPage />} />
+        <Route path="/detail" element={<AdminDetailPage />} />
       </Routes>
     </>
   );

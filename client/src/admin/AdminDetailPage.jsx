@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import ResolvePopup from "../admin/ResolvePopup";
-import CancelPopup from "../admin/CancelPopup";
+import ResolvePopup from "./ResolvePopup";
+import CancelPopup from "./CancelPopup";
 import { Link } from "react-router-dom";
 import AdminSidebar from "../components/AdminSidebar";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 
-function AdminPendingPage() {
+function AdminDetailPage() {
   // -----------resovle--------------
   const [resolve, setResolve] = useState(false);
   const [name, setName] = useState("");
@@ -142,4 +142,4 @@ function AdminPendingPage() {
   );
 }
 
-export default AdminPendingPage;
+export default AdminDetailPage;
