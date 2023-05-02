@@ -4,7 +4,7 @@ import CancelPopup from "../admin/CancelPopup";
 import { Link } from "react-router-dom";
 import AdminSidebar from "../components/AdminSidebar";
 
-function DetailPage() {
+function AdminResolvePage() {
   // -----------resovle--------------
   const [resolve, setResolve] = useState(false);
   const [name, setName] = useState("Joe");
@@ -12,10 +12,15 @@ function DetailPage() {
   const [issue, setIssue] = useState("I was insulted by Ygritte");
   const [description, setDescription] = useState("Hello, there was a ploblem with user ‘Ygritte’ who insult me. Can you check her out?");
   const [date, setDate] = useState("12/02/2022");
+  const [confrimResolve, setConfrimResolve] = useState(false);
 
   const handleResolve = (event) => {
     event.preventDefault();
     setResolve(!resolve);
+  };
+
+  const handleConfrimResolve = () => {
+    setConfrimResolve(!confrimResolve);
   };
 
   const handleClosePopupResolve = () => {
@@ -32,10 +37,13 @@ function DetailPage() {
   const handleClosePopupCancel = () => {
     setCancel(false);
   };
+
+  console.log(confrimResolve);
+
   return (
     <div className="flex w-screen">
     <AdminSidebar />
-      {resolve && <ResolvePopup handleClose={handleClosePopupResolve} />}
+      {resolve && <ResolvePopup handleClose={handleClosePopupResolve} handleConfirm={handleConfrimResolve}/>}
       {cancel && <CancelPopup handleClose={handleClosePopupCancel} />}
       <div className="font-nunito w-full ">
         <nav className="flex justify-between items-center py-4 px-16 bg-white  border-[1px] border-[#D6D9E4]">
@@ -44,6 +52,7 @@ function DetailPage() {
            <button href="/"><img src="/admin/arrow.svg" alt="back" /></button> 
            </Link>
             <h1 className="text-2xl font-bold">I was insulted by Ygritte</h1>
+            
             <p className="text-[#393735] bg-[#FFF6D4] py-1 px-2.5 w-20 rounded-[8px]">
               {status}
             </p>
@@ -91,4 +100,4 @@ function DetailPage() {
   );
 }
 
-export default DetailPage;
+export default AdminResolvePage;
