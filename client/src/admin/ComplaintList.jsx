@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useAuth } from "../contexts/authentication";
 
 function ComplaintList() {
   const [complaintData, setComplaintData] = useState([]);
+  const { state } = useAuth();
 
   const fetchComplaint = async () => {
     try {
-      const adminId = "admin_id"; 
-      const adminResponse = await axios.get(`http://localhost:3000/admins/${adminId}`);
-      const isAdmin = adminResponse.data.role === "admin";
-      console.log(adminResponse);
+      const adminId = state?.user?.admin_id; 
+      console.log(adminId);
       
-      if (isAdmin) {
-        const complaintResponse = await axios.get(`http://localhost:3000/complaints`);
-        setComplaintData(complaintResponse.data);
+      if (state?.user?.role === "admin") {
+        const complaintResponse = await axios.get(`http://localhost:3000/complaint/${adminId}`);
+        setComplaintData(complaintResponse);
+        console.log(complaintResponse);
       }
     } catch (error) {
       console.log(error);
