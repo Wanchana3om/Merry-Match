@@ -13,8 +13,8 @@ function ComplaintList() {
       
       if (state?.user?.role === "admin") {
         const complaintResponse = await axios.get(`http://localhost:3000/complaint/${adminId}`);
-        setComplaintData(complaintResponse);
-        console.log(complaintResponse);
+        setComplaintData(complaintResponse.data);
+        console.log(complaintResponse.data);
       }
     } catch (error) {
       console.log(error);
@@ -48,32 +48,34 @@ function ComplaintList() {
         </div>
       </nav>
       <div className="p-20">
-        <div className="flex justify-between border-b-2 border-[#F1F2F6]">
+        {complaintData.map((user, index) => {
+        <div key={index} className="flex justify-between border-b-2 border-[#F1F2F6]">
           <div className=" w-1/3">
             <p className=" bg-[#D6D9E4] text-[#424C6B] p-2 rounded-tl-xl">User</p>
             <p className="bg-white p-8">Jon Snow</p>
           </div>
           <div className=" w-1/3">
             <p className=" bg-[#D6D9E4] text-[#424C6B] p-2">Issue</p>
-            <p className="bg-white p-8">I was insulted by Ygri...</p>
+            <p className="bg-white p-8">{user.com_title}</p>
           </div>
           <div className=" w-2/3">
             <p className=" bg-[#D6D9E4] text-[#424C6B] p-2">Description</p>
-            <p className="bg-white p-8">Hello, there was a ploblem with user ‘Ygritte’ who in...</p>
+            <p className="bg-white p-8">{user.com_description}</p>
           </div>
           <div className=" w-1/3">
             <p className=" bg-[#D6D9E4] text-[#424C6B] p-2">Date Submitted</p>
-            <p className="bg-white p-8">12/02/2022</p>
+            <p className="bg-white p-8">{user.com_date}</p>
           </div>
           <div className=" w-1/3">
             <p className=" bg-[#D6D9E4] text-[#424C6B] p-2 rounded-tr-xl">Status</p>
             <div className="bg-white p-8">
               <p className="text-[#7B4429] bg-[#FAF1ED] py-1 px-2.5 w-20 rounded-[8px]">
-                new
+                {user.com_status}
               </p>
             </div>
           </div>
         </div>
+        })}
       </div>
     </div>
   );
