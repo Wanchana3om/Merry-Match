@@ -15,7 +15,7 @@ function AdminSidebar() {
           <p className="text-[#646D89]">Admin Panel Control</p>
         </div>
         <div className="flex  items-start h-[540px] w-full ">
-          <Link to="/pending" className="flex justify-center gap-5 p-6 w-full cursor-pointer hover:bg-[#F1F2F6]">
+          <Link to="/detail" className="flex justify-center gap-5 p-6 w-full cursor-pointer hover:bg-[#F1F2F6]">
             <img src="/admin/!!!.svg" alt="!" />
 
             <button className="text-[#424C6B] font-bold">Complaint</button>
