@@ -97,10 +97,10 @@ function ComplaintList() {
         </nav>
         <div className="p-20 border-[1px] border-[#D6D9E4] ">
           <div className="flex justify-between ">
-            <p className="w-1/3 bg-[#D6D9E4] text-[#424C6B] p-2 rounded-tl-xl">
+            <p className="w-1/3 bg-[#D6D9E4] text-[#424C6B] pl-10 pt-2 rounded-tl-xl">
               user
             </p>
-            <p className="w-1/3 bg-[#D6D9E4] text-[#424C6B] p-2">Issue</p>
+            <p className="w-1/3 bg-[#D6D9E4] text-[#424C6B] pt-2 pl-5 ">Issue</p>
             <p className="w-2/3 bg-[#D6D9E4] text-[#424C6B] p-2">Description</p>
             <p className="w-1/3 bg-[#D6D9E4] text-[#424C6B] p-2">
               Date Submitted
