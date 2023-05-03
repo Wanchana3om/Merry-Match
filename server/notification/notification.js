@@ -8,34 +8,74 @@ notificationRouter.get("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
 
-    // Retrieve unread notifications for user with userId
-    const AllDataNotify = [];
     const { data: notifications, error: notificationsError } = await supabase
       .from("notification")
       .select(`*`)
       .eq("noti_recipient", userId)
       .eq("noti_read", false);
     if (notificationsError) throw notificationsError;
-    AllDataNotify.push(notifications);
+
     const allSender = notifications.map((sender) => sender.noti_sender);
     console.log(allSender);
-    for (let i = 0; i <= allSender.length; i++) {
+
+    const notificationsWithUserData = [];
+
+    for (let i = 0; i < allSender.length; i++) {
       const { data: userData, error: userDataError } = await supabase
         .from("users")
         .select(
           "user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)"
         )
-        .eq("user_id", i);
+        .eq("user_id", allSender[i]);
       if (userDataError) throw userDataError;
-      AllDataNotify.push(userData);
+
+      const combinedData = {
+        ...notifications[i],
+        user: userData[0],
+      };
+
+      notificationsWithUserData.push(combinedData);
     }
-    console.log(AllDataNotify);
-    res.status(200).json(AllDataNotify);
+    console.log(notificationsWithUserData);
+    res.status(200).json(notificationsWithUserData);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
   }
 });
+
+// notificationRouter.get("/:userId", async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+
+//     // Retrieve unread notifications for user with userId
+//     const AllDataNotify = [];
+//     const { data: notifications, error: notificationsError } = await supabase
+//       .from("notification")
+//       .select(`*`)
+//       .eq("noti_recipient", userId)
+//       .eq("noti_read", false);
+//     if (notificationsError) throw notificationsError;
+//     AllDataNotify.push(notifications);
+//     const allSender = notifications.map((sender) => sender.noti_sender);
+//     console.log(allSender);
+//     for (let i = 0; i <= allSender.length; i++) {
+//       const { data: userData, error: userDataError } = await supabase
+//         .from("users")
+//         .select(
+//           "user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)"
+//         )
+//         .eq("user_id", i);
+//       if (userDataError) throw userDataError;
+//       AllDataNotify.push(userData);
+//     }
+//     console.log(AllDataNotify);
+//     res.status(200).json(AllDataNotify);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send("Server error");
+//   }
+// });
 
 // send notification
 notificationRouter.post("/:userId", async (req, res) => {
@@ -55,7 +95,7 @@ notificationRouter.post("/:userId", async (req, res) => {
       .insert([
         {
           noti_sender: userId,
-          noti_message: `${userData[0].name} is starting to be interested in you`,
+          noti_message: `${userData[0].name} has matched with your profile.`,
           noti_recipient: recipient,
           noti_read: false,
         },
@@ -73,7 +113,7 @@ notificationRouter.post("/:userId", async (req, res) => {
 
     res
       .status(200)
-      .json({ message: `You Notification Has Been Sent Successfully` });
+      .json({ message: `You notification has been sent successfully` });
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
@@ -83,13 +123,13 @@ notificationRouter.post("/:userId", async (req, res) => {
 notificationRouter.patch("/:notiId", async (req, res) => {
   try {
     const notiId = req.params.notiId;
-    const { error: updateNotifiactionError } = await supabase
+    const { error: updateNotificationError } = await supabase
       .from("notification")
       .update([{ noti_read: true }])
       .eq("noti_id", notiId)
       .single();
-    if (updateNotifiactionError) throw updateNotifiactionError;
-    res.json({ message: "Notification has been readed" });
+    if (updateNotificationError) throw updateNotificationError;
+    res.json({ message: "Notification has been read" });
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");

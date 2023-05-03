@@ -7,7 +7,6 @@ const notification = async (userId) => {
     const result = await axios.get(
       `http://localhost:3000/notification/${userId}`
     );
-    console.log(result.data);
     return result.data;
   } catch (error) {
     console.log(error);
