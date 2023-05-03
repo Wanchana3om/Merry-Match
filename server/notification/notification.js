@@ -16,7 +16,7 @@ notificationRouter.get("/:userId", async (req, res) => {
       .eq("noti_read", false);
 
     if (notificationsError) throw notificationsError;
-    console.log(notifications)
+    console.log(notifications);
     res.status(200).json(notifications);
   } catch (error) {
     console.log(error);
@@ -41,7 +41,8 @@ notificationRouter.post("/:userId", async (req, res) => {
       .from("notification")
       .insert([
         {
-          noti_message: message,
+          noti_sender: userId,
+          noti_message: `${userData[0].name} is starting to be interested in you`,
           noti_recipient: recipient,
           noti_read: false,
         },
@@ -59,7 +60,7 @@ notificationRouter.post("/:userId", async (req, res) => {
 
     res
       .status(200)
-      .json({ message: `${userData[0].name} has been subscribed you.` });
+      .json({ message: `You Notification Has Been Sent Successfully` });
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
