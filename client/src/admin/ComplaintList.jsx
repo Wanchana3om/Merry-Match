@@ -13,22 +13,31 @@ function ComplaintList() {
 
 
   const navigate = useNavigate();
-  const fetchComplaint = async () => {
-    setIsLoading(true)
+  const fetchComplaint = async (keyword, status) => {
+    setIsLoading(true);
     try {
       const adminId = state?.user?.admin_id;
-
       if (state?.user?.role === "admin") {
-        const complaintResponse = await axios.get(
-          `http://localhost:3000/complaint/${adminId}`
-        );
+        let apiUrl = `http://localhost:3000/complaint/${adminId}`;
+        if (keyword || status) {
+          apiUrl += "?";
+          if (keyword) {
+            apiUrl += `keyword=${keyword}&`;
+          }
+          if (status) {
+            apiUrl += `status=${status}&`;
+          }
+          apiUrl = apiUrl.slice(0, -1);
+        }
+        const complaintResponse = await axios.get(apiUrl);
         setComplaintData(complaintResponse.data);
       }
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -63,18 +72,22 @@ function ComplaintList() {
                 type="text"
                 placeholder="Search..."
                 className="outline-none"
+                onChange={(e) => fetchComplaint(e.target.value)}
               />
             </div>
             <select
               name="status"
               className="py-3 px-4 border-[1px] border-[#CCD0D7] rounded-[8px] text-[#9AA1B9]"
-              onChange={(e) => e.target.classList.add("text-black")}
+              onChange={(e) => {
+                e.target.classList.add("text-black");
+                fetchComplaint( null, e.target.value );
+              }}
             >
               <option value="">All status</option>
-              <option value="">New</option>
-              <option value="">Pending</option>
-              <option value="">Resolved</option>
-              <option value="">Cancel</option>
+              <option value="New">New</option>
+              <option value="Pending">Pending</option>
+              <option value="Resolved">Resolved</option>
+              <option value="Cancel">Cancel</option>
             </select>
           </div>
         </nav>
