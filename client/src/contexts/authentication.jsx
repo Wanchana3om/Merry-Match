@@ -43,6 +43,7 @@ function AuthProvider(props) {
     try {
       const result = await axios.post("http://localhost:3000/auth/login", data);
       const token = result.data.token;
+      console.log("Login token:", token);
       localStorage.setItem("token", token);
       const userDataFromToken = jwtDecode(token);
       console.log(userDataFromToken);
@@ -51,7 +52,6 @@ function AuthProvider(props) {
     } catch (error) {
       return Promise.reject(error);
     }
-    navigate("/");
   };
 
   const register = async (data) => {

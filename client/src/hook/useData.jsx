@@ -8,38 +8,30 @@ const useData = () => {
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [merryMatchList, setMerryMatchList] = useState([]);
-  const [conversation, setConversation] = useState([])
+  const [conversation, setConversation] = useState([]);
 
   const getData = async (userId, data) => {
     try {
       setIsError(false);
       setIsLoading(true);
       await axios.get(`http://localhost:3000/users/merrymatch/${userId}`, data);
-
-
-
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
-
     }
   };
 
-
-  const submitedCompliant = async (userId,data) => {
+  const submitedCompliant = async (userId, data) => {
     try {
       setIsError(false);
       setIsLoading(true);
       await axios.post(`http://localhost:3000/complaint/${userId}`, data);
       setIsLoading(false);
-
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
     }
   };
-
-
 
   const updateUserProfile = async (userId, data) => {
     try {
@@ -93,31 +85,31 @@ const useData = () => {
   };
 
   const userRejectSwipeLeft = async (userId, data) => {
-    console.log(userId)
-    console.log(data)
+    console.log(userId);
+    console.log(data);
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.put(`http://localhost:3000/merryreject/${userId}`, data)
+      await axios.put(`http://localhost:3000/merryreject/${userId}`, data);
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
     }
-  }
+  };
 
   const userClearRejected = async (userId) => {
-    console.log(userId)
+    console.log(userId);
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.delete(`http://localhost:3000/merryreject/${userId}`)
+      await axios.delete(`http://localhost:3000/merryreject/${userId}`);
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
     }
-  }
+  };
 
   const deleteMerryMatch = async (userId, deleteUserId) => {
     console.log(userId);
@@ -125,7 +117,9 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.delete(`http://localhost:3000/merrylist/${userId}`, { data: { deleteUserId: deleteUserId }, });
+      await axios.delete(`http://localhost:3000/merrylist/${userId}`, {
+        data: { deleteUserId: deleteUserId },
+      });
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
@@ -138,61 +132,62 @@ const useData = () => {
       setIsError(false);
       setIsLoading(true);
 
-      const response = await axios.get(`http://localhost:3000/chat/${senderId}/${receiverId}`)
+      const response = await axios.get(
+        `http://localhost:3000/chat/${senderId}/${receiverId}`
+      );
 
-      console.log(response.data)
-      setConversation(response.data)
+      console.log(response.data);
+      setConversation(response.data);
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
     }
-  }
+  };
 
   const sendingChatMessage = async (senderId, receiverId, message) => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.post(`http://localhost:3000/chat/${senderId}/${receiverId}`, { message })
+      await axios.post(`http://localhost:3000/chat/${senderId}/${receiverId}`, {
+        message,
+      });
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
     }
-  }
+  };
 
   const editChatMessage = async (senderId, chatId) => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.put(`http://localhost:3000/chat/${senderId}/${chatId}`, { message })
+      await axios.put(`http://localhost:3000/chat/${senderId}/${chatId}`, {
+        message,
+      });
       setIsLoading(false);
-
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
     }
-  }
+  };
 
   const deleteChatMessage = async (senderId, chatId) => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.delete(`http://localhost:3000/chat/${senderId}/${chatId}`)
+      await axios.delete(`http://localhost:3000/chat/${senderId}/${chatId}`);
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
     }
-  }
-
+  };
 
   useEffect(() => {
-    merryMatch()
-  }, [])
-
-
-
+    merryMatch();
+  }, []);
 
   return {
     user,
