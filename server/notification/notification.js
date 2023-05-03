@@ -56,27 +56,61 @@ notificationRouter.post("/:userId", async (req, res) => {
       .eq("user_id", userId);
     if (userError) throw userError;
 
-    const { senderId, recipientId } = req.body;
-    // Insert new notification to table
-    const { data: insertData, error: insertError } = await supabase
-      .from("notification")
-      .insert([
-        {
-          noti_sender: userId,
-          noti_message: `${userData[0].name} has matched with your profile.`,
-          noti_recipient: recipientId,
-          noti_read: false,
-        },
-      ]);
-    if (insertError) throw insertError;
+    const { recipient } = req.body;
 
-    // Send real-time update to subscribed clients
-    if (insertData && insertData.length > 0) {
-      const payload = { event: "NEW_NOTIFICATION", data: insertData[0] };
-      await supabase
+    // If user subscribe back
+    const { data: statusData, error: statusDataError } = await supabase
+      .from("merry_status")
+      .select("mer_status")
+      .or(
+        `and(mer_id.eq.${userId},user_id.eq.${recipient}),and(mer_id.eq.${recipient},user_id.eq.${userId}))`
+      );
+    if (statusDataError) throw statusDataError;
+    console.log(statusData);
+    if (statusData[0].mer_status === "MerryMatch") {
+      const { data: insertMatchedData, error: insertMatchedDataError } =
+        await supabase.from("notification").insert([
+          {
+            noti_sender: userId,
+            noti_message: `You and ${userData[0].name} have matched with each others.`,
+            noti_recipient: recipient,
+            noti_read: false,
+          },
+        ]);
+      if (insertMatchedDataError) throw insertMatchedDataError;
+      // Insert new notification to table
+      if (insertMatchedData && insertMatchedData.length > 0) {
+        const payload = {
+          event: "NEW_NOTIFICATION",
+          data: insertMatchedData[0],
+        };
+        await supabase
+          .from("notification")
+          .eq(recipient, recipient)
+          .emit(payload);
+      }
+    } else {
+      // Insert new notification to table
+      const { data: insertData, error: insertError } = await supabase
         .from("notification")
-        .eq("noti_recipient", recipientId)
-        .emit(payload);
+        .insert([
+          {
+            noti_sender: userId,
+            noti_message: `${userData[0].name} has matched with your profile.`,
+            noti_recipient: recipient,
+            noti_read: false,
+          },
+        ]);
+      if (insertError) throw insertError;
+
+      // Send real-time update to subscribed clients
+      if (insertData && insertData.length > 0) {
+        const payload = { event: "NEW_NOTIFICATION", data: insertData[0] };
+        await supabase
+          .from("notification")
+          .eq(recipient, recipient)
+          .emit(payload);
+      }
     }
 
     res
