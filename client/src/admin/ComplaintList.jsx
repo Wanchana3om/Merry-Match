@@ -24,15 +24,12 @@ function ComplaintList() {
         if (keyword || status) {
           apiUrl += "?";
           if (keyword && status) {
-            apiUrl += `status=${status}&keyword=${keyword}` ;
+            apiUrl += `status=${status}&keyword=${keyword}`;
+          } else if (keyword) {
+            apiUrl += `keyword=${keyword}`;
+          } else {
+            apiUrl += `status=${status}`;
           }
-          if (keyword) {
-            apiUrl += `keyword=${keyword}&`;
-          }
-          if (status) {
-            apiUrl += `status=${status}&`;
-          }
-          apiUrl = apiUrl.slice(0, -1);
         }
         const complaintResponse = await axios.get(apiUrl);
         setComplaintData(complaintResponse.data);
@@ -61,7 +58,7 @@ function ComplaintList() {
   console.log(complaintData);
   useEffect(() => {
     fetchComplaint();
-  }, [status]);
+  }, [status, keyword]);
 
 
   return (
@@ -87,7 +84,7 @@ function ComplaintList() {
               className="py-3 px-4 border-[1px] border-[#CCD0D7] rounded-[8px] text-[#9AA1B9]"
               onChange={(e) => {
                 e.target.classList.add("text-black");
-                setStatus( null, e.target.value );
+                setStatus( e.target.value );
               }}
             >
               <option value="">All status</option>
