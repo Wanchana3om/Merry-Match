@@ -22,7 +22,9 @@ notificationRouter.get("/:userId", async (req, res) => {
     for (let i = 0; i <= allSender.length; i++) {
       const { data: userData, error: userDataError } = await supabase
         .from("users")
-        .select("*, pictures(pic_url)")
+        .select(
+          "user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)"
+        )
         .eq("user_id", i);
       if (userDataError) throw userDataError;
       AllDataNotify.push(userData);
