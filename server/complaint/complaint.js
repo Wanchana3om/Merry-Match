@@ -70,7 +70,7 @@ complaintRouter.get("/:adminId/:complaintId", async (req, res) => {
     const complaintId = req.params.complaintId;
     const { data: complaintData, error: complaintDataError } = await supabase
       .from("complaint")
-      .select(`*, resolve(res_action_date)`)
+      .select(`*, resolve(res_action_date),users(name)`)
       .eq("com_id", complaintId)
       .not("resolve.res_action_date", "is", null);
     if (complaintDataError) throw complaintDataError;

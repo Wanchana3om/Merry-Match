@@ -7,6 +7,8 @@ import jwtDecode from "jwt-decode";
 import axios from "axios";
 import { useAuth } from "../contexts/authentication";
 import Loading from "../components/loading";
+import { useLocation } from "react-router-dom";
+
 
 function AdminDetailPage() {
   // -----------resovle--------------
@@ -15,8 +17,12 @@ function AdminDetailPage() {
   const [issue, setIssue] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
-  const [newDate, setNewDate] = useState("");
- const { userParam, isLoading, setIsLoading, name}= useAuth();
+  const [name, setName] = useState("");
+  const [params, setParams] = useState("");
+ const {  isLoading, setIsLoading}= useAuth();
+
+
+  const location = useLocation()
 
   const getComplaint = async () => {
     const token = localStorage.getItem("token");
@@ -26,9 +32,9 @@ function AdminDetailPage() {
         
         const userDataFromToken = jwtDecode(token);
         const result = await axios.get(
-          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`
+          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${location.state.comId}`
         );
-        // setName(result.data[0].users.name)
+        setName(result.data[0].users.name)
         setStatus(result.data[0].com_status);
         setIssue(result.data[0].com_title);
         setDescription(result.data[0].com_description);
@@ -50,6 +56,8 @@ function AdminDetailPage() {
     minute: 'numeric',
     hour12: true
   });
+  
+
   
 
   
