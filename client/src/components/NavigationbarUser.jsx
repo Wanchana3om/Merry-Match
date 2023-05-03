@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
 import React, { useState, useEffect } from "react";
-// import { notification } from "./notification";
+import { notification } from "./notification";
 import jwtDecode from "jwt-decode";
 
 import {
@@ -23,15 +23,23 @@ function NavigationbarUser() {
   // const { isOpen, onToggle } = useDisclosure()
   const { logout, state } = useAuth();
 
+  const [notificatoins, setNotificatoins] = useState([]);
   // ให้ fetch ข้อมูล notification ทุกครั้งที่มีการเรียกใช้ navbar
-  const token = localStorage.getItem("token");
-  if (token) {
-    const userDataFromToken = jwtDecode(token);
-    const userId = userDataFromToken.user_id;
-    useEffect(() => {
-      // notification(userId);
-    }, []);
-  }
+  const fetchNotifications = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const userDataFromToken = jwtDecode(token);
+      const userId = userDataFromToken.user_id;
+      const notify = await notification(userId);
+      setNotificatoins(notify);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  console.log(notificatoins);
 
   return (
     <header className="font-nunito relative z-30 w-screen shadow-md">
