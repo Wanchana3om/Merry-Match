@@ -6,17 +6,55 @@ const complaintRouter = Router();
 complaintRouter.get("/:adminId", async (req, res) => {
   try {
     const adminId = req.params.adminId;
+    const { keyword, status } = req.query;
     const { data: adminData, error: adminDataError } = await supabase
       .from("admins")
       .select("role")
       .eq("admin_id", adminId);
     if (adminDataError) throw adminDataError;
     if (adminData[0].role === "admin") {
-      const { data: complaintData, error: complaintDataError } = await supabase
+      if (
+        typeof req.query === "undefined" ||
+        Object.keys(req.query).length === 0
+      ) {
+        const { data: complaintData, error: complaintDataError } =
+          await supabase
+            .from("complaint")
+            .select("*, users(name)")
+            .order("com_date", { ascending: false });
+        if (complaintDataError) throw complaintDataError;
+        console.log(complaintData);
+        return res.json(complaintData);
+      }
+      // Get by search
+      const query = supabase
         .from("complaint")
-        .select("*");
+        .select(`*,users(name)`)
+        .order("com_date", { ascending: false });
+      if (keyword && status) {
+        query.ilike("users.name", `%${keyword}%`).eq("com_status", status);
+      } else {
+        if (keyword) {
+          query.ilike("users.name", `%${keyword}%`);
+        }
+        if (status) {
+          query.eq("com_status", status);
+        }
+      }
+      const { data: complaintData, error: complaintDataError } = await query;
       if (complaintDataError) throw complaintDataError;
       console.log(complaintData);
+      console.log("***********************");
+      if (keyword) {
+        const filteredComplaintData = complaintData.filter(
+          (item) =>
+            item.users &&
+            item.users.name &&
+            item.users.name.toLowerCase().includes(keyword.toLowerCase())
+        );
+        console.log(filteredComplaintData);
+        return res.json(filteredComplaintData);
+      }
       return res.json(complaintData);
     }
   } catch (error) {
@@ -38,16 +76,20 @@ complaintRouter.get("/:adminId/:complaintId", async (req, res) => {
     if (complaintDataError) throw complaintDataError;
     console.log(complaintData);
 
-    const { error: updateStatusError } = await supabase
-      .from("complaint")
-      .update([
-        {
-          com_status: "Pending",
-        },
-      ])
-      .eq("com_id", complaintId);
-    if (updateStatusError) throw updateStatusError;
-
+    if (
+      complaintData[0].com_status !== "Resolved" &&
+      complaintData[0].com_status !== "Cancel"
+    ) {
+      const { error: updateStatusError } = await supabase
+        .from("complaint")
+        .update([
+          {
+            com_status: "Pending",
+          },
+        ])
+        .eq("com_id", complaintId);
+      if (updateStatusError) throw updateStatusError;
+    }
     return res.json(complaintData);
   } catch (error) {
     console.log(error);
@@ -124,14 +166,14 @@ complaintRouter.put("/:adminId/:complaintId", async (req, res) => {
             {
               com_id: complaintId,
               admin_id: adminId,
-              res_date: resolveOrCancelDate,
+              res_action_date: resolveOrCancelDate,
             },
           ]);
           if (insertError) throw insertError;
         } else {
           const { error: updateError } = await supabase
             .from("resolve")
-            .update({ admin_id: adminId, res_date: resolveOrCancelDate })
+            .update({ admin_id: adminId, res_action_date: resolveOrCancelDate })
             .eq("com_id", complaintId);
           if (updateError) throw updateError;
         }
