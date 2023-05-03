@@ -42,6 +42,16 @@ function AdminDetailPage() {
     }
   };
 
+  const formattedDate = new Date(newDate).toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  });
+  
+
   
   const submitResolve = async () => {
     const token = localStorage.getItem("token");
@@ -181,7 +191,7 @@ function AdminDetailPage() {
             <div className={`${status === "Pending" ? "hidden"  : ""} border-[1px] border-[#E4E6ED]`}></div>
           <div className={`${status === "Pending" ? "hidden"  : ""}`}>
             <h1 className="text-[#646D89] text-[20px]" >{`${status === "Resolved" ? "Resolved Date" : status === "Cancel" ? "Cancel Date" : ""}`}</h1>
-            <p>{newDate}</p>
+            <p>{formattedDate}</p>
           </div>
           </div>
         </div>
