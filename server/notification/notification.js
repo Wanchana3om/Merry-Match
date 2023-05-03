@@ -100,7 +100,6 @@ notificationRouter.post("/:userId", async (req, res) => {
     if (statusDataError) throw statusDataError;
     console.log(statusData);
     if (statusData[0].mer_status === "MerryMatch") {
-      console.log("มันแมช");
       const { data: insertMatchedData, error: insertMatchedDataError } =
         await supabase.from("notification").insert([
           {
