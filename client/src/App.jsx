@@ -19,7 +19,6 @@ function App() {
   const auth = useAuth();
   const navigate = useNavigate();
   const [tokenValid, setTokenValid] = useState(true);
-
   useEffect(() => {
     if (auth.isAuthenticated) {
       const token = localStorage.getItem("token");
