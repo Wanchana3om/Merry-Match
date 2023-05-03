@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useFetcher, useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
@@ -16,7 +16,9 @@ function AuthProvider(props) {
   const [userParam, setUserParam] = useState("");
   const [complaintStatus, setComplaintStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState("");
+  
+  
+  
 
   const updateProfilePic = (newProfilePic) => {
     setState((prevState) => ({
@@ -96,8 +98,7 @@ function AuthProvider(props) {
         setIsLoading,
         setComplaintStatus,
         complaintStatus,
-        setName,
-        name
+    
       }}
     >
       {props.children}

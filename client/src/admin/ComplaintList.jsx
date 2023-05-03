@@ -8,11 +8,12 @@ import Loading from "../components/loading";
 
 function ComplaintList() {
   const [complaintData, setComplaintData] = useState([]);
- 
-  const { state, setUserParam ,isLoading,setName, setIsLoading, } = useAuth();
+  const { state ,isLoading,setName, setIsLoading, } = useAuth();
   const [keyword, setKeyword ] = useState("")
   const [status, setStatus ] = useState("")
+  const [useParams, setUseParams ] = useState(null)
 
+  console.log(useParams);
 
   const navigate = useNavigate();
   const fetchComplaint = async () => {
@@ -52,13 +53,13 @@ function ComplaintList() {
     return `${day}/${month}/${year}`;
   }
 
-  const handleDetail = (user,name) => {
-    setUserParam(user);
-    setName(name)
-    navigate("/detail")
+  const handleDetail = (comId) => {
+    navigate("/detail", {state : {comId}})
   };
 
-  console.log(complaintData);
+
+
+
   useEffect(() => {
     fetchComplaint();
   }, [status]);
@@ -114,7 +115,7 @@ function ComplaintList() {
           </div>
           {complaintData.map((user, index) => (
             <div key={index} >
-              <div onClick={()=>handleDetail(user.com_id, user.users.name)}>
+              <div onClick={()=>handleDetail(user.com_id)}>
               <div className="flex justify-between border-b-2 border-[#F1F2F6] bg-white hover:bg-[#F1F2F6]">
                 <p className="w-1/3 p-8">{user.users.name}</p>
                 <p className="w-1/3 py-8">{user.com_title}</p>
