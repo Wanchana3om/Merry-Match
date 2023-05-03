@@ -16,8 +16,7 @@ function AdminDetailPage() {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [newDate, setNewDate] = useState("");
-  const [name, setName] = useState("");
- const { userParam, isLoading, setIsLoading}= useAuth()
+ const { userParam, isLoading, setIsLoading, name}= useAuth();
 
   const getComplaint = async () => {
     const token = localStorage.getItem("token");
@@ -29,7 +28,7 @@ function AdminDetailPage() {
         const result = await axios.get(
           `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`
         );
-        setName(result.data[0].users.name)
+        // setName(result.data[0].users.name)
         setStatus(result.data[0].com_status);
         setIssue(result.data[0].com_title);
         setDescription(result.data[0].com_description);

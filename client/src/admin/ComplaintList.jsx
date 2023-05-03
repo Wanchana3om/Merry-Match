@@ -10,10 +10,12 @@ function ComplaintList() {
   const [complaintData, setComplaintData] = useState([]);
  
   const { state, setUserParam ,isLoading,setName, setIsLoading, } = useAuth();
+  const [keyword, setKeyword ] = useState("")
+  const [status, setStatus ] = useState("")
 
 
   const navigate = useNavigate();
-  const fetchComplaint = async (keyword, status) => {
+  const fetchComplaint = async () => {
     setIsLoading(true);
     try {
       const adminId = state?.user?.admin_id;
@@ -21,6 +23,9 @@ function ComplaintList() {
         let apiUrl = `http://localhost:3000/complaint/${adminId}`;
         if (keyword || status) {
           apiUrl += "?";
+          if (keyword && status) {
+            apiUrl += `status=${status}&keyword=${keyword}` ;
+          }
           if (keyword) {
             apiUrl += `keyword=${keyword}&`;
           }
@@ -56,7 +61,7 @@ function ComplaintList() {
   console.log(complaintData);
   useEffect(() => {
     fetchComplaint();
-  }, []);
+  }, [status]);
 
 
   return (
@@ -73,7 +78,8 @@ function ComplaintList() {
                 type="text"
                 placeholder="Search..."
                 className="outline-none"
-                onChange={(e) => fetchComplaint(e.target.value)}
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
               />
             </div>
             <select
@@ -81,7 +87,7 @@ function ComplaintList() {
               className="py-3 px-4 border-[1px] border-[#CCD0D7] rounded-[8px] text-[#9AA1B9]"
               onChange={(e) => {
                 e.target.classList.add("text-black");
-                fetchComplaint( null, e.target.value );
+                setStatus( null, e.target.value );
               }}
             >
               <option value="">All status</option>
