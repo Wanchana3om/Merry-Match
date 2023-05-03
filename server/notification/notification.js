@@ -9,15 +9,26 @@ notificationRouter.get("/:userId", async (req, res) => {
     const userId = req.params.userId;
 
     // Retrieve unread notifications for user with userId
+    const AllDataNotify = [];
     const { data: notifications, error: notificationsError } = await supabase
       .from("notification")
-      .select("*")
+      .select(`*`)
       .eq("noti_recipient", userId)
       .eq("noti_read", false);
-
     if (notificationsError) throw notificationsError;
-    console.log(notifications);
-    res.status(200).json(notifications);
+    AllDataNotify.push(notifications);
+    const allSender = notifications.map((sender) => sender.noti_sender);
+    console.log(allSender);
+    for (let i = 0; i <= allSender.length; i++) {
+      const { data: userData, error: userDataError } = await supabase
+        .from("users")
+        .select("*, pictures(pic_url)")
+        .eq("user_id", i);
+      if (userDataError) throw userDataError;
+      AllDataNotify.push(userData);
+    }
+    console.log(AllDataNotify);
+    res.status(200).json(AllDataNotify);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
