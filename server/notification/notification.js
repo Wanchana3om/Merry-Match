@@ -44,42 +44,10 @@ notificationRouter.get("/:userId", async (req, res) => {
   }
 });
 
-// notificationRouter.get("/:userId", async (req, res) => {
-//   try {
-//     const userId = req.params.userId;
-
-//     // Retrieve unread notifications for user with userId
-//     const AllDataNotify = [];
-//     const { data: notifications, error: notificationsError } = await supabase
-//       .from("notification")
-//       .select(`*`)
-//       .eq("noti_recipient", userId)
-//       .eq("noti_read", false);
-//     if (notificationsError) throw notificationsError;
-//     AllDataNotify.push(notifications);
-//     const allSender = notifications.map((sender) => sender.noti_sender);
-//     console.log(allSender);
-//     for (let i = 0; i <= allSender.length; i++) {
-//       const { data: userData, error: userDataError } = await supabase
-//         .from("users")
-//         .select(
-//           "user_id, username, name, birthDate, email, location, city, sexual_preference, sexual_identity, meeting_interest, racial_preference, about_me, pictures(pic_url), hobbies_interests(hob_list)"
-//         )
-//         .eq("user_id", i);
-//       if (userDataError) throw userDataError;
-//       AllDataNotify.push(userData);
-//     }
-//     console.log(AllDataNotify);
-//     res.status(200).json(AllDataNotify);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("Server error");
-//   }
-// });
-
 // send notification
 notificationRouter.post("/:userId", async (req, res) => {
   try {
+    console.log(req.body);
     const userId = req.params.userId;
     // recipient is user_id of user that was subscribed
     const { data: userData, error: userError } = await supabase
@@ -88,7 +56,7 @@ notificationRouter.post("/:userId", async (req, res) => {
       .eq("user_id", userId);
     if (userError) throw userError;
 
-    const { message, recipient } = req.body;
+    const { senderId, recipientId } = req.body;
     // Insert new notification to table
     const { data: insertData, error: insertError } = await supabase
       .from("notification")
@@ -96,7 +64,7 @@ notificationRouter.post("/:userId", async (req, res) => {
         {
           noti_sender: userId,
           noti_message: `${userData[0].name} has matched with your profile.`,
-          noti_recipient: recipient,
+          noti_recipient: recipientId,
           noti_read: false,
         },
       ]);
@@ -107,13 +75,13 @@ notificationRouter.post("/:userId", async (req, res) => {
       const payload = { event: "NEW_NOTIFICATION", data: insertData[0] };
       await supabase
         .from("notification")
-        .eq(recipient, recipient)
+        .eq("noti_recipient", recipientId)
         .emit(payload);
     }
 
     res
       .status(200)
-      .json({ message: `You notification has been sent successfully` });
+      .json({ message: `Your notification has been sent successfully` });
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");

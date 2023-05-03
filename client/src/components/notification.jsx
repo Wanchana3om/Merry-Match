@@ -19,13 +19,13 @@ const notification = async (userId) => {
 //   "message": "<ชื่อคนส่ง> has bees interested you.", << หาคำอื่นก็ได้นะ
 //   "recipient": user_id(ของคนที่เรากดmerry)
 // }
-const sendNotification = async (message, recipient) => {
+const sendNotification = async (senderId, recipientId) => {
   try {
     const response = await axios.post(
-      `http://localhost:3000/notification/${userId}`,
+      `http://localhost:3000/notification/${senderId}`,
       {
-        message,
-        recipient,
+        senderId: senderId,
+        recipientId: recipientId,
       }
     );
     console.log(response.data);

@@ -17,6 +17,7 @@ import useData from "../hook/useData";
 import { useAuth } from "../contexts/authentication";
 import mini_heart from "/matching/mini_heart.svg";
 import { Link, useNavigate } from "react-router-dom";
+import { sendNotification } from "../components/notification";
 
 function debounce(func, wait) {
   let timeout;
@@ -204,6 +205,7 @@ function MatchingPage() {
           setMatchingListPictures(pictureUrl);
         }
       }
+      sendNotification(userId, userDataFromToken.user_id);
     } catch (error) {
       console.error(error);
     }
@@ -237,16 +239,16 @@ function MatchingPage() {
     []
   );
 
-  // const swiped = (direction, nameToDelete, index, userId) => {
-  //   setLastDirection(direction);
-  //   updateCurrentIndex(index - 1);
+  const swiped = (direction, nameToDelete, index, userId) => {
+    setLastDirection(direction);
+    updateCurrentIndex(index - 1);
 
-  //   if (direction === "right") {
-  //     handleSwipeRight(userId);
-  //   } else if (direction === "left") {
-  //     handleSwipeLeft(userId);
-  //   }
-  // };
+    if (direction === "right") {
+      handleSwipeRight(userId);
+    } else if (direction === "left") {
+      handleSwipeLeft(userId);
+    }
+  };
 
   const handleChat = (senderID, receiverID) => {
     try {
