@@ -18,6 +18,15 @@ import { useAuth } from "../contexts/authentication";
 import mini_heart from "/matching/mini_heart.svg";
 import { Link, useNavigate } from "react-router-dom";
 
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(context, args), wait);
+  };
+}
+
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
   const [childRefs, setChildRefs] = useState([]);
@@ -113,12 +122,11 @@ function MatchingPage() {
   };
 
   useEffect(() => {
-    getMatchingProfile();
-  }, []);
-
-  useEffect(() => {
-    // console.log(matchingList);
-  }, [matchingList]);
+    console.log("User ID:", state?.user?.user_id);
+    if (state.user) {
+      getMatchingProfile();
+    }
+  }, [state.user]);
 
   // ----------------------------
   const handleCheckboxChange = (event) => {
@@ -171,30 +179,22 @@ function MatchingPage() {
   const [showName, setShowName] = useState(true);
   const [showEye, setShowEye] = useState(true);
 
-  const swiped = (direction, nameToDelete, index, userId) => {
-    setLastDirection(direction);
-    updateCurrentIndex(index - 1);
-
-    if (direction === "right") {
-      handleSwipeRight(userId);
-    } else if (direction === "left") {
-      handleSwipeLeft(userId);
-    }
-  };
-
   const handleSwipeRight = (userId) => {
+    const token = localStorage.getItem("token");
+    const userDataFromToken = jwtDecode(token);
+
     try {
-      userLoveSwipeRight(state?.user?.user_id, { newUserId: userId });
+      userLoveSwipeRight(userDataFromToken.user_id, { newUserId: userId });
       const matchingUser = matchingList.find((item) => item.user_id === userId);
       const merryMatching = merryMatchList.find((match) => {
         return (
-          match.user_id === state?.user?.user_id && match.mer_id === userId
+          match.user_id === userDataFromToken.user_id && match.mer_id === userId
         );
       });
 
       if (merryMatching) {
         setReceiverId(userId);
-        setSenderId(state?.user?.user_id);
+        setSenderId(userDataFromToken.user_id);
         setMerryMatch(true);
         setShowName(false);
         setShowEye(false);
@@ -210,15 +210,43 @@ function MatchingPage() {
   };
 
   const handleSwipeLeft = (userId) => {
+    const token = localStorage.getItem("token");
+    const userDataFromToken = jwtDecode(token);
     try {
       setMerryMatch(false);
-      return userRejectSwipeLeft(state?.user?.user_id, {
+      return userRejectSwipeLeft(userDataFromToken.user_id, {
         rejectUserId: userId,
       });
     } catch (error) {
       console.error(error);
     }
   };
+
+  const debouncedSwiped = useMemo(
+    () =>
+      debounce((direction, nameToDelete, index, userId) => {
+        setLastDirection(direction);
+        updateCurrentIndex(index - 1);
+
+        if (direction === "right") {
+          handleSwipeRight(userId);
+        } else if (direction === "left") {
+          handleSwipeLeft(userId);
+        }
+      }, 200),
+    []
+  );
+
+  // const swiped = (direction, nameToDelete, index, userId) => {
+  //   setLastDirection(direction);
+  //   updateCurrentIndex(index - 1);
+
+  //   if (direction === "right") {
+  //     handleSwipeRight(userId);
+  //   } else if (direction === "left") {
+  //     handleSwipeLeft(userId);
+  //   }
+  // };
 
   const handleChat = (senderID, receiverID) => {
     try {
@@ -418,7 +446,9 @@ function MatchingPage() {
                 ref={childRefs[index]}
                 className="absolute top-0 left-32 w-full h-full rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
                 key={item.user_id}
-                onSwipe={(dir) => swiped(dir, item.name, index, item.user_id)}
+                onSwipe={(dir) =>
+                  debouncedSwiped(dir, item.name, index, item.user_id)
+                }
                 onCardLeftScreen={() => outOfFrame(item.name, index)}
               >
                 <div
