@@ -5,9 +5,11 @@ function ResolvePopup(props) {
   const handleClosePopupResolve = () => {
     props.handleClose();
   };
+
   const handleConfirmPopupResolve = () => {
     props.handleConfirm();
   };
+
   return (
     <div
       className="flex justify-center items-center fixed z-50 w-full h-full bg-black bg-opacity-50 inset-0"

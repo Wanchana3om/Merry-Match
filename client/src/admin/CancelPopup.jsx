@@ -5,6 +5,12 @@ function CancelPopup(props) {
   const handleClosePopupCancel = () => {
     props.handleClose();
   };
+
+
+  const handleConfirmPopupCancel = () => {
+    props.handleConfirm();
+  };
+  
   return (
     <div
       className="flex justify-center items-center fixed z-50 w-full h-full bg-black bg-opacity-50 inset-0"
@@ -33,7 +39,7 @@ function CancelPopup(props) {
           Do you sure to cancel this conplaint?
           </p>
           <div className="flex gap-5 px-6 pb-2">
-            <button className="text-[#95002B] bg-[#FFE1EA] rounded-3xl p-3 font-semibold hover:bg-[#FFB1C8]">
+            <button className="text-[#95002B] bg-[#FFE1EA] rounded-3xl p-3 font-semibold hover:bg-[#FFB1C8]" onClick={handleConfirmPopupCancel}>
             Yes, cancel this complaint
             </button>
             <button

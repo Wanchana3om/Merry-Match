@@ -16,6 +16,7 @@ function AuthProvider(props) {
   const [userParam, setUserParam] = useState("");
   const [complaintStatus, setComplaintStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState("");
 
   const updateProfilePic = (newProfilePic) => {
     setState((prevState) => ({
@@ -94,7 +95,9 @@ function AuthProvider(props) {
         isLoading,
         setIsLoading,
         setComplaintStatus,
-        complaintStatus
+        complaintStatus,
+        setName,
+        name
       }}
     >
       {props.children}
