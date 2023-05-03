@@ -11,10 +11,9 @@ const socket = () => {
   io.on("connection", (socket) => {
     console.log(`User connected ${socket.id}`);
 
-    socket.on("chat message", (msg) => {
+    socket.on("new-message", (msg) => {
       console.log(`message: ${msg}`);
-
-      io.emit("chat message", msg);
+      io.emit("new-message", msg);
 
     });
 

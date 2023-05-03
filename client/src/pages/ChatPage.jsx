@@ -6,7 +6,11 @@ import editMessageIcon from "/icon/editMessageIcon.png"
 import jwtDecode from "jwt-decode";
 import axios from "axios"
 import { io } from "socket.io-client"
+import { useNavigate } from "react-router-dom";
 
+const socket = io.connect("http://localhost:4000", {
+  transports: ['websocket']
+});
 
 function ChatPage() {
 
@@ -16,41 +20,23 @@ function ChatPage() {
   const senderID = state.senderID; // my Id
   const receiverID = state.receiverID;
   const [usersData, setUsersData] = useState([]);
-
-
-  const socket = io.connect("http://localhost:4000", {
-    transports: ['websocket']
-  });
+  const navigate = useNavigate();
 
 
   const handleSubmit = (event) => {
     event.preventDefault()
     if (message !== "" || event.key === "Enter") {
-      
-      socket.emit("chat message", message);
 
       sendingChatMessage(senderID, receiverID, message)
       chatMessage(senderID, receiverID)
 
+      socket.emit("new-message", message);
       setMessege("");
 
     } else {
       alert("Enter message box")
     }
   };
-
-  useEffect(() => {
-    if (socket) {
-      socket.on("connect_error", (error) => {
-        console.log(`connect_error due to ${error.message}`);
-      });
-
-      socket.on("chat message", (msg) => {
-        setConversation([...conversation, msg]);
-      });
-    }
-  }, [socket, conversation, setConversation])
-
 
   const handleEditMessage = () => {
 
@@ -72,6 +58,14 @@ function ChatPage() {
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
+    }
+  };
+
+  const handleChat = () => {
+    try {
+      navigate("/chat", { state: { senderID, receiverID } });
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -109,7 +103,7 @@ function ChatPage() {
                 )
                 .map((user, index) => (
                   <button key={index} className="relative"
-                    onClick={() => handleChat(state?.user?.user_id, user.user_id)}
+                    onClick={() => handleChat()}
                   >
                     <img
                       src={user.pictures[0]?.pic_url || null}
@@ -135,7 +129,7 @@ function ChatPage() {
                     src={user.pictures[0]?.pic_url || null}
                     alt={user.name}
                     className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full cursor-pointer"
-                    onClick={() => handleChat(state?.user?.user_id, user.user_id)}
+                    onClick={() => handleChat()}
 
                   />
                 )}
