@@ -5,6 +5,9 @@ function ResolvePopup(props) {
   const handleClosePopupResolve = () => {
     props.handleClose();
   };
+  const handleConfirmPopupResolve = () => {
+    props.handleConfirm();
+  };
   return (
     <div
       className="flex justify-center items-center fixed z-50 w-full h-full bg-black bg-opacity-50 inset-0"
@@ -33,7 +36,7 @@ function ResolvePopup(props) {
             This complaint is resolved?
           </p>
           <div className="flex gap-5 px-6 pb-2">
-            <button className="text-[#FFFFFF] bg-[#C70039] rounded-3xl p-3 font-semibold hover:bg-[#FF1659]">
+            <button className="text-[#FFFFFF] bg-[#C70039] rounded-3xl p-3 font-semibold hover:bg-[#FF1659]" onClick={handleConfirmPopupResolve}>
             Yes, it has been resolved
             </button>
             <button

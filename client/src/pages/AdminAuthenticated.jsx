@@ -1,17 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import ComplaintDashboard from "../admin/ComplaintDashboard";
 import AdminDetailPage from "../admin/AdminDetailPage";
-import AdminResolvePage from "../admin/AdminResolvePage";
-import AdminCancelPage from "../admin/AdminCancelPage";
+import ComplaintList from "../admin/ComplaintList";
 
 function AdminAuthenticated() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<ComplaintDashboard />} />
+        <Route path="/" element={<ComplaintList />} />
         <Route path="/detail" element={<AdminDetailPage />} />
-        <Route path="/resolve" element={<AdminResolvePage />} />
-        <Route path="/cancel" element={<AdminCancelPage />} />
       </Routes>
     </>
   );

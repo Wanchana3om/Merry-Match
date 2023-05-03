@@ -5,12 +5,17 @@ import jwtDecode from "jwt-decode";
 
 const AuthContext = React.createContext();
 
+
 function AuthProvider(props) {
   const [state, setState] = useState({
     loading: true,
     error: null,
     user: null,
   });
+
+  const [userParam, setUserParam] = useState("");
+  const [complaintStatus, setComplaintStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateProfilePic = (newProfilePic) => {
     setState((prevState) => ({
@@ -21,6 +26,7 @@ function AuthProvider(props) {
       },
     }));
   };
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -83,6 +89,12 @@ function AuthProvider(props) {
         register,
         isAuthenticated,
         updateProfilePic,
+        userParam,
+        setUserParam,
+        isLoading,
+        setIsLoading,
+        setComplaintStatus,
+        complaintStatus
       }}
     >
       {props.children}

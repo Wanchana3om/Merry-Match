@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
 import React, { useState, useEffect } from "react";
-import { notification } from "./notification";
+// import { notification } from "./notification";
 import jwtDecode from "jwt-decode";
 
 import {
@@ -29,7 +29,7 @@ function NavigationbarUser() {
     const userDataFromToken = jwtDecode(token);
     const userId = userDataFromToken.user_id;
     useEffect(() => {
-      notification(userId);
+      // notification(userId);
     }, []);
   }
 
