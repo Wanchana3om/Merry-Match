@@ -8,13 +8,10 @@ import Loading from "../components/loading";
 
 function ComplaintList() {
   const [complaintData, setComplaintData] = useState([]);
-  const { state ,isLoading,setName, setIsLoading, } = useAuth();
+  const { state ,isLoading, setIsLoading, } = useAuth();
   const [keyword, setKeyword ] = useState("")
   const [status, setStatus ] = useState("")
-  const [useParams, setUseParams ] = useState(null)
-
-  console.log(useParams);
-
+ 
   const navigate = useNavigate();
   const fetchComplaint = async () => {
     setIsLoading(true);
@@ -42,12 +39,12 @@ function ComplaintList() {
   };
   
 
-  function formatDate(dateString) {
+  const formatDate =(dateString)=> {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear().toString();
-    return `${day}/${month}/${year}`;
+    return `${month}/${day}/${year}`;
   }
 
   const handleDetail = (comId) => {
