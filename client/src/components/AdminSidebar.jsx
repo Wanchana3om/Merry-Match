@@ -1,5 +1,4 @@
 import { useAuth } from "../contexts/authentication";
-import { Link } from "react-router-dom";
 
 function AdminSidebar() {
   const { logout } = useAuth();
@@ -7,19 +6,19 @@ function AdminSidebar() {
   return (
     <div className="font-nunito flex bg-[#F6F7FC] h-screen">
       <div className="bg-white flex flex-col justify-between items-center w-72 h-full border-[1px] border-[#D6D9E4]">
-        <div className="flex flex-col justify-around items-center p-6 h-[135px] mb-14">
+        <div className="flex flex-col justify-around items-center p-6  mb-14">
           <div>
             <span className="text-black font-semibold text-4xl">Merry</span>
             <span className="text-red-500 font-bold text-4xl">Match</span>
           </div>
           <p className="text-[#646D89]">Admin Panel Control</p>
         </div>
-        <div className="flex  items-start h-[540px] w-full ">
-          <Link to="/detail" className="flex justify-center gap-5 p-6 w-full cursor-pointer hover:bg-[#F1F2F6]">
+        <div className="flex  items-start h-full w-full ">
+          <div  className="flex justify-center gap-5 p-6 w-full cursor-pointer hover:bg-[#F1F2F6]">
             <img src="/admin/!!!.svg" alt="!" />
 
             <button className="text-[#424C6B] font-bold">Complaint</button>
-          </Link>
+          </div>
 
         </div>
         <div className="flex gap-5 p-6 mb-32 cursor-pointer">

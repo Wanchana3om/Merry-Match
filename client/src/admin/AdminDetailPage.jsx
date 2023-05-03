@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import AdminSidebar from "../components/AdminSidebar";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
+import { useAuth } from "../contexts/authentication";
+import Loading from "../components/loading";
 
 function AdminDetailPage() {
   // -----------resovle--------------
@@ -14,15 +16,19 @@ function AdminDetailPage() {
   const [issue, setIssue] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
+ const { userParam, isLoading, setIsLoading }= useAuth()
 
   const getComplaint = async () => {
     const token = localStorage.getItem("token");
     if (token) {
+      setIsLoading(true)
       try {
+        
         const userDataFromToken = jwtDecode(token);
         const result = await axios.get(
-          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/10`
+          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`
         );
+
         console.log(result);
         setName(result.data[0].user_id);
         setStatus(result.data[0].com_status);
@@ -30,7 +36,7 @@ function AdminDetailPage() {
         setDescription(result.data[0].com_description);
         setDate(result.data[0].com_date);
 
-        // setIsLoading(false);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
@@ -42,6 +48,14 @@ function AdminDetailPage() {
   console.log(issue);
   console.log(description);
   console.log(date);
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${day}/${month}/${year}`;
+  }
 
   useEffect(() => {
     getComplaint();
@@ -69,6 +83,7 @@ function AdminDetailPage() {
 
   return (
     <div className="flex w-screen">
+       {isLoading && <Loading />}
       <AdminSidebar />
       {resolve && <ResolvePopup handleClose={handleClosePopupResolve} />}
       {cancel && <CancelPopup handleClose={handleClosePopupCancel} />}
@@ -101,7 +116,7 @@ function AdminDetailPage() {
               className=" text-[#C70039] font-bold py-3 px-4 rounded-full hover:underline"
               onClick={handleCancel}
             >
-              Cancel Complaint
+              Cancel Complaint 
             </button>
             <button
               className=" text-white bg-[#C70039] py-3 px-4 rounded-full hover:bg-[#FF1659]"
@@ -128,7 +143,7 @@ function AdminDetailPage() {
             </div>
             <div>
               <h1 className="text-[#646D89] text-[20px]">Date Submitted</h1>
-              <p>{date}</p>
+              <p>{formatDate(date)}</p>
             </div>
             <div className={`${status === "Pending" ? "hidden"  : ""} border-[1px] border-[#E4E6ED]`}></div>
           <div className={`${status === "Pending" ? "hidden"  : ""}`}>
