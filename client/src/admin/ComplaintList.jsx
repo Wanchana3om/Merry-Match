@@ -9,26 +9,40 @@ import Loading from "../components/loading";
 function ComplaintList() {
   const [complaintData, setComplaintData] = useState([]);
  
-  const { state, setUserParam ,isLoading, setIsLoading, } = useAuth();
+  const { state, setUserParam ,isLoading,setName, setIsLoading, } = useAuth();
+  const [keyword, setKeyword ] = useState("")
+  const [status, setStatus ] = useState("")
 
 
   const navigate = useNavigate();
   const fetchComplaint = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const adminId = state?.user?.admin_id;
-
       if (state?.user?.role === "admin") {
-        const complaintResponse = await axios.get(
-          `http://localhost:3000/complaint/${adminId}`
-        );
+        let apiUrl = `http://localhost:3000/complaint/${adminId}`;
+        if (keyword || status) {
+          apiUrl += "?";
+          if (keyword && status) {
+            apiUrl += `status=${status}&keyword=${keyword}` ;
+          }
+          if (keyword) {
+            apiUrl += `keyword=${keyword}&`;
+          }
+          if (status) {
+            apiUrl += `status=${status}&`;
+          }
+          apiUrl = apiUrl.slice(0, -1);
+        }
+        const complaintResponse = await axios.get(apiUrl);
         setComplaintData(complaintResponse.data);
       }
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -38,15 +52,16 @@ function ComplaintList() {
     return `${day}/${month}/${year}`;
   }
 
-  const handleDetail = (user) => {
+  const handleDetail = (user,name) => {
     setUserParam(user);
+    setName(name)
     navigate("/detail")
   };
 
   console.log(complaintData);
   useEffect(() => {
     fetchComplaint();
-  }, []);
+  }, [status]);
 
 
   return (
@@ -63,18 +78,23 @@ function ComplaintList() {
                 type="text"
                 placeholder="Search..."
                 className="outline-none"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
               />
             </div>
             <select
               name="status"
               className="py-3 px-4 border-[1px] border-[#CCD0D7] rounded-[8px] text-[#9AA1B9]"
-              onChange={(e) => e.target.classList.add("text-black")}
+              onChange={(e) => {
+                e.target.classList.add("text-black");
+                setStatus( null, e.target.value );
+              }}
             >
               <option value="">All status</option>
-              <option value="">New</option>
-              <option value="">Pending</option>
-              <option value="">Resolved</option>
-              <option value="">Cancel</option>
+              <option value="New">New</option>
+              <option value="Pending">Pending</option>
+              <option value="Resolved">Resolved</option>
+              <option value="Cancel">Cancel</option>
             </select>
           </div>
         </nav>
@@ -94,9 +114,9 @@ function ComplaintList() {
           </div>
           {complaintData.map((user, index) => (
             <div key={index} >
-              <div onClick={()=>handleDetail(user.com_id)}>
+              <div onClick={()=>handleDetail(user.com_id, user.users.name)}>
               <div className="flex justify-between border-b-2 border-[#F1F2F6] bg-white hover:bg-[#F1F2F6]">
-                <p className="w-1/3 p-8">{user.user_id}</p>
+                <p className="w-1/3 p-8">{user.users.name}</p>
                 <p className="w-1/3 py-8">{user.com_title}</p>
                 <p className="w-2/3 py-8">{user.com_description}</p>
                 <p className="w-1/3 py-8">{formatDate(user.com_date)}</p>
@@ -122,7 +142,6 @@ function ComplaintList() {
             </div>
             </div>
           ))}
-          <getComplaint us/>
         </div>
       </div>
     </div>
