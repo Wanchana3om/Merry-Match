@@ -11,13 +11,13 @@ import Loading from "../components/loading";
 function AdminDetailPage() {
   // -----------resovle--------------
   const [resolve, setResolve] = useState(false);
-  const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [issue, setIssue] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [newDate, setNewDate] = useState("");
- const { userParam, isLoading, setIsLoading }= useAuth()
+  const [name, setName] = useState("");
+ const { userParam, isLoading, setIsLoading}= useAuth()
 
   const getComplaint = async () => {
     const token = localStorage.getItem("token");
@@ -29,14 +29,12 @@ function AdminDetailPage() {
         const result = await axios.get(
           `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`
         );
-
-        console.log(result);
-        setName(result.data[0].user_id);
+        setName(result.data[0].users.name)
         setStatus(result.data[0].com_status);
         setIssue(result.data[0].com_title);
         setDescription(result.data[0].com_description);
         setDate(result.data[0].com_date);
-
+        
         setIsLoading(false);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
@@ -44,25 +42,19 @@ function AdminDetailPage() {
     }
   };
 
-
+  
   const submitResolve = async () => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoading(true)
       try {
         const userDataFromToken = jwtDecode(token);
-        const result = await axios.put(
-          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`,{status}
+        await axios.put(
+          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`,
+          {
+            status: "Resolved",
+          }
         );
-
-        console.log(result);
-        setName(result.data[0].user_id);
-        setStatus(result.data[0].com_status);
-        setIssue(result.data[0].com_title);
-        setDescription(result.data[0].com_description);
-        setDate(result.data[0].com_date);
-        setNewDate(result.data[0].com_date);
-
         setIsLoading(false);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
@@ -77,30 +69,18 @@ function AdminDetailPage() {
       setIsLoading(true)
       try {
         const userDataFromToken = jwtDecode(token);
-        const result = await axios.put(
-          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`,{status}
+        await axios.put(
+          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`,
+          {
+            status: "Cancel",
+          }
         );
-
-        console.log(result);
-        setName(result.data[0].user_id);
-        setStatus(result.data[0].com_status);
-        setIssue(result.data[0].com_title);
-        setDescription(result.data[0].com_description);
-        setDate(result.data[0].com_date);
-        setNewDate(result.data[0].com_date);
-
         setIsLoading(false);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
     }
   };
-
-  console.log(name);
-  console.log(status);
-  console.log(issue);
-  console.log(description);
-  console.log(date);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -138,8 +118,8 @@ function AdminDetailPage() {
     <div className="flex w-screen">
        {isLoading && <Loading />}
       <AdminSidebar />
-      {resolve && <ResolvePopup handleClose={handleClosePopupResolve} />}
-      {cancel && <CancelPopup handleClose={handleClosePopupCancel} />}
+      {resolve && <ResolvePopup handleClose={handleClosePopupResolve} handleConfirm={submitResolve}/>}
+      {cancel && <CancelPopup handleClose={handleClosePopupCancel} handleConfirm={submitCancel}/>}
       <div className="font-nunito w-full ">
         <nav className="flex justify-between items-center py-4 h-[80px] px-16 bg-white  border-[1px] border-[#D6D9E4]">
           <div className=" flex gap-7 items-center">
@@ -179,7 +159,7 @@ function AdminDetailPage() {
             </button>
           </div>
         </nav>
-        <div className="p-20">
+        <div className="p-20 border-[1px] border-[#D6D9E4]">
           <div className="flex flex-col gap-9 bg-white pt-[40px] px-[100px] pb-[60px] border-[1px] border-[#E6E7EB] rounded-[16px]">
             <div className="flex items-center gap-3">
               <h1 className="text-[#646D89] text-[20px]">Complaint by:</h1>
