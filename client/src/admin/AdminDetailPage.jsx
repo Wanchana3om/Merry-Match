@@ -8,6 +8,7 @@ import axios from "axios";
 import { useAuth } from "../contexts/authentication";
 import Loading from "../components/loading";
 import { useLocation } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 
 
 function AdminDetailPage() {
@@ -18,16 +19,16 @@ function AdminDetailPage() {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
-  const [params, setParams] = useState("");
- const {  isLoading, setIsLoading}= useAuth();
-
-
+  const [newDate, setNewDate] = useState("");
   const location = useLocation()
+ const {  isLoading,userParam,setUserParam, setIsLoading}= useAuth();
+
+ const toast = useToast();
 
   const getComplaint = async () => {
+    setIsLoading(true)
     const token = localStorage.getItem("token");
     if (token) {
-      setIsLoading(true)
       try {
         
         const userDataFromToken = jwtDecode(token);
@@ -39,7 +40,7 @@ function AdminDetailPage() {
         setIssue(result.data[0].com_title);
         setDescription(result.data[0].com_description);
         setDate(result.data[0].com_date);
-        setNewDate(result.data[0].resolve[0].res_action_date);
+        setNewDate(result.data[0].resolve[0]?.res_action_date);
         
         setIsLoading(false);
       } catch (error) {
@@ -48,7 +49,9 @@ function AdminDetailPage() {
     }
   };
 
-  const formattedDate = new Date(newDate).toLocaleString('en-US', {
+  
+
+  const formattedDateSubmit = new Date(newDate).toLocaleString('en-US', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -57,56 +60,87 @@ function AdminDetailPage() {
     hour12: true
   });
   
-
+  const formattedDate = new Date(date).toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  });
+  
   
 
   
   const submitResolve = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
         const userDataFromToken = jwtDecode(token);
         await axios.put(
-          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`,
+          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${location.state.comId}`,
           {
             status: "Resolved",
           }
         );
         setIsLoading(false);
+        setResolve(false);
+  
+        toast({
+          title: "Resolved.",
+          description: "Issue has been resolved.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+  
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // delay of 0.5 seconds
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
     }
   };
-
+  
+  
+  
 
   const submitCancel = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
         const userDataFromToken = jwtDecode(token);
         await axios.put(
-          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`,
+          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${location.state.comId}`,
           {
             status: "Cancel",
           }
         );
         setIsLoading(false);
+        setResolve(false);
+  
+        toast({
+          title: "Cancel",
+          description: "Issue has been cancel.",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+  
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // delay of 0.5 seconds
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
     }
   };
 
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${day}/${month}/${year}`;
-  }
 
   useEffect(() => {
     getComplaint();
@@ -194,12 +228,12 @@ function AdminDetailPage() {
             </div>
             <div>
               <h1 className="text-[#646D89] text-[20px]">Date Submitted</h1>
-              <p>{formatDate(date)}</p>
+              <p>{formattedDate}</p>
             </div>
             <div className={`${status === "Pending" ? "hidden"  : ""} border-[1px] border-[#E4E6ED]`}></div>
           <div className={`${status === "Pending" ? "hidden"  : ""}`}>
             <h1 className="text-[#646D89] text-[20px]" >{`${status === "Resolved" ? "Resolved Date" : status === "Cancel" ? "Cancel Date" : ""}`}</h1>
-            <p>{formattedDate}</p>
+            <p>{formattedDateSubmit}</p>
           </div>
           </div>
         </div>

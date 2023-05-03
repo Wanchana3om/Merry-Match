@@ -1,5 +1,3 @@
-
-
 function RegisterForm2(props) {
   const maxHobbies = 10;
 
@@ -72,7 +70,6 @@ function RegisterForm2(props) {
             onChange={(e) => props.setRacialPreference(e.target.value)}
             onClick={(e) => e.target.classList.add("text-black")}
           >
-            
             <option value="Asian">Asian</option>
             <option value="European">European</option>
             <option value="Caucasian">Caucasian</option>
@@ -99,14 +96,15 @@ function RegisterForm2(props) {
       </div>
       <div className="flex flex-col  mt-[50px]">
         <h1>Hobbies / Interests (Maximum 10)</h1>
-        <div className="relative flex flex-row items-start justify-center m-[1px] border-[#D6D9E4] border-t-[1px] border-r-[1px] border-b-[1px] border-l-[1px] rounded-lg h-[50px] bg-white ">
+
+        <div className="w-full flex flex-row items-start justify-start border-[#D6D9E4] border-t-[1px] border-r-[1px] border-b-[1px] border-l-[1px] rounded-lg">
           {props.hobbyLists.length > 0 && (
-            <div className=" border-[1px] border-none rounded-lg h-[full] p-[8px] text-[#9AA1B9] text-sm ">
-              <ul className="flex flex-row">
+            <div className="border-[1px] border-none rounded-lg p-[8px]  text-[#9AA1B9] text-sm">
+              <ul className="flex flex-row ">
                 {props.hobbyLists.map((hobby, index) => (
                   <li
                     key={index}
-                    className="bg-[#F4EBF2]  border-[#D6D9E4]  rounded-lg p-[6px]  text-[#7D2262] text-[14px] mr-2 mb-2 flex items-center"
+                    className="bg-[#F4EBF2] border-[#D6D9E4] mr-2 rounded-lg p-[6px] text-[#7D2262] text-[14px] flex items-center"
                   >
                     {hobby}
                     <button
@@ -121,13 +119,14 @@ function RegisterForm2(props) {
             </div>
           )}
           <input
-            className="border-[1px] font-normal border-none rounded-lg w-full h-full py-[12px] pr-[12px] pl-[12px] mb-4 focus:outline-none"
+            className="border-[1px] font-normal border-none rounded-lg py-[12px] px-[12px] focus:outline-none w-full"
             type="text"
             value={props.info}
             onChange={(e) => {
               props.setInfo(e.target.value);
             }}
             onKeyPress={handleKeyPress}
+            style={{ wordWrap: "break-word" }}
           />
         </div>
       </div>
