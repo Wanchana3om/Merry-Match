@@ -135,12 +135,8 @@ const useData = () => {
       setIsError(false);
       setIsLoading(true);
 
-      const response = await axios.get(
-        `http://localhost:3000/chat/${senderId}/${receiverId}`
-      );
-
-      console.log(response.data);
-      setConversation(response.data);
+      const response = await axios.get(`http://localhost:3000/chat/${senderId}/${receiverId}`)
+      setConversation(response.data)
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
@@ -207,6 +203,7 @@ const useData = () => {
     submitedCompliant,
     chatMessage,
     conversation,
+    setConversation,
     sendingChatMessage,
     editChatMessage,
     deleteChatMessage,

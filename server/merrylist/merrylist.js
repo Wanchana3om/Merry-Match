@@ -47,7 +47,6 @@ merryRouter.get("/:userId", async (req, res) => {
         };
       })
       .filter((user) => user.merry_status.length > 0);
-    console.log(userId);
     res.json(filteredUsersData);
   } catch (error) {
     console.log(error);
@@ -151,10 +150,6 @@ merryRouter.delete("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const deleteUserId = req.body.deleteUserId;
-
-    console.log(userId);
-    console.log(deleteUserId);
-
     const { data, error } = await supabase
       .from("merry_status")
       .select("status_id")

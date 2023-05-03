@@ -418,6 +418,8 @@ function MatchingPage() {
                     src={user.pictures[0]?.pic_url || null}
                     alt={user.name}
                     className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
+                    onClick={() => handleChat(state?.user?.user_id, user.user_id)}
+
                   />
                 )}
                 {user.merry_status[0].mer_status === "MerryMatch" && (
