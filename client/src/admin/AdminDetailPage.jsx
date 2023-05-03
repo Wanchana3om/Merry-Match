@@ -200,7 +200,7 @@ function AdminDetailPage() {
             </div>
             <div className={`${status === "Pending" ? "hidden"  : ""} border-[1px] border-[#E4E6ED]`}></div>
           <div className={`${status === "Pending" ? "hidden"  : ""}`}>
-            <h1 className="text-[#646D89] text-[20px]">Resolved date</h1>
+            <h1 className="text-[#646D89] text-[20px]" >{`${status === "Resolved" ? "Resolved Date" : status === "Cancel" ? "Cancel Date" : ""}`}</h1>
             <p>15/02/2022 10:30PM</p>
           </div>
           </div>
