@@ -16,6 +16,7 @@ function AdminDetailPage() {
   const [issue, setIssue] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
+  const [newDate, setNewDate] = useState("");
  const { userParam, isLoading, setIsLoading }= useAuth()
 
   const getComplaint = async () => {
@@ -35,6 +36,58 @@ function AdminDetailPage() {
         setIssue(result.data[0].com_title);
         setDescription(result.data[0].com_description);
         setDate(result.data[0].com_date);
+
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error decoding the token or fetching user data:", error);
+      }
+    }
+  };
+
+
+  const submitResolve = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoading(true)
+      try {
+        const userDataFromToken = jwtDecode(token);
+        const result = await axios.put(
+          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`,{status}
+        );
+
+        console.log(result);
+        setName(result.data[0].user_id);
+        setStatus(result.data[0].com_status);
+        setIssue(result.data[0].com_title);
+        setDescription(result.data[0].com_description);
+        setDate(result.data[0].com_date);
+        setNewDate(result.data[0].com_date);
+
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error decoding the token or fetching user data:", error);
+      }
+    }
+  };
+
+
+  const submitCancel = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoading(true)
+      try {
+        const userDataFromToken = jwtDecode(token);
+        const result = await axios.put(
+          `http://localhost:3000/complaint/${userDataFromToken.admin_id}/${userParam}`,{status}
+        );
+
+        console.log(result);
+        setName(result.data[0].user_id);
+        setStatus(result.data[0].com_status);
+        setIssue(result.data[0].com_title);
+        setDescription(result.data[0].com_description);
+        setDate(result.data[0].com_date);
+        setNewDate(result.data[0].com_date);
 
         setIsLoading(false);
       } catch (error) {

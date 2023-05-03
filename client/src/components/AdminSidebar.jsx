@@ -5,7 +5,7 @@ function AdminSidebar() {
 
   return (
     <div className="font-nunito flex bg-[#F6F7FC] h-screen">
-      <div className="bg-white flex flex-col justify-between items-center w-72 h-full border-[1px] border-[#D6D9E4]">
+      <div className="bg-white flex flex-col justify-between items-center w-72 h-full ">
         <div className="flex flex-col justify-around items-center p-6  mb-14">
           <div>
             <span className="text-black font-semibold text-4xl">Merry</span>
@@ -21,7 +21,7 @@ function AdminSidebar() {
           </div>
 
         </div>
-        <div className="flex gap-5 p-6 mb-32 cursor-pointer">
+        <div className="flex  gap-5 p-6 mb-32 w-full border-t-[1px] border-[#D6D9E4] item-center justify-center cursor-pointer">
           <img src="/admin/logout.svg" alt="logout" />
 
           <a

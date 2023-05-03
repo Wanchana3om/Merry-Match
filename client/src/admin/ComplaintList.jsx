@@ -9,11 +9,10 @@ import Loading from "../components/loading";
 function ComplaintList() {
   const [complaintData, setComplaintData] = useState([]);
  
-  const { state, userParam, setUserParam , isLoading, setIsLoading} = useAuth();
-  // console.log(complaintData[0].com_title);
-  console.log(userParam);
+  const { state, setUserParam ,isLoading, setIsLoading, } = useAuth();
+
+
   const navigate = useNavigate();
-console.log(userParam);
   const fetchComplaint = async () => {
     setIsLoading(true)
     try {
@@ -79,7 +78,7 @@ console.log(userParam);
             </select>
           </div>
         </nav>
-        <div className="p-20">
+        <div className="p-20 border-[1px] border-[#D6D9E4] ">
           <div className="flex justify-between ">
             <p className="w-1/3 bg-[#D6D9E4] text-[#424C6B] p-2 rounded-tl-xl">
               user
