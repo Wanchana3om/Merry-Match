@@ -180,18 +180,26 @@ function MatchingPage() {
   const [showName, setShowName] = useState(true);
   const [showEye, setShowEye] = useState(true);
 
+  
   const handleSwipeRight = (userId) => {
     const token = localStorage.getItem("token");
     const userDataFromToken = jwtDecode(token);
-
+    console.log(userId);
+    
     try {
       userLoveSwipeRight(userDataFromToken.user_id, { newUserId: userId });
+
       const matchingUser = matchingList.find((item) => item.user_id === userId);
+      
+
+
       const merryMatching = merryMatchList.find((match) => {
-        return (
+       return (
           match.user_id === userDataFromToken.user_id && match.mer_id === userId
         );
+
       });
+      
       if (merryMatching) {
         setReceiverId(userId);
         setSenderId(userDataFromToken.user_id);
@@ -307,6 +315,15 @@ function MatchingPage() {
   useEffect(() => {
     getMerryList();
   }, []);
+
+
+
+  // console.log(receiverId);
+  // console.log(senderId);
+  // console.log(merryMatch);
+  // console.log(showName);
+  // console.log(showEye);
+  // console.log(matchingListPictures);
 
   return (
     <>

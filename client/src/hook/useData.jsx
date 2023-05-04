@@ -73,13 +73,13 @@ const useData = () => {
   };
 
   const userLoveSwipeRight = async (userId, data) => {
-    console.log(userId);
-    console.log(data);
+   
     try {
       setIsError(false);
       setIsLoading(true);
 
-      await axios.put(`http://localhost:3000/merrylist/${userId}`, data);
+     const result = await axios.put(`http://localhost:3000/merrylist/${userId}`, data);
+
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
