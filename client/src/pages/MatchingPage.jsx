@@ -365,7 +365,7 @@ function MatchingPage() {
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
               <Swiper
-                slidesPerView={2}
+                slidesPerView={usersData.filter((user) => user.merry_status[0].mer_status === "MerryMatch").length > 1 ? 2 : 1}
                 centeredSlides={true}
                 spaceBetween={20}
                 grabCursor={true}

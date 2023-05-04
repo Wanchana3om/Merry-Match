@@ -130,7 +130,7 @@ function ChatPage() {
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
               <Swiper
-                slidesPerView={2}
+                slidesPerView={usersData.filter((user) => user.merry_status[0].mer_status === "MerryMatch").length > 1 ? 2 : 1}
                 centeredSlides={true}
                 spaceBetween={20}
                 grabCursor={true}
@@ -258,8 +258,8 @@ function ChatPage() {
 
                     <div
                       className={`${message.sender_id === senderID
-                          ? "bg-[#E0144C] text-white"
-                          : "bg-[#FFA1CF] text-black"
+                        ? "bg-[#E0144C] text-white"
+                        : "bg-[#FFA1CF] text-black"
                         } p-4 rounded-lg`}
                     >
                       {/* {editToggle ? (
