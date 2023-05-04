@@ -21,7 +21,7 @@ function AdminDetailPage() {
   const [name, setName] = useState("");
   const [newDate, setNewDate] = useState("");
   const location = useLocation()
- const {  isLoading,userParam,setUserParam, setIsLoading}= useAuth();
+ const {  isLoading, setIsLoading}= useAuth();
 
  const toast = useToast();
 

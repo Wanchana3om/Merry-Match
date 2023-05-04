@@ -14,7 +14,6 @@ function ComplaintList() {
  
   const navigate = useNavigate();
   const fetchComplaint = async () => {
-    setIsLoading(true);
     try {
       const adminId = state?.user?.admin_id;
       if (state?.user?.role === "admin") {
@@ -32,7 +31,6 @@ function ComplaintList() {
         const complaintResponse = await axios.get(apiUrl);
         setComplaintData(complaintResponse.data);
       }
-      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }

@@ -192,7 +192,6 @@ function MatchingPage() {
           match.user_id === userDataFromToken.user_id && match.mer_id === userId
         );
       });
-
       if (merryMatching) {
         setReceiverId(userId);
         setSenderId(userDataFromToken.user_id);
