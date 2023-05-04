@@ -7,7 +7,6 @@ import { useAuth } from "../contexts/authentication";
 function Homepage() {
   const { isAuthenticated } = useAuth();
 
-
   return (
     <>
       {isAuthenticated ? <NavigationbarUser /> : <NavigationbarNonUser />}
@@ -22,14 +21,14 @@ function Homepage() {
               <div className="flex flex-col justify-center items-center gap-10">
                 <h1 className="text-white text-6xl text-center font-nunito font-bold">
                   Make the <br />
-                  first ‘Merry’
+                  first 'Merry'
                 </h1>
                 <h2 className="text-white text-center font-semibold text-xl ">
-                  If you feel lonely, let’s start meeting
+                  If you feel lonely, let's start meeting
                   <br />
                   new people in your area!
                   <br />
-                  Dont’t forget to get Merry with us
+                  Don't forget to get Merry with us
                 </h2>
                 <Link to={!isAuthenticated ? "/login" : "/matching"}>
                   <button className="bg-[#c70039] hover:scale-125 transition-all duration-300 shadow-[2px_2px_12px_0_rgba(64, 50, 133, 0.16)] rounded-[99px] text-[#ffffff] h-[48px] w-[163px] mt-[5%] font-[700] hover:bg-[#FF1659]">

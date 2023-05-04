@@ -493,7 +493,7 @@ function MatchingPage() {
                   )}
                   {showEye && (
                     <button
-                      onClick={() => handleShowProfile(item, true)}
+                      onClick={() => handleShowProfile(item)}
                       className="z-40 mb-8 ml-4 bg-white/[.2] rounded-full flex items-center justify-center w-8 h-8"
                     >
                       <div>
