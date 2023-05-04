@@ -29,7 +29,6 @@ function NavigationbarUser() {
       const userId = userDataFromToken.user_id;
       const notify = await notification(userId);
       setNotifications(notify);
-      console.log(notify);
     }
   };
 
@@ -70,7 +69,7 @@ function NavigationbarUser() {
                 <a href="/matching">Start Matching!</a>
               </li>
               <li className="mr-[56px] text-base font-bold hover:text-[#191C77] ">
-                <Link to="/chat">Merry Membership</Link>
+                <Link>Merry Membership</Link>
               </li>
               <Menu width="204px">
                 <MenuButton
