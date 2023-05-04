@@ -203,7 +203,6 @@ const useData = () => {
     submitedCompliant,
     chatMessage,
     conversation,
-    setConversation,
     sendingChatMessage,
     editChatMessage,
     deleteChatMessage,

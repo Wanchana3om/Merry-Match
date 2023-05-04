@@ -29,7 +29,6 @@ function NavigationbarUser() {
       const userId = userDataFromToken.user_id;
       const notify = await notification(userId);
       setNotifications(notify);
-      console.log(notify);
     }
   };
 

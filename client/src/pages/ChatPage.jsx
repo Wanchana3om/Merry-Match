@@ -7,6 +7,7 @@ import jwtDecode from "jwt-decode";
 import axios from "axios"
 import { io } from "socket.io-client"
 import { useNavigate } from "react-router-dom";
+import threeDotsIcon from "/icon/threeDotsIcon.png"
 
 const socket = io.connect("http://localhost:4000", {
   transports: ['websocket']
@@ -15,28 +16,26 @@ const socket = io.connect("http://localhost:4000", {
 function ChatPage() {
 
   const [message, setMessege] = useState("")
-  const { chatMessage, conversation, setConversation, sendingChatMessage, editChatMessage, deleteChatMessage } = useData()
+  const { chatMessage, conversation, sendingChatMessage, editChatMessage, deleteChatMessage } = useData()
   const { state } = useLocation();
-  const senderID = state.senderID; // my Id
+  const senderID = state.senderID;
   const receiverID = state.receiverID;
   const [usersData, setUsersData] = useState([]);
   const navigate = useNavigate();
-
+  const [toggle, setToggle] = useState(false)
+  const [selectedMessageId, setSelectedMessageId] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault()
     if (message !== "" || event.key === "Enter") {
-
       sendingChatMessage(senderID, receiverID, message)
       chatMessage(senderID, receiverID)
-
-      socket.emit("new-message", message);
       setMessege("");
-
     } else {
       alert("Enter message box")
     }
   };
+  console.log(selectedMessageId)
 
   const handleEditMessage = () => {
 
@@ -69,11 +68,31 @@ function ChatPage() {
     }
   };
 
+  const handleToggle = (messageId) => {
+    try {
+      setToggle(!toggle)
+      setSelectedMessageId(messageId);
+    } catch (error) {
+      console.error(error);
+
+    }
+  }
+
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     chatMessage(senderID, receiverID);
+  //   }, 3000);
+
+  //   return () => clearTimeout(timer);
+  // }, [conversation]);
+
   useEffect(() => {
-    chatMessage(senderID, receiverID)
+    chatMessage(senderID, receiverID);
     getMerryList();
   }, [])
 
+  console.log(toggle)
   return (
     <>
       <NavigationbarUser />
@@ -145,8 +164,9 @@ function ChatPage() {
             ))}
           </div>
         </div>
-        <div className="bg-[#FF597B] flex flex-col justify-end col-span-3 w-full overflow-y-auto scorllbar-none">
-          <div className="w-full h-[836px] flex flex-row justify-center pt-[90px]  ">
+
+        <div className="bg-[#FF597B] flex flex-col justify-end col-span-3 w-full">
+          <div className="w-full h-[836px] flex flex-row justify-center pt-[50px]  ">
 
 
             <div className="flex flex-col w-full">
@@ -168,35 +188,46 @@ function ChatPage() {
               </div>
 
 
-              <div className="flex flex-col-reverse h-full bg-[#FF597B] overflow-y-auto overflow-x-hidden mx-5">
+              <div className="flex flex-col-reverse h-full bg-[#FF597B] overflow-y-auto mx-7 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                 {conversation.map((message, index) => (
                   <div
                     key={index}
-                    className={`${message.sender_id === senderID ? "ml-auto w-auto h-auto" : "mr-auto"
-                      } my-4`}
+                    className={`${message.sender_id === senderID ? "ml-auto max-w-md h-auto " : "mr-auto max-w-md h-auto"
+                      } my-4 relative`}
                   >
+
                     <div
                       className={`${message.sender_id === senderID ? "bg-[#E0144C] text-white" : "bg-[#FFA1CF] text-black"
                         } p-4 rounded-lg`}
                     >
-                      <p className="">{message.message}</p>
-                      {/* <div className="flex justify-end mt-2 relative">
-                        <button
-                          className=""
-                          onClick={() => handleEditMessage(message)}
-                        >
-                          <img
-                            src={editMessageIcon}
-                            alt="edit message icon"
-                            className="w-4 h-4 absolute" />
-                        </button>
-                        <button
-                          className="bg-gray-600 p-2 rounded-full "
-                          onClick={() => handleDeleteMessage(message)}
-                        >
-                          Delete
-                        </button>
-                      </div> */}
+                      <p className="">
+                        {message.sender_id === senderID ? (
+                          <div>
+                            <button
+                              className="absolute top-3 -left-7"
+                              onClick={() => handleToggle(message.chat_id)}
+                            >
+                              <img src={threeDotsIcon} alt="three dots icon" className="w-8" />
+                            </button>
+                            {selectedMessageId === message.chat_id && (
+                              <div className="text-center absolute -top-4 -left-[85px]">
+                                <button
+                                  className="bg-[#F88379] p-2 rounded-3xl mb-2"
+                                >
+                                  Edit
+                                </button> <br />
+                                <button
+                                  className="bg-[#ff1519] p-2 rounded-3xl"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        ) : null}
+                        {message.message}
+                      </p>
+
                     </div>
                   </div>
                 ))}
