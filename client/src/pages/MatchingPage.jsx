@@ -6,6 +6,10 @@ import eye_button from "/matching/eye_button.svg";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import ProfilePopupMatching from "../components/ProfilePopupMatching";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/pagination";
 
 import {
   RangeSlider,
@@ -48,6 +52,7 @@ function MatchingPage() {
   const [meetingInterest, setMeetingInterest] = useState([]);
   const [minAge, setMinAge] = useState(18);
   const [maxAge, setMaxAge] = useState(50);
+  const [isMatching, setIsMatching] = useState(false);
 
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
@@ -277,12 +282,14 @@ function MatchingPage() {
     await childRefs[newIndex].current.restoreCard();
   };
 
-  const handleShowProfile = (user) => {
+  const handleShowProfile = (user, isMatching) => {
+    setIsMatching(isMatching);
     setSelectedUser(user);
     setShowProfile(!showProfile);
   };
   const handleCloseProfile = () => {
     setShowProfile(false);
+    setIsMatching(false);
   };
   const handleUserContinueMatching = () => {
     setMerryMatch(false);
@@ -316,6 +323,7 @@ function MatchingPage() {
         <ProfilePopupMatching
           user={selectedUser}
           handleCloseProfile={handleCloseProfile}
+          isMatching={isMatching}
         />
       )}
       <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row relative">
@@ -385,46 +393,64 @@ function MatchingPage() {
           </div>
           <div className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
-            <div className="flex flex-row gap-3 w-[100px] h-[100px]">
-              {usersData
-                .filter(
-                  (user) => user.merry_status[0].mer_status === "MerryMatch"
-                )
-                .map((user, index) => (
-                  <button
-                    key={index}
-                    className="relative"
-                    onClick={() => handleShowProfile(user)}
-                  >
-                    <img
-                      src={user.pictures[0]?.pic_url || null}
-                      alt={user.name}
-                      className="w-[100px] h-[100px] border-[1px] rounded-2xl"
-                    />
-                    <img
-                      src={"/matching/merry match.svg"}
-                      className="absolute bottom-0 right-0"
-                    />
-                  </button>
-                ))}
+            <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
+              <Swiper
+                slidesPerView={2}
+                centeredSlides={true}
+                spaceBetween={20}
+                grabCursor={true}
+                pagination={{
+                  clickable: true,
+                }}
+                modules={[Pagination]}
+                style={{ "--swiper-pagination-bottom": "-5px" }}
+                className="mySwiper"
+              >
+                <div>
+                  {usersData
+                    .filter(
+                      (user) => user.merry_status[0].mer_status === "MerryMatch"
+                    )
+                    .map((user, index) => (
+                      <SwiperSlide key={index}>
+                        <button
+                          className="relative"
+                          onClick={() => handleShowProfile(user)}
+                        >
+                          <img
+                            src={user.pictures[0]?.pic_url || null}
+                            alt={user.name}
+                            className="w-[100px] h-[100px] border-[1px] rounded-2xl"
+                          />
+                          <img
+                            src={"/matching/merry match.svg"}
+                            className="absolute bottom-0 right-0"
+                          />
+                        </button>
+                      </SwiperSlide>
+                    ))}
+                </div>
+              </Swiper>
             </div>
           </div>
           <div className="w-[282px] mx-auto pt-[12px]">
             <h1 className="text-[#191C77] font-bold text-lg">
               Chat with Merry Match
             </h1>
-            {usersData.map((user, index) => (
-              <div key={index} className="flex flex-row justify-evenly py-2">
-                {user.merry_status[0].mer_status === "MerryMatch" && (
+            {usersData
+              .filter(
+                (user) => user.merry_status[0].mer_status === "MerryMatch"
+              )
+              .map((user, index) => (
+                <div key={index} className="flex flex-row justify-evenly py-2">
                   <img
                     src={user.pictures[0]?.pic_url || null}
                     alt={user.name}
                     className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
-                    onClick={() => handleChat(state?.user?.user_id, user.user_id)}
-
+                    onClick={() =>
+                      handleChat(state?.user?.user_id, user.user_id)
+                    }
                   />
-                )}
-                {user.merry_status[0].mer_status === "MerryMatch" && (
                   <div>
                     <p className="font-[400] text-[#2A2E3F] text-[16px]">
                       {user.name}
@@ -433,9 +459,8 @@ function MatchingPage() {
                       You know nothing Jon Snow
                     </p>
                   </div>
-                )}
-              </div>
-            ))}
+                </div>
+              ))}
           </div>
         </div>
 
@@ -469,7 +494,7 @@ function MatchingPage() {
                   )}
                   {showEye && (
                     <button
-                      onClick={() => handleShowProfile(item)}
+                      onClick={() => handleShowProfile(item, true)}
                       className="z-40 mb-8 ml-4 bg-white/[.2] rounded-full flex items-center justify-center w-8 h-8"
                     >
                       <div>

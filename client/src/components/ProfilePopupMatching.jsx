@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function ProfilePopupMatching({ user, handleCloseProfile }) {
+function ProfilePopupMatching({ user, handleCloseProfile, isMatching }) {
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
     const today = new Date();
@@ -23,7 +23,7 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
     sexual_preference: sexualPreference,
     racial_preference: racialPreference,
     meeting_interest: meetingInterest,
-    hobbies_interests: hobbyLists ,
+    hobbies_interests: hobbyLists,
     pictures,
     about_me,
   } = user;
@@ -49,7 +49,6 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
   const [countImage, setCountImage] = useState(0);
 
   if (!user || !pictures) {
-    // console.log(user);
     return null;
   }
 
@@ -62,9 +61,6 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
         className="flex relative max-w-full h-auto bg-white gap-20 pt-14 px-24 pb-20 rounded-3xl"
         onClick={(event) => event.stopPropagation()}
       >
-
-
-
         <div className="flex flex-col justify-start items-center ">
           {pictures.map((image, index) => {
             return (
@@ -83,18 +79,23 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
               {countImage + 1}/
               <span className="text-gray-400">{pictures.length}</span>
             </p>
-            <div className="flex absolute -top-10 left-[4.25rem]">
-            
-              <button>
-                <img src="/popup/action button (3).svg" alt="Close picture" />
-              </button>
-              <button>
-                <img src="/popup/action button (2).svg"alt="Heart picture" />
-              </button>
-            </div>
+            {isMatching && (
+              <div className="flex absolute -top-10 left-[4.25rem]">
+                <button>
+                  <img src="/popup/action button (3).svg" alt="Close picture" />
+                </button>
+                <button>
+                  <img src="/popup/action button (2).svg" alt="Heart picture" />
+                </button>
+              </div>
+            )}
             <div className="flex mt-[16px] mr-[16px] ">
               <button onClick={handlePreviousImage}>
-                <img src="/popup/Vector (10).svg" className="mr-[32px]" alt="Left arrow " />
+                <img
+                  src="/popup/Vector (10).svg"
+                  className="mr-[32px]"
+                  alt="Left arrow "
+                />
               </button>
               <button onClick={handleNextImage}>
                 <img src="/popup/Vector (9).svg" alt="Right arrow" />
@@ -162,8 +163,7 @@ function ProfilePopupMatching({ user, handleCloseProfile }) {
                       {hobbies?.hob_list || null}
                     </li>
                   );
-                }) }
-                
+                })}
               </ul>
             </div>
           </div>

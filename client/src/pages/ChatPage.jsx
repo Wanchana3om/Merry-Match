@@ -2,48 +2,51 @@ import NavigationbarUser from "../components/NavigationbarUser";
 import React, { useState, useEffect, useRef } from "react";
 import useData from "../hook/useData";
 import { useLocation } from "react-router-dom";
-import editMessageIcon from "/icon/editMessageIcon.png"
+import editMessageIcon from "/icon/editMessageIcon.png";
 import jwtDecode from "jwt-decode";
-import axios from "axios"
-import { io } from "socket.io-client"
+import axios from "axios";
+import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const socket = io.connect("http://localhost:4000", {
-  transports: ['websocket']
+  transports: ["websocket"],
 });
 
 function ChatPage() {
-
-  const [message, setMessege] = useState("")
-  const { chatMessage, conversation, setConversation, sendingChatMessage, editChatMessage, deleteChatMessage } = useData()
+  const [message, setMessege] = useState("");
+  const {
+    chatMessage,
+    conversation,
+    setConversation,
+    sendingChatMessage,
+    editChatMessage,
+    deleteChatMessage,
+  } = useData();
   const { state } = useLocation();
   const senderID = state.senderID; // my Id
   const receiverID = state.receiverID;
   const [usersData, setUsersData] = useState([]);
   const navigate = useNavigate();
 
-
   const handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     if (message !== "" || event.key === "Enter") {
-
-      sendingChatMessage(senderID, receiverID, message)
-      chatMessage(senderID, receiverID)
+      sendingChatMessage(senderID, receiverID, message);
+      chatMessage(senderID, receiverID);
 
       socket.emit("new-message", message);
       setMessege("");
-
     } else {
-      alert("Enter message box")
+      alert("Enter message box");
     }
   };
 
-  const handleEditMessage = () => {
-
-  }
-  const handleDeleteMessage = () => {
-
-  }
+  const handleEditMessage = () => {};
+  const handleDeleteMessage = () => {};
 
   const getMerryList = async () => {
     const token = localStorage.getItem("token");
@@ -70,9 +73,9 @@ function ChatPage() {
   };
 
   useEffect(() => {
-    chatMessage(senderID, receiverID)
+    chatMessage(senderID, receiverID);
     getMerryList();
-  }, [])
+  }, []);
 
   return (
     <>
@@ -96,42 +99,64 @@ function ChatPage() {
           </div>
           <div className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
-            <div className="flex flex-row gap-3 w-[100px] h-[100px]">
-              {usersData
-                .filter(
-                  (user) => user.merry_status[0].mer_status === "MerryMatch"
-                )
-                .map((user, index) => (
-                  <button key={index} className="relative"
-                  >
-                    <img
-                      src={user.pictures[0]?.pic_url || null}
-                      alt={user.name}
-                      className="w-[100px] h-[100px] border-[1px] rounded-2xl"
-                    />
-                    <img
-                      src={"/matching/merry match.svg"}
-                      className="absolute bottom-0 right-0"
-                    />
-                  </button>
-                ))}
+            <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
+              <Swiper
+                slidesPerView={2}
+                centeredSlides={true}
+                spaceBetween={20}
+                grabCursor={true}
+                pagination={{
+                  clickable: true,
+                }}
+                modules={[Pagination]}
+                style={{ "--swiper-pagination-bottom": "-5px" }}
+                className="mySwiper"
+              >
+                <div>
+                  {usersData
+                    .filter(
+                      (user) => user.merry_status[0].mer_status === "MerryMatch"
+                    )
+                    .map((user, index) => (
+                      <SwiperSlide key={index}>
+                        <button
+                          className="relative"
+                          onClick={() => handleShowProfile(user)}
+                        >
+                          <img
+                            src={user.pictures[0]?.pic_url || null}
+                            alt={user.name}
+                            className="w-[100px] h-[100px] border-[1px] rounded-2xl"
+                          />
+                          <img
+                            src={"/matching/merry match.svg"}
+                            className="absolute bottom-0 right-0"
+                          />
+                        </button>
+                      </SwiperSlide>
+                    ))}
+                </div>
+              </Swiper>
             </div>
           </div>
           <div className="w-[282px] mx-auto pt-[12px]">
             <h1 className="text-[#191C77] font-bold text-lg">
               Chat with Merry Match
             </h1>
-            {usersData.map((user, index) => (
-              <div key={index} className="flex flex-row justify-evenly py-2">
-                {user.merry_status[0].mer_status === "MerryMatch" && (
+            {usersData
+              .filter(
+                (user) => user.merry_status[0].mer_status === "MerryMatch"
+              )
+              .map((user, index) => (
+                <div key={index} className="flex flex-row justify-evenly py-2">
                   <img
                     src={user.pictures[0]?.pic_url || null}
                     alt={user.name}
-                    className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full cursor-pointer"
-
+                    className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
+                    onClick={() =>
+                      handleChat(state?.user?.user_id, user.user_id)
+                    }
                   />
-                )}
-                {user.merry_status[0].mer_status === "MerryMatch" && (
                   <div>
                     <p className="font-[400] text-[#2A2E3F] text-[16px]">
                       {user.name}
@@ -140,18 +165,13 @@ function ChatPage() {
                       You know nothing Jon Snow
                     </p>
                   </div>
-                )}
-              </div>
-            ))}
+                </div>
+              ))}
           </div>
         </div>
         <div className="bg-[#FF597B] flex flex-col justify-end col-span-3 w-full overflow-y-auto scorllbar-none">
           <div className="w-full h-[836px] flex flex-row justify-center pt-[90px]  ">
-
-
             <div className="flex flex-col w-full">
-
-
               <div className="flex items-center justify-center">
                 <div className="w-[750px] h-[90px] flex flex-row justify-center  items-center bg-[#F4EBF2] border-[1px] border-[#DF89C6] rounded-2xl">
                   <img
@@ -167,17 +187,22 @@ function ChatPage() {
                 </div>
               </div>
 
-
               <div className="flex flex-col-reverse h-full bg-[#FF597B] overflow-y-auto overflow-x-hidden mx-5">
                 {conversation.map((message, index) => (
                   <div
                     key={index}
-                    className={`${message.sender_id === senderID ? "ml-auto w-auto h-auto" : "mr-auto"
-                      } my-4`}
+                    className={`${
+                      message.sender_id === senderID
+                        ? "ml-auto w-auto h-auto"
+                        : "mr-auto"
+                    } my-4`}
                   >
                     <div
-                      className={`${message.sender_id === senderID ? "bg-[#E0144C] text-white" : "bg-[#FFA1CF] text-black"
-                        } p-4 rounded-lg`}
+                      className={`${
+                        message.sender_id === senderID
+                          ? "bg-[#E0144C] text-white"
+                          : "bg-[#FFA1CF] text-black"
+                      } p-4 rounded-lg`}
                     >
                       <p className="">{message.message}</p>
                       {/* <div className="flex justify-end mt-2 relative">
@@ -201,22 +226,10 @@ function ChatPage() {
                   </div>
                 ))}
               </div>
-
-
             </div>
-
-
-
           </div>
 
-
-
-
-
-
-
-          <form onSubmit={(event) => (handleSubmit(event))}>
-
+          <form onSubmit={(event) => handleSubmit(event)}>
             <div className="w-full h-[100px] bg-[#FFABAB] border-t-[1px] flex flex-row border-gray-200 items-center justify-center ">
               <img
                 src="/matching/mini_heart.svg"
@@ -232,7 +245,6 @@ function ChatPage() {
                   setMessege(event.target.value);
                 }}
                 style={{ wordWrap: "break-word" }}
-
               />
               <button type="submit">
                 <img
