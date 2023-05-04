@@ -31,21 +31,6 @@ function AuthProvider(props) {
   };
 
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const userDataFromToken = jwtDecode(token);
-        setState({ ...state, user: userDataFromToken, loading: false });
-      } catch (error) {
-        console.error("Error decoding the token:", error);
-        setState({ ...state, loading: false });
-      }
-    } else {
-      setState({ ...state, loading: false });
-    }
-  }, []);
-
   const navigate = useNavigate();
 
   const login = async (data) => {
@@ -62,6 +47,8 @@ function AuthProvider(props) {
       return Promise.reject(error);
     }
   };
+
+  
 
   const register = async (data) => {
     try {
@@ -82,6 +69,12 @@ function AuthProvider(props) {
   };
 
   const isAuthenticated = Boolean(localStorage.getItem("token"));
+  if (isAuthenticated && !state.user) {
+    const token = localStorage.getItem("token");
+    const userDataFromToken = jwtDecode(token);
+        setState({ ...state, user: userDataFromToken, loading: false });
+  }
+
 
   return (
     <AuthContext.Provider

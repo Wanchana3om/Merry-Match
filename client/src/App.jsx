@@ -45,11 +45,7 @@ function App() {
   ) : (
     <UnauthenticatedApp />
   );
-  // auth.isAuthenticated && tokenValid ? (
-  //   <AuthenticatedApp />
-  // ) : (
-  //   <UnauthenticatedApp />
-  // );
+
 }
 
 export default App;
