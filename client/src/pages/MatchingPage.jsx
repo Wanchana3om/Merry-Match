@@ -414,14 +414,14 @@ function MatchingPage() {
                 (user) => user.merry_status[0].mer_status === "MerryMatch"
               )
               .map((user, index) => (
-                <div key={index} className="flex flex-row justify-evenly py-2">
+                <div key={index} className="flex hover:bg-gray-100 hover:rounded-[16px] hover:cursor-pointer active:bg-gray-200 flex-row justify-evenly py-2 " onClick={() =>
+                  handleChat(state?.user?.user_id, user.user_id)
+                }>
                   <img
                     src={user.pictures[0]?.pic_url || null}
                     alt={user.name}
                     className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
-                    onClick={() =>
-                      handleChat(state?.user?.user_id, user.user_id)
-                    }
+                    
                   />
                   <div>
                     <p className="font-[400] text-[#2A2E3F] text-[16px]">

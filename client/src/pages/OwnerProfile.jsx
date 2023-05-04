@@ -49,15 +49,29 @@ function OwnerProfile() {
       }
       if (!username) {
         toast({
-          title: "Please enter username",
-          position: "top",
+          title: "Username.",
+          description: "Please enter username",
+          status: "info",
+          duration: 5000,
           isClosable: true,
+          position: "top",
         });
-      } else if (!name) {
+        } else if (username.length < 6) {
         toast({
-          title: "Please enter name",
-          position: "top",
+          title: "Username.",
+          description: "Please enter at least 6 characters.",
+          status: "info",
+          duration: 5000,
           isClosable: true,
+          position: "top",
+        });
+        toast({
+          title: "Name.",
+          description: "Please enter name.",
+          status: "info",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
         });
       } else {
         let imageUrls = [];
@@ -177,7 +191,8 @@ function OwnerProfile() {
     }
   };
 
-  const deleteHobby = (index) => {
+  const deleteHobby = (e,index) => {
+    e.preventDefault()
     const newHobbyLists = [...hobbyLists];
     newHobbyLists.splice(index, 1);
     setHobbyLists(newHobbyLists);
@@ -497,7 +512,7 @@ function OwnerProfile() {
                           {hobby}
                           <button
                             className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
-                            onClick={() => deleteHobby(index)}
+                            onClick={(e) => deleteHobby(e,index)}
                           >
                             ✕
                           </button>

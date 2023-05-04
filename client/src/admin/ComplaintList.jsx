@@ -106,9 +106,9 @@ function ComplaintList() {
             </p>
           </div>
           {complaintData.map((user, index) => (
-            <div key={index} >
+            <div key={index}  >
               <div onClick={()=>handleDetail(user.com_id)}>
-              <div className="flex justify-between border-b-2 border-[#F1F2F6] bg-white hover:bg-[#F1F2F6]">
+              <div className="flex justify-between hover:cursor-pointer border-b-2 border-[#F1F2F6] bg-white hover:bg-[#F1F2F6]">
                 <p className="w-1/3 p-8">{user.users.name}</p>
                 <p className="w-1/3 py-8">{user.com_title}</p>
                 <p className="w-2/3 py-8">{user.com_description}</p>

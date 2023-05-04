@@ -6,6 +6,7 @@ import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/authentication";
 import useData from "../hook/useData";
 import ProfilePopupMatching from "../components/ProfilePopupMatching";
+import {  useNavigate } from "react-router-dom";
 
 function MerryList() {
   const [usersData, setUsersData] = useState([]);
@@ -17,6 +18,7 @@ function MerryList() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
   const [ownUserId, setOwnUserId] = useState("");
+  const navigate = useNavigate();
 
   const handleShowProfile = (user) => {
     setSelectedUser(user);
@@ -25,6 +27,14 @@ function MerryList() {
   };
   const handleCloseProfile = () => {
     setShowProfile(false);
+  };
+
+  const handleChat = (senderID, receiverID) => {
+    try {
+      navigate("/chat", { state: { senderID, receiverID } });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleClickImg = (index) => {
@@ -216,6 +226,9 @@ function MerryList() {
                         src="/merrylist/message.svg"
                         alt="message"
                         className="w-full  cursor-pointer hover:scale-110 duration-300 transition-all"
+                        onClick={() =>
+                          handleChat(state?.user?.user_id, user.user_id)
+                        }
                       />
                       <div className="bottom-1 absolude left-2 text-white bg-[#9AA1B9] w-auto rounded-[4px] py-[2px] text-xs opacity-0 group-hover:opacity-100 text-center">
                          <p> Go to chat</p>
