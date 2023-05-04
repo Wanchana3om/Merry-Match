@@ -1,3 +1,4 @@
+import { sendNotification } from "../components/notification";
 import NavigationbarUser from "../components/NavigationbarUser";
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import TinderCard from "react-tinder-card";
@@ -209,6 +210,7 @@ function MatchingPage() {
           setMatchingListPictures(pictureUrl);
         }
       }
+      sendNotification(userId, state?.user?.user_id);
     } catch (error) {
       console.error(error);
     }
