@@ -7,7 +7,9 @@ import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../components/uploadCloudinary";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/loading";
-import { useToast } from '@chakra-ui/react'
+import { useToast } from "@chakra-ui/react";
+import axios from "axios";
+// import { exit } from "process";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ function RegisterPage() {
   const [images, setImages] = useState([null, null, null, null, null]);
   const [isLoading, setIsLoading] = useState(null);
 
-  const toast = useToast()
+  const toast = useToast();
 
   const emailRegex =
     /^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/;
@@ -50,6 +52,27 @@ function RegisterPage() {
     (month === userBirthDateMonth && day < userBirthDateDay)
       ? 1
       : 0);
+
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
+  const checkUsername = async (username) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/auth/username/${username}`
+      );
+      const data = response.data;
+      if (Array.isArray(data) && data.length > 0) {
+        return setIsUsernameAvailable(true);
+      } else {
+        return setIsUsernameAvailable(false);
+      }
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+
+  // console.log(checkUsername("grulf2"));
+  checkUsername(username);
+  console.log(isUsernameAvailable);
 
   const handleNextStep = async () => {
     if (currentFormPage === 3) {
@@ -87,15 +110,15 @@ function RegisterPage() {
 
         await register(newFormData);
         toast({
-          title: 'Account created.',
+          title: "Account created.",
           description: "Your account has been created.",
-          status: 'success',
+          status: "success",
           duration: 3000,
           isClosable: true,
-          position:"top"
-        })
+          position: "top",
+        });
         navigate("/login");
-        
+
         setIsLoading(false);
       }
     } else {
@@ -108,24 +131,33 @@ function RegisterPage() {
           isClosable: true,
           position: "top",
         });
-        } else if (!name) {
-      toast({
-        title: "Name.",
-        description: "Please enter name.",
-        status: "info",
-        duration: 5000,
-        isClosable: true,
-        position: "top",
-      });
-      }else if (username.length < 6) {
-      toast({
-        title: "Username.",
-        description: "Please enter at least 6 characters.",
-        status: "info",
-        duration: 5000,
-        isClosable: true,
-        position: "top",
-      });
+      } else if (!name) {
+        toast({
+          title: "Name.",
+          description: "Please enter name.",
+          status: "info",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+        } else if (username.length < 6) {
+          toast({
+            title: "Username.",
+            description: "Please enter at least 6 characters.",
+            status: "info",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
+      } else if (isUsernameAvailable) {
+        toast({
+          title: "Username.",
+          description: "Username already exists",
+          status: "info",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
       } else if (!email || !isValidEmail) {
         toast({
           title: "Email.",
@@ -135,16 +167,16 @@ function RegisterPage() {
           isClosable: true,
           position: "top",
         });
-        }else if (!password) {
-          toast({
-            title: "Email.",
-            description: "Please enter password.",
-            status: "info",
-            duration: 5000,
-            isClosable: true,
-            position: "top",
-          });
-          } else if (password.length < 8) {
+      } else if (!password) {
+        toast({
+          title: "Email.",
+          description: "Please enter password.",
+          status: "info",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+      } else if (password.length < 8) {
         toast({
           title: "Password.",
           description: "Please enter at least 8 characters.",
@@ -153,7 +185,7 @@ function RegisterPage() {
           isClosable: true,
           position: "top",
         });
-        } else if (password !== confirmPassword) {
+      } else if (password !== confirmPassword) {
         toast({
           title: "Password.",
           description: "Passwords do not match.",
@@ -162,12 +194,12 @@ function RegisterPage() {
           isClosable: true,
           position: "top",
         });
-        } else if (ageInYears < 18) {
+      } else if (ageInYears < 18) {
         toast({
           title: "Users must be at least 18 years or older",
           position: "top",
           isClosable: true,
-        })
+        });
       } else {
         setCurrentFormPage(currentFormPage + 1);
       }
