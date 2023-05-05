@@ -180,7 +180,7 @@ function AdminDetailPage() {
                 <img src="/admin/arrow.svg" alt="back" />
               </button>
             </Link>
-            <h1 className="text-2xl font-bold">I was insulted by Ygritte</h1>
+            <h1 className="text-2xl font-bold">{issue}</h1>
 
             <p
               className={` py-1 px-2.5 rounded-[8px] ${

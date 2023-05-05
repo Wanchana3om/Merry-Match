@@ -45,13 +45,13 @@ function LoginPage() {
           <form onSubmit={handleSubmit}>
             <div>
               <label className="block text-gray-600 text-base font-normal mt-3">
-                Username or Email
+                Username 
               </label>
               <input
                 className="shadow appearance-none border mt-[5px] rounded-[8px]  w-full h-[48px] py-2 px-3 text-gray-700 leading-tight focus:outline-red-500 focus:shadow-red-500 transition-all duration-500"
                 type="text"
                 name="username"
-                placeholder="Enter Username or Email"
+                placeholder="Enter Username"
                 required
                 onChange={(event) => {
                   setUsername(event.target.value);

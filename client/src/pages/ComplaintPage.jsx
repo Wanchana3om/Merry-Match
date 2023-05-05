@@ -17,9 +17,7 @@ function ComplaintPage() {
     const toast = useToast()
     const {state} = useAuth()
 
-    const {submitedCompliant, 
-        // isLoading
-    } = useData()
+    const {submitedCompliant} = useData()
 
     
     
@@ -32,8 +30,8 @@ function ComplaintPage() {
           });
         {
             toast({
-              title: 'Profile updated.',
-              description: "Your profile has been updated.",
+              title: 'Your Complaint.',
+              description: "Your complaint has been sent.",
               status: 'success',
               duration: 5000,
               isClosable: true,
@@ -44,43 +42,7 @@ function ComplaintPage() {
             setTitle("")
             setDescription("")
           };
-                // const handleSubmit = async (event) => {
-        //     event.preventDefault();
-        //     isLoading(true)
-        //     await submitedCompliant({
-        //                 issue,
-        //                 description,
-        //                 date
-        //     });
-        //     isLoading(false)
-             
-        //         toast({
-        //           title: 'Profile updated.',
-        //           description: "Your profile has been updated.",
-        //           status: 'success',
-        //           duration: 3000,
-        //           isClosable: true,
-        //           position:"top"
-        //         })
-            
-        //   };
-
-
-
-
-          
-          // .catch((error) => {
-          //   if (error.response && error.response.status === 401) {
-          //     setIsError(true);
-          //     toast({
-          //         title: "Error 401",
-          //         status: "error",
-          //         isClosable: true,
-          //       })
-          //   }
-          // });
-
-
+        
   return (
     <>
       <NavigationbarUser />
