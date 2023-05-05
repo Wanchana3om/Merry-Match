@@ -13,21 +13,26 @@ import ProfilePopupMatching from "../components/ProfilePopupMatching";
 
 function ChatPage() {
 
-  const { chatMessage, conversation, sendingChatMessage, editChatMessage, deleteChatMessage } = useData()
+  const { chatMessage, conversation, sendingChatMessage } = useData()
   const { state } = useLocation();
+  const [senderId, setSenderId] = useState(null)
   const senderID = state.senderID;
   const receiverID = state.receiverID;
   const navigate = useNavigate();
-  const [message, setMessege] = useState("")
+  const [message, setMessege] = useState("");
   const [usersData, setUsersData] = useState([]);
-  const [selectedMessageId, setSelectedMessageId] = useState(null);
-  const [name, setName] = useState("");
-  const [editToggle, setEditToggle] = useState(true)
   const [isMatching, setIsMatching] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
-  const [longPress, setLongPress] = useState(false);
-  const [isLongPress, setIsLongPress] = useState(false)
+
+  const getMatchingProfile = async () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const userDataFromToken = jwtDecode(token);
+      await setSenderId(userDataFromToken);
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -40,7 +45,6 @@ function ChatPage() {
       alert("Enter message box");
     }
   };
-  console.log(usersData)
 
   const getMerryList = async () => {
     const token = localStorage.getItem("token");
@@ -51,8 +55,6 @@ function ChatPage() {
         const result = await axios.get(
           `http://localhost:3000/merrylist/${userDataFromToken.user_id}`
         );
-
-
         setUsersData(result.data);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
@@ -60,32 +62,14 @@ function ChatPage() {
     }
   };
 
-  const handleChat = () => {
+  const handleChat = async (senderID, receiverID) => {
     try {
-      navigate("/chat", { state: { senderID, receiverID } });
+      await navigate("/chat", { state: { senderID, receiverID } });
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
   };
-
-  const handleToggle = (messageId) => {
-    try {
-    } catch (error) {
-      console.error(error);
-
-    }
-  }
-
-  const handleDeleteMessage = (senderId, ChatId) => {
-    try {
-
-      deleteChatMessage(senderId, ChatId)
-
-    } catch (error) {
-      console.error(error);
-
-    }
-  }
 
   const handleShowProfile = (user, isMatching) => {
     setIsMatching(isMatching);
@@ -101,7 +85,7 @@ function ChatPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       chatMessage(senderID, receiverID);
-    }, 3000)
+    }, 30000)
 
     return () => clearTimeout(timer);
   }, [conversation]);
@@ -109,33 +93,10 @@ function ChatPage() {
   useEffect(() => {
     chatMessage(senderID, receiverID);
     getMerryList();
-  }, []);
-
-  const handleOnLongPress = (messageId) => {
-    setSelectedMessageId(messageId);
-
-  }
-  useEffect(() => {
-    let timerId;
-    const callback = () => {
-      console.log('long press is triggered');
-      setIsLongPress(!isLongPress)
-      handleOnLongPress()
-
-    };
-    const ms = 400;
-    if (longPress) {
-      timerId = setTimeout(callback, ms);
-    } else {
-      clearTimeout(timerId);
-
+    if (handleChat) {
+      getMatchingProfile()
     }
-
-    return () => {
-      clearTimeout(timerId);
-
-    };
-  }, [longPress]);
+  }, []);
 
 
   return (
@@ -218,17 +179,16 @@ function ChatPage() {
                 (user) => user.merry_status[0].mer_status === "MerryMatch"
               )
               .map((user, index) => (
-                <div key={index} className="flex hover:bg-gray-100 hover:rounded-[16px] hover:cursor-pointer active:bg-gray-200 flex-row justify-evenly py-2 " onClick={() =>
-                  handleChat(state?.user?.user_id, user.user_id)
-
-                }>
+                <div key={index} className="flex hover:bg-gray-100 hover:rounded-[16px] hover:cursor-pointer active:bg-gray-200 flex-row justify-evenly py-2 "
+                  onClick={() =>
+                    handleChat(senderId?.user_id, user?.user_id)
+                  }
+                >
                   <img
                     src={user.pictures[0]?.pic_url || null}
                     alt={user.name}
                     className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
-                    onClick={() =>
-                      handleChat(senderID, receiverID)
-                    }
+
                   />
                   <div>
                     <p className="font-[400] text-[#2A2E3F] text-[16px]">
@@ -250,7 +210,7 @@ function ChatPage() {
             )
               .map((user, index) => (
 
-                <div className="flex flex-col w-full">
+                <div className="flex flex-col w-full" key={index}>
                   <div className="flex items-center justify-center">
                     <div className="w-[750px] h-[90px] flex flex-row justify-center  items-center bg-[#F4EBF2] border-[1px] border-[#DF89C6] rounded-2xl">
                       <img
@@ -273,37 +233,7 @@ function ChatPage() {
                         key={index}
                         className={`${message.sender_id === senderID ? "ml-auto max-w-md h-auto " : "mr-auto max-w-md h-auto"
                           } my-3 relative`}
-
-                        onMouseDown={() => setLongPress(true)}
-                        onMouseUp={() => setLongPress(false)}
-                        onMouseLeave={() => setLongPress(false)}
-                        onTouchStart={() => setLongPress(true)}
-                        onTouchEnd={() => {
-                          setLongPress(false)
-                          handleOnLongPress(message.chat_id);
-
-                        }}
                       >
-                        {message.sender_id === senderID ? (
-                          <div>
-                            {isLongPress && selectedMessageId === message.chat_id && (
-                              <div className="text-center absolute -top-4 -left-[85px]">
-                                <button
-                                  className=" p-2 mb-2 text-white"
-
-                                >
-                                  Edit
-                                </button> <br />
-                                <button
-                                  className=" p-2 rounded-3xl text-white"
-                                  onClick={() => handleDeleteMessage(message.sender_id, message.chat_id)}
-                                >
-                                  Delete
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        ) : null}
 
                         <div
                           className={`${message.sender_id === senderID
@@ -311,10 +241,6 @@ function ChatPage() {
                             : "bg-[#ffcde6] text-black rounded-t-3xl rounded-r-3xl"
                             } p-4 `}
                         >
-                          {/* {editToggle ? (
-                            <p className="">{message.message}</p>
-                            : null
-                          )} */}
                           <p>
                             {message.message}
                           </p>

@@ -34,7 +34,7 @@ function MatchingPage() {
 
   const [senderId, setSenderId] = useState(0);
   const [receiverId, setReceiverId] = useState(0);
-
+  console.log(usersData)
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
   const { state } = useAuth();
   const navigate = useNavigate();
