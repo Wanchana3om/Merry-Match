@@ -435,7 +435,7 @@ function MatchingPage() {
                       {user.name}
                     </p>
                     <p className="font-[500] text-[#646D89] text-[14px]">
-                      You know nothing Jon Snow
+                      Click to Chat
                     </p>
                   </div>
                 </div>
