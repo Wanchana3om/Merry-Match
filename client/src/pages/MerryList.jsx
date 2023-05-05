@@ -6,7 +6,7 @@ import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/authentication";
 import useData from "../hook/useData";
 import ProfilePopupMatching from "../components/ProfilePopupMatching";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function MerryList() {
   const [usersData, setUsersData] = useState([]);
@@ -14,11 +14,43 @@ function MerryList() {
   const { state } = useAuth();
   const { userClearRejected } = useData();
   const [clearRejectedPopup, setClearRejectedPopup] = useState(false);
-  const { deleteMerryMatch } = useData();
+  const { deleteMerryMatch, restoreMerryMatch } = useData();
   const [selectedUser, setSelectedUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
   const [ownUserId, setOwnUserId] = useState("");
   const navigate = useNavigate();
+
+  const [isMerryStates, setIsMerryStates] = useState({});
+
+  const toggleIsMerry = (userId) => {
+    setIsMerryStates((prevIsMerryStates) => {
+      return {
+        ...prevIsMerryStates,
+        [userId]: !prevIsMerryStates[userId],
+      };
+    });
+  };
+
+  const handleClick = async (user, index) => {
+    const userId = user.user_id;
+    const isMerry = isMerryStates[userId] || false;
+
+    try {
+      toggleIsMerry(userId); // toggle the merry status on each click
+
+      if (!isMerry) {
+        console.log("OwnUserId:", ownUserId);
+        console.log("User:", user.user_id);
+        await deleteMerryMatch(ownUserId, user.user_id);
+      } else {
+        console.log("OwnUserId:", ownUserId);
+        console.log("User:", user.user_id);
+        await restoreMerryMatch(ownUserId, user.user_id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleShowProfile = (user) => {
     setSelectedUser(user);
@@ -138,10 +170,7 @@ function MerryList() {
             </div>
           )}
           {usersData.map((user, index) => (
-            <div
-              key={index}
-              className="flex gap-10 justify-between"
-            >
+            <div key={index} className="flex gap-10 justify-between">
               <div className="flex w-[650px] ">
                 <div className="w-[187px] h-[187px] ">
                   <img
@@ -177,12 +206,6 @@ function MerryList() {
                   </div>
                 </div>
               </div>
-
-
-
-
-
-
 
               <div className="flex flex-col items-end w-[300px]  gap-4">
                 <div
@@ -231,7 +254,7 @@ function MerryList() {
                         }
                       />
                       <div className="bottom-1 absolude left-2 text-white bg-[#9AA1B9] w-auto rounded-[4px] py-[2px] text-xs opacity-0 group-hover:opacity-100 text-center">
-                         <p> Go to chat</p>
+                        <p> Go to chat</p>
                       </div>
                     </div>
                   )}
@@ -244,7 +267,7 @@ function MerryList() {
                     />
 
                     <div className=" bottom-1 absolude left-2 text-white bg-[#9AA1B9] w-auto rounded-[4px] py-[2px] text-xs opacity-0 group-hover:opacity-100 text-center">
-                     <p>See profile</p> 
+                      <p>See profile</p>
                     </div>
                   </div>
                   <div className="relative group">
@@ -255,15 +278,14 @@ function MerryList() {
                           : "/merrylist/action button.svg"
                       }
                       alt="match"
-                      className="w-full  cursor-pointer hover:scale-110 duration-300 transition-all"
+                      className="w-full cursor-pointer hover:scale-110 duration-300 transition-all"
                       onClick={() => {
                         handleClickImg(index);
-                        deleteMerryMatch(ownUserId, user.user_id);
+                        handleClick(user, index);
                       }}
                     />
-
-                    <div className=" bottom-1 absolude left-2 text-white bg-[#9AA1B9] rounded-[4px] mx-auto w-[50px] py-[2px] text-xs opacity-0 group-hover:opacity-100  text-center">
-                     <p>Merry</p> 
+                    <div className="bottom-1 absolude left-2 text-white bg-[#9AA1B9] rounded-[4px] mx-auto w-[50px] py-[2px] text-xs opacity-0 group-hover:opacity-100 text-center">
+                      <p>Merry</p>
                     </div>
                   </div>
                 </div>

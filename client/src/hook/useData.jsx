@@ -10,6 +10,8 @@ const useData = () => {
   const [merryMatchList, setMerryMatchList] = useState([]);
   const [conversation, setConversation] = useState([]);
 
+  const [isMerryMatchDeleted, setIsMerryMatchDeleted] = useState(false);
+
   const getData = async (userId, data) => {
     try {
       setIsError(false);
@@ -132,9 +134,31 @@ const useData = () => {
         data: { deleteUserId: deleteUserId },
       });
       setIsLoading(false);
+      setMerryMatchList((prevList) =>
+        prevList.filter((user) => user._id !== deleteUserId)
+      );
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
+    }
+  };
+
+  const restoreMerryMatch = async (userId, data) => {
+    try {
+      setIsError(false);
+      setIsLoading(true);
+
+      const result = await axios.put(
+        `http://localhost:3000/merrylist/${userId}`,
+        data
+      );
+
+      setIsLoading(false);
+      return result;
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+      throw error;
     }
   };
 
@@ -216,6 +240,7 @@ const useData = () => {
     sendingChatMessage,
     editChatMessage,
     deleteChatMessage,
+    restoreMerryMatch,
   };
 };
 
