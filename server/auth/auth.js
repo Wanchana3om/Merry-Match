@@ -23,6 +23,7 @@ authRouter.post("/register", async (req, res) => {
     image,
   } = req.body;
   console.log(req.body);
+
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
   const { user, error } = await supabase.auth.signUp({
@@ -102,7 +103,6 @@ authRouter.post("/register", async (req, res) => {
         }
       }
     }
-    
 
     const userId = data[0].user_id;
     const { data: insertData, error: insertError } = await supabase
@@ -127,15 +127,14 @@ authRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   const { data: admindata } = await supabase
-  .from("admins") 
-  .select()
-  .eq("admin_username", username);
+    .from("admins")
+    .select()
+    .eq("admin_username", username);
   console.log(admindata);
-    if ( admindata.length === 1) {
-
+  if (admindata.length === 1) {
     const storedPassword = admindata[0].admin_password;
 
-    if (storedPassword === password ){
+    if (storedPassword === password) {
       const token = jwt.sign(
         {
           admin_id: admindata[0].admin_id,
@@ -147,16 +146,12 @@ authRouter.post("/login", async (req, res) => {
       );
       return res.json({ token });
     }
-  } 
+  }
 
   const { data: userdata, error } = await supabase
-    .from("users") 
+    .from("users")
     .select("user_id, username, name, password")
     .eq("username", username);
-
-  
-
-  
 
   if (error || !userdata || userdata.length === 0) {
     res.status(401).send("Invalid credentials");
@@ -176,7 +171,6 @@ authRouter.post("/login", async (req, res) => {
     res.status(401).send("Invalid password");
     return;
   }
-
 
   const { error: updateError } = await supabase
     .from("users")
@@ -207,5 +201,20 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
+authRouter.get("/username/:username", async (req, res) => {
+  // Check if username already exists
+  const { username } = req.params;
+  const { data: existingUsername, error: existingUsernameError } =
+    await supabase
+      .from("users")
+      .select("username")
+      .eq("username", username)
+      .limit(1);
+  if (existingUsernameError) {
+    console.log(existingUsernameError);
+    return res.status(500).send(existingUsernameError.message);
+  }
+  return res.json(existingUsername);
+});
 
 export default authRouter;
