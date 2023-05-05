@@ -56,15 +56,16 @@ notificationRouter.post("/:userId", async (req, res) => {
       .eq("user_id", userId);
     if (userError) throw userError;
 
-    const { recipient } = req.body;
+    const recipientId = req.body.recipientId;
 
     // If user subscribe back
     const { data: statusData, error: statusDataError } = await supabase
       .from("merry_status")
       .select("mer_status")
       .or(
-        `and(mer_id.eq.${userId},user_id.eq.${recipient}),and(mer_id.eq.${recipient},user_id.eq.${userId}))`
+        `and(mer_id.eq.${userId},user_id.eq.${recipientId}),and(mer_id.eq.${recipientId},user_id.eq.${userId}))`
       );
+    console.log("statusData:", statusData);
     if (statusDataError) throw statusDataError;
     console.log(statusData);
     if (statusData[0].mer_status === "MerryMatch") {
@@ -73,7 +74,7 @@ notificationRouter.post("/:userId", async (req, res) => {
           {
             noti_sender: userId,
             noti_message: `You and ${userData[0].name} have matched with each others.`,
-            noti_recipient: recipient,
+            noti_recipient: recipientId,
             noti_read: false,
           },
         ]);
@@ -86,7 +87,7 @@ notificationRouter.post("/:userId", async (req, res) => {
         };
         await supabase
           .from("notification")
-          .eq(recipient, recipient)
+          .eq(recipientId, recipientId)
           .emit(payload);
       }
     } else {
@@ -97,7 +98,7 @@ notificationRouter.post("/:userId", async (req, res) => {
           {
             noti_sender: userId,
             noti_message: `${userData[0].name} has matched with your profile.`,
-            noti_recipient: recipient,
+            noti_recipient: recipientId,
             noti_read: false,
           },
         ]);
@@ -108,7 +109,7 @@ notificationRouter.post("/:userId", async (req, res) => {
         const payload = { event: "NEW_NOTIFICATION", data: insertData[0] };
         await supabase
           .from("notification")
-          .eq(recipient, recipient)
+          .eq(recipientId, recipientId)
           .emit(payload);
       }
     }

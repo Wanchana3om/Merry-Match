@@ -188,9 +188,9 @@ function MatchingPage() {
     }
   };
 
-  const handleSwipeRight = (userId) => {
+  const handleSwipeRight = async (userId) => {
     try {
-      userLoveSwipeRight(state?.user?.user_id, { newUserId: userId });
+      await userLoveSwipeRight(state?.user?.user_id, { newUserId: userId });
       const matchingUser = matchingList.find((item) => item.user_id === userId);
       const merryMatching = merryMatchList.find((match) => {
         return (
@@ -210,7 +210,7 @@ function MatchingPage() {
           setMatchingListPictures(pictureUrl);
         }
       }
-      sendNotification(userId, state?.user?.user_id);
+      await sendNotification(userId, state?.user?.user_id);
     } catch (error) {
       console.error(error);
     }
@@ -367,7 +367,13 @@ function MatchingPage() {
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
               <Swiper
-                slidesPerView={usersData.filter((user) => user.merry_status[0].mer_status === "MerryMatch").length > 1 ? 2 : 1}
+                slidesPerView={
+                  usersData.filter(
+                    (user) => user.merry_status[0].mer_status === "MerryMatch"
+                  ).length > 1
+                    ? 2
+                    : 1
+                }
                 centeredSlides={true}
                 spaceBetween={20}
                 grabCursor={true}
@@ -414,14 +420,15 @@ function MatchingPage() {
                 (user) => user.merry_status[0].mer_status === "MerryMatch"
               )
               .map((user, index) => (
-                <div key={index} className="flex hover:bg-gray-100 hover:rounded-[16px] hover:cursor-pointer active:bg-gray-200 flex-row justify-evenly py-2 " onClick={() =>
-                  handleChat(state?.user?.user_id, user.user_id)
-                }>
+                <div
+                  key={index}
+                  className="flex hover:bg-gray-100 hover:rounded-[16px] hover:cursor-pointer active:bg-gray-200 flex-row justify-evenly py-2 "
+                  onClick={() => handleChat(state?.user?.user_id, user.user_id)}
+                >
                   <img
                     src={user.pictures[0]?.pic_url || null}
                     alt={user.name}
                     className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
-                    
                   />
                   <div>
                     <p className="font-[400] text-[#2A2E3F] text-[16px]">
