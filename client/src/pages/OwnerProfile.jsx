@@ -49,29 +49,15 @@ function OwnerProfile() {
       }
       if (!username) {
         toast({
-          title: "Username.",
-          description: "Please enter username",
-          status: "info",
-          duration: 5000,
-          isClosable: true,
+          title: "Please enter username",
           position: "top",
+          isClosable: true,
         });
-        } else if (username.length < 6) {
+      } else if (!name) {
         toast({
-          title: "Username.",
-          description: "Please enter at least 6 characters.",
-          status: "info",
-          duration: 5000,
-          isClosable: true,
+          title: "Please enter name",
           position: "top",
-        });
-        toast({
-          title: "Name.",
-          description: "Please enter name.",
-          status: "info",
-          duration: 5000,
           isClosable: true,
-          position: "top",
         });
       } else {
         let imageUrls = [];
