@@ -131,7 +131,7 @@ function NavigationbarUser() {
                 >
                   <div>
                     <Image
-                      src={state?.user?.profilePic}
+                      src={state?.user?.profilePic || null}
                       alt="Profile"
                       className="w-[48px] h-[48px] rounded-full cursor-pointer object-cover transition-all duration-300 hover:scale-125"
                     />

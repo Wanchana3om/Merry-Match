@@ -37,11 +37,17 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.put(`http://localhost:3000/users/${userId}`, data);
+      const response = await axios.put(
+        `http://localhost:3000/users/${userId}`,
+        data
+      );
       setIsLoading(false);
+      return response.data;
     } catch (error) {
+      console.log("Error updating user profile:", error.response.data);
       setIsError(true);
       setIsLoading(false);
+      return null;
     }
   };
 
@@ -58,8 +64,6 @@ const useData = () => {
     }
   };
 
-  
-
   const merryMatch = async () => {
     try {
       setIsError(false);
@@ -73,17 +77,21 @@ const useData = () => {
   };
 
   const userLoveSwipeRight = async (userId, data) => {
-   
     try {
       setIsError(false);
       setIsLoading(true);
 
-     const result = await axios.put(`http://localhost:3000/merrylist/${userId}`, data);
+      const result = await axios.put(
+        `http://localhost:3000/merrylist/${userId}`,
+        data
+      );
 
       setIsLoading(false);
+      return result;
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
+      throw error;
     }
   };
 
@@ -135,8 +143,10 @@ const useData = () => {
       setIsError(false);
       setIsLoading(true);
 
-      const response = await axios.get(`http://localhost:3000/chat/${senderId}/${receiverId}`)
-      setConversation(response.data)
+      const response = await axios.get(
+        `http://localhost:3000/chat/${senderId}/${receiverId}`
+      );
+      setConversation(response.data);
       setIsLoading(false);
     } catch (error) {
       setIsError(true);

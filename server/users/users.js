@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { supabase } from "../app.js";
+import jwt from "jsonwebtoken";
 
 const usersRouter = Router();
 
@@ -43,97 +44,149 @@ usersRouter.put("/:userId", async (req, res) => {
       image,
     } = req.body;
 
-    const { data, error } = await supabase
-      .from("users")
-      .update({
-        name: name,
-        birthDate: birthDate,
-        location: location,
-        city: city,
-        email: email,
-        sexual_identity: sexual_identity,
-        sexual_preference: sexual_preference,
-        racial_preference: racial_preference,
-        meeting_interest: meeting_interest,
-        about_me: about_me,
-      })
-      .match({ user_id: userId });
+    let data;
 
-    if (error) {
-      console.log(error);
-      return res.status(500).send("Server error");
+    try {
+      const { data: fetchedData, error } = await supabase
+        .from("users")
+        .update({
+          name: name,
+          birthDate: birthDate,
+          location: location,
+          city: city,
+          email: email,
+          sexual_identity: sexual_identity,
+          sexual_preference: sexual_preference,
+          racial_preference: racial_preference,
+          meeting_interest: meeting_interest,
+          about_me: about_me,
+        })
+        .match({ user_id: userId });
+
+      data = fetchedData;
+
+      if (error) {
+        console.log(error);
+        return res.status(500).send("Server error");
+      } else {
+        // Fetch the updated user data after the update operation
+        const { data: updatedData, error: fetchError } = await supabase
+          .from("users")
+          .select("*")
+          .eq("user_id", userId);
+        if (fetchError) {
+          console.log(fetchError);
+          return res
+            .status(500)
+            .send("Server error: Unable to fetch user data");
+        }
+        data = updatedData;
+      }
+    } catch (error) {
+      console.log("Error updating users table:", error);
+      return res.status(500).send("Server error: Error updating users table");
     }
-
-    const hobbyList = req.body.hobby?.slice(0, 10) || [];
-    if (hobbyList.length > 0) {
-      const { data: hobbies, error: hobbyError } = await supabase
-        .from("hobbies_interests")
-        .select("*")
-        .eq("user_id", userId);
-      const exitingHobbyList = hobbies.map((hobby) => hobby.hob_list);
-      // if hobby in db and hobby form req equal
-      if (JSON.stringify(exitingHobbyList) !== JSON.stringify(hobbyList)) {
-        const { error: deleteError } = await supabase
+    try {
+      const hobbyList = req.body.hobby?.slice(0, 10) || [];
+      if (hobbyList.length > 0) {
+        const { data: hobbies, error: hobbyError } = await supabase
           .from("hobbies_interests")
+          .select("*")
+          .eq("user_id", userId);
+        const exitingHobbyList = hobbies.map((hobby) => hobby.hob_list);
+        // if hobby in db and hobby form req equal
+        if (JSON.stringify(exitingHobbyList) !== JSON.stringify(hobbyList)) {
+          const { error: deleteError } = await supabase
+            .from("hobbies_interests")
+            .delete()
+            .eq("user_id", userId);
+          if (deleteError) {
+            console.log(deleteError);
+            return res.status(500).send("Server error");
+          }
+
+          const { data: hobbyData, error: insertError } = await supabase
+            .from("hobbies_interests")
+            .insert(
+              hobbyList.map((hobby) => {
+                return {
+                  user_id: userId,
+                  hob_list: hobby,
+                };
+              })
+            );
+          if (insertError) {
+            console.log(insertError);
+          }
+        }
+      }
+    } catch (error) {
+      console.log("Error updating hobbies_interests table:", error);
+      return res
+        .status(500)
+        .send("Server error: Error updating hobbies_interests table");
+    }
+    try {
+      const newUrls = image.map((url) => url.url);
+      const { data: exitingPictures, error: exitingPicturesError } =
+        await supabase.from("pictures").select("*").eq("user_id", userId);
+
+      if (exitingPicturesError) {
+        console.log(exitingPicturesError);
+        return res.status(500).send("Server error");
+      }
+      const exitingUrls = exitingPictures.map((picture) => picture.pic_url);
+      if (JSON.stringify(exitingUrls) !== JSON.stringify(newUrls)) {
+        const { error: deleteError } = await supabase
+          .from("pictures")
           .delete()
           .eq("user_id", userId);
         if (deleteError) {
           console.log(deleteError);
           return res.status(500).send("Server error");
         }
-
-        const { data: hobbyData, error: insertError } = await supabase
-          .from("hobbies_interests")
+        const { data: insertData, error: insertError } = await supabase
+          .from("pictures")
           .insert(
-            hobbyList.map((hobby) => {
+            image.map((url) => {
               return {
                 user_id: userId,
-                hob_list: hobby,
+                pic_url: url.url,
               };
             })
           );
         if (insertError) {
           console.log(insertError);
+          return res.status(500).send("Server error");
         }
       }
+    } catch (error) {
+      console.log("Error updating pictures table:", error);
+      return res
+        .status(500)
+        .send("Server error: Error updating pictures table");
     }
-
-    const newUrls = image.map((url) => url.url);
-    const { data: exitingPictures, error: exitingPicturesError } =
-      await supabase.from("pictures").select("*").eq("user_id", userId);
-
-    if (exitingPicturesError) {
-      console.log(exitingPicturesError);
-      return res.status(500).send("Server error");
+    if (data && data.length > 0) {
+      const token = jwt.sign(
+        {
+          user_id: data[0].user_id,
+          username: data[0].username,
+          name: data[0].name,
+          profilePic: image[0].url,
+        },
+        process.env.SECRET_KEY,
+        { expiresIn: "1h" }
+      );
+      return res.status(200).json({
+        message: "User profile updated successfully!",
+        token: token,
+      });
+    } else {
+      console.log("Data after update:", data); // Add this line for debugging
+      return res.status(500).send("Server error: Unable to fetch user data");
     }
-    const exitingUrls = exitingPictures.map((picture) => picture.pic_url);
-    if (JSON.stringify(exitingUrls) !== JSON.stringify(newUrls)) {
-      const { error: deleteError } = await supabase
-        .from("pictures")
-        .delete()
-        .eq("user_id", userId);
-      if (deleteError) {
-        console.log(deleteError);
-        return res.status(500).send("Server error");
-      }
-      const { data: insertData, error: insertError } = await supabase
-        .from("pictures")
-        .insert(
-          image.map((url) => {
-            return {
-              user_id: userId,
-              pic_url: url.url,
-            };
-          })
-        );
-      if (insertError) {
-        console.log(insertError);
-        return res.status(500).send("Server error");
-      }
-    }
-    return res.status(200).send("User profile updated successfully!");
   } catch (error) {
-    console.log(error);
+    console.log("General server error:", error);
     res.status(500).send("Server error");
   }
 });

@@ -66,7 +66,7 @@ function OwnerProfile() {
           const data = await uploadCloudinary(noNullImages[i]);
           imageUrls.push(data);
         }
-        updateUserProfile(state?.user?.user_id, {
+        const response = await updateUserProfile(state?.user?.user_id, {
           name: name,
           username: username,
           birthDate: birthDate,
@@ -83,7 +83,8 @@ function OwnerProfile() {
         setIsLoading(false);
         // setIsSubmit(true)
         // setIsSubmit(false)
-        {
+        if (response && response.token) {
+          localStorage.setItem("token", response.token);
           setProfileUpdated(true);
           updateProfilePic(images[0]);
           toast({
@@ -177,8 +178,8 @@ function OwnerProfile() {
     }
   };
 
-  const deleteHobby = (e,index) => {
-    e.preventDefault()
+  const deleteHobby = (e, index) => {
+    e.preventDefault();
     const newHobbyLists = [...hobbyLists];
     newHobbyLists.splice(index, 1);
     setHobbyLists(newHobbyLists);
@@ -391,7 +392,7 @@ function OwnerProfile() {
                     name="Username"
                     placeholder="At least 6 characters"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    disabled
                   />
                 </label>
               </div>
@@ -405,7 +406,6 @@ function OwnerProfile() {
                     name="email"
                     placeholder="Jon Snow"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                     disabled
                   />
                 </label>
@@ -498,7 +498,7 @@ function OwnerProfile() {
                           {hobby}
                           <button
                             className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
-                            onClick={(e) => deleteHobby(e,index)}
+                            onClick={(e) => deleteHobby(e, index)}
                           >
                             ✕
                           </button>
