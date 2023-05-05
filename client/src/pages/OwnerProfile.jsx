@@ -177,7 +177,8 @@ function OwnerProfile() {
     }
   };
 
-  const deleteHobby = (index) => {
+  const deleteHobby = (e,index) => {
+    e.preventDefault()
     const newHobbyLists = [...hobbyLists];
     newHobbyLists.splice(index, 1);
     setHobbyLists(newHobbyLists);
@@ -497,7 +498,7 @@ function OwnerProfile() {
                           {hobby}
                           <button
                             className="border-none bg-transparent text-[#7D2262] ml-4 cursor-pointer"
-                            onClick={() => deleteHobby(index)}
+                            onClick={(e) => deleteHobby(e,index)}
                           >
                             ✕
                           </button>

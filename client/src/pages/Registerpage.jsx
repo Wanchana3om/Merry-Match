@@ -101,35 +101,68 @@ function RegisterPage() {
     } else {
       if (!username) {
         toast({
-          title: "Please enter username",
-          position: "top",
+          title: "Username.",
+          description: "Please enter username.",
+          status: "info",
+          duration: 5000,
           isClosable: true,
-        })
-      } else if (!name) {
-          toast({
-            title: "Please enter name",
-            position: "top",
-            isClosable: true,
-          })
+          position: "top",
+        });
+        } else if (!name) {
+      toast({
+        title: "Name.",
+        description: "Please enter name.",
+        status: "info",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      }else if (username.length < 6) {
+      toast({
+        title: "Username.",
+        description: "Please enter at least 6 characters.",
+        status: "info",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
       } else if (!email || !isValidEmail) {
         toast({
-          title: "Please provide a valid email address",
-          position: "top",
+          title: "Email.",
+          description: "Please provide a valid email address.",
+          status: "info",
+          duration: 5000,
           isClosable: true,
-        })
-      } else if (!password) {
+          position: "top",
+        });
+        }else if (!password) {
+          toast({
+            title: "Email.",
+            description: "Please enter password.",
+            status: "info",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
+          } else if (password.length < 8) {
         toast({
-          title: "Please enter password",
-          position: "top",
+          title: "Password.",
+          description: "Please enter at least 8 characters.",
+          status: "info",
+          duration: 5000,
           isClosable: true,
-        })
-      } else if (password !== confirmPassword) {
+          position: "top",
+        });
+        } else if (password !== confirmPassword) {
         toast({
-          title: "Passwords do not match",
-          position: "top",
+          title: "Password.",
+          description: "Passwords do not match.",
+          status: "info",
+          duration: 5000,
           isClosable: true,
-        })
-      } else if (ageInYears < 18) {
+          position: "top",
+        });
+        } else if (ageInYears < 18) {
         toast({
           title: "Users must be at least 18 years or older",
           position: "top",

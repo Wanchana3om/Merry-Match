@@ -28,6 +28,7 @@ function ChatPage() {
   const navigate = useNavigate();
   const [dotsToggle, setDotsToggle] = useState(false)
   const [selectedMessageId, setSelectedMessageId] = useState(null);
+  const [name,setName] = useState("");
   const [editToggle, setEditToggle] = useState(true)
   console.log(conversation)
   const handleSubmit = (event) => {
@@ -42,17 +43,19 @@ function ChatPage() {
       alert("Enter message box");
     }
   };
-
+  
 
   const getMerryList = async () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
         const userDataFromToken = jwtDecode(token);
-
+        
         const result = await axios.get(
           `http://localhost:3000/merrylist/${userDataFromToken.user_id}`
         );
+
+        
         setUsersData(result.data);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
@@ -91,7 +94,8 @@ function ChatPage() {
   const handleEditMessage = () => {
 
   }
-
+  const token = localStorage.getItem("token");
+        const userDataFromToken = jwtDecode(token);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -111,7 +115,7 @@ function ChatPage() {
       <NavigationbarUser />
 
       <div className="font-nunito mx-auto w-[1440px] h-[936px] flex flex-row relative">
-        <div className="w-[316px]">
+      <div className="w-[316px]">
           <div className="w-[316px] border-b-[1px] border-gray-400">
             <div className="w-[282px] mx-auto py-[36px]">
               <div className="flex flex-col justify-center items-center p-6 gap-1 bg-[#F6F7FC] border-[1px] border-[#A62D82] rounded-2xl">
@@ -152,10 +156,11 @@ function ChatPage() {
                           className="relative"
                           onClick={() => handleShowProfile(user)}
                         >
+                          
                           <img
                             src={user.pictures[0]?.pic_url || null}
                             alt={user.name}
-                            className="w-[100px] h-[100px] border-[1px] rounded-2xl"
+                            className="w-[100px] object-cover h-[100px] border-[1px] rounded-2xl"
                           />
                           <img
                             src={"/matching/merry match.svg"}
@@ -177,14 +182,15 @@ function ChatPage() {
                 (user) => user.merry_status[0].mer_status === "MerryMatch"
               )
               .map((user, index) => (
-                <div key={index} className="flex flex-row justify-evenly py-2">
+                <div key={index} className="flex hover:bg-gray-100 hover:rounded-[16px] hover:cursor-pointer active:bg-gray-200 flex-row justify-evenly py-2 " onClick={() =>
+                  handleChat(state?.user?.user_id, user.user_id)
+                  
+                }>
                   <img
                     src={user.pictures[0]?.pic_url || null}
                     alt={user.name}
                     className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
-                    onClick={() =>
-                      handleChat(state?.user?.user_id, user.user_id)
-                    }
+                    
                   />
                   <div>
                     <p className="font-[400] text-[#2A2E3F] text-[16px]">
@@ -212,7 +218,7 @@ function ChatPage() {
                     className=" pr-[27px] animate-bounce"
                   />
                   <p className="text-[#64001D]">
-                    Now you and Daeny are Merry Match! <br />
+                   {` Now you and ${userDataFromToken.name} are Merry Match! `}<br />
                     You can messege something nice and make a good conversation.
                     Happy Merry!
                   </p>
