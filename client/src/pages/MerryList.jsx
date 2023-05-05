@@ -92,14 +92,9 @@ function MerryList() {
               </h1>
             </div>
             <div className="relative">
-              <span className="text-[#646D89] text-base">
-                Who do you want to match with?
-              </span>
-              <p className="text-[#FF1659] text-base">press now</p>
-              <p className="text-[#646D89] text-base">you will be happy</p>
-
+             
               <button
-                className="absolute -bottom-20 right-0 bg-red-100 py-4 px-5 rounded-full text-[#95002B] duration-300  transition-all hover:scale-125 hover:bg-[#ffb3ca]  "
+                className="absolute -bottom-20 w-[140px] h-[70px] right-0 bg-red-100 py-4 px-5 rounded-full text-[#95002B] duration-300  transition-all hover:scale-125 hover:bg-[#ffb3ca]  "
                 onClick={() => handleClearRejectedPopup(true)}
               >
                 Clear rejected

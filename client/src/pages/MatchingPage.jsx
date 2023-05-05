@@ -44,6 +44,7 @@ function MatchingPage() {
   const [minAge, setMinAge] = useState(18);
   const [maxAge, setMaxAge] = useState(50);
   const [isMatching, setIsMatching] = useState(false);
+  const [firstMeetingInterest, setFirstMeetingInterest] = useState("");
 
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
@@ -58,6 +59,10 @@ function MatchingPage() {
     }
     return age;
   };
+  
+
+
+
 
   const getMatchingProfile = async () => {
     const token = localStorage.getItem("token");
@@ -78,6 +83,7 @@ function MatchingPage() {
       setMatchingList(newMatchingList);
       setCurrentIndex(newMatchingList.length - 1);
       setChildRefs(newMatchingList.map(() => React.createRef()));
+      setFirstMeetingInterest(newMatchingList[0].meeting_interest)
     }
   };
   const handleSubmit = async (event) => {
