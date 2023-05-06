@@ -61,7 +61,7 @@ function MatchingPage() {
   
 
 
-
+  console.log(meetingInterest);
 
   const getMatchingProfile = async () => {
     const token = localStorage.getItem("token");
@@ -82,8 +82,8 @@ function MatchingPage() {
       setMatchingList(newMatchingList);
       setCurrentIndex(newMatchingList.length - 1);
       setChildRefs(newMatchingList.map(() => React.createRef()));
-      setFirstMeetingInterest(newMatchingList[0].meeting_interest)
       setMeetingInterest([newMatchingList[0].meeting_interest])
+      setFirstMeetingInterest(newMatchingList[0].meeting_interest)
     }
   };
   const handleSubmit = async (event) => {
@@ -372,17 +372,8 @@ function MatchingPage() {
           <div className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
-              <Swiper
-                slidesPerView={
-                  usersData.filter(
-                    (user) => user.merry_status[0].mer_status === "MerryMatch"
-                  ).length > 1
-                    ? 2
-                    : 1
-                }
-                centeredSlides={true}
-                spaceBetween={20}
-                grabCursor={true}
+            <Swiper
+               spaceBetween={1} slidesPerView={2.5} grabCursor={true}  initialSlide={0} 
                 pagination={{
                   clickable: true,
                 }}
@@ -539,28 +530,8 @@ function MatchingPage() {
                   Relationship Interest
                 </h1>
                 <div className="flex">
-                <input
-                      type="checkbox"
-                      id="Friends"
-                      name="Friends"
-                      value="Friends"
-                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                      onChange={handleCheckboxChange}
-                      onClick={() => setFirstMeetingInterest("")}
-                      defaultChecked ={firstMeetingInterest === "Friends"}
-                    />
-                  {firstMeetingInterest === "Friends" &&(
-                    <input
-                      type="checkbox"
-                      id="Friends"
-                      name="Friends"
-                      value="Friends"
-                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                      onChange={handleCheckboxChange}
-                      onClick={() => setFirstMeetingInterest("")}
-                      checked
-                    />)}
-                {/* {firstMeetingInterest === "Friends" ? (
+               
+                {firstMeetingInterest === "Friends" ? (
                     <input
                       type="checkbox"
                       id="Friends"
@@ -580,7 +551,7 @@ function MatchingPage() {
                       className="w-[24px] h-[24px] rounded-lg accent-pink-500"
                       onChange={handleCheckboxChange}
                     />
-                  )} */}
+                  )}
                   <label htmlFor="sex1" className="ml-[12px] text-[#646D89]">
                     Friends
                   </label>

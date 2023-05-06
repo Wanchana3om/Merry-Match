@@ -186,11 +186,8 @@ function ChatPage() {
           <div className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
-              <Swiper
-                slidesPerView={userMatch.length > 1 ? 2 : 1}
-                centeredSlides={true}
-                spaceBetween={20}
-                grabCursor={true}
+            <Swiper
+               spaceBetween={1} slidesPerView={1.9} grabCursor={true}  initialSlide={0} 
                 pagination={{
                   clickable: true,
                 }}
@@ -198,6 +195,7 @@ function ChatPage() {
                 style={{ "--swiper-pagination-bottom": "-5px" }}
                 className="mySwiper"
               >
+
                 <div>
                   {userMatch.map((user, index) => (
                     <SwiperSlide key={index}>
