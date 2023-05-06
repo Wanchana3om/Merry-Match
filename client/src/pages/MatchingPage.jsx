@@ -31,21 +31,19 @@ function MatchingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
   const [usersData, setUsersData] = useState([]);
-  const [toggle, setToggle] = useState(true);
 
   const [senderId, setSenderId] = useState(0);
   const [receiverId, setReceiverId] = useState(0);
-  console.log(usersData)
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
   const { state } = useAuth();
   const navigate = useNavigate();
   const [matchingListPictures, setMatchingListPictures] = useState(null);
   const [keyword, setKeyword] = useState("");
   const [meetingInterest, setMeetingInterest] = useState([]);
+  const [firstMeetingInterest, setFirstMeetingInterest] = useState("");
   const [minAge, setMinAge] = useState(18);
   const [maxAge, setMaxAge] = useState(50);
   const [isMatching, setIsMatching] = useState(false);
-  const [firstMeetingInterest, setFirstMeetingInterest] = useState("");
 
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
@@ -85,6 +83,7 @@ function MatchingPage() {
       setCurrentIndex(newMatchingList.length - 1);
       setChildRefs(newMatchingList.map(() => React.createRef()));
       setFirstMeetingInterest(newMatchingList[0].meeting_interest)
+      setMeetingInterest([newMatchingList[0].meeting_interest])
     }
   };
   const handleSubmit = async (event) => {
@@ -133,7 +132,6 @@ function MatchingPage() {
     // console.log(matchingList);
   }, [matchingList]);
 
-  console.log(meetingInterest);
   // ----------------------------
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
@@ -244,7 +242,7 @@ function MatchingPage() {
   };
 
   const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+    // console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
@@ -541,59 +539,128 @@ function MatchingPage() {
                   Relationship Interest
                 </h1>
                 <div className="flex">
-                  <input
-                    type="checkbox"
-                    id="Friends"
-                    name="Friends"
-                    value="Friends"
-                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                 
-                    onChange={handleCheckboxChange}
-                  />
+                <input
+                      type="checkbox"
+                      id="Friends"
+                      name="Friends"
+                      value="Friends"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                      onClick={() => setFirstMeetingInterest("")}
+                      defaultChecked ={firstMeetingInterest === "Friends"}
+                    />
+                  {firstMeetingInterest === "Friends" &&(
+                    <input
+                      type="checkbox"
+                      id="Friends"
+                      name="Friends"
+                      value="Friends"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                      onClick={() => setFirstMeetingInterest("")}
+                      checked
+                    />)}
+                {/* {firstMeetingInterest === "Friends" ? (
+                    <input
+                      type="checkbox"
+                      id="Friends"
+                      name="Friends"
+                      value="Friends"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                      onClick={() => setFirstMeetingInterest("")}
+                      checked
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      id="Friends"
+                      name="Friends"
+                      value="Friends"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                    />
+                  )} */}
                   <label htmlFor="sex1" className="ml-[12px] text-[#646D89]">
                     Friends
                   </label>
                 </div>
                 <div className="flex mt-[16px]">
-                  <input
-                    type="checkbox"
-                    id="Partners"
-                    name="Partners"
-                    value="Partners"
-                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                    onChange={handleCheckboxChange}
-          
-                  />
+                  {firstMeetingInterest === "Partners" ? (
+                    <input
+                      type="checkbox"
+                      id="Partners"
+                      name="Partners"
+                      value="Partners"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                      onClick={() => setFirstMeetingInterest("")}
+                      checked
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      id="Partners"
+                      name="Partners"
+                      value="Partners"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                    />
+                  )}
 
                   <label htmlFor="sex2" className="ml-[12px] text-[#646D89]">
                     Partners
                   </label>
                 </div>
                 <div className="flex mt-[16px]">
-                  <input
-                    type="checkbox"
-                    id="Short-term commitment"
-                    name="Short-term commitment"
-                    value="Short-term commitment"
-                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                   
-                    onChange={handleCheckboxChange}
-                  />
-
+                {firstMeetingInterest === "Short-term commitment" ? (
+                    <input
+                      type="checkbox"
+                      id="Short-term commitment"
+                      name="Short-term commitment"
+                      value="Short-term commitment"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                      onClick={() => setFirstMeetingInterest("")}
+                      checked
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      id="Short-term commitment"
+                      name="Short-term commitment"
+                      value="Short-term commitment"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                    />
+                  )}
+                 
                   <label htmlFor="sex3" className="ml-[12px] text-[#646D89]">
                     Short-term
                   </label>
                 </div>
                 <div className="flex mt-[16px]">
-                  <input
-                    type="checkbox"
-                    id="Long-term commitment"
-                    name="Long-term commitment"
-                    value="Long-term commitment"
-                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                    onChange={handleCheckboxChange}
-                   
-                  />
+                {firstMeetingInterest === "Long-term commitment" ? (
+                    <input
+                      type="checkbox"
+                      id="Long-term commitment"
+                      name="Long-term commitment"
+                      value="Long-term commitment"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                      onClick={() => setFirstMeetingInterest("")}
+                      checked
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      id="Long-term commitment"
+                      name="Long-term commitment"
+                      value="Long-term commitment"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                    />
+                  )}
 
                   <label htmlFor="sex3" className="ml-[12px] text-[#646D89]">
                     Long-term
