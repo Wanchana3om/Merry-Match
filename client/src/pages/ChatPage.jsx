@@ -187,7 +187,7 @@ function ChatPage() {
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
             <Swiper
-               spaceBetween={1} slidesPerView={1.9} grabCursor={true}  initialSlide={0} 
+               spaceBetween={1} slidesPerView={2.5} grabCursor={true}  initialSlide={0} 
                 pagination={{
                   clickable: true,
                 }}

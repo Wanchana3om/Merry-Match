@@ -31,6 +31,7 @@ function MatchingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
   const [usersData, setUsersData] = useState([]);
+  const [toggle, setToggle] = useState(true);
 
   const [senderId, setSenderId] = useState(0);
   const [receiverId, setReceiverId] = useState(0);
@@ -58,11 +59,7 @@ function MatchingPage() {
     }
     return age;
   };
-  
-
-
   console.log(meetingInterest);
-
   const getMatchingProfile = async () => {
     const token = localStorage.getItem("token");
 
@@ -82,8 +79,8 @@ function MatchingPage() {
       setMatchingList(newMatchingList);
       setCurrentIndex(newMatchingList.length - 1);
       setChildRefs(newMatchingList.map(() => React.createRef()));
-      setMeetingInterest([newMatchingList[0].meeting_interest])
-      setFirstMeetingInterest(newMatchingList[0].meeting_interest)
+      setFirstMeetingInterest(newMatchingList[0].meeting_interest);
+      setMeetingInterest([newMatchingList[0].meeting_interest]);
     }
   };
   const handleSubmit = async (event) => {
@@ -132,6 +129,7 @@ function MatchingPage() {
     // console.log(matchingList);
   }, [matchingList]);
 
+  console.log(meetingInterest);
   // ----------------------------
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
@@ -242,7 +240,7 @@ function MatchingPage() {
   };
 
   const outOfFrame = (name, idx) => {
-    // console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
@@ -273,6 +271,7 @@ function MatchingPage() {
     setMerryMatch(false);
     setShowName(true);
     setShowEye(true);
+    window.location.reload()
   };
   // -------------------------------------
   const getMerryList = async () => {
@@ -381,6 +380,8 @@ function MatchingPage() {
                 style={{ "--swiper-pagination-bottom": "-5px" }}
                 className="mySwiper"
               >
+
+
                 <div>
                   {usersData
                     .filter(
@@ -530,7 +531,6 @@ function MatchingPage() {
                   Relationship Interest
                 </h1>
                 <div className="flex">
-               
                 {firstMeetingInterest === "Friends" ? (
                     <input
                       type="checkbox"
