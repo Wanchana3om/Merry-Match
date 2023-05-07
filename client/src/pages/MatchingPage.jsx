@@ -2,7 +2,6 @@ import { sendNotification } from "../components/notification";
 import NavigationbarUser from "../components/NavigationbarUser";
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import TinderCard from "react-tinder-card";
-// import ProfilePopup from "../components/ProfilePopup";
 import eye_button from "/matching/eye_button.svg";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
@@ -12,7 +11,6 @@ import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import Loading from "../components/loading";
-
 import {
   RangeSlider,
   RangeSliderTrack,
@@ -22,7 +20,16 @@ import {
 import useData from "../hook/useData";
 import { useAuth } from "../contexts/authentication";
 import mini_heart from "/matching/mini_heart.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(context, args), wait);
+  };
+}
 
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
@@ -32,7 +39,7 @@ function MatchingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
   const [usersData, setUsersData] = useState([]);
-  
+
   const [senderId, setSenderId] = useState(0);
   const [receiverId, setReceiverId] = useState(0);
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
@@ -46,6 +53,9 @@ function MatchingPage() {
   const [maxAge, setMaxAge] = useState(50);
   const [isMatching, setIsMatching] = useState(false);
   const [isLoading, setIsLoading] = useState(null);
+  const [merryMatch, setMerryMatch] = useState(false);
+  const [showName, setShowName] = useState(true);
+  const [showEye, setShowEye] = useState(true);
 
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
@@ -173,24 +183,22 @@ function MatchingPage() {
     currentIndexRef.current = val;
   };
 
-  const canGoBack = currentIndex < matchingList.length - 1;
-
   const canSwipe = currentIndex >= 0;
 
-  const [merryMatch, setMerryMatch] = useState(false);
-  const [showName, setShowName] = useState(true);
-  const [showEye, setShowEye] = useState(true);
+  const debouncedSwiped = useMemo(
+    () =>
+      debounce((direction, nameToDelete, index, userId) => {
+        setLastDirection(direction);
+        updateCurrentIndex(index - 1);
 
-  const swiped = (direction, nameToDelete, index, userId) => {
-    setLastDirection(direction);
-    updateCurrentIndex(index - 1);
-
-    if (direction === "right") {
-      handleSwipeRight(userId);
-    } else if (direction === "left") {
-      handleSwipeLeft(userId);
-    }
-  };
+        if (direction === "right") {
+          handleSwipeRight(userId);
+        } else if (direction === "left") {
+          handleSwipeLeft(userId);
+        }
+      }, 200),
+    []
+  );
 
   const handleSwipeRight = async (userId) => {
     try {
@@ -246,16 +254,8 @@ function MatchingPage() {
 
   const swipe = async (dir) => {
     if (canSwipe && currentIndex < matchingList.length) {
-      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
+      await childRefs[currentIndex].current.swipe(dir);
     }
-  };
-
-  // increase current index and show card
-  const goBack = async () => {
-    if (!canGoBack) return;
-    const newIndex = currentIndex + 1;
-    updateCurrentIndex(newIndex);
-    await childRefs[newIndex].current.restoreCard();
   };
 
   const handleShowProfile = (user, isMatching) => {
@@ -273,7 +273,7 @@ function MatchingPage() {
     setShowEye(true);
     window.location.reload()
   };
-  // -------------------------------------
+
   const getMerryList = async () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -373,10 +373,10 @@ function MatchingPage() {
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
 
-            {usersData.filter(
-                    (user) => user.merry_status[0].mer_status === "MerryMatch"
-                  ).length <=2 &&
-                  <div className="flex ">
+              {usersData.filter(
+                (user) => user.merry_status[0].mer_status === "MerryMatch"
+              ).length <= 2 &&
+                <div className="flex ">
                   {usersData
                     .filter(
                       (user) => user.merry_status[0].mer_status === "MerryMatch"
@@ -400,46 +400,46 @@ function MatchingPage() {
                       </div>
                     ))}
                 </div>
-            }
+              }
 
-            {usersData.filter(
-                    (user) => user.merry_status[0].mer_status === "MerryMatch"
-                  ).length > 2 &&
+              {usersData.filter(
+                (user) => user.merry_status[0].mer_status === "MerryMatch"
+              ).length > 2 &&
 
-            <Swiper
-               spaceBetween={1} slidesPerView={2.5} grabCursor={true}  initialSlide={0} 
-                pagination={{
-                  clickable: true,
-                }}
-                modules={[Pagination]}
-                style={{ "--swiper-pagination-bottom": "-5px" }}
-                className="mySwiper"
-              >
-              <div>
-                  {usersData
-                    .filter(
-                      (user) => user.merry_status[0].mer_status === "MerryMatch"
-                    )
-                    .map((user, index) => (
-                      <SwiperSlide key={index}>
-                        <button
-                          className="relative"
-                          onClick={() => handleShowProfile(user)}
-                        >
-                          <img
-                            src={user.pictures[0]?.pic_url || null}
-                            alt={user.name}
-                            className="w-[100px] object-cover h-[100px] border-[1px] rounded-2xl"
-                          />
-                          <img
-                            src={"/matching/merry match.svg"}
-                            className="absolute bottom-0 right-0"
-                          />
-                        </button>
-                      </SwiperSlide>
-                    ))}
-                </div>
-              </Swiper>
+                <Swiper
+                  spaceBetween={1} slidesPerView={2.5} grabCursor={true} initialSlide={0}
+                  pagination={{
+                    clickable: true,
+                  }}
+                  modules={[Pagination]}
+                  style={{ "--swiper-pagination-bottom": "-5px" }}
+                  className="mySwiper"
+                >
+                  <div>
+                    {usersData
+                      .filter(
+                        (user) => user.merry_status[0].mer_status === "MerryMatch"
+                      )
+                      .map((user, index) => (
+                        <SwiperSlide key={index}>
+                          <button
+                            className="relative"
+                            onClick={() => handleShowProfile(user)}
+                          >
+                            <img
+                              src={user.pictures[0]?.pic_url || null}
+                              alt={user.name}
+                              className="w-[100px] object-cover h-[100px] border-[1px] rounded-2xl"
+                            />
+                            <img
+                              src={"/matching/merry match.svg"}
+                              className="absolute bottom-0 right-0"
+                            />
+                          </button>
+                        </SwiperSlide>
+                      ))}
+                  </div>
+                </Swiper>
               }
             </div>
           </div>
@@ -486,7 +486,9 @@ function MatchingPage() {
                 ref={childRefs[index]}
                 className=" absolute top-0 left-32 w-full h-full rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941] cursor-grab active:cursor-grabbing"
                 key={item.user_id}
-                onSwipe={(dir) => swiped(dir, item.name, index, item.user_id)}
+                onSwipe={(dir) =>
+                  debouncedSwiped(dir, item.name, index, item.user_id)
+                }
                 onCardLeftScreen={() => outOfFrame(item.name, index)}
               >
                 <div
@@ -565,7 +567,7 @@ function MatchingPage() {
                   Relationship Interest
                 </h1>
                 <div className="flex">
-                {firstMeetingInterest === "Friends" ? (
+                  {firstMeetingInterest === "Friends" ? (
                     <input
                       type="checkbox"
                       id="Friends"
@@ -618,7 +620,7 @@ function MatchingPage() {
                   </label>
                 </div>
                 <div className="flex mt-[16px]">
-                {firstMeetingInterest === "Short-term commitment" ? (
+                  {firstMeetingInterest === "Short-term commitment" ? (
                     <input
                       type="checkbox"
                       id="Short-term commitment"
@@ -639,13 +641,13 @@ function MatchingPage() {
                       onChange={handleCheckboxChange}
                     />
                   )}
-                 
+
                   <label htmlFor="sex3" className="ml-[12px] text-[#646D89]">
                     Short-term
                   </label>
                 </div>
                 <div className="flex mt-[16px]">
-                {firstMeetingInterest === "Long-term commitment" ? (
+                  {firstMeetingInterest === "Long-term commitment" ? (
                     <input
                       type="checkbox"
                       id="Long-term commitment"

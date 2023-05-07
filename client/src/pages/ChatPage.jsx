@@ -10,31 +10,23 @@ import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import ProfilePopupMatching from "../components/ProfilePopupMatching";
-import { filter } from "@chakra-ui/react";
 
 function ChatPage() {
   const {
     chatMessage,
-    conversation,
     sendingChatMessage,
-    editChatMessage,
-    deleteChatMessage,
+    conversation,
   } = useData();
   const { state } = useLocation();
-  const [senderId, setSenderId] = useState(null)
   const senderID = state.senderID;
   const receiverID = state.receiverID;
   const navigate = useNavigate();
+  const [senderId, setSenderId] = useState(null)
   const [message, setMessege] = useState("");
   const [usersData, setUsersData] = useState([]);
-  const [selectedMessageId, setSelectedMessageId] = useState(null);
-  const [name, setName] = useState("");
-  const [editToggle, setEditToggle] = useState(true);
   const [isMatching, setIsMatching] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
-  const [longPress, setLongPress] = useState(false);
-  const [isLongPress, setIsLongPress] = useState(false);
   const [userMatch, setUserMatch] = useState([]);
 
   const handleSubmit = (event) => {
@@ -53,10 +45,10 @@ function ChatPage() {
     if (token) {
       try {
         const userDataFromToken = jwtDecode(token);
-
         const result = await axios.get(
           `http://localhost:3000/merrylist/${userDataFromToken.user_id}`
         );
+        setSenderId(userDataFromToken);
         setUsersData(result.data);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
@@ -64,25 +56,10 @@ function ChatPage() {
     }
   };
 
-  const handleChat = async (senderID, receiverID) => {
+  const handleChat = (senderID, receiverID) => {
     try {
-      await navigate("/chat", { state: { senderID, receiverID } });
+      navigate("/chat", { state: { senderID, receiverID } });
       window.location.reload();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleToggle = (messageId) => {
-    try {
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleDeleteMessage = (senderId, ChatId) => {
-    try {
-      deleteChatMessage(senderId, ChatId);
     } catch (error) {
       console.error(error);
     }
@@ -99,22 +76,21 @@ function ChatPage() {
     setIsMatching(false);
   };
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     chatMessage(senderID, receiverID);
-  //   }, 3000)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      chatMessage(senderID, receiverID);
+    }, 3000)
 
-  //   return () => clearTimeout(timer);
-  // }, [conversation]);
+    return () => clearTimeout(timer);
+  }, [conversation]);
 
   useEffect(() => {
     chatMessage(senderID, receiverID);
     getMerryList();
+    if (handleChat) {
+      getMerryList()
+    }
   }, []);
-
-  useEffect(() => {
-    console.log(conversation);
-  }, [conversation]);
 
   useEffect(() => {
     if (usersData.length > 0) {
@@ -124,36 +100,9 @@ function ChatPage() {
         );
       });
       setUserMatch(filteredData);
-      console.log(userMatch);
     }
   }, [usersData]);
-  // console.log(message);
 
-  // useEffect(() => {
-  //   chatMessage(senderID, receiverID);
-  // }, [setMessege("")]);
-
-  const handleOnLongPress = (messageId) => {
-    setSelectedMessageId(messageId);
-  };
-  // useEffect(() => {
-  //   let timerId;
-  //   const callback = () => {
-  //     console.log("long press is triggered");
-  //     setIsLongPress(!isLongPress);
-  //     handleOnLongPress();
-  //   };
-  //   const ms = 400;
-  //   if (longPress) {
-  //     timerId = setTimeout(callback, ms);
-  //   } else {
-  //     clearTimeout(timerId);
-  //   }
-
-  //   return () => {
-  //     clearTimeout(timerId);
-  //   };
-  // }, [longPress]);
 
   return (
     <>
@@ -186,10 +135,10 @@ function ChatPage() {
           <div className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
-            {usersData.filter(
-                    (user) => user.merry_status[0].mer_status === "MerryMatch"
-                  ).length <=2 &&
-                  <div className="flex ">
+              {usersData.filter(
+                (user) => user.merry_status[0].mer_status === "MerryMatch"
+              ).length <= 2 &&
+                <div className="flex ">
                   {usersData
                     .filter(
                       (user) => user.merry_status[0].mer_status === "MerryMatch"
@@ -213,46 +162,46 @@ function ChatPage() {
                       </div>
                     ))}
                 </div>
-            }
+              }
 
-            {usersData.filter(
-                    (user) => user.merry_status[0].mer_status === "MerryMatch"
-                  ).length > 2 &&
+              {usersData.filter(
+                (user) => user.merry_status[0].mer_status === "MerryMatch"
+              ).length > 2 &&
 
-            <Swiper
-               spaceBetween={1} slidesPerView={2.5} grabCursor={true}  initialSlide={0} 
-                pagination={{
-                  clickable: true,
-                }}
-                modules={[Pagination]}
-                style={{ "--swiper-pagination-bottom": "-5px" }}
-                className="mySwiper"
-              >
-              <div>
-                  {usersData
-                    .filter(
-                      (user) => user.merry_status[0].mer_status === "MerryMatch"
-                    )
-                    .map((user, index) => (
-                      <SwiperSlide key={index}>
-                        <button
-                          className="relative"
-                          onClick={() => handleShowProfile(user)}
-                        >
-                          <img
-                            src={user.pictures[0]?.pic_url || null}
-                            alt={user.name}
-                            className="w-[100px] object-cover h-[100px] border-[1px] rounded-2xl"
-                          />
-                          <img
-                            src={"/matching/merry match.svg"}
-                            className="absolute bottom-0 right-0"
-                          />
-                        </button>
-                      </SwiperSlide>
-                    ))}
-                </div>
-              </Swiper>
+                <Swiper
+                  spaceBetween={1} slidesPerView={2.5} grabCursor={true} initialSlide={0}
+                  pagination={{
+                    clickable: true,
+                  }}
+                  modules={[Pagination]}
+                  style={{ "--swiper-pagination-bottom": "-5px" }}
+                  className="mySwiper"
+                >
+                  <div>
+                    {usersData
+                      .filter(
+                        (user) => user.merry_status[0].mer_status === "MerryMatch"
+                      )
+                      .map((user, index) => (
+                        <SwiperSlide key={index}>
+                          <button
+                            className="relative"
+                            onClick={() => handleShowProfile(user)}
+                          >
+                            <img
+                              src={user.pictures[0]?.pic_url || null}
+                              alt={user.name}
+                              className="w-[100px] object-cover h-[100px] border-[1px] rounded-2xl"
+                            />
+                            <img
+                              src={"/matching/merry match.svg"}
+                              className="absolute bottom-0 right-0"
+                            />
+                          </button>
+                        </SwiperSlide>
+                      ))}
+                  </div>
+                </Swiper>
               }
             </div>
           </div>
@@ -262,23 +211,23 @@ function ChatPage() {
             </h1>
             {userMatch.map((user, index) => (
               <div
-              key={index}
-              className="flex hover:bg-gray-100 hover:rounded-[16px] hover:cursor-pointer active:bg-gray-200 flex-row  py-3 "
-              onClick={() => handleChat(state?.user?.user_id, user.user_id)}
-            >
-              <img
-                src={user.pictures[0]?.pic_url || null}
-                alt={user.name}
-                className="object-cover mx-[12px]  w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
-              />
-              <div className="flex flex-col justify-center">
-                <p className="font-[400] text-[#2A2E3F] text-[16px]">
-                  {user.name}
-                </p>
-                <p className="font-[500] text-[#646D89] text-[14px]">
-                Start chat with {user.name}!
-                </p>
-                    
+                key={index}
+                className="flex hover:bg-gray-100 hover:rounded-[16px] hover:cursor-pointer active:bg-gray-200 flex-row  py-3 "
+                onClick={() => handleChat(senderId?.user_id, user?.user_id)}
+              >
+                <img
+                  src={user.pictures[0]?.pic_url || null}
+                  alt={user.name}
+                  className="object-cover mx-[12px]  w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
+                />
+                <div className="flex flex-col justify-center">
+                  <p className="font-[400] text-[#2A2E3F] text-[16px]">
+                    {user.name}
+                  </p>
+                  <p className="font-[500] text-[#646D89] text-[14px]">
+                    Start chat with {user.name}!
+                  </p>
+
                 </div>
               </div>
             ))}
@@ -290,7 +239,7 @@ function ChatPage() {
             {userMatch
               .filter((user) => user.user_id === receiverID)
               .map((user, index) => (
-                <div className="flex flex-col w-full">
+                <div className="flex flex-col w-full" key={index}>
                   <div className="flex items-center justify-center">
                     <div className="w-[750px] h-[90px] flex flex-row justify-center  items-center bg-[#F4EBF2] border-[1px] border-[#DF89C6] rounded-2xl">
                       <img
@@ -311,56 +260,17 @@ function ChatPage() {
                     {conversation.map((message, index) => (
                       <div
                         key={index}
-                        className={`${
-                          message.sender_id === senderID
-                            ? "ml-auto max-w-md h-auto "
-                            : "mr-auto max-w-md h-auto"
-                        } my-3 relative`}
-                        onMouseDown={() => setLongPress(true)}
-                        onMouseUp={() => setLongPress(false)}
-                        onMouseLeave={() => setLongPress(false)}
-                        onTouchStart={() => setLongPress(true)}
-                        onTouchEnd={() => {
-                          setLongPress(false);
-                          handleOnLongPress(message.chat_id);
-                        }}
+                        className={`${message.sender_id === senderID
+                          ? "ml-auto max-w-md h-auto "
+                          : "mr-auto max-w-md h-auto"
+                          } my-3 relative`}
                       >
-                        {message.sender_id === senderID ? (
-                          <div>
-                            {isLongPress &&
-                              selectedMessageId === message.chat_id && (
-                                <div className="text-center absolute -top-4 -left-[85px]">
-                                  <button className=" p-2 mb-2 text-white">
-                                    Edit
-                                  </button>{" "}
-                                  <br />
-                                  <button
-                                    className=" p-2 rounded-3xl text-white"
-                                    onClick={() =>
-                                      handleDeleteMessage(
-                                        message.sender_id,
-                                        message.chat_id
-                                      )
-                                    }
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
-                              )}
-                          </div>
-                        ) : null}
-
                         <div
-                          className={`${
-                            message.sender_id === senderID
-                              ? "bg-[#931475] text-white rounded-t-3xl rounded-l-3xl"
-                              : "bg-[#ffcde6] text-black rounded-t-3xl rounded-r-3xl"
-                          } p-4 `}
+                          className={`${message.sender_id === senderID
+                            ? "bg-[#931475] text-white rounded-t-3xl rounded-l-3xl"
+                            : "bg-[#ffcde6] text-black rounded-t-3xl rounded-r-3xl"
+                            } p-4 `}
                         >
-                          {/* {editToggle ? (
-                            <p className="">{message.message}</p>
-                            : null
-                          )} */}
                           <p>{message.message}</p>
                         </div>
                       </div>
