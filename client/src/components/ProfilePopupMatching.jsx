@@ -67,9 +67,8 @@ function ProfilePopupMatching({ user, handleCloseProfile, isMatching }) {
               <img
                 src={image.pic_url}
                 alt={`${name} image`}
-                className={`w-[350px] object-cover h-[420px] rounded-3xl ${
-                  index === countImage ? "block" : "hidden"
-                }`}
+                className={`w-[350px] object-cover h-[420px] rounded-3xl ${index === countImage ? "block" : "hidden"
+                  }`}
                 key={index}
               />
             );

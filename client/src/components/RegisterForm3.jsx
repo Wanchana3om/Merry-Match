@@ -1,4 +1,3 @@
-
 function RegisterForm3(props) {
 
   const handleImageClick = (index) => {
@@ -49,7 +48,7 @@ function RegisterForm3(props) {
     const newImages = [...props.images];
     newImages[index] = null;
     props.setImages(newImages);
-    
+
   };
   return (
     <div className="bg-[#FCFCFE] form-container px-[255px] w-[1440px] mx-auto py-8 h-[500px]">
@@ -83,7 +82,7 @@ function RegisterForm3(props) {
                   </div>
                 </div>
               )}
-              
+
               {image !== null && (
                 <button
                   className="absolute -right-2 -top-1 cursor-pointer z-10 block rounded-full bg-[#AF2758] text-white h-6 w-6"

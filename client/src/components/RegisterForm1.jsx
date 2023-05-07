@@ -4,7 +4,6 @@ function RegisterForm1(props) {
   const countries = CountryStateData
   const cities = CountryStateData.flatMap(country => country.states)
 
-
   return (
     <div className="bg-[#FCFCFE] form-container px-[255px] py-8 h-[500px] w-[1440px] mx-auto">
       <h1 className="text-2xl text-[#A62D82] font-[700]  ">

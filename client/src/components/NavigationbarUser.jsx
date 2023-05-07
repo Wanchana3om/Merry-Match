@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/authentication";
 import React, { useState, useEffect } from "react";
-import { notification, markNotificationAsRead } from "./notification";
+import { notification, markNotificationAsRead } from "../utils/notification";
 import jwtDecode from "jwt-decode";
 import ProfilePopupMatching from "./ProfilePopupMatching";
 
@@ -21,7 +21,7 @@ function NavigationbarUser() {
   const [userData, setUserData] = useState(null);
 
   const [notifications, setNotifications] = useState([]);
-  // ให้ fetch ข้อมูล notification ทุกครั้งที่มีการเรียกใช้ navbar
+
   const fetchNotifications = async () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -147,7 +147,7 @@ function NavigationbarUser() {
                         alt=""
                       />
                       <a
-                        href="/ownerprofile"
+                        href="/profile"
                         className="block px-4 py-2  text-gray-700 "
                       >
                         Profile

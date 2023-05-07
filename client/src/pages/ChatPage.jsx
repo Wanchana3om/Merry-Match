@@ -79,7 +79,7 @@ function ChatPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       chatMessage(senderID, receiverID);
-    }, 3000)
+    }, 1000)
 
     return () => clearTimeout(timer);
   }, [conversation]);

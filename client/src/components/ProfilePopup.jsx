@@ -1,11 +1,5 @@
 import useProfilePopup from "../hook/useProfilePopup";
-import { useParams } from "react-router-dom";
-import useData from "../hook/useData"
-
-
 import location_icon from "/icon/location_icon.png";
-import action_button_love from "/merrylist/action_button_love.png";
-import action_button_cross from "/merrylist/action_button_cross.png";
 import left_arrow from "/merrylist/left_arrow.png";
 import right_arrow from "/merrylist/right_arrow.png";
 
@@ -44,14 +38,6 @@ function ProfilePopup(props) {
             <p>
               {countImage + 1}/<span className="text-gray-400">{images.length}</span>
             </p>
-            <div className="flex absolute -top-10 left-[4.25rem]">
-              <button>
-                <img src={action_button_cross} alt="Close picture" />
-              </button>
-              <button>
-                <img src={action_button_love} alt="Heart picture" />
-              </button>
-            </div>
             <div className="flex ">
               <button
                 onClick={handlePreviousImage}

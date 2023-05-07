@@ -39,7 +39,7 @@ function ResolvePopup(props) {
           </p>
           <div className="flex gap-5 px-6 pb-2">
             <button className="text-[#FFFFFF] bg-[#C70039] rounded-3xl p-3 font-semibold hover:bg-[#FF1659]" onClick={handleConfirmPopupResolve}>
-            Yes, it has been resolved
+              Yes, it has been resolved
             </button>
             <button
               className="text-[#95002B] bg-[#FFE1EA] rounded-3xl p-3 font-semibold hover:bg-[#FFB1C8]"

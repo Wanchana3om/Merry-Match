@@ -2,7 +2,6 @@ import LoginPage from "./Loginpage";
 import Homepage from "./Homepage";
 import RegisterPage from "./Registerpage";
 import { Routes, Route } from "react-router-dom";
-import AdminAuthenticated from "./AdminAuthenticated";
 
 function UnauthenticatedApp() {
   return (

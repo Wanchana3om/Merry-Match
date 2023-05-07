@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 const useProfilePopup = () => {
@@ -31,8 +31,6 @@ const useProfilePopup = () => {
             (month === userBirthDateMonth && day < userBirthDateDay)
             ? 1
             : 0);
-
-
 
     const getUserProfile = async () => {
         const token = localStorage.getItem("token");
@@ -74,7 +72,7 @@ const useProfilePopup = () => {
                 }
                 setImages(newImageList);
 
-          
+
             } catch (error) {
                 console.error("Error decoding the token or fetching user data:", error);
             }
@@ -116,7 +114,7 @@ const useProfilePopup = () => {
         ageInYears,
         handleNextImage,
         handlePreviousImage,
-      };
+    };
 }
 
 export default useProfilePopup

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../contexts/authentication";
-import AdminSidebar from "../components/AdminSidebar";
+import AdminSidebar from "./AdminSidebar"
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/loading";
 

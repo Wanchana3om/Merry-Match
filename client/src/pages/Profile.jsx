@@ -7,12 +7,12 @@ import DeletePopup from "../components/DeletePopup";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/authentication";
-import { uploadCloudinary } from "../components/uploadCloudinary";
+import { uploadCloudinary } from "../utils/uploadCloudinary";
 import Loading from "../components/loading";
 import CountryStateData from "../data/CountryStateData.json";
 import { useToast } from "@chakra-ui/react";
 
-function OwnerProfile() {
+function Profile() {
   const { updateUserProfile } = useData();
   const { state, loading, updateProfilePic } = useAuth();
   const [name, setName] = useState("");
@@ -31,7 +31,6 @@ function OwnerProfile() {
   const [info, setInfo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [profileUpdated, setProfileUpdated] = useState(false);
-  // const [isSubmit, setIsSubmit] = useState(null);
 
   const countries = CountryStateData;
   const cities = CountryStateData.flatMap((country) => country.states);
@@ -81,8 +80,6 @@ function OwnerProfile() {
           hobby: hobbyLists,
         });
         setIsLoading(false);
-        // setIsSubmit(true)
-        // setIsSubmit(false)
         if (response && response.token) {
           localStorage.setItem("token", response.token);
           setProfileUpdated(true);
@@ -150,7 +147,7 @@ function OwnerProfile() {
     setProfileUpdated(false);
   }, []);
 
-  
+
   // ------------section 2 ---------------
   const maxHobbies = 10;
 
@@ -252,10 +249,6 @@ function OwnerProfile() {
     setShowProfile(false);
   };
 
-  if (loading) {
-    return <Loading />;
-  }
-
   return (
     <>
       <NavigationbarUser />
@@ -263,7 +256,7 @@ function OwnerProfile() {
 
       {deleteAccount && <DeletePopup handleClose={handleClosePopupDelete} />}
       {showProfile && <ProfilePopup handleClose={handleClosePopupProfile} />}
-      {/* bg-[#FCFCFE] */}
+
       <form
         onSubmit={(e) => handleUpdate(e)}
         className="w-screen bg-[#FCFCFE] "
@@ -592,4 +585,4 @@ function OwnerProfile() {
   );
 }
 
-export default OwnerProfile;
+export default Profile;

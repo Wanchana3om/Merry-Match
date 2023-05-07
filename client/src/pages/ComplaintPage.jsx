@@ -8,48 +8,42 @@ import Loading from "../components/loading";
 import { useAuth } from "../contexts/authentication";
 function ComplaintPage() {
 
-    
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [isLoading, setIsLoading] = useState("")
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [isLoading, setIsLoading] = useState("")
+  const toast = useToast()
+  const { state } = useAuth()
+  const { submitedComplaint } = useData()
 
-    
-    const toast = useToast()
-    const {state} = useAuth()
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true)
+    await submitedComplaint(state?.user?.user_id, {
+      title,
+      description,
+    });
+    {
+      toast({
+        title: 'Your Complaint.',
+        description: "Your complaint has been sent.",
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: "top"
+      })
+    }
+    setIsLoading(false)
+    setTitle("")
+    setDescription("")
+  };
 
-    const {submitedCompliant} = useData()
-
-    
-    
-    const handleSubmit = async(event) => {
-      event.preventDefault();
-      setIsLoading(true)
-      await submitedCompliant(state?.user?.user_id,{
-        title,
-        description,
-          });
-        {
-            toast({
-              title: 'Your Complaint.',
-              description: "Your complaint has been sent.",
-              status: 'success',
-              duration: 5000,
-              isClosable: true,
-              position:"top"
-            })
-          }
-            setIsLoading(false)  
-            setTitle("")
-            setDescription("")
-          };
-        
   return (
     <>
       <NavigationbarUser />
       {isLoading && <Loading />}
       <div className="w-[1440px] mx-auto font-nunito">
         <div className="w-[1150px] mx-auto flex flex-row justify-between items-center h-auto py-5 bg-white ">
-          
+
           <div className="flex flex-col">
             <p className="text-sm font-semibold text-[#7B4429] mt-[80px]">
               COMPLAINT
@@ -60,11 +54,11 @@ function ComplaintPage() {
             </h1>
             <form
               onSubmit={handleSubmit}
-            className="w-[548px]"
+              className="w-[548px]"
             >
               <div>
                 <label className="block text-gray-600 text-base font-normal mt-3">
-                Issue 
+                  Issue
                 </label>
                 <input
                   className="shadow appearance-none border mt-[5px] rounded-[8px]  w-full h-[48px] py-2 px-3 text-gray-700 leading-tight focus:outline-red-500 focus:shadow-red-500 transition-all duration-500"
@@ -73,10 +67,10 @@ function ComplaintPage() {
                   placeholder="Place Holder"
                   required
                   value={title}
-                  onChange={(e)=>(setTitle(e.target.value))}
+                  onChange={(e) => (setTitle(e.target.value))}
                 />
                 <label className="block text-gray-600 text-base font-normal mt-8">
-                Description
+                  Description
                 </label>
                 <textarea
                   className="shadow appearance-none border mt-[5px] rounded-[8px]  w-full h-[196px] py-2 px-3 text-gray-700 leading-tight focus:outline-red-500 focus:shadow-red-500 transition-all duration-500"
@@ -85,10 +79,8 @@ function ComplaintPage() {
                   placeholder="Place Holder"
                   required
                   value={description}
-                  onChange={(e)=>(setDescription(e.target.value))}
+                  onChange={(e) => (setDescription(e.target.value))}
                 />
-                
-                
 
                 <button
                   type="submit"
@@ -96,7 +88,7 @@ function ComplaintPage() {
                 >
                   Submit
                 </button>
-                
+
               </div>
             </form>
           </div>

@@ -1,7 +1,5 @@
 import axios from "axios";
 
-// listening notification
-// ใส่แล้วใน navbarUser อันอื่นยังไม่ใส่
 const notification = async (userId) => {
   try {
     const result = await axios.get(
@@ -13,12 +11,6 @@ const notification = async (userId) => {
   }
 };
 
-// when user subscribe send notification to recipient
-// recipient is user_id of user that was subscribed
-// {
-//   "message": "<ชื่อคนส่ง> has bees interested you.", << หาคำอื่นก็ได้นะ
-//   "recipient": user_id(ของคนที่เรากดmerry)
-// }
 const sendNotification = async (senderId, recipientId) => {
   try {
     const response = await axios.post(
@@ -28,13 +20,11 @@ const sendNotification = async (senderId, recipientId) => {
         recipientId: recipientId,
       }
     );
-    console.log(response.data);
   } catch (error) {
     console.error(error);
   }
 };
 
-// When user click on notification for read. Update table that notify has been read
 async function markNotificationAsRead(notiId) {
   try {
     const response = await axios.patch(
@@ -46,5 +36,4 @@ async function markNotificationAsRead(notiId) {
   }
 }
 
-// export { getNotifications, sendNotification, markNotificationAsRead };
 export { notification, sendNotification, markNotificationAsRead };

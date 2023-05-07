@@ -6,7 +6,7 @@ import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/authentication";
 import useData from "../hook/useData";
 import ProfilePopupMatching from "../components/ProfilePopupMatching";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loading from "../components/loading";
 
 function MerryList() {
@@ -74,7 +74,7 @@ function MerryList() {
     setIsLoading(true);
     const token = localStorage.getItem("token");
     if (token) {
-      
+
       try {
         const userDataFromToken = jwtDecode(token);
 
@@ -120,7 +120,7 @@ function MerryList() {
               </h1>
             </div>
             <div className="relative">
-             
+
               <button
                 className="absolute -bottom-20 w-[140px] h-[70px] right-0 bg-red-100 py-4 px-5 rounded-full text-[#95002B] duration-300  transition-all hover:scale-125 hover:bg-[#ffb3ca]  "
                 onClick={() => handleClearRejectedPopup(true)}
@@ -200,36 +200,26 @@ function MerryList() {
                 </div>
               </div>
 
-
-
-
-
-
-
               <div className="flex flex-col items-end w-[300px]  gap-4">
                 <div
                   className={`flex justify-evenly items-center py-1 px-4 border-[1px] rounded-[99px] text-[16px]`}
                   style={{
-                    color: `${
-                      user.merry_status[0].mer_status === "MerryMatch"
+                    color: `${user.merry_status[0].mer_status === "MerryMatch"
                         ? "#C70039"
                         : "#646D89"
-                    }`,
-                    borderColor: `${
-                      user.merry_status[0].mer_status === "MerryMatch"
+                      }`,
+                    borderColor: `${user.merry_status[0].mer_status === "MerryMatch"
                         ? "#C70039"
                         : "#646D89"
-                    }`,
-                    width: `${
-                      user.merry_status[0].mer_status === "MerryMatch"
+                      }`,
+                    width: `${user.merry_status[0].mer_status === "MerryMatch"
                         ? "160px"
                         : "140px"
-                    }`,
-                    fontWeight: `${
-                      user.merry_status[0].mer_status === "MerryMatch"
+                      }`,
+                    fontWeight: `${user.merry_status[0].mer_status === "MerryMatch"
                         ? "bold"
                         : ""
-                    }`,
+                      }`,
                   }}
                 >
                   {user.merry_status[0].mer_status === "MerryMatch" && (
@@ -253,7 +243,7 @@ function MerryList() {
                         }
                       />
                       <div className="bottom-1 absolude left-2 text-white bg-[#9AA1B9] w-auto rounded-[4px] py-[2px] text-xs opacity-0 group-hover:opacity-100 text-center">
-                         <p> Go to chat</p>
+                        <p> Go to chat</p>
                       </div>
                     </div>
                   )}
@@ -266,7 +256,7 @@ function MerryList() {
                     />
 
                     <div className=" bottom-1 absolude left-2 text-white bg-[#9AA1B9] w-auto rounded-[4px] py-[2px] text-xs opacity-0 group-hover:opacity-100 text-center">
-                     <p>See profile</p> 
+                      <p>See profile</p>
                     </div>
                   </div>
                   <div className="relative group">
@@ -280,12 +270,11 @@ function MerryList() {
                       className="w-full  cursor-pointer hover:scale-110 duration-300 transition-all"
                       onClick={() => {
                         handleClickImg(index);
-                        // deleteMerryMatch(ownUserId, user.user_id);
                       }}
                     />
 
                     <div className=" bottom-1 absolude left-2 text-white bg-[#9AA1B9] rounded-[4px] mx-auto w-[50px] py-[2px] text-xs opacity-0 group-hover:opacity-100  text-center">
-                     <p>Merry</p> 
+                      <p>Merry</p>
                     </div>
                   </div>
                 </div>

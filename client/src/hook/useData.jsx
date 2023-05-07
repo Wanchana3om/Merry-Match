@@ -21,7 +21,7 @@ const useData = () => {
     }
   };
 
-  const submitedCompliant = async (userId, data) => {
+  const submitedComplaint = async (userId, data) => {
     try {
       setIsError(false);
       setIsLoading(true);
@@ -165,32 +165,6 @@ const useData = () => {
     }
   };
 
-  const editChatMessage = async (senderId, chatId) => {
-    try {
-      setIsError(false);
-      setIsLoading(true);
-      await axios.put(`http://localhost:3000/chat/${senderId}/${chatId}`, {
-        message,
-      });
-      setIsLoading(false);
-    } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
-
-  const deleteChatMessage = async (senderId, chatId) => {
-    try {
-      setIsError(false);
-      setIsLoading(true);
-      await axios.delete(`http://localhost:3000/chat/${senderId}/${chatId}`);
-      setIsLoading(false);
-    } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
     merryMatch();
   }, []);
@@ -207,12 +181,10 @@ const useData = () => {
     userLoveSwipeRight,
     userRejectSwipeLeft,
     userClearRejected,
-    submitedCompliant,
+    submitedComplaint,
     chatMessage,
     conversation,
     sendingChatMessage,
-    editChatMessage,
-    deleteChatMessage,
   };
 };
 

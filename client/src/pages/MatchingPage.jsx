@@ -1,4 +1,4 @@
-import { sendNotification } from "../components/notification";
+import { sendNotification } from "../utils/notification";
 import NavigationbarUser from "../components/NavigationbarUser";
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import TinderCard from "react-tinder-card";
@@ -205,10 +205,9 @@ function MatchingPage() {
       await userLoveSwipeRight(state?.user?.user_id, { newUserId: userId });
       const matchingUser = matchingList.find((item) => item.user_id === userId);
       const merryMatching = merryMatchList.find((match) => {
-        return (
-          match.user_id === state?.user?.user_id && match.mer_id === userId
-        );
-      });
+        return (match.user_id === state?.user?.user_id && match.mer_id === userId);
+      }
+      );
 
       if (merryMatching) {
         setReceiverId(userId);
@@ -248,7 +247,6 @@ function MatchingPage() {
   };
 
   const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
@@ -291,6 +289,7 @@ function MatchingPage() {
   };
   useEffect(() => {
     getMerryList();
+
   }, []);
 
   return (
