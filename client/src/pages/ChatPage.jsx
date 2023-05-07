@@ -186,6 +186,39 @@ function ChatPage() {
           <div className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
+            {usersData.filter(
+                    (user) => user.merry_status[0].mer_status === "MerryMatch"
+                  ).length <=2 &&
+                  <div className="flex ">
+                  {usersData
+                    .filter(
+                      (user) => user.merry_status[0].mer_status === "MerryMatch"
+                    )
+                    .map((user, index) => (
+                      <div key={index}>
+                        <button
+                          className="relative mr-[16px]"
+                          onClick={() => handleShowProfile(user)}
+                        >
+                          <img
+                            src={user.pictures[0]?.pic_url || null}
+                            alt={user.name}
+                            className="w-[100px] object-cover h-[100px] border-[1px] rounded-2xl"
+                          />
+                          <img
+                            src={"/matching/merry match.svg"}
+                            className="absolute bottom-0 right-0"
+                          />
+                        </button>
+                      </div>
+                    ))}
+                </div>
+            }
+
+            {usersData.filter(
+                    (user) => user.merry_status[0].mer_status === "MerryMatch"
+                  ).length > 2 &&
+
             <Swiper
                spaceBetween={1} slidesPerView={2.5} grabCursor={true}  initialSlide={0} 
                 pagination={{
@@ -195,28 +228,32 @@ function ChatPage() {
                 style={{ "--swiper-pagination-bottom": "-5px" }}
                 className="mySwiper"
               >
-
-                <div>
-                  {userMatch.map((user, index) => (
-                    <SwiperSlide key={index}>
-                      <button
-                        className="relative"
-                        onClick={() => handleShowProfile(user)}
-                      >
-                        <img
-                          src={user.pictures[0]?.pic_url || null}
-                          alt={user.name}
-                          className="w-[100px] object-cover h-[100px] border-[1px] rounded-2xl"
-                        />
-                        <img
-                          src={"/matching/merry match.svg"}
-                          className="absolute bottom-0 right-0"
-                        />
-                      </button>
-                    </SwiperSlide>
-                  ))}
+              <div>
+                  {usersData
+                    .filter(
+                      (user) => user.merry_status[0].mer_status === "MerryMatch"
+                    )
+                    .map((user, index) => (
+                      <SwiperSlide key={index}>
+                        <button
+                          className="relative"
+                          onClick={() => handleShowProfile(user)}
+                        >
+                          <img
+                            src={user.pictures[0]?.pic_url || null}
+                            alt={user.name}
+                            className="w-[100px] object-cover h-[100px] border-[1px] rounded-2xl"
+                          />
+                          <img
+                            src={"/matching/merry match.svg"}
+                            className="absolute bottom-0 right-0"
+                          />
+                        </button>
+                      </SwiperSlide>
+                    ))}
                 </div>
               </Swiper>
+              }
             </div>
           </div>
           <div className="w-[282px] mx-auto pt-[12px]">

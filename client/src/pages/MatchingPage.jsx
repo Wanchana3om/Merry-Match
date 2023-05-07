@@ -31,8 +31,7 @@ function MatchingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
   const [usersData, setUsersData] = useState([]);
-  const [toggle, setToggle] = useState(true);
-
+  
   const [senderId, setSenderId] = useState(0);
   const [receiverId, setReceiverId] = useState(0);
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
@@ -59,7 +58,6 @@ function MatchingPage() {
     }
     return age;
   };
-  console.log(meetingInterest);
   const getMatchingProfile = async () => {
     const token = localStorage.getItem("token");
 
@@ -79,10 +77,11 @@ function MatchingPage() {
       setMatchingList(newMatchingList);
       setCurrentIndex(newMatchingList.length - 1);
       setChildRefs(newMatchingList.map(() => React.createRef()));
-      setFirstMeetingInterest(newMatchingList[0].meeting_interest);
-      setMeetingInterest([newMatchingList[0].meeting_interest]);
+      setFirstMeetingInterest(state?.user?.meeting_interest);
+      setMeetingInterest([state?.user?.meeting_interest]);
     }
   };
+
   const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
     event.preventDefault();
@@ -125,11 +124,13 @@ function MatchingPage() {
     getMatchingProfile();
   }, []);
 
+  console.log(meetingInterest);
+  console.log(firstMeetingInterest);
+
   useEffect(() => {
     // console.log(matchingList);
   }, [matchingList]);
 
-  console.log(meetingInterest);
   // ----------------------------
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
@@ -240,7 +241,7 @@ function MatchingPage() {
   };
 
   const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+    // console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
@@ -371,6 +372,40 @@ function MatchingPage() {
           <div className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
+
+            {usersData.filter(
+                    (user) => user.merry_status[0].mer_status === "MerryMatch"
+                  ).length <=2 &&
+                  <div className="flex ">
+                  {usersData
+                    .filter(
+                      (user) => user.merry_status[0].mer_status === "MerryMatch"
+                    )
+                    .map((user, index) => (
+                      <div key={index}>
+                        <button
+                          className="relative mr-[16px]"
+                          onClick={() => handleShowProfile(user)}
+                        >
+                          <img
+                            src={user.pictures[0]?.pic_url || null}
+                            alt={user.name}
+                            className="w-[100px] object-cover h-[100px] border-[1px] rounded-2xl"
+                          />
+                          <img
+                            src={"/matching/merry match.svg"}
+                            className="absolute bottom-0 right-0"
+                          />
+                        </button>
+                      </div>
+                    ))}
+                </div>
+            }
+
+            {usersData.filter(
+                    (user) => user.merry_status[0].mer_status === "MerryMatch"
+                  ).length > 2 &&
+
             <Swiper
                spaceBetween={1} slidesPerView={2.5} grabCursor={true}  initialSlide={0} 
                 pagination={{
@@ -380,9 +415,7 @@ function MatchingPage() {
                 style={{ "--swiper-pagination-bottom": "-5px" }}
                 className="mySwiper"
               >
-
-
-                <div>
+              <div>
                   {usersData
                     .filter(
                       (user) => user.merry_status[0].mer_status === "MerryMatch"
@@ -407,6 +440,7 @@ function MatchingPage() {
                     ))}
                 </div>
               </Swiper>
+              }
             </div>
           </div>
           <div className="w-[282px] mx-auto pt-[12px]">
