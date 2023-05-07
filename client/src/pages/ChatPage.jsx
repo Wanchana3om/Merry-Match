@@ -276,7 +276,7 @@ function ChatPage() {
                   {user.name}
                 </p>
                 <p className="font-[500] text-[#646D89] text-[14px]">
-                {conversation[0]?.message}
+                Start chat with {user.name}!
                 </p>
                     
                 </div>
