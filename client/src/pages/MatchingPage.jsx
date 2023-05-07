@@ -23,6 +23,18 @@ import { useAuth } from "../contexts/authentication";
 import mini_heart from "/matching/mini_heart.svg";
 import { useNavigate } from "react-router-dom";
 
+
+
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(context, args), wait);
+  };
+}
+
+
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
   const [childRefs, setChildRefs] = useState([]);
@@ -226,6 +238,21 @@ function MatchingPage() {
       console.error(error);
     }
   };
+
+  const debouncedSwiped = useMemo(
+    () =>
+      debounce((direction, nameToDelete, index, userId) => {
+        setLastDirection(direction);
+        updateCurrentIndex(index - 1);
+
+        if (direction === "right") {
+          handleSwipeRight(userId);
+        } else if (direction === "left") {
+          handleSwipeLeft(userId);
+        }
+      }, 200),
+    []
+  );
 
   const handleChat = (senderID, receiverID) => {
     try {
@@ -484,7 +511,10 @@ function MatchingPage() {
                 ref={childRefs[index]}
                 className=" absolute top-0 left-32 w-full h-full rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941] cursor-grab active:cursor-grabbing"
                 key={item.user_id}
-                onSwipe={(dir) => swiped(dir, item.name, index, item.user_id)}
+                onSwipe={(dir) => {
+                  debouncedSwiped(dir, item.name, index, item.user_id);
+                  swiped(dir, item.name, index, item.user_id);
+                  }}
                 onCardLeftScreen={() => outOfFrame(item.name, index)}
               >
                 <div
