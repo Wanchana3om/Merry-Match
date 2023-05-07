@@ -43,6 +43,7 @@ function MerryList() {
       newState[index] = !newState[index];
       return newState;
     });
+    deleteMerryMatch(ownUserId, usersData[index].user_id);
   };
 
   const handleClearRejected = async (userId) => {
@@ -71,6 +72,12 @@ function MerryList() {
   useEffect(() => {
     getMerryList();
   }, []);
+
+  useEffect(() => {
+    if (clickedImgIndex.some((clicked) => clicked)) {
+      window.location.reload();
+    }
+  }, [clickedImgIndex]);
 
   return (
     <>
@@ -253,7 +260,7 @@ function MerryList() {
                       className="w-full  cursor-pointer hover:scale-110 duration-300 transition-all"
                       onClick={() => {
                         handleClickImg(index);
-                        deleteMerryMatch(ownUserId, user.user_id);
+                        // deleteMerryMatch(ownUserId, user.user_id);
                       }}
                     />
 
