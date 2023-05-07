@@ -79,8 +79,8 @@ function MatchingPage() {
       setMatchingList(newMatchingList);
       setCurrentIndex(newMatchingList.length - 1);
       setChildRefs(newMatchingList.map(() => React.createRef()));
-      setFirstMeetingInterest(state?.user?.meeting_interest);
-      setMeetingInterest([state?.user?.meeting_interest]);
+      setFirstMeetingInterest(userDataFromToken.meeting_interest);
+      setMeetingInterest([userDataFromToken.meeting_interest]);
       setIsLoading(false);
     }
   };

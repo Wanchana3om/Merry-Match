@@ -9,7 +9,7 @@ function Payment1() {
         <div className="flex flex-col justify-between bg-[#F6F7FC] border-[1px] border-[#D6D9E4] rounded-[24px] w-[358px] h-[244px] py-[32px] px-[24px]">
           <div className="flex gap-5">
             <img
-              src="/public/icon/box.png"
+              src="/icon/box.png"
               className="w-[19.5px] h-[20.68px]"
             />
             <h1 className="text-xl text-[#646D89]">Merry Membership</h1>
