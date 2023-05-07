@@ -20,6 +20,22 @@ function MerryList() {
   const [ownUserId, setOwnUserId] = useState("");
   const navigate = useNavigate();
 
+
+  const calculateAge = (birthDate) => {
+    const birth = new Date(birthDate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDifference = today.getMonth() - birth.getMonth();
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 && today.getDate() < birth.getDate())
+    ) {
+      age--;
+    }
+    return age;
+  };
+
+
   const handleShowProfile = (user) => {
     setSelectedUser(user);
     setShowProfile(!showProfile);
@@ -159,8 +175,7 @@ function MerryList() {
                       {user.name}
                     </span>
                     <span className="text-[#646D89] text-2xl font-bold">
-                      {new Date().getFullYear() -
-                        new Date(user.birthDate).getFullYear()}
+                      {calculateAge(user.birthDate)}
                     </span>
                     <img src="/merrylist/Vector.svg" alt="location" />
                     <span className="text-[#646D89] text-base">

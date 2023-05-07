@@ -118,8 +118,8 @@ function ComplaintList() {
                 <div onClick={() => handleDetail(user.com_id)}>
                   <div className="flex justify-between hover:cursor-pointer border-b-2 border-[#F1F2F6] bg-white hover:bg-[#F1F2F6]">
                     <p className="w-1/3 p-8">{user.users.name}</p>
-                    <p className="w-1/3 py-8 pr-10">{user.com_title.substring(0, 25)}...</p>
-                    <p className="w-2/3 py-8 text-left pr-24">{user.com_description.substring(0, 70)}...</p>
+                    <p className="w-1/3 py-8 pr-10">{user.com_title.length > 25 ? user.com_title.slice(0, 25) + "..." : user.com_title}</p>
+                    <p className="w-2/3 py-8 text-left pr-24">{user.com_description.length > 50 ? user.com_description.slice(0, 50) + "..." : user.com_description}</p>
                     <p className="w-1/3 py-8 pr-9">{formatDate(user.com_date)}</p>
                     <div className="w-1/3 flex items-center justify-center ">
                       <p

@@ -16,11 +16,17 @@ function MerryPackage() {
               to make more Merry!
             </h1>
           </div>
+          
         </div>
-        <div className="flex gap-[24px] my-28">
+        <div className="flex flex-row justify-center mt-[16px]">
+            <h1 className="text-[#d3627b] text-[46px] font-extrabold">
+              Comming Soon...
+            </h1>
+          </div>
+        <div className="flex gap-[24px] my-12">
           <div className="flex flex-col justify-between bg-white border-[1px] border-[#D6D9E4] p-[40px] rounded-[32px] w-[700px] h-[440px] transform transition duration-300 hover:scale-110">
             <img
-              src="/public/icon/heart purple.png"
+              src="/matching/icon.svg"
               className="w-[60px] h-[60px]"
             />
             <h1 className="text-[32px] text-[#411032] font-bold">Basic</h1>
@@ -30,7 +36,7 @@ function MerryPackage() {
             </h2>
             <div className="flex gap-5">
               <img
-                src="/public/icon/correct.png"
+                src="/matching/Vector.svg"
                 className="w-[15.28px] h-[15.28px]"
               />
               <span className="text-[#424C6B]">
@@ -40,7 +46,7 @@ function MerryPackage() {
             </div>
             <div className="flex gap-5">
               <img
-                src="/public/icon/correct.png"
+                src="/matching/Vector.svg"
                 className="w-[15.28px] h-[15.28px]"
               />
               <span className="text-[#424C6B]"> Up to 25 Merry per day </span>
@@ -52,7 +58,7 @@ function MerryPackage() {
           </div>
           <div className="flex flex-col justify-between bg-white border-[1px] border-[#D6D9E4] p-[40px] rounded-[32px] w-[700px] h-[440px] transform transition duration-300 hover:scale-110">
             <img
-              src="/public/icon/star.png"
+              src="/matching/icon (1).svg"
               className="w-[60px] h-[60px]"
             />
             <h1 className="text-[32px] text-[#411032] font-bold">Platinum</h1>
@@ -62,7 +68,7 @@ function MerryPackage() {
             </h2>
             <div className="flex gap-5">
               <img
-                src="/public/icon/correct.png"
+                src="/matching/Vector.svg"
                 className="w-[15.28px] h-[15.28px]"
               />
               <span className="text-[#424C6B]">
@@ -72,7 +78,7 @@ function MerryPackage() {
             </div>
             <div className="flex gap-5">
               <img
-                src="/public/icon/correct.png"
+                src="/matching/Vector.svg"
                 className="w-[15.28px] h-[15.28px]"
               />
               <span className="text-[#424C6B]"> Up to 45 Merry per day</span>
@@ -84,7 +90,7 @@ function MerryPackage() {
           </div>
           <div className="flex flex-col justify-between bg-white border-[1px] border-[#D6D9E4] p-[40px] rounded-[32px] w-[700px] h-[440px] transform transition duration-300 hover:scale-110">
             <img
-              src="/public/icon/shine.png"
+              src="/matching/icon (2).svg"
               className="w-[60px] h-[60px]"
             />
             <h1 className="text-[32px] text-[#411032] font-bold">Premium</h1>
@@ -94,7 +100,7 @@ function MerryPackage() {
             </h2>
             <div className="flex gap-5">
               <img
-                src="/public/icon/correct.png"
+                src="/matching/Vector.svg"
                 className="w-[15.28px] h-[15.28px]"
               />
               <span className="text-[#424C6B]">
@@ -104,7 +110,7 @@ function MerryPackage() {
             </div>
             <div className="flex gap-5">
               <img
-                src="/public/icon/correct.png"
+                src="/matching/Vector.svg"
                 className="w-[15.28px] h-[15.28px]"
               />
               <span className="text-[#424C6B]"> Up to 70 Merry per day</span>

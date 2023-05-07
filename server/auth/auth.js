@@ -150,7 +150,7 @@ authRouter.post("/login", async (req, res) => {
 
   const { data: userdata, error } = await supabase
     .from("users")
-    .select("user_id, username, name, password")
+    .select("user_id, username, name, password,meeting_interest")
     .eq("username", username);
 
   if (error || !userdata || userdata.length === 0) {
@@ -193,6 +193,7 @@ authRouter.post("/login", async (req, res) => {
         username: userdata[0].username,
         name: userdata[0].name,
         profilePic: profilePic[0].pic_url,
+        meeting_interest: userdata[0].meeting_interest,
       },
       process.env.SECRET_KEY,
       { expiresIn: "1h" }

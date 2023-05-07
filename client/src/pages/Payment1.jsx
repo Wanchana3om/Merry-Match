@@ -27,7 +27,7 @@ function Payment1() {
         <div className="w-[548px] h-[554px] border-[1px] border-[#D6D9E4] rounded-[24px] ">
           <div className="flex justify-between bg-[#F6F7FC] py-[24px] px-[24px] rounded-t-[24px]">
             <h1>Credit Card</h1>
-            <img src="/public/icon/visa master.png" />
+            <img src="/matching/Frame 427320879.svg" />
           </div>
           <div className="flex flex-col gap-6 py-[24px] px-[24px] border-b-[1px] border-[#D6D9E4] ">
             <div>

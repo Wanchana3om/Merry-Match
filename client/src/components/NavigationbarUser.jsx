@@ -69,7 +69,7 @@ function NavigationbarUser() {
                 <a href="/matching">Start Matching!</a>
               </li>
               <li className="mr-[56px] text-base font-bold hover:text-[#191C77] ">
-                <Link>Merry Membership</Link>
+                <Link to="/merrypackage">Merry Membership</Link>
               </li>
               <Menu width="204px">
                 <MenuButton

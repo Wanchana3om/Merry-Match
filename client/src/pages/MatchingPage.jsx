@@ -31,16 +31,16 @@ function MatchingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
   const [usersData, setUsersData] = useState([]);
-
+  
   const [senderId, setSenderId] = useState(0);
   const [receiverId, setReceiverId] = useState(0);
-  console.log(usersData)
   const { merryMatchList, userLoveSwipeRight, userRejectSwipeLeft } = useData();
   const { state } = useAuth();
   const navigate = useNavigate();
   const [matchingListPictures, setMatchingListPictures] = useState(null);
   const [keyword, setKeyword] = useState("");
   const [meetingInterest, setMeetingInterest] = useState([]);
+  const [firstMeetingInterest, setFirstMeetingInterest] = useState("");
   const [minAge, setMinAge] = useState(18);
   const [maxAge, setMaxAge] = useState(50);
   const [isMatching, setIsMatching] = useState(false);
@@ -58,7 +58,6 @@ function MatchingPage() {
     }
     return age;
   };
-
   const getMatchingProfile = async () => {
     const token = localStorage.getItem("token");
 
@@ -78,8 +77,11 @@ function MatchingPage() {
       setMatchingList(newMatchingList);
       setCurrentIndex(newMatchingList.length - 1);
       setChildRefs(newMatchingList.map(() => React.createRef()));
+      setFirstMeetingInterest(state?.user?.meeting_interest);
+      setMeetingInterest([state?.user?.meeting_interest]);
     }
   };
+
   const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
     event.preventDefault();
@@ -118,9 +120,14 @@ function MatchingPage() {
     }
   };
 
+  console.log(matchingList);
+
   useEffect(() => {
     getMatchingProfile();
   }, []);
+
+  console.log(meetingInterest);
+  console.log(firstMeetingInterest);
 
   useEffect(() => {
     // console.log(matchingList);
@@ -236,7 +243,7 @@ function MatchingPage() {
   };
 
   const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+    // console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
@@ -267,6 +274,7 @@ function MatchingPage() {
     setMerryMatch(false);
     setShowName(true);
     setShowEye(true);
+    window.location.reload()
   };
   // -------------------------------------
   const getMerryList = async () => {
@@ -366,17 +374,42 @@ function MatchingPage() {
           <div className="w-[282px] mx-auto py-[36px]">
             <h1 className="text-[#191C77] font-bold text-lg">Merry Match!</h1>
             <div className="flex flex-row pt-1 gap-3 w-full h-[120px]">
-              <Swiper
-                slidesPerView={
-                  usersData.filter(
+
+            {usersData.filter(
                     (user) => user.merry_status[0].mer_status === "MerryMatch"
-                  ).length > 1
-                    ? 2
-                    : 1
-                }
-                centeredSlides={true}
-                spaceBetween={20}
-                grabCursor={true}
+                  ).length <=2 &&
+                  <div className="flex ">
+                  {usersData
+                    .filter(
+                      (user) => user.merry_status[0].mer_status === "MerryMatch"
+                    )
+                    .map((user, index) => (
+                      <div key={index}>
+                        <button
+                          className="relative mr-[16px]"
+                          onClick={() => handleShowProfile(user)}
+                        >
+                          <img
+                            src={user.pictures[0]?.pic_url || null}
+                            alt={user.name}
+                            className="w-[100px] object-cover h-[100px] border-[1px] rounded-2xl"
+                          />
+                          <img
+                            src={"/matching/merry match.svg"}
+                            className="absolute bottom-0 right-0"
+                          />
+                        </button>
+                      </div>
+                    ))}
+                </div>
+            }
+
+            {usersData.filter(
+                    (user) => user.merry_status[0].mer_status === "MerryMatch"
+                  ).length > 2 &&
+
+            <Swiper
+               spaceBetween={1} slidesPerView={2.5} grabCursor={true}  initialSlide={0} 
                 pagination={{
                   clickable: true,
                 }}
@@ -384,7 +417,7 @@ function MatchingPage() {
                 style={{ "--swiper-pagination-bottom": "-5px" }}
                 className="mySwiper"
               >
-                <div>
+              <div>
                   {usersData
                     .filter(
                       (user) => user.merry_status[0].mer_status === "MerryMatch"
@@ -409,6 +442,7 @@ function MatchingPage() {
                     ))}
                 </div>
               </Swiper>
+              }
             </div>
           </div>
           <div className="w-[282px] mx-auto pt-[12px]">
@@ -533,55 +567,107 @@ function MatchingPage() {
                   Relationship Interest
                 </h1>
                 <div className="flex">
-                  <input
-                    type="checkbox"
-                    id="Friends"
-                    name="Friends"
-                    value="Friends"
-                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                    onChange={handleCheckboxChange}
-                  />
+                {firstMeetingInterest === "Friends" ? (
+                    <input
+                      type="checkbox"
+                      id="Friends"
+                      name="Friends"
+                      value="Friends"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                      onClick={() => setFirstMeetingInterest("")}
+                      checked
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      id="Friends"
+                      name="Friends"
+                      value="Friends"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                    />
+                  )}
                   <label htmlFor="sex1" className="ml-[12px] text-[#646D89]">
                     Friends
                   </label>
                 </div>
                 <div className="flex mt-[16px]">
-                  <input
-                    type="checkbox"
-                    id="Partners"
-                    name="Partners"
-                    value="Partners"
-                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                    onChange={handleCheckboxChange}
-                  />
+                  {firstMeetingInterest === "Partners" ? (
+                    <input
+                      type="checkbox"
+                      id="Partners"
+                      name="Partners"
+                      value="Partners"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                      onClick={() => setFirstMeetingInterest("")}
+                      checked
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      id="Partners"
+                      name="Partners"
+                      value="Partners"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                    />
+                  )}
 
                   <label htmlFor="sex2" className="ml-[12px] text-[#646D89]">
                     Partners
                   </label>
                 </div>
                 <div className="flex mt-[16px]">
-                  <input
-                    type="checkbox"
-                    id="Short-term commitment"
-                    name="Short-term commitment"
-                    value="Short-term commitment"
-                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                    onChange={handleCheckboxChange}
-                  />
-
+                {firstMeetingInterest === "Short-term commitment" ? (
+                    <input
+                      type="checkbox"
+                      id="Short-term commitment"
+                      name="Short-term commitment"
+                      value="Short-term commitment"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                      onClick={() => setFirstMeetingInterest("")}
+                      checked
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      id="Short-term commitment"
+                      name="Short-term commitment"
+                      value="Short-term commitment"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                    />
+                  )}
+                 
                   <label htmlFor="sex3" className="ml-[12px] text-[#646D89]">
                     Short-term
                   </label>
                 </div>
                 <div className="flex mt-[16px]">
-                  <input
-                    type="checkbox"
-                    id="Long-term commitment"
-                    name="Long-term commitment"
-                    value="Long-term commitment"
-                    className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                    onChange={handleCheckboxChange}
-                  />
+                {firstMeetingInterest === "Long-term commitment" ? (
+                    <input
+                      type="checkbox"
+                      id="Long-term commitment"
+                      name="Long-term commitment"
+                      value="Long-term commitment"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                      onClick={() => setFirstMeetingInterest("")}
+                      checked
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      id="Long-term commitment"
+                      name="Long-term commitment"
+                      value="Long-term commitment"
+                      className="w-[24px] h-[24px] rounded-lg accent-pink-500"
+                      onChange={handleCheckboxChange}
+                    />
+                  )}
 
                   <label htmlFor="sex3" className="ml-[12px] text-[#646D89]">
                     Long-term
