@@ -365,10 +365,8 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
     );
 
     if (keyword) {
-      // console.log(NewUserData1);
       return res.json(NewUserData1);
     } else {
-      // console.log(NewUserData2);
       return res.json(NewUserData2);
     }
   } catch (error) {

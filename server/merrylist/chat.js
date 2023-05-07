@@ -3,41 +3,7 @@ import { supabase } from "../app.js";
 
 const chatRouter = Router();
 
-// fetch message
-// แบบที่1
-// chatRouter.get("/:senderId/:receiverId", async (req, res) => {
-//   try {
-//     const { senderId, receiverId } = req.params;
-//     const { data: senderMessage, error: senderMessageError } = await supabase
-//       .from("chat")
-//       .select("*")
-//       .eq("sender_id", senderId)
-//       .eq("receiver_id", receiverId)
-//       .order("timestamp", { ascending: false });
-//     if (senderMessageError) throw senderMessageError;
-
-//     const { data: receiverMessage, error: receiverMessageError } =
-//       await supabase
-//         .from("chat")
-//         .select("*")
-//         .eq("sender_id", receiverId)
-//         .eq("receiver_id", senderId)
-//         .order("timestamp", { ascending: false });
-//     if (receiverMessageError) throw receiverMessageError;
-
-//     const data = {
-//       senderMessage: senderMessage,
-//       receiverMessage: receiverMessage,
-//     };
-
-//     return res.json(data);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("Server error");
-//   }
-// });
-
-// แบบที่2
+// fetch conversation
 chatRouter.get("/:senderId/:receiverId", async (req, res) => {
   try {
     const { senderId, receiverId } = req.params;
