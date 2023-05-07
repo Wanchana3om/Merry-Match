@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
+import Loading from "../components/loading";
 
 import {
   RangeSlider,
@@ -44,6 +45,7 @@ function MatchingPage() {
   const [minAge, setMinAge] = useState(18);
   const [maxAge, setMaxAge] = useState(50);
   const [isMatching, setIsMatching] = useState(false);
+  const [isLoading, setIsLoading] = useState(null);
 
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
@@ -60,7 +62,7 @@ function MatchingPage() {
   };
   const getMatchingProfile = async () => {
     const token = localStorage.getItem("token");
-
+    setIsLoading(true);
     if (token) {
       const userDataFromToken = jwtDecode(token);
 
@@ -79,6 +81,7 @@ function MatchingPage() {
       setChildRefs(newMatchingList.map(() => React.createRef()));
       setFirstMeetingInterest(state?.user?.meeting_interest);
       setMeetingInterest([state?.user?.meeting_interest]);
+      setIsLoading(false);
     }
   };
 
@@ -120,18 +123,12 @@ function MatchingPage() {
     }
   };
 
-  console.log(matchingList);
 
   useEffect(() => {
     getMatchingProfile();
   }, []);
 
-  console.log(meetingInterest);
-  console.log(firstMeetingInterest);
 
-  useEffect(() => {
-    // console.log(matchingList);
-  }, [matchingList]);
 
   // ----------------------------
   const handleCheckboxChange = (event) => {
@@ -243,7 +240,7 @@ function MatchingPage() {
   };
 
   const outOfFrame = (name, idx) => {
-    // console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
@@ -299,6 +296,7 @@ function MatchingPage() {
   return (
     <>
       <NavigationbarUser />
+      {isLoading && <Loading />}
       {showProfile && (
         <ProfilePopupMatching
           user={selectedUser}

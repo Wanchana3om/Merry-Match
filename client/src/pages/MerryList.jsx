@@ -7,6 +7,7 @@ import { useAuth } from "../contexts/authentication";
 import useData from "../hook/useData";
 import ProfilePopupMatching from "../components/ProfilePopupMatching";
 import {  useNavigate } from "react-router-dom";
+import Loading from "../components/loading";
 
 function MerryList() {
   const [usersData, setUsersData] = useState([]);
@@ -18,6 +19,7 @@ function MerryList() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
   const [ownUserId, setOwnUserId] = useState("");
+  const [isLoading, setIsLoading] = useState(null);
   const navigate = useNavigate();
 
 
@@ -39,7 +41,6 @@ function MerryList() {
   const handleShowProfile = (user) => {
     setSelectedUser(user);
     setShowProfile(!showProfile);
-    console.log(user);
   };
   const handleCloseProfile = () => {
     setShowProfile(false);
@@ -70,8 +71,10 @@ function MerryList() {
     setClearRejectedPopup(boolean);
   };
   const getMerryList = async () => {
+    setIsLoading(true);
     const token = localStorage.getItem("token");
     if (token) {
+      
       try {
         const userDataFromToken = jwtDecode(token);
 
@@ -80,6 +83,7 @@ function MerryList() {
         );
         setOwnUserId(userDataFromToken.user_id);
         setUsersData(result.data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error decoding the token or fetching user data:", error);
       }
@@ -98,6 +102,7 @@ function MerryList() {
   return (
     <>
       <NavigationbarUser />
+      {isLoading && <Loading />}
       {showProfile && (
         <ProfilePopupMatching
           user={selectedUser}

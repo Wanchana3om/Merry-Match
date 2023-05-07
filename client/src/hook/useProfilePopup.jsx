@@ -74,8 +74,7 @@ const useProfilePopup = () => {
                 }
                 setImages(newImageList);
 
-                console.log(newImageList);
-                console.log(newHobbyList);
+          
             } catch (error) {
                 console.error("Error decoding the token or fetching user data:", error);
             }

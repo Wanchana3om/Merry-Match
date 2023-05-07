@@ -70,9 +70,7 @@ function RegisterPage() {
     }
   };
 
-  // console.log(checkUsername("grulf2"));
   checkUsername(username);
-  console.log(isUsernameAvailable);
 
   const handleNextStep = async () => {
     if (currentFormPage === 3) {

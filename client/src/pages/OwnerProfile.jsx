@@ -108,7 +108,6 @@ function OwnerProfile() {
         const result = await axios.get(
           `http://localhost:3000/users/${userDataFromToken.user_id}`
         );
-        console.log(result);
         setName(result.data[0].name);
         setBirthDate(result.data[0].birthDate);
         setLocation(result.data[0].location);
@@ -151,10 +150,7 @@ function OwnerProfile() {
     setProfileUpdated(false);
   }, []);
 
-  useEffect(() => {
-    console.log(state?.user?.user_id);
-  }, [state?.user?.user_id]);
-
+  
   // ------------section 2 ---------------
   const maxHobbies = 10;
 

@@ -96,8 +96,7 @@ const useData = () => {
   };
 
   const userRejectSwipeLeft = async (userId, data) => {
-    console.log(userId);
-    console.log(data);
+  
     try {
       setIsError(false);
       setIsLoading(true);
@@ -110,7 +109,6 @@ const useData = () => {
   };
 
   const userClearRejected = async (userId) => {
-    console.log(userId);
     try {
       setIsError(false);
       setIsLoading(true);
@@ -123,8 +121,7 @@ const useData = () => {
   };
 
   const deleteMerryMatch = async (userId, deleteUserId) => {
-    console.log(userId);
-    console.log(deleteUserId);
+  
     try {
       setIsError(false);
       setIsLoading(true);
