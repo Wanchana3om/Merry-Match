@@ -31,7 +31,6 @@ function MatchingPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState();
   const [usersData, setUsersData] = useState([]);
-  const [toggle, setToggle] = useState(true);
 
   const [senderId, setSenderId] = useState(0);
   const [receiverId, setReceiverId] = useState(0);
@@ -45,7 +44,6 @@ function MatchingPage() {
   const [minAge, setMinAge] = useState(18);
   const [maxAge, setMaxAge] = useState(50);
   const [isMatching, setIsMatching] = useState(false);
-  const [firstMeetingInterest, setFirstMeetingInterest] = useState("");
 
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
@@ -60,10 +58,6 @@ function MatchingPage() {
     }
     return age;
   };
-  
-
-
-
 
   const getMatchingProfile = async () => {
     const token = localStorage.getItem("token");
@@ -84,7 +78,6 @@ function MatchingPage() {
       setMatchingList(newMatchingList);
       setCurrentIndex(newMatchingList.length - 1);
       setChildRefs(newMatchingList.map(() => React.createRef()));
-      setFirstMeetingInterest(newMatchingList[0].meeting_interest)
     }
   };
   const handleSubmit = async (event) => {
@@ -133,7 +126,6 @@ function MatchingPage() {
     // console.log(matchingList);
   }, [matchingList]);
 
-  console.log(meetingInterest);
   // ----------------------------
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
@@ -430,20 +422,20 @@ function MatchingPage() {
               .map((user, index) => (
                 <div
                   key={index}
-                  className="flex hover:bg-gray-100 hover:rounded-[16px] hover:cursor-pointer active:bg-gray-200 flex-row  py-3 "
+                  className="flex hover:bg-gray-100 hover:rounded-[16px] hover:cursor-pointer active:bg-gray-200 flex-row justify-evenly py-2 "
                   onClick={() => handleChat(state?.user?.user_id, user.user_id)}
                 >
                   <img
                     src={user.pictures[0]?.pic_url || null}
                     alt={user.name}
-                    className="object-cover mx-[12px]  w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
+                    className="object-cover w-[60px] h-[60px] border-[1px] border-[#A62D82] rounded-full"
                   />
-                  <div className="flex flex-col justify-center">
+                  <div>
                     <p className="font-[400] text-[#2A2E3F] text-[16px]">
                       {user.name}
                     </p>
                     <p className="font-[500] text-[#646D89] text-[14px]">
-                      Start chat with {user.name}!
+                      You know nothing Jon Snow
                     </p>
                   </div>
                 </div>
@@ -460,7 +452,7 @@ function MatchingPage() {
             {matchingList.map((item, index) => (
               <TinderCard
                 ref={childRefs[index]}
-                className="absolute top-0 left-32 w-full h-full rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941]"
+                className=" absolute top-0 left-32 w-full h-full rounded-[32px] bg-gradient-to-t from-[#390741] to-[#070941] cursor-grab active:cursor-grabbing"
                 key={item.user_id}
                 onSwipe={(dir) => swiped(dir, item.name, index, item.user_id)}
                 onCardLeftScreen={() => outOfFrame(item.name, index)}
@@ -547,7 +539,6 @@ function MatchingPage() {
                     name="Friends"
                     value="Friends"
                     className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                 
                     onChange={handleCheckboxChange}
                   />
                   <label htmlFor="sex1" className="ml-[12px] text-[#646D89]">
@@ -562,7 +553,6 @@ function MatchingPage() {
                     value="Partners"
                     className="w-[24px] h-[24px] rounded-lg accent-pink-500"
                     onChange={handleCheckboxChange}
-          
                   />
 
                   <label htmlFor="sex2" className="ml-[12px] text-[#646D89]">
@@ -576,7 +566,6 @@ function MatchingPage() {
                     name="Short-term commitment"
                     value="Short-term commitment"
                     className="w-[24px] h-[24px] rounded-lg accent-pink-500"
-                   
                     onChange={handleCheckboxChange}
                   />
 
@@ -592,7 +581,6 @@ function MatchingPage() {
                     value="Long-term commitment"
                     className="w-[24px] h-[24px] rounded-lg accent-pink-500"
                     onChange={handleCheckboxChange}
-                   
                   />
 
                   <label htmlFor="sex3" className="ml-[12px] text-[#646D89]">
