@@ -120,6 +120,8 @@ function MatchingPage() {
     }
   };
 
+  console.log(matchingList);
+
   useEffect(() => {
     getMatchingProfile();
   }, []);
