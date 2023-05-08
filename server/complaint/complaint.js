@@ -23,7 +23,6 @@ complaintRouter.get("/:adminId", async (req, res) => {
             .select("*, users(name)")
             .order("com_date", { ascending: false });
         if (complaintDataError) throw complaintDataError;
-        console.log(complaintData);
         return res.json(complaintData);
       }
       // Get by search
@@ -43,8 +42,6 @@ complaintRouter.get("/:adminId", async (req, res) => {
       }
       const { data: complaintData, error: complaintDataError } = await query;
       if (complaintDataError) throw complaintDataError;
-      console.log(complaintData);
-      console.log("***********************");
       if (keyword) {
         const filteredComplaintData = complaintData.filter(
           (item) =>
@@ -52,7 +49,6 @@ complaintRouter.get("/:adminId", async (req, res) => {
             item.users.name &&
             item.users.name.toLowerCase().includes(keyword.toLowerCase())
         );
-        console.log(filteredComplaintData);
         return res.json(filteredComplaintData);
       }
       return res.json(complaintData);
@@ -74,7 +70,6 @@ complaintRouter.get("/:adminId/:complaintId", async (req, res) => {
       .eq("com_id", complaintId)
       .not("resolve.res_action_date", "is", null);
     if (complaintDataError) throw complaintDataError;
-    console.log(complaintData);
 
     if (
       complaintData[0].com_status !== "Resolved" &&

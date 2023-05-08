@@ -16,7 +16,6 @@ notificationRouter.get("/:userId", async (req, res) => {
     if (notificationsError) throw notificationsError;
 
     const allSender = notifications.map((sender) => sender.noti_sender);
-    console.log(allSender);
 
     const notificationsWithUserData = [];
 
@@ -36,7 +35,6 @@ notificationRouter.get("/:userId", async (req, res) => {
 
       notificationsWithUserData.push(combinedData);
     }
-    console.log(notificationsWithUserData);
     res.status(200).json(notificationsWithUserData);
   } catch (error) {
     console.log(error);
@@ -47,7 +45,6 @@ notificationRouter.get("/:userId", async (req, res) => {
 // send notification
 notificationRouter.post("/:userId", async (req, res) => {
   try {
-    console.log(req.body);
     const userId = req.params.userId;
     // recipient is user_id of user that was subscribed
     const { data: userData, error: userError } = await supabase
@@ -65,9 +62,9 @@ notificationRouter.post("/:userId", async (req, res) => {
       .or(
         `and(mer_id.eq.${userId},user_id.eq.${recipientId}),and(mer_id.eq.${recipientId},user_id.eq.${userId}))`
       );
-    console.log("statusData:", statusData);
+    // console.log("statusData:", statusData);
     if (statusDataError) throw statusDataError;
-    console.log(statusData);
+    // console.log(statusData);
     if (statusData[0].mer_status === "MerryMatch") {
       const { data: insertMatchedData, error: insertMatchedDataError } =
         await supabase.from("notification").insert([

@@ -6,7 +6,6 @@ import bcrypt from "bcrypt";
 const authRouter = Router();
 
 authRouter.post("/register", async (req, res) => {
-  console.log("connect to back-end");
   const {
     username,
     password,

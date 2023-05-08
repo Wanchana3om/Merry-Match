@@ -89,7 +89,6 @@ merryRouter.put("/:userId", async (req, res) => {
         .eq("mer_id", userId);
 
       if (selectError) throw selectError;
-      console.log(data);
 
       const statusIds = data
         .map((status) => status.status_id)
@@ -98,7 +97,6 @@ merryRouter.put("/:userId", async (req, res) => {
       const newAllStatusId = newStatusIds.filter(
         (id) => id !== null && id !== undefined
       );
-      console.log(newAllStatusId);
 
       // Update the all_user field in the database
       const { error: insertError } = await supabase
@@ -158,8 +156,6 @@ merryRouter.delete("/:userId", async (req, res) => {
       .single();
 
     if (error) throw error;
-    console.log(data);
-    console.log(deleteUserId);
 
     if (data) {
       const { error: deleteError } = await supabase
@@ -177,9 +173,6 @@ merryRouter.delete("/:userId", async (req, res) => {
       .eq("mer_id", userId);
 
     if (selectError) throw selectError;
-
-    console.log(userId);
-    console.log(selectData);
 
     const allStatusIds = selectData
       .map((status) => status.status_id)

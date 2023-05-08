@@ -8,15 +8,12 @@ merryRejectRouter.put("/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const rejectUserId = req.body.rejectUserId;
-    console.log(userId)
-    console.log(rejectUserId)
     const { data: existingData } = await supabase
       .from("merry_reject")
       .select("reject_id")
       .eq("mer_id", userId)
       .eq("user_id", rejectUserId);
 
-    console.log(existingData);
     if (existingData.length === 0) {
       const { error: insertError } = await supabase
         .from("merry_reject")
@@ -53,7 +50,7 @@ merryRejectRouter.delete("/:userId", async (req, res) => {
         .eq("mer_id", userId);
       if (deleteError) throw deleteError;
     }
-    res.json({ message: "All users that you reject will be back" });
+    res.json({ message: "All users that you rejected will be back" });
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");

@@ -365,10 +365,8 @@ usersRouter.get("/merrymatch/:userId", async (req, res) => {
     );
 
     if (keyword) {
-      // console.log(NewUserData1);
       return res.json(NewUserData1);
     } else {
-      // console.log(NewUserData2);
       return res.json(NewUserData2);
     }
   } catch (error) {
@@ -400,7 +398,7 @@ usersRouter.delete("/:userId", async (req, res) => {
       throw error2;
     }
 
-    res.json({ message: "Delete user success." });
+    res.json({ message: "Your account has been delete successfully." });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
