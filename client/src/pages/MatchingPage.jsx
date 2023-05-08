@@ -23,8 +23,6 @@ import { useAuth } from "../contexts/authentication";
 import mini_heart from "/matching/mini_heart.svg";
 import { useNavigate } from "react-router-dom";
 
-
-
 function debounce(func, wait) {
   let timeout;
   return function (...args) {
@@ -33,7 +31,6 @@ function debounce(func, wait) {
     timeout = setTimeout(() => func.apply(context, args), wait);
   };
 }
-
 
 function MatchingPage() {
   const [matchingList, setMatchingList] = useState([]);
@@ -492,7 +489,7 @@ function MatchingPage() {
                       {user.name}
                     </p>
                     <p className="font-[500] text-[#646D89] text-[14px]">
-                      You know nothing Jon Snow
+                      {`Start chatting with ${user.name}`}
                     </p>
                   </div>
                 </div>
@@ -514,7 +511,7 @@ function MatchingPage() {
                 onSwipe={(dir) => {
                   debouncedSwiped(dir, item.name, index, item.user_id);
                   swiped(dir, item.name, index, item.user_id);
-                  }}
+                }}
                 onCardLeftScreen={() => outOfFrame(item.name, index)}
               >
                 <div
