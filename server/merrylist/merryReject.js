@@ -50,7 +50,7 @@ merryRejectRouter.delete("/:userId", async (req, res) => {
         .eq("mer_id", userId);
       if (deleteError) throw deleteError;
     }
-    res.json({ message: "All users that you reject will be back" });
+    res.json({ message: "All users that you rejected will be back" });
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
