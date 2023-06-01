@@ -25,12 +25,12 @@ function AuthProvider(props) {
       },
     }));
   };
-
+  
   const navigate = useNavigate();
-
+  
   const login = async (data) => {
     try {
-      const result = await axios.post("http://localhost:3000/auth/login", data);
+      const result = await axios.post("https://merry-match-server.vercel.app/auth/login", data);
       const token = result.data.token;
       localStorage.setItem("token", token);
       const userDataFromToken = jwtDecode(token);
@@ -44,7 +44,7 @@ function AuthProvider(props) {
   const register = async (data) => {
     try {
       const result = await axios.post(
-        `http://localhost:3000/auth/register`,
+        `https://merry-match-server.vercel.app/auth/register`,
         data
       );
       return result;

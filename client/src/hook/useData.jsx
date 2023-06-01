@@ -14,7 +14,7 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.get(`http://localhost:3000/users/merrymatch/${userId}`, data);
+      await axios.get(`https://merry-match-server.vercel.app/users/merrymatch/${userId}`, data);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -25,7 +25,7 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.post(`http://localhost:3000/complaint/${userId}`, data);
+      await axios.post(`https://merry-match-server.vercel.app/complaint/${userId}`, data);
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
@@ -38,7 +38,7 @@ const useData = () => {
       setIsError(false);
       setIsLoading(true);
       const response = await axios.put(
-        `http://localhost:3000/users/${userId}`,
+        `https://merry-match-server.vercel.app/users/${userId}`,
         data
       );
       setIsLoading(false);
@@ -55,7 +55,7 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.delete(`http://localhost:3000/users/${userId}`);
+      await axios.delete(`https://merry-match-server.vercel.app/users/${userId}`);
       navigate("/");
       setIsLoading(false);
     } catch (error) {
@@ -68,7 +68,7 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      const response = await axios.get(`http://localhost:3000/merrylist`);
+      const response = await axios.get(`https://merry-match-server.vercel.app/merrylist`);
       setMerryMatchList(response.data);
     } catch (error) {
       setIsError(true);
@@ -82,7 +82,7 @@ const useData = () => {
       setIsLoading(true);
 
       const result = await axios.put(
-        `http://localhost:3000/merrylist/${userId}`,
+        `https://merry-match-server.vercel.app/merrylist/${userId}`,
         data
       );
 
@@ -100,7 +100,7 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.put(`http://localhost:3000/merryreject/${userId}`, data);
+      await axios.put(`https://merry-match-server.vercel.app/merryreject/${userId}`, data);
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
@@ -112,7 +112,7 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.delete(`http://localhost:3000/merryreject/${userId}`);
+      await axios.delete(`https://merry-match-server.vercel.app/merryreject/${userId}`);
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
@@ -125,7 +125,7 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.delete(`http://localhost:3000/merrylist/${userId}`, {
+      await axios.delete(`https://merry-match-server.vercel.app/merrylist/${userId}`, {
         data: { deleteUserId: deleteUserId },
       });
       setIsLoading(false);
@@ -141,7 +141,7 @@ const useData = () => {
       setIsLoading(true);
 
       const response = await axios.get(
-        `http://localhost:3000/chat/${senderId}/${receiverId}`
+        `https://merry-match-server.vercel.app/chat/${senderId}/${receiverId}`
       );
       setConversation(response.data);
       setIsLoading(false);
@@ -155,7 +155,7 @@ const useData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.post(`http://localhost:3000/chat/${senderId}/${receiverId}`, {
+      await axios.post(`https://merry-match-server.vercel.app/chat/${senderId}/${receiverId}`, {
         message,
       });
       setIsLoading(false);

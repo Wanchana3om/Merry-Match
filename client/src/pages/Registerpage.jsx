@@ -56,7 +56,7 @@ function RegisterPage() {
   const checkUsername = async (username) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/auth/username/${username}`
+        `https://merry-match-server.vercel.app/auth/username/${username}`
       );
       const data = response.data;
       if (Array.isArray(data) && data.length > 0) {

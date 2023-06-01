@@ -103,7 +103,7 @@ function Profile() {
       try {
         const userDataFromToken = jwtDecode(token);
         const result = await axios.get(
-          `http://localhost:3000/users/${userDataFromToken.user_id}`
+          `https://merry-match-server.vercel.app/users/${userDataFromToken.user_id}`
         );
         setName(result.data[0].name);
         setBirthDate(result.data[0].birthDate);

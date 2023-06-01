@@ -39,7 +39,7 @@ const useProfilePopup = () => {
                 const userDataFromToken = jwtDecode(token);
 
                 const result = await axios.get(
-                    `http://localhost:3000/users/${userDataFromToken.user_id}`,
+                    `https://merry-match-server.vercel.app/users/${userDataFromToken.user_id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,

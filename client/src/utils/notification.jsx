@@ -3,7 +3,7 @@ import axios from "axios";
 const notification = async (userId) => {
   try {
     const result = await axios.get(
-      `http://localhost:3000/notification/${userId}`
+      `https://merry-match-server.vercel.app/notification/${userId}`
     );
     return result.data;
   } catch (error) {
@@ -14,7 +14,7 @@ const notification = async (userId) => {
 const sendNotification = async (senderId, recipientId) => {
   try {
     const response = await axios.post(
-      `http://localhost:3000/notification/${senderId}`,
+      `https://merry-match-server.vercel.app/notification/${senderId}`,
       {
         senderId: senderId,
         recipientId: recipientId,
@@ -28,7 +28,7 @@ const sendNotification = async (senderId, recipientId) => {
 async function markNotificationAsRead(notiId) {
   try {
     const response = await axios.patch(
-      `http://localhost:3000/notification/${notiId}`
+      `https://merry-match-server.vercel.app/notification/${notiId}`
     );
     console.log(response.data); // The updated notification record
   } catch (error) {

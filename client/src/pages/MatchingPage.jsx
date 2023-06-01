@@ -75,7 +75,7 @@ function MatchingPage() {
       const userDataFromToken = jwtDecode(token);
 
       const result = await axios.get(
-        `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`
+        `https://merry-match-server.vercel.app/users/merrymatch/${userDataFromToken.user_id}`
       );
       let matchingData = result.data;
       const newMatchingList = [];
@@ -109,7 +109,7 @@ function MatchingPage() {
         };
 
         const result = await axios.get(
-          `http://localhost:3000/users/merrymatch/${userDataFromToken.user_id}`,
+          `https://merry-match-server.vercel.app/users/merrymatch/${userDataFromToken.user_id}`,
           {
             params: params,
           }
@@ -301,7 +301,7 @@ function MatchingPage() {
         const userDataFromToken = jwtDecode(token);
 
         const result = await axios.get(
-          `http://localhost:3000/merrylist/${userDataFromToken.user_id}`
+          `https://merry-match-server.vercel.app/merrylist/${userDataFromToken.user_id}`
         );
         setUsersData(result.data);
       } catch (error) {

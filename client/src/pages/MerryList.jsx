@@ -79,7 +79,7 @@ function MerryList() {
         const userDataFromToken = jwtDecode(token);
 
         const result = await axios.get(
-          `http://localhost:3000/merrylist/${userDataFromToken.user_id}`
+          `https://merry-match-server.vercel.app/merrylist/${userDataFromToken.user_id}`
         );
         setOwnUserId(userDataFromToken.user_id);
         setUsersData(result.data);

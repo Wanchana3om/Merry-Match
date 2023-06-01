@@ -46,7 +46,7 @@ function ChatPage() {
       try {
         const userDataFromToken = jwtDecode(token);
         const result = await axios.get(
-          `http://localhost:3000/merrylist/${userDataFromToken.user_id}`
+          `https://merry-match-server.vercel.app/merrylist/${userDataFromToken.user_id}`
         );
         setSenderId(userDataFromToken);
         setUsersData(result.data);
