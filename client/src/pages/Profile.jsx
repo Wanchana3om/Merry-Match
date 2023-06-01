@@ -8,7 +8,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../utils/uploadCloudinary";
-import Loading from "../components/loading";
+import Loading from "../components/Loading";
 import CountryStateData from "../data/CountryStateData.json";
 import { useToast } from "@chakra-ui/react";
 

@@ -7,7 +7,7 @@ import { useAuth } from "../contexts/authentication";
 import useData from "../hook/useData";
 import ProfilePopupMatching from "../components/ProfilePopupMatching";
 import { useNavigate } from "react-router-dom";
-import Loading from "../components/loading";
+import Loading from "../components/Loading";
 
 function MerryList() {
   const [usersData, setUsersData] = useState([]);

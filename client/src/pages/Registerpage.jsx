@@ -6,7 +6,7 @@ import RegisterForm3 from "../components/RegisterForm3";
 import { useAuth } from "../contexts/authentication";
 import { uploadCloudinary } from "../utils/uploadCloudinary"
 import { useNavigate } from "react-router-dom";
-import Loading from "../components/loading";
+import Loading from "../components/Loading";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 
