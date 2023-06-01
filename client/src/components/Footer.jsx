@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer className="font-nunito absolute w-full h-auto py-5 bg-[#F6F7FC] mt-[70px]">
