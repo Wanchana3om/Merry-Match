@@ -66,7 +66,7 @@ function NavigationbarUser() {
           <nav className="mr-[12%]">
             <ul className="flex flex-row items-center">
               <li className="mr-[56px] text-base font-bold hover:text-[#191C77]">
-                <a href="/matching">Start Matching!</a>
+                <Link to="/matching">Start Matching!</Link>
               </li>
               <li className="mr-[56px] text-base font-bold hover:text-[#191C77] ">
                 <Link to="/merrypackage">Merry Membership</Link>
