@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth } from "../contexts/authentication";
 import AdminSidebar from "./AdminSidebar"
 import { useNavigate } from "react-router-dom";
-import Loading from "../components/loading";
+import Loading from "../components/Loading";
 
 function ComplaintList() {
   const [complaintData, setComplaintData] = useState([]);

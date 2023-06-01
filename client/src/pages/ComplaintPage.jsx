@@ -4,7 +4,7 @@ import React from "react";
 import { useState } from "react";
 import useData from "../hook/useData";
 import { useToast } from '@chakra-ui/react'
-import Loading from "../components/loading";
+import Loading from "../components/Loading";
 import { useAuth } from "../contexts/authentication";
 function ComplaintPage() {
 

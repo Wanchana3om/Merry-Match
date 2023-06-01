@@ -6,7 +6,7 @@ import AdminSidebar from "./AdminSidebar"
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 import { useAuth } from "../contexts/authentication";
-import Loading from "../components/loading";
+import Loading from "../components/Loading";
 import { useLocation } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 
