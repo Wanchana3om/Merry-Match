@@ -161,12 +161,11 @@ function NavigationbarUser() {
                         className="w-[13px] h-[13px] "
                         alt="icon"
                       />
-                      <a
-                        href="/merrylist"
+                      <Link to="/merrylist"
                         className="block px-4 py-2  text-gray-700 "
                       >
                         Merry list
-                      </a>
+                      </Link>
                     </div>
                   </MenuItem>
 
@@ -177,12 +176,11 @@ function NavigationbarUser() {
                         className="w-[13px] h-[13px] "
                         alt="icon"
                       />
-                      <a
-                        href="/complaint"
+                      <Link to="/complaint"
                         className="block px-4 py-2  text-gray-700 "
                       >
                         Complaint
-                      </a>
+                      </Link>
                     </div>
                   </MenuItem>
 
@@ -194,15 +192,14 @@ function NavigationbarUser() {
                         className="w-[13px] h-[13px] "
                         alt="icon"
                       />
-                      <a
-                        href="/"
+                      <Link to="/"
                         className="block px-4 py-2  text-gray-700 "
                         onClick={() => {
                           logout();
                         }}
                       >
                         Log Out
-                      </a>
+                      </Link>
                     </div>
                   </MenuItem>
                 </MenuList>

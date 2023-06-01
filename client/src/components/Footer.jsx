@@ -15,27 +15,27 @@ function Footer() {
         </div>
       </div>
       <div className="flex flex-row items-center justify-center py-2">
-        <a href="https://" target="blank">
+        <Link to="https://" target="blank">
           <img
             src="../../icon/fb.svg"
             alt="facebook icon"
             className="w-12 m-2"
           ></img>
-        </a>
-        <a href="https://" target="blank">
+        </Link>
+        <Link to="https://" target="blank">
           <img
             src="../../icon/ig.svg"
             alt="instagram icon"
             className="w-12 m-2 "
           ></img>
-        </a>
-        <a href="https://" target="blank">
+        </Link>
+        <Link to="https://" target="blank">
           <img
             src="../../icon/tw.svg"
             alt="twitter icon"
             className="w-12 m-2"
           ></img>
-        </a>
+        </Link>
       </div>
     </footer>
   );

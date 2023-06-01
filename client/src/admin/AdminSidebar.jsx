@@ -24,15 +24,14 @@ function AdminSidebar() {
         <div className="flex  gap-5 p-6 mb-32 w-full border-t-[1px] border-[#D6D9E4] item-center justify-center cursor-pointer">
           <img src="/admin/logout.svg" alt="logout" />
 
-          <a
-            href="/"
+          <Link to="/"
             className="text-[#424C6B] font-bold hover:text-[#FFB1C8] hover:underline"
             onClick={() => {
               logout();
             }}
           >
             Log Out
-          </a>
+          </Link>
         </div>
       </div>
     </div>
